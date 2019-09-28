@@ -1,0 +1,1415 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 2.15.20"/><title data-react-helmet="true">/src/prg-4-5.asm | Super Mario Bros 2. Discombobulated</title><meta data-react-helmet="true" name="description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:title" content="/src/prg-4-5.asm"/><meta data-react-helmet="true" property="og:description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:creator" content="Keith McKnight"/><meta data-react-helmet="true" name="twitter:title" content="/src/prg-4-5.asm"/><meta data-react-helmet="true" name="twitter:description" content="The annotated disassembly of SMB2 (USA) for NES."/><link rel="shortcut icon" href="/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#663399"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=008654519ce705ac7bc44303a9014606"/><link as="script" rel="preload" href="/webpack-runtime-14b29e9f338a0ab3ef0b.js"/><link as="script" rel="preload" href="/app-e5123abf2b9d78ccb9b7.js"/><link as="script" rel="preload" href="/commons-96edcb9e9a406c302a22.js"/><link as="script" rel="preload" href="/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js"/><link as="fetch" rel="preload" href="/page-data/src/prg-4-5.asm/page-data.json" crossorigin="anonymous"/></head><body><noscript id="gatsby-noscript">This app works best with JavaScript enabled.</noscript><div id="___gatsby"><div style="outline:none" tabindex="-1" role="group" id="gatsby-focus-wrapper"><div class="sc-bxivhb itivNt"><header class="sc-bwzfXH kFCqhj"><a href="https://github.com/XKeeper0/smb2"><svg class="sc-bdVaJa eSEdyA" fill="#fcfcfc" height="80" viewBox="0 0 250 250" width="80" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l115 115h15l12 27 108 108V0z"></path><g class="octocat" fill="#f65b98"><path class="octocat-arm" d="M128 109c-15-9-9-19-9-19 3-7 2-11 2-11-1-7 3-2 3-2 4 5 2 11 2 11-3 10 5 15 9 16" style="transform-origin:130px 106px"></path><path class="octocat-body" d="M115 115s4 2 5 0l14-14c3-2 6-3 8-3-8-11-15-24 2-41 5-5 10-7 16-7 1-2 3-7 12-11 0 0 5 3 7 16 4 2 8 5 12 9s7 8 9 12c14 3 17 7 17 7-4 8-9 11-11 11 0 6-2 11-7 16-16 16-30 10-41 2 0 3-1 7-5 11l-12 11c-1 1 1 5 1 5z"></path></g></svg></a><h1><a href="/">Super Mario Bros 2. Discombobulated</a></h1><p>The annotated disassembly of SMB2 (USA) for NES.</p></header><main><article class="sc-ifAKCX fpwdji"><header><h3>/src/prg-4-5.asm</h3></header><section><aside><h1>Bank 4 &#x26; Bank 5</h1>
+<p>What's inside:</p>
+<ul>
+<li>Music engine</li>
+<li>Sound effects engine</li>
+<li>Sound effect pointers and data</li>
+<li>Song pointers and data</li>
+<li>Note length tables (tempos)</li>
+<li>Instrument tables and data</li>
+</ul>
+&nbsp;</aside><pre><a name="l14" href="#l14" title="Link to line 14">#</a><code>
+StartProcessingSoundQueue:
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$FF</span>
+	<span class="token opcode property">STA</span> JOY<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">LDA</span> StackArea
+	<span class="token opcode property">CMP</span> #Stack<span class="token decimalnumber string">100</span>_Pause
+	<span class="token opcode property">BNE</span> ProcessMusicAndSfxQueues
+
+	<span class="token opcode property">LDA</span> <span class="token binarynumber string">#%00001100</span> <span class="token comment">; Mute the two square channels</span>
+	<span class="token opcode property">STA</span> SND_CHN&nbsp;</code></pre><aside><p>You would think you could skip processing,
+since if the game is paused, nothing should
+be setting new music or whatever.</p>
+<p>You would be correct, except for the suicide code!
+That sets MusicQueue2.</p>
+<p>If not for processing it, the music would not
+change (or stop) when you used the code. Welp!</p>
+&nbsp;</aside><pre><a name="l33" href="#l33" title="Link to line 33">#</a><code>	<span class="token opcode property">JMP</span> ProcessOnlyMusicQueue<span class="token decimalnumber string">2</span>
+
+
+ProcessMusicAndSfxQueues:
+	<span class="token opcode property">JSR</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>
+
+	<span class="token opcode property">JSR</span> ProcessSoundEffectQueue<span class="token decimalnumber string">1</span>
+
+	<span class="token opcode property">JSR</span> ProcessSoundEffectQueue<span class="token decimalnumber string">3</span>
+
+	<span class="token opcode property">JSR</span> ProcessDPCMQueue
+
+ProcessOnlyMusicQueue<span class="token decimalnumber string">2</span>:
+	<span class="token opcode property">JSR</span> ProcessMusicQueue
+&nbsp;</code></pre><aside><p>Reset queues</p>
+&nbsp;</aside><pre><a name="l49" href="#l49" title="Link to line 49">#</a><code>	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$00</span>
+	<span class="token opcode property">STA</span> SoundEffectQueue<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">STA</span> MusicQueue<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">STA</span> SoundEffectQueue<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">STA</span> DPCMQueue
+	<span class="token opcode property">STA</span> MusicQueue<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">STA</span> SoundEffectQueue<span class="token decimalnumber string">3</span>
+	<span class="token opcode property">RTS</span>
+
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_Jump:
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$42</span>
+	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$82</span>
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$A8</span>
+	<span class="token opcode property">JSR</span> PlaySquare<span class="token decimalnumber string">1</span>Sweep
+
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$22</span>
+	<span class="token opcode property">STA</span> SoundEffectTimer<span class="token decimalnumber string">2</span>
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_JumpPart<span class="token decimalnumber string">2</span>:
+	<span class="token opcode property">LDA</span> SoundEffectTimer<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$20</span>
+	<span class="token opcode property">BNE</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_JumpPart<span class="token decimalnumber string">3</span>
+
+	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$DF</span>
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$F6</span>
+	<span class="token opcode property">BNE</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_SetSquare<span class="token decimalnumber string">1</span>ThenDecrementTimer
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_JumpPart<span class="token decimalnumber string">3</span>:
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$1A</span>
+	<span class="token opcode property">BNE</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_ThenDecrementTimer
+
+	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$C1</span>
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$BC</span>
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_SetSquare<span class="token decimalnumber string">1</span>ThenDecrementTimer:
+	<span class="token opcode property">JSR</span> SetSquare<span class="token decimalnumber string">1</span>VolumeAndSweep
+
+	<span class="token opcode property">BNE</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_ThenDecrementTimer
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_CoinGet:
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$35</span>
+	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$8D</span>
+	<span class="token opcode property">STA</span> SoundEffectTimer<span class="token decimalnumber string">2</span>
+
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$7F</span>
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$5E</span>
+	<span class="token opcode property">JSR</span> PlaySquare<span class="token decimalnumber string">1</span>Sweep
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_CoinGetPart<span class="token decimalnumber string">2</span>:
+	<span class="token opcode property">LDA</span> SoundEffectTimer<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$30</span>
+	<span class="token opcode property">BNE</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_ThenDecrementTimer
+
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$54</span>
+	<span class="token opcode property">STA</span> SQ<span class="token decimalnumber string">1</span>_LO
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_ThenDecrementTimer:
+	<span class="token opcode property">BNE</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_DecrementTimer
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>:
+	<span class="token opcode property">LDA</span> SoundEffectPlaying<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">CMP</span> #SoundEffect<span class="token decimalnumber string">2</span>_Climbing
+	<span class="token opcode property">BEQ</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_DecrementTimer
+
+	<span class="token opcode property">LDY</span> SoundEffectQueue<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">BEQ</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_None
+
+	<span class="token opcode property">STY</span> SoundEffectPlaying<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">LSR</span> SoundEffectQueue<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">BCS</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_Jump
+
+	<span class="token opcode property">LSR</span> SoundEffectQueue<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">BCS</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_Climbing
+
+	<span class="token opcode property">LSR</span> SoundEffectQueue<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">BCS</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_CoinGet
+
+	<span class="token opcode property">LSR</span> SoundEffectQueue<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">BCS</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_Shrinking
+
+	<span class="token opcode property">LSR</span> SoundEffectQueue<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">BCS</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_IntroFallSlide
+
+	<span class="token opcode property">LSR</span> SoundEffectQueue<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">BCS</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_Growing
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_None:
+	<span class="token opcode property">LDA</span> SoundEffectPlaying<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">BEQ</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_NoneExit
+&nbsp;</code></pre><aside><p>Jumping</p>
+&nbsp;</aside><pre><a name="l141" href="#l141" title="Link to line 141">#</a><code>	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
+	<span class="token opcode property">BCS</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_JumpPart<span class="token decimalnumber string">2</span>
+&nbsp;</code></pre><aside><p>Climbing</p>
+&nbsp;</aside><pre><a name="l145" href="#l145" title="Link to line 145">#</a><code>	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
+	<span class="token opcode property">BCS</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_DecrementTimer
+&nbsp;</code></pre><aside><p>CoinGet</p>
+&nbsp;</aside><pre><a name="l149" href="#l149" title="Link to line 149">#</a><code>	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
+	<span class="token opcode property">BCS</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_CoinGetPart<span class="token decimalnumber string">2</span>
+&nbsp;</code></pre><aside><p>Shrinking</p>
+&nbsp;</aside><pre><a name="l153" href="#l153" title="Link to line 153">#</a><code>	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
+	<span class="token opcode property">BCS</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_ShrinkingPart<span class="token decimalnumber string">2</span>
+&nbsp;</code></pre><aside><p>IntroFallSlide</p>
+&nbsp;</aside><pre><a name="l157" href="#l157" title="Link to line 157">#</a><code>	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
+	<span class="token opcode property">BCS</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_DecrementTimer
+&nbsp;</code></pre><aside><p>Growing</p>
+&nbsp;</aside><pre><a name="l161" href="#l161" title="Link to line 161">#</a><code>	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
+	<span class="token opcode property">BCS</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_GrowingPart<span class="token decimalnumber string">2</span>
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_NoneExit:
+	<span class="token opcode property">RTS</span>
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_IntroFallSlide:
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$60</span>
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$A5</span>
+	<span class="token opcode property">BNE</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_SingleSweep
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_Climbing:
+	<span class="token opcode property">STY</span> SoundEffectPlaying<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$05</span>
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$9C</span>
+&nbsp;</code></pre><aside><p>A = timer
+Y = sweep</p>
+&nbsp;</aside><pre><a name="l179" href="#l179" title="Link to line 179">#</a><code>ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_SingleSweep:
+	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$9E</span>
+	<span class="token opcode property">STA</span> SoundEffectTimer<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$60</span>
+	<span class="token opcode property">JSR</span> PlaySquare<span class="token decimalnumber string">1</span>Sweep
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_DecrementTimer:
+	<span class="token opcode property">DEC</span> SoundEffectTimer<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">BNE</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_Exit
+
+	<span class="token opcode property">LDX</span> <span class="token binarynumber string">#%00001110</span>
+	<span class="token opcode property">STX</span> SND_CHN
+	<span class="token opcode property">LDX</span> <span class="token binarynumber string">#%00001111</span>
+	<span class="token opcode property">STX</span> SND_CHN
+	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$00</span>
+	<span class="token opcode property">STX</span> SoundEffectPlaying<span class="token decimalnumber string">2</span>
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_Exit:
+	<span class="token opcode property">RTS</span>
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_Shrinking:
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$2F</span>
+	<span class="token opcode property">STA</span> SoundEffectTimer<span class="token decimalnumber string">2</span>
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_ShrinkingPart<span class="token decimalnumber string">2</span>:
+	<span class="token opcode property">LDA</span> SoundEffectTimer<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
+	<span class="token opcode property">BCS</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_ShrinkingPart<span class="token decimalnumber string">3</span>
+
+	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
+	<span class="token opcode property">BCS</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_ShrinkingPart<span class="token decimalnumber string">3</span>
+
+	<span class="token opcode property">AND</span> <span class="token hexnumber string">#$02</span>
+	<span class="token opcode property">BEQ</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_ShrinkingPart<span class="token decimalnumber string">3</span>
+
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$91</span>
+	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$9A</span>
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$68</span>
+	<span class="token opcode property">JSR</span> PlaySquare<span class="token decimalnumber string">1</span>Sweep
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_ShrinkingPart<span class="token decimalnumber string">3</span>:
+	<span class="token opcode property">JMP</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_DecrementTimer
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_Growing:
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$36</span>
+	<span class="token opcode property">STA</span> SoundEffectTimer<span class="token decimalnumber string">2</span>
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_GrowingPart<span class="token decimalnumber string">2</span>:
+	<span class="token opcode property">LDA</span> SoundEffectTimer<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
+	<span class="token opcode property">BCS</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_DecrementTimer
+
+	<span class="token opcode property">TAY</span>
+	<span class="token opcode property">LDA</span> MushroomSoundData - <span class="token decimalnumber string">1</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$5D</span>
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$7F</span>
+	<span class="token opcode property">JSR</span> PlaySquare<span class="token decimalnumber string">1</span>Sweep
+
+	<span class="token opcode property">JMP</span> ProcessSoundEffectQueue<span class="token decimalnumber string">2</span>_DecrementTimer
+
+MushroomSoundData:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$6A</span>, <span class="token hexnumber string">$74</span>, <span class="token hexnumber string">$6A</span>, <span class="token hexnumber string">$64</span>, <span class="token hexnumber string">$5C</span>, <span class="token hexnumber string">$52</span>, <span class="token hexnumber string">$5C</span>, <span class="token hexnumber string">$52</span>, <span class="token hexnumber string">$4C</span>, <span class="token hexnumber string">$44</span>, <span class="token hexnumber string">$66</span>, <span class="token hexnumber string">$70</span>, <span class="token hexnumber string">$66</span>, <span class="token hexnumber string">$60</span>, <span class="token hexnumber string">$58</span>, <span class="token hexnumber string">$4E</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$58</span>, <span class="token hexnumber string">$4E</span>, <span class="token hexnumber string">$48</span>, <span class="token hexnumber string">$40</span>, <span class="token hexnumber string">$56</span>, <span class="token hexnumber string">$60</span>, <span class="token hexnumber string">$56</span>, <span class="token hexnumber string">$50</span>, <span class="token hexnumber string">$48</span>, <span class="token hexnumber string">$3E</span>, <span class="token hexnumber string">$48</span>, <span class="token hexnumber string">$3E</span>, <span class="token hexnumber string">$38</span>, <span class="token hexnumber string">$30</span> <span class="token comment">; $10</span>
+
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">1</span>:
+	<span class="token opcode property">LDA</span> SoundEffectQueue<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">BEQ</span> ProcessSoundEffectQueue<span class="token decimalnumber string">1</span>_None
+
+	<span class="token opcode property">CMP</span> #SoundEffect<span class="token decimalnumber string">1</span>_StopwatchTick
+	<span class="token opcode property">BNE</span> ProcessSoundEffectQueue<span class="token decimalnumber string">1</span>_Part<span class="token decimalnumber string">2</span>
+
+	<span class="token opcode property">LDX</span> SoundEffectPlaying<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">BEQ</span> ProcessSoundEffectQueue<span class="token decimalnumber string">1</span>_Part<span class="token decimalnumber string">2</span>
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">1</span>_None:
+	<span class="token opcode property">LDA</span> SoundEffectPlaying<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">BNE</span> ProcessSoundEffectQueue<span class="token decimalnumber string">1</span>_Part<span class="token decimalnumber string">3</span>
+
+	<span class="token opcode property">RTS</span>
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">1</span>_Part<span class="token decimalnumber string">2</span>:
+	<span class="token opcode property">STA</span> SoundEffectPlaying<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$00</span>
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">1</span>_PointerLoop:
+	<span class="token opcode property">INY</span>
+	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
+	<span class="token opcode property">BCC</span> ProcessSoundEffectQueue<span class="token decimalnumber string">1</span>_PointerLoop
+
+	<span class="token opcode property">LDA</span> SoundEffectPointers - <span class="token decimalnumber string">1</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> SoundEffect<span class="token decimalnumber string">1</span>DataOffset
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">1</span>_Part<span class="token decimalnumber string">3</span>:
+	<span class="token opcode property">LDY</span> SoundEffect<span class="token decimalnumber string">1</span>DataOffset
+	<span class="token opcode property">INC</span> SoundEffect<span class="token decimalnumber string">1</span>DataOffset
+	<span class="token opcode property">LDA</span> SoundEffectPointers, <span class="token register variable">Y</span>
+	<span class="token opcode property">BMI</span> ProcessSoundEffectQueue<span class="token decimalnumber string">1</span>_Patch
+
+	<span class="token opcode property">BNE</span> ProcessSoundEffectQueue<span class="token decimalnumber string">1</span>_Note
+&nbsp;</code></pre><aside><p>if it was $00, we're at the end of the data for this sound effect</p>
+&nbsp;</aside><pre><a name="l281" href="#l281" title="Link to line 281">#</a><code>	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$90</span>
+	<span class="token opcode property">STX</span> SQ<span class="token decimalnumber string">2</span>_VOL
+	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$18</span>
+	<span class="token opcode property">STX</span> SQ<span class="token decimalnumber string">2</span>_HI
+	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$00</span>
+	<span class="token opcode property">STX</span> SQ<span class="token decimalnumber string">2</span>_LO
+	<span class="token opcode property">STX</span> SoundEffectPlaying<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">RTS</span>
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">1</span>_Patch:
+	<span class="token opcode property">STA</span> SQ<span class="token decimalnumber string">2</span>_VOL
+	<span class="token opcode property">LDY</span> SoundEffect<span class="token decimalnumber string">1</span>DataOffset
+	<span class="token opcode property">INC</span> SoundEffect<span class="token decimalnumber string">1</span>DataOffset
+	<span class="token opcode property">LDA</span> SoundEffectPointers, <span class="token register variable">Y</span>
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">1</span>_Note:
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$7E</span>
+	<span class="token opcode property">BEQ</span> ProcessSoundEffectQueue<span class="token decimalnumber string">1</span>_Exit
+
+	<span class="token opcode property">JSR</span> PlaySquare<span class="token decimalnumber string">2</span>Note
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">1</span>_Exit:
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$7F</span>
+	<span class="token opcode property">STA</span> SQ<span class="token decimalnumber string">2</span>_SWEEP
+
+	<span class="token opcode property">RTS</span>
+
+&nbsp;</code></pre><aside><p>Sound effect data</p>
+&nbsp;</aside><pre><a name="l312" href="#l312" title="Link to line 312">#</a><code><span class="token directive keyword">.include</span> <a class="token string" href="/src/music/sound-effect-data.asm">"src/music/sound-effect-data.asm"</a>
+
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">3</span>_ShortNoise:
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$02</span>
+	<span class="token opcode property">STA</span> SoundEffectTimer<span class="token decimalnumber string">3</span>
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">3</span>_ShortNoisePart<span class="token decimalnumber string">2</span>:
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$1A</span>
+	<span class="token opcode property">STA</span> NOISE_VOL
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$04</span>
+	<span class="token opcode property">STA</span> NOISE_LO
+	<span class="token opcode property">STA</span> NOISE_HI
+	<span class="token opcode property">BNE</span> ProcessSoundEffectQueue<span class="token decimalnumber string">3</span>_DecrementTimer
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">3</span>:
+	<span class="token opcode property">LDY</span> SoundEffectQueue<span class="token decimalnumber string">3</span>
+	<span class="token opcode property">BEQ</span> ProcessSoundEffectQueue<span class="token decimalnumber string">3</span>_Part<span class="token decimalnumber string">2</span>
+
+	<span class="token opcode property">STY</span> SoundEffectPlaying<span class="token decimalnumber string">3</span>
+	<span class="token opcode property">LSR</span> SoundEffectQueue<span class="token decimalnumber string">3</span>
+	<span class="token opcode property">BCS</span> ProcessSoundEffectQueue<span class="token decimalnumber string">3</span>_ShortNoise
+
+	<span class="token opcode property">LSR</span> SoundEffectQueue<span class="token decimalnumber string">3</span>
+	<span class="token opcode property">BCS</span> ProcessSoundEffectQueue<span class="token decimalnumber string">3</span>_Rumble
+
+	<span class="token opcode property">LSR</span> SoundEffectQueue<span class="token decimalnumber string">3</span>
+	<span class="token opcode property">BCS</span> ProcessSoundEffectQueue<span class="token decimalnumber string">3</span>_Rumble
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">3</span>_Part<span class="token decimalnumber string">2</span>:
+	<span class="token opcode property">LDA</span> SoundEffectPlaying<span class="token decimalnumber string">3</span>
+	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
+	<span class="token opcode property">BCS</span> ProcessSoundEffectQueue<span class="token decimalnumber string">3</span>_ShortNoisePart<span class="token decimalnumber string">2</span>
+
+	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
+	<span class="token opcode property">BCS</span> ProcessSoundEffectQueue<span class="token decimalnumber string">3</span>_RumblePart<span class="token decimalnumber string">2</span>
+
+	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
+	<span class="token opcode property">BCS</span> ProcessSoundEffectQueue<span class="token decimalnumber string">3</span>_RumblePart<span class="token decimalnumber string">2</span>
+
+	<span class="token opcode property">RTS</span>
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">3</span>_Rumble:
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$7F</span>
+	<span class="token opcode property">STA</span> SoundEffectTimer<span class="token decimalnumber string">3</span>
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">3</span>_RumblePart<span class="token decimalnumber string">2</span>:
+	<span class="token opcode property">LDY</span> SoundEffectTimer<span class="token decimalnumber string">3</span>
+	<span class="token opcode property">LDA</span> ProcessMusicQueue, <span class="token register variable">Y</span> <span class="token comment">; weird, but i guess that's one way to get "random" noise</span>
+	<span class="token opcode property">ORA</span> <span class="token hexnumber string">#$0C</span>
+	<span class="token opcode property">STA</span> NOISE_LO
+	<span class="token opcode property">LDA</span> SoundEffectTimer<span class="token decimalnumber string">3</span>
+	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
+	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
+	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
+	<span class="token opcode property">AND</span> <span class="token hexnumber string">#$1F</span>
+	<span class="token opcode property">ORA</span> <span class="token hexnumber string">#$10</span>
+	<span class="token opcode property">STA</span> NOISE_VOL
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$18</span>
+	<span class="token opcode property">STA</span> NOISE_HI
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">3</span>_DecrementTimer:
+	<span class="token opcode property">DEC</span> SoundEffectTimer<span class="token decimalnumber string">3</span>
+	<span class="token opcode property">BNE</span> ProcessSoundEffectQueue<span class="token decimalnumber string">3</span>_Exit
+
+	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$07</span>
+	<span class="token opcode property">STX</span> SND_CHN
+	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$0F</span>
+	<span class="token opcode property">STX</span> SND_CHN
+	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$00</span>
+	<span class="token opcode property">STX</span> SoundEffectPlaying<span class="token decimalnumber string">3</span>
+
+ProcessSoundEffectQueue<span class="token decimalnumber string">3</span>_Exit:
+	<span class="token opcode property">RTS</span>
+
+
+ProcessDPCMQueue:
+	<span class="token opcode property">LDA</span> DPCMQueue
+	<span class="token opcode property">BNE</span> ProcessDPCMQueue_Part<span class="token decimalnumber string">2</span>
+
+	<span class="token opcode property">LDA</span> DPCMPlaying
+	<span class="token opcode property">BEQ</span> ProcessDPCMQueue_None
+
+	<span class="token opcode property">DEC</span> DPCMTimer
+	<span class="token opcode property">BNE</span> ProcessDPCMQueue_Exit
+
+ProcessDPCMQueue_None:
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$00</span>
+	<span class="token opcode property">STA</span> DPCMPlaying
+	<span class="token opcode property">LDA</span> <span class="token binarynumber string">#%00001111</span>
+	<span class="token opcode property">STA</span> SND_CHN
+
+ProcessDPCMQueue_Exit:
+	<span class="token opcode property">RTS</span>
+
+ProcessDPCMQueue_Part<span class="token decimalnumber string">2</span>:
+	<span class="token opcode property">STA</span> DPCMPlaying
+IFDEF EXPAND_MUSIC
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$7E</span>
+	<span class="token opcode property">BNE</span> ProcessDPCMQueue_LookUpSample
+
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$A0</span>
+	<span class="token opcode property">STA</span> DPCMTimer
+	<span class="token opcode property">RTS</span>
+
+ProcessDPCMQueue_LookUpSample:
+ENDIF
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$00</span>
+
+IFNDEF EXPAND_MUSIC
+ProcessDPCMQueue_PointerLoop:
+	<span class="token opcode property">INY</span>
+	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
+	<span class="token opcode property">BCC</span> ProcessDPCMQueue_PointerLoop
+ELSE
+	<span class="token opcode property">TAY</span>
+ENDIF
+
+	<span class="token opcode property">LDA</span> DMCFreqTable - <span class="token decimalnumber string">1</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> DMC_FREQ
+
+	<span class="token opcode property">LDA</span> DMCStartTable - <span class="token decimalnumber string">1</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> DMC_START
+	<span class="token opcode property">LDA</span> DMCLengthTable - <span class="token decimalnumber string">1</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> DMC_LEN
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$A0</span>
+	<span class="token opcode property">STA</span> DPCMTimer
+	<span class="token opcode property">LDA</span> <span class="token binarynumber string">#%00001111</span>
+	<span class="token opcode property">STA</span> SND_CHN
+	<span class="token opcode property">LDA</span> <span class="token binarynumber string">#%00011111</span>
+	<span class="token opcode property">STA</span> SND_CHN
+	<span class="token opcode property">RTS</span>
+
+
+DMCStartTable:
+	<span class="token directive keyword">.db</span> (DPCMSampleData_DoorOpenBombBom - DPCMSampleData)/<span class="token decimalnumber string">64</span> <span class="token comment">; $4F</span>
+	<span class="token directive keyword">.db</span> (DPCMSampleData_DrumSample - DPCMSampleData)/<span class="token decimalnumber string">64</span> <span class="token comment">; $60</span>
+	<span class="token directive keyword">.db</span> (DPCMSampleData_PlayerHurt - DPCMSampleData)/<span class="token decimalnumber string">64</span> <span class="token comment">; $4B</span>
+	<span class="token directive keyword">.db</span> (DPCMSampleData_ItemPull - DPCMSampleData)/<span class="token decimalnumber string">64</span> <span class="token comment">; $00</span>
+	<span class="token directive keyword">.db</span> (DPCMSampleData_BossDeath - DPCMSampleData)/<span class="token decimalnumber string">64</span> <span class="token comment">; $31</span>
+	<span class="token directive keyword">.db</span> (DPCMSampleData_DrumSample - DPCMSampleData)/<span class="token decimalnumber string">64</span> <span class="token comment">; $60</span>
+	<span class="token directive keyword">.db</span> (DPCMSampleData_BossHurt - DPCMSampleData)/<span class="token decimalnumber string">64</span> <span class="token comment">; $0E</span>
+	<span class="token directive keyword">.db</span> (DPCMSampleData_PlayerDeath - DPCMSampleData)/<span class="token decimalnumber string">64</span> <span class="token comment">; $1D</span>
+
+DMCLengthTable:
+	<span class="token directive keyword">.db</span> (DPCMSampleDataEnd_DoorOpenBombBom - DPCMSampleData_DoorOpenBombBom)/<span class="token decimalnumber string">16</span> <span class="token comment">; $43</span>
+	<span class="token directive keyword">.db</span> (DPCMSampleDataEnd_DrumSample_A - DPCMSampleData_DrumSample)/<span class="token decimalnumber string">16</span> <span class="token comment">; $14</span>
+	<span class="token directive keyword">.db</span> (DPCMSampleDataEnd_PlayerHurt - DPCMSampleData_PlayerHurt)/<span class="token decimalnumber string">16</span> <span class="token comment">; $10</span>
+	<span class="token directive keyword">.db</span> (DPCMSampleDataEnd_ItemPull - DPCMSampleData_ItemPull)/<span class="token decimalnumber string">16</span> <span class="token comment">; $38</span>
+	<span class="token directive keyword">.db</span> (DPCMSampleDataEnd_BossDeath - DPCMSampleData_BossDeath)/<span class="token decimalnumber string">16</span> <span class="token comment">; $48</span>
+	<span class="token directive keyword">.db</span> (DPCMSampleDataEnd_DrumSample_B - DPCMSampleData_DrumSample)/<span class="token decimalnumber string">16</span> <span class="token comment">; $28</span>
+	<span class="token directive keyword">.db</span> (DPCMSampleDataEnd_BossHurt - DPCMSampleData_BossHurt)/<span class="token decimalnumber string">16</span> <span class="token comment">; $3C</span>
+	<span class="token directive keyword">.db</span> (DPCMSampleDataEnd_PlayerDeath - DPCMSampleData_PlayerDeath)/<span class="token decimalnumber string">16</span> <span class="token comment">; $50</span>
+
+DMCFreqTable:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0E</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0E</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0F</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0F</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0F</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0F</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0F</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0F</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$60</span> <span class="token comment">; ???</span>
+
+
+ProcessMusicQueue_ThenReadNoteData:
+	<span class="token opcode property">JMP</span> ProcessMusicQueue_ReadNoteData
+
+ProcessMusicQueue_StopMusic:
+	<span class="token opcode property">JMP</span> StopMusic
+
+ProcessMusicQueue:
+	<span class="token opcode property">LDA</span> MusicQueue<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">BMI</span> ProcessMusicQueue_StopMusic
+
+	<span class="token opcode property">CMP</span> #Music<span class="token decimalnumber string">2</span>_EndingAndCast
+	<span class="token opcode property">BEQ</span> ProcessMusicQueue_EndingAndCast
+
+	<span class="token opcode property">LDA</span> MusicQueue<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_Part<span class="token decimalnumber string">2</span>
+
+	<span class="token opcode property">LDA</span> MusicQueue<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_MusicQueue<span class="token decimalnumber string">1</span>
+
+	<span class="token opcode property">LDA</span> MusicPlaying<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">ORA</span> MusicPlaying<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_ThenReadNoteData
+
+	<span class="token opcode property">RTS</span>
+
+ProcessMusicQueue_EndingAndCast:
+	<span class="token opcode property">STA</span> MusicPlaying<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$00</span>
+	<span class="token opcode property">STY</span> MusicPlaying<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$08</span> <span class="token comment">; index of ending music pointer</span>
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_ReadFirstPointer
+
+ProcessMusicQueue_MusicQueue<span class="token decimalnumber string">1</span>:
+	<span class="token opcode property">STA</span> MusicPlaying<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$00</span>
+	<span class="token opcode property">STY</span> MusicPlaying<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$FF</span>
+
+IFNDEF EXPAND_MUSIC
+ProcessMusicQueue_FirstPointerLoop:
+	<span class="token opcode property">INY</span>
+	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
+	<span class="token opcode property">BCC</span> ProcessMusicQueue_FirstPointerLoop
+ELSE
+	<span class="token opcode property">TAY</span>
+	<span class="token opcode property">DEY</span>
+ENDIF
+
+ProcessMusicQueue_ReadFirstPointer:
+	<span class="token opcode property">LDA</span> MusicPointersFirstPart, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> MusicPointerFirstPart
+	<span class="token opcode property">LDA</span> MusicPointersEndPart, <span class="token register variable">Y</span>
+	<span class="token opcode property">CLC</span>
+	<span class="token opcode property">ADC</span> <span class="token hexnumber string">#$02</span>
+	<span class="token opcode property">STA</span> MusicPointerEndPart
+	<span class="token opcode property">LDA</span> MusicPointersLoopPart, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> MusicPointerLoopPart
+	<span class="token opcode property">LDA</span> MusicPointerFirstPart
+
+ProcessMusicQueue_SetCurrentPart:
+	<span class="token opcode property">STA</span> MusicPointerCurrentPart
+
+ProcessMusicQueue_SetNextPart:
+	<span class="token opcode property">INC</span> MusicPointerCurrentPart
+	<span class="token opcode property">LDY</span> MusicPointerCurrentPart
+	<span class="token opcode property">CPY</span> MusicPointerEndPart
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_ReadHeader
+
+	<span class="token opcode property">LDA</span> MusicPointerLoopPart
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_SetCurrentPart
+
+	<span class="token opcode property">JMP</span> StopMusic
+
+ProcessMusicQueue_Part<span class="token decimalnumber string">2</span>:
+	<span class="token opcode property">STA</span> MusicPlaying<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">LDY</span> MusicPlaying<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">STY</span> MusicResume<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$00</span>
+	<span class="token opcode property">STY</span> MusicPlaying<span class="token decimalnumber string">1</span>
+
+IFNDEF EXPAND_MUSIC
+ProcessMusicQueue_PointerLoop:
+	<span class="token opcode property">INY</span>
+	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
+	<span class="token opcode property">BCC</span> ProcessMusicQueue_PointerLoop
+ELSE
+	<span class="token opcode property">TAY</span>
+ENDIF
+
+IFNDEF EXPAND_MUSIC
+ProcessMusicQueue_ReadHeader:
+	<span class="token opcode property">LDA</span> MusicPartPointers - <span class="token decimalnumber string">1</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">TAY</span>
+	<span class="token opcode property">LDA</span> MusicPartPointers, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> MusicTempoSetting
+	<span class="token opcode property">LDA</span> MusicPartPointers + <span class="token decimalnumber string">1</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> CurrentMusicPointer
+	<span class="token opcode property">LDA</span> MusicPartPointers + <span class="token decimalnumber string">2</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> CurrentMusicPointer + <span class="token decimalnumber string">1</span>
+	<span class="token opcode property">LDA</span> MusicPartPointers + <span class="token decimalnumber string">3</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> CurrentMusicTriangleOffset
+	<span class="token opcode property">LDA</span> MusicPartPointers + <span class="token decimalnumber string">4</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> CurrentMusicSquare<span class="token decimalnumber string">1</span>Offset
+	<span class="token opcode property">LDA</span> MusicPartPointers + <span class="token decimalnumber string">5</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> CurrentMusicNoiseOffset
+	<span class="token opcode property">STA</span> CurrentMusicNoiseStartOffset
+IFDEF PROTOTYPE_MUSIC_UNDERGROUND
+	<span class="token opcode property">LDA</span> MusicPartPointers + <span class="token decimalnumber string">6</span>, <span class="token register variable">Y</span>
+ENDIF
+	<span class="token opcode property">STA</span> CurrentMusicDPCMOffset
+	<span class="token opcode property">STA</span> CurrentMusicDPCMStartOffset
+ENDIF
+
+IFDEF EXPAND_MUSIC
+ProcessMusicQueue_ReadHeader:
+	<span class="token opcode property">LDA</span> MusicPartPointers - <span class="token decimalnumber string">1</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">TAY</span>
+
+	<span class="token opcode property">LDA</span> MusicHeaderPointersLo, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">0</span>
+	<span class="token opcode property">LDA</span> MusicHeaderPointersHi, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">0</span>+<span class="token decimalnumber string">1</span>
+
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$00</span>
+
+	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">0</span>), <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> MusicTempoSetting
+	<span class="token opcode property">INY</span>
+	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">0</span>), <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> CurrentMusicPointer
+	<span class="token opcode property">INY</span>
+	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">0</span>), <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> CurrentMusicPointer + <span class="token decimalnumber string">1</span>
+	<span class="token opcode property">INY</span>
+	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">0</span>), <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> CurrentMusicTriangleOffset
+	<span class="token opcode property">INY</span>
+	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">0</span>), <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> CurrentMusicSquare<span class="token decimalnumber string">1</span>Offset
+	<span class="token opcode property">INY</span>
+	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">0</span>), <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> CurrentMusicNoiseOffset
+	<span class="token opcode property">STA</span> CurrentMusicNoiseStartOffset
+	<span class="token opcode property">INY</span>
+	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">0</span>), <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> CurrentMusicDPCMOffset
+	<span class="token opcode property">STA</span> CurrentMusicDPCMStartOffset
+ENDIF
+
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$01</span>
+	<span class="token opcode property">STA</span> MusicSquare<span class="token decimalnumber string">2</span>NoteLength
+	<span class="token opcode property">STA</span> MusicSquare<span class="token decimalnumber string">1</span>NoteLength
+	<span class="token opcode property">STA</span> MusicTriangleNoteLength
+	<span class="token opcode property">STA</span> MusicNoiseNoteLength
+	<span class="token opcode property">STA</span> MusicDPCMNoteLength
+
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$00</span>
+	<span class="token opcode property">STA</span> CurrentMusicSquare<span class="token decimalnumber string">2</span>Offset
+	<span class="token opcode property">STA</span> MusicSquare<span class="token decimalnumber string">1</span>NoteSweep
+IFDEF EXPAND_MUSIC
+	<span class="token opcode property">STA</span> MusicSquare<span class="token decimalnumber string">1</span>NoteBend
+	<span class="token opcode property">STA</span> MusicSquare<span class="token decimalnumber string">2</span>NoteBend
+ENDIF
+
+	<span class="token opcode property">LDA</span> <span class="token binarynumber string">#%00001011</span>
+	<span class="token opcode property">STA</span> SND_CHN
+	<span class="token opcode property">LDA</span> <span class="token binarynumber string">#%00001111</span>
+	<span class="token opcode property">STA</span> SND_CHN
+
+ProcessMusicQueue_ReadNoteData:
+	<span class="token opcode property">DEC</span> MusicSquare<span class="token decimalnumber string">2</span>NoteLength
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_Square<span class="token decimalnumber string">2</span>SustainNote
+
+	<span class="token opcode property">LDY</span> CurrentMusicSquare<span class="token decimalnumber string">2</span>Offset
+	<span class="token opcode property">INC</span> CurrentMusicSquare<span class="token decimalnumber string">2</span>Offset
+	<span class="token opcode property">LDA</span> (CurrentMusicPointer), <span class="token register variable">Y</span>
+	<span class="token opcode property">BEQ</span> ProcessMusicQueue_EndOfSegment
+
+	<span class="token opcode property">BPL</span> ProcessMusicQueue_Square<span class="token decimalnumber string">2</span>Note
+
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_Square<span class="token decimalnumber string">2</span>Patch
+
+ProcessMusicQueue_EndOfSegment:
+	<span class="token opcode property">LDA</span> MusicPlaying<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_ThenSetNextPart
+
+	<span class="token opcode property">LDA</span> MusicPlaying<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">CMP</span> #Music<span class="token decimalnumber string">2</span>_EndingAndCast
+	<span class="token opcode property">BEQ</span> ProcessMusicQueue_ThenSetNextPart
+
+IFNDEF EXPAND_MUSIC
+	<span class="token opcode property">AND</span> #Music<span class="token decimalnumber string">1</span>_Overworld | Music<span class="token decimalnumber string">1</span>_Inside | Music<span class="token decimalnumber string">1</span>_Subspace
+ELSE
+	<span class="token opcode property">JSR</span> CheckStopMusic
+ENDIF
+	<span class="token opcode property">BEQ</span> StopMusic
+
+	<span class="token opcode property">LDA</span> MusicResume<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_ResumeMusicQueue<span class="token decimalnumber string">1</span>
+
+StopMusic:
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$00</span>
+	<span class="token opcode property">STA</span> MusicPlaying<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">STA</span> MusicPlaying<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">STA</span> SND_CHN
+	<span class="token opcode property">LDX</span> <span class="token binarynumber string">#%00001111</span>
+	<span class="token opcode property">STX</span> SND_CHN
+	<span class="token opcode property">RTS</span>
+
+ProcessMusicQueue_ThenSetNextPart:
+	<span class="token opcode property">JMP</span> ProcessMusicQueue_SetNextPart
+
+ProcessMusicQueue_ResumeMusicQueue<span class="token decimalnumber string">1</span>:
+	<span class="token opcode property">JMP</span> ProcessMusicQueue_MusicQueue<span class="token decimalnumber string">1</span>
+
+ProcessMusicQueue_Square<span class="token decimalnumber string">2</span>Patch:
+	<span class="token opcode property">TAX</span>
+	<span class="token opcode property">AND</span> <span class="token hexnumber string">#$F0</span>
+	<span class="token opcode property">STA</span> MusicSquare<span class="token decimalnumber string">2</span>Patch
+	<span class="token opcode property">TXA</span>
+	<span class="token opcode property">JSR</span> ProcessMusicQueue_PatchNoteLength
+
+	<span class="token opcode property">STA</span> MusicSquare<span class="token decimalnumber string">2</span>NoteStartLength
+
+ProcessMusicQueue_Square<span class="token decimalnumber string">2</span>NextOffset:
+	<span class="token opcode property">LDY</span> CurrentMusicSquare<span class="token decimalnumber string">2</span>Offset
+	<span class="token opcode property">INC</span> CurrentMusicSquare<span class="token decimalnumber string">2</span>Offset
+	<span class="token opcode property">LDA</span> (CurrentMusicPointer), <span class="token register variable">Y</span>
+
+ProcessMusicQueue_Square<span class="token decimalnumber string">2</span>Note:
+	<span class="token opcode property">LDX</span> SoundEffectPlaying<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_Square<span class="token decimalnumber string">2</span>ContinueNote
+
+	<span class="token opcode property">JSR</span> PlaySquare<span class="token decimalnumber string">2</span>Note
+
+	<span class="token opcode property">TAY</span>
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_Square<span class="token decimalnumber string">2</span>StartNote
+
+	<span class="token opcode property">LDA</span> MusicSquareInstrumentStartOffset
+	<span class="token opcode property">JMP</span> ProcessMusicQueue_Square<span class="token decimalnumber string">2</span>UpdateNoteOffset
+
+ProcessMusicQueue_Square<span class="token decimalnumber string">2</span>StartNote:
+	<span class="token opcode property">LDA</span> MusicSquare<span class="token decimalnumber string">2</span>NoteStartLength&nbsp;</code></pre><aside><p>seems like the next line should be LDX MusicSquareEnvelope based on the equivalent code for square 1?</p>
+&nbsp;</aside><pre><a name="l722" href="#l722" title="Link to line 722">#</a><code>	<span class="token opcode property">LDX</span> MusicSquareInstrumentStartOffset <span class="token comment">; always overridden in the following subroutine...?</span>
+	<span class="token opcode property">JSR</span> SetInstrumentStartOffset
+
+ProcessMusicQueue_Square<span class="token decimalnumber string">2</span>UpdateNoteOffset:
+	<span class="token opcode property">STA</span> MusicSquare<span class="token decimalnumber string">2</span>InstrumentOffset
+
+IFDEF EXPAND_MUSIC
+	<span class="token opcode property">JSR</span> CheckSquare<span class="token decimalnumber string">2</span>NoteBend
+ENDIF
+
+	<span class="token opcode property">JSR</span> SetSquare<span class="token decimalnumber string">2</span>VolumeAndSweep
+
+ProcessMusicQueue_Square<span class="token decimalnumber string">2</span>ContinueNote:
+	<span class="token opcode property">LDA</span> MusicSquare<span class="token decimalnumber string">2</span>NoteStartLength
+	<span class="token opcode property">STA</span> MusicSquare<span class="token decimalnumber string">2</span>NoteLength
+
+ProcessMusicQueue_Square<span class="token decimalnumber string">2</span>SustainNote:
+	<span class="token opcode property">LDX</span> SoundEffectPlaying<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_Square<span class="token decimalnumber string">1</span>
+
+IFDEF EXPAND_MUSIC
+	<span class="token opcode property">LDA</span> MusicSquare<span class="token decimalnumber string">2</span>NoteBend
+	<span class="token opcode property">BEQ</span> ProcessMusicQueue_LoadSquare<span class="token decimalnumber string">2</span>InstrumentOffset
+
+	<span class="token opcode property">LDA</span> MusicSquare<span class="token decimalnumber string">2</span>NoteStartLength
+	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$04</span>
+	<span class="token opcode property">JSR</span> UpdateNoteBend
+ENDIF
+
+ProcessMusicQueue_LoadSquare<span class="token decimalnumber string">2</span>InstrumentOffset:
+	<span class="token opcode property">LDY</span> MusicSquare<span class="token decimalnumber string">2</span>InstrumentOffset
+	<span class="token opcode property">BEQ</span> ProcessMusicQueue_LoadSquare<span class="token decimalnumber string">2</span>Instrument
+
+	<span class="token opcode property">DEC</span> MusicSquare<span class="token decimalnumber string">2</span>InstrumentOffset
+
+ProcessMusicQueue_LoadSquare<span class="token decimalnumber string">2</span>Instrument:
+	<span class="token opcode property">LDA</span> MusicSquare<span class="token decimalnumber string">2</span>NoteStartLength
+	<span class="token opcode property">LDX</span> MusicSquare<span class="token decimalnumber string">2</span>Patch
+	<span class="token opcode property">JSR</span> LoadSquareInstrumentDVE
+
+	<span class="token opcode property">STA</span> SQ<span class="token decimalnumber string">2</span>_VOL
+	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$7F</span>
+	<span class="token opcode property">STX</span> SQ<span class="token decimalnumber string">2</span>_SWEEP
+
+ProcessMusicQueue_Square<span class="token decimalnumber string">1</span>:
+	<span class="token opcode property">DEC</span> MusicSquare<span class="token decimalnumber string">1</span>NoteLength
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_Square<span class="token decimalnumber string">1</span>SustainNote
+
+ProcessMusicQueue_Square<span class="token decimalnumber string">1</span>Patch:
+	<span class="token opcode property">LDY</span> CurrentMusicSquare<span class="token decimalnumber string">1</span>Offset
+	<span class="token opcode property">INC</span> CurrentMusicSquare<span class="token decimalnumber string">1</span>Offset
+	<span class="token opcode property">LDA</span> (CurrentMusicPointer), <span class="token register variable">Y</span>
+	<span class="token opcode property">BPL</span> ProcessMusicQueue_Square<span class="token decimalnumber string">1</span>AfterPatch
+
+	<span class="token opcode property">TAX</span>
+	<span class="token opcode property">AND</span> <span class="token hexnumber string">#$F0</span>
+	<span class="token opcode property">STA</span> MusicSquare<span class="token decimalnumber string">1</span>Patch
+	<span class="token opcode property">TXA</span>
+	<span class="token opcode property">JSR</span> ProcessMusicQueue_PatchNoteLength
+
+	<span class="token opcode property">STA</span> MusicSquare<span class="token decimalnumber string">1</span>NoteStartLength
+
+ProcessMusicQueue_Square<span class="token decimalnumber string">1</span>NextOffset:
+	<span class="token opcode property">LDY</span> CurrentMusicSquare<span class="token decimalnumber string">1</span>Offset
+	<span class="token opcode property">INC</span> CurrentMusicSquare<span class="token decimalnumber string">1</span>Offset
+	<span class="token opcode property">LDA</span> (CurrentMusicPointer), <span class="token register variable">Y</span>
+
+ProcessMusicQueue_Square<span class="token decimalnumber string">1</span>AfterPatch:
+	<span class="token opcode property">TAY</span>
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_Square<span class="token decimalnumber string">1</span>Note
+
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$83</span>
+	<span class="token opcode property">STA</span> SQ<span class="token decimalnumber string">1</span>_VOL
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$94</span>
+	<span class="token opcode property">STA</span> SQ<span class="token decimalnumber string">1</span>_SWEEP
+	<span class="token opcode property">STA</span> MusicSquare<span class="token decimalnumber string">1</span>NoteSweep
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_Square<span class="token decimalnumber string">1</span>Patch
+
+ProcessMusicQueue_Square<span class="token decimalnumber string">1</span>Note:
+	<span class="token opcode property">LDY</span> SoundEffectPlaying<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_Square<span class="token decimalnumber string">1</span>ContinueNote
+
+	<span class="token opcode property">JSR</span> PlaySquare<span class="token decimalnumber string">1</span>Note
+
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_Square<span class="token decimalnumber string">1</span>StartNote
+
+	<span class="token opcode property">LDA</span> MusicSquareInstrumentStartOffset
+	<span class="token opcode property">JMP</span> ProcessMusicQueue_Square<span class="token decimalnumber string">1</span>UpdateNoteOffset
+
+ProcessMusicQueue_Square<span class="token decimalnumber string">1</span>StartNote:
+	<span class="token opcode property">LDA</span> MusicSquare<span class="token decimalnumber string">1</span>NoteStartLength
+	<span class="token opcode property">LDX</span> MusicSquareEnvelope <span class="token comment">; always overridden in the following subroutine...?</span>
+	<span class="token opcode property">JSR</span> SetInstrumentStartOffset
+
+ProcessMusicQueue_Square<span class="token decimalnumber string">1</span>UpdateNoteOffset:
+	<span class="token opcode property">STA</span> MusicSquare<span class="token decimalnumber string">1</span>InstrumentOffset
+
+IFDEF EXPAND_MUSIC
+	<span class="token opcode property">JSR</span> CheckSquare<span class="token decimalnumber string">1</span>NoteBend
+ENDIF
+
+	<span class="token opcode property">JSR</span> SetSquare<span class="token decimalnumber string">1</span>VolumeAndSweep
+
+ProcessMusicQueue_Square<span class="token decimalnumber string">1</span>ContinueNote:
+	<span class="token opcode property">LDA</span> MusicSquare<span class="token decimalnumber string">1</span>NoteStartLength
+	<span class="token opcode property">STA</span> MusicSquare<span class="token decimalnumber string">1</span>NoteLength
+
+ProcessMusicQueue_Square<span class="token decimalnumber string">1</span>SustainNote:
+	<span class="token opcode property">LDA</span> SoundEffectPlaying<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_Triangle
+
+IFDEF EXPAND_MUSIC
+	<span class="token opcode property">LDA</span> MusicSquare<span class="token decimalnumber string">1</span>NoteBend
+	<span class="token opcode property">BEQ</span> ProcessMusicQueue_LoadSquare<span class="token decimalnumber string">1</span>InstrumentOffset
+
+	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$00</span>
+	<span class="token opcode property">LDA</span> MusicSquare<span class="token decimalnumber string">1</span>NoteStartLength
+	<span class="token opcode property">JSR</span> UpdateNoteBend
+ENDIF
+
+ProcessMusicQueue_LoadSquare<span class="token decimalnumber string">1</span>InstrumentOffset:
+	<span class="token opcode property">LDY</span> MusicSquare<span class="token decimalnumber string">1</span>InstrumentOffset
+	<span class="token opcode property">BEQ</span> ProcessMusicQueue_Square<span class="token decimalnumber string">1</span>AfterDecrementInstrumentOffset
+
+	<span class="token opcode property">DEC</span> MusicSquare<span class="token decimalnumber string">1</span>InstrumentOffset
+
+ProcessMusicQueue_Square<span class="token decimalnumber string">1</span>AfterDecrementInstrumentOffset:
+	<span class="token opcode property">LDA</span> MusicSquare<span class="token decimalnumber string">1</span>NoteStartLength
+	<span class="token opcode property">LDX</span> MusicSquare<span class="token decimalnumber string">1</span>Patch
+	<span class="token opcode property">JSR</span> LoadSquareInstrumentDVE
+
+	<span class="token opcode property">STA</span> SQ<span class="token decimalnumber string">1</span>_VOL
+	<span class="token opcode property">LDA</span> MusicSquare<span class="token decimalnumber string">1</span>NoteSweep
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_Square<span class="token decimalnumber string">1</span>Sweep
+
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$7F</span>
+
+ProcessMusicQueue_Square<span class="token decimalnumber string">1</span>Sweep:
+	<span class="token opcode property">STA</span> SQ<span class="token decimalnumber string">1</span>_SWEEP
+
+ProcessMusicQueue_Triangle:
+	<span class="token opcode property">LDA</span> CurrentMusicTriangleOffset
+	<span class="token opcode property">BEQ</span> ProcessMusicQueue_NoiseDPCM
+
+	<span class="token opcode property">DEC</span> MusicTriangleNoteLength
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_NoiseDPCM
+
+	<span class="token opcode property">LDY</span> CurrentMusicTriangleOffset
+	<span class="token opcode property">INC</span> CurrentMusicTriangleOffset
+	<span class="token opcode property">LDA</span> (CurrentMusicPointer), <span class="token register variable">Y</span>
+	<span class="token opcode property">BEQ</span> ProcessMusicQueue_TriangleSetLength
+
+	<span class="token opcode property">BPL</span> ProcessMusicQueue_TriangleNote
+
+	<span class="token opcode property">JSR</span> ProcessMusicQueue_PatchNoteLength
+
+	<span class="token opcode property">STA</span> MusicTriangleNoteStartLength
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$1F</span>
+	<span class="token opcode property">STA</span> TRI_LINEAR
+	<span class="token opcode property">LDY</span> CurrentMusicTriangleOffset
+	<span class="token opcode property">INC</span> CurrentMusicTriangleOffset
+	<span class="token opcode property">LDA</span> (CurrentMusicPointer), <span class="token register variable">Y</span>
+	<span class="token opcode property">BEQ</span> ProcessMusicQueue_TriangleSetLength
+
+ProcessMusicQueue_TriangleNote:
+	<span class="token opcode property">JSR</span> PlayTriangleNote
+
+	<span class="token opcode property">LDX</span> MusicTriangleNoteStartLength
+	<span class="token opcode property">STX</span> MusicTriangleNoteLength
+	<span class="token opcode property">TXA</span>
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$0A</span>
+	<span class="token opcode property">BCC</span> ProcessMusicQueue_TriangleNoteShort
+
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$1E</span>
+	<span class="token opcode property">BCS</span> ProcessMusicQueue_TriangleNoteLong
+
+ProcessMusicQueue_TriangleNoteMedium:
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$24</span>
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_TriangleSetLength
+
+ProcessMusicQueue_TriangleNoteShort:
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$18</span>
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_TriangleSetLength
+
+ProcessMusicQueue_TriangleNoteLong:
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$6F</span>
+
+ProcessMusicQueue_TriangleSetLength:
+	<span class="token opcode property">STA</span> TRI_LINEAR
+
+ProcessMusicQueue_NoiseDPCM:
+IFNDEF EXPAND_MUSIC
+	IFNDEF PROTOTYPE_MUSIC_UNDERGROUND
+		IFNDEF PROTOTYPE_MUSIC_STARMAN&nbsp;</code></pre><aside><p>skip to DPCM for underground/invincibility music</p>
+&nbsp;</aside><pre><a name="l917" href="#l917" title="Link to line 917">#</a><code>			<span class="token opcode property">LDA</span> MusicPlaying<span class="token decimalnumber string">1</span>
+			<span class="token opcode property">AND</span> #Music<span class="token decimalnumber string">1</span>_Inside | Music<span class="token decimalnumber string">1</span>_Invincible
+			<span class="token opcode property">BNE</span> ProcessMusicQueue_DPCM
+		ELSE&nbsp;</code></pre><aside><p>skip to DPCM for underground music ONLY</p>
+&nbsp;</aside><pre><a name="l922" href="#l922" title="Link to line 922">#</a><code>			<span class="token opcode property">LDA</span> MusicPlaying<span class="token decimalnumber string">1</span>
+			<span class="token opcode property">AND</span> #Music<span class="token decimalnumber string">1</span>_Inside
+			<span class="token opcode property">BNE</span> ProcessMusicQueue_DPCM
+		ENDIF
+	ELSE
+		IFNDEF PROTOTYPE_MUSIC_STARMAN&nbsp;</code></pre><aside><p>no starman, underground</p>
+&nbsp;</aside><pre><a name="l929" href="#l929" title="Link to line 929">#</a><code>			<span class="token opcode property">LDA</span> MusicPlaying<span class="token decimalnumber string">1</span>
+			<span class="token opcode property">AND</span> #Music<span class="token decimalnumber string">1</span>_Invincible
+			<span class="token opcode property">BNE</span> ProcessMusicQueue_DPCM
+		ENDIF
+	ENDIF
+ENDIF
+
+ProcessMusicQueue_Noise:
+	<span class="token opcode property">LDA</span> CurrentMusicNoiseOffset
+	<span class="token opcode property">BEQ</span> ProcessMusicQueue_ThenNoiseEnd
+
+	<span class="token opcode property">DEC</span> MusicNoiseNoteLength
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_ThenNoiseEnd
+
+ProcessMusicQueue_NoiseByte:
+	<span class="token opcode property">LDY</span> CurrentMusicNoiseOffset
+	<span class="token opcode property">INC</span> CurrentMusicNoiseOffset
+	<span class="token opcode property">LDA</span> (CurrentMusicPointer), <span class="token register variable">Y</span>
+	<span class="token opcode property">BEQ</span> ProcessMusicQueue_NoiseLoopSegment
+
+	<span class="token opcode property">BPL</span> ProcessMusicQueue_NoiseNote
+
+	<span class="token opcode property">JSR</span> ProcessMusicQueue_PatchNoteLength
+
+	<span class="token opcode property">STA</span> MusicNoiseNoteStartLength
+	<span class="token opcode property">LDY</span> CurrentMusicNoiseOffset
+	<span class="token opcode property">INC</span> CurrentMusicNoiseOffset
+	<span class="token opcode property">LDA</span> (CurrentMusicPointer), <span class="token register variable">Y</span>
+	<span class="token opcode property">BEQ</span> ProcessMusicQueue_NoiseLoopSegment
+
+ProcessMusicQueue_NoiseNote:
+	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
+	<span class="token opcode property">TAY</span>
+	<span class="token opcode property">LDA</span> NoiseVolTable, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> NOISE_VOL
+	<span class="token opcode property">LDA</span> NoiseLoTable, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> NOISE_LO
+	<span class="token opcode property">LDA</span> NoiseHiTable, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> NOISE_HI
+	<span class="token opcode property">LDA</span> MusicNoiseNoteStartLength
+	<span class="token opcode property">STA</span> MusicNoiseNoteLength
+
+ProcessMusicQueue_ThenNoiseEnd:
+	<span class="token opcode property">JMP</span> ProcessMusicQueue_NoiseEnd
+
+ProcessMusicQueue_NoiseLoopSegment:
+	<span class="token opcode property">LDA</span> CurrentMusicNoiseStartOffset
+	<span class="token opcode property">STA</span> CurrentMusicNoiseOffset
+	<span class="token opcode property">JMP</span> ProcessMusicQueue_NoiseByte
+
+ProcessMusicQueue_NoiseEnd:
+IFNDEF EXPAND_MUSIC
+	<span class="token opcode property">LDA</span> MusicPlaying<span class="token decimalnumber string">1</span>
+	IFNDEF PROTOTYPE_MUSIC_STARMAN
+		<span class="token opcode property">AND</span> #Music<span class="token decimalnumber string">1</span>_Inside | Music<span class="token decimalnumber string">1</span>_Invincible
+	ELSE
+		<span class="token opcode property">AND</span> #Music<span class="token decimalnumber string">1</span>_Inside
+	ENDIF
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_DPCM
+
+	<span class="token opcode property">RTS</span>
+ENDIF
+
+ProcessMusicQueue_DPCM:
+	<span class="token opcode property">LDA</span> CurrentMusicDPCMOffset
+	<span class="token opcode property">BEQ</span> ProcessMusicQueue_DPCMEnd
+
+	<span class="token opcode property">DEC</span> MusicDPCMNoteLength
+	<span class="token opcode property">BNE</span> ProcessMusicQueue_DPCMEnd
+
+ProcessMusicQueue_DPCMByte:
+	<span class="token opcode property">LDY</span> CurrentMusicDPCMOffset
+	<span class="token opcode property">INC</span> CurrentMusicDPCMOffset
+	<span class="token opcode property">LDA</span> (CurrentMusicPointer), <span class="token register variable">Y</span>
+	<span class="token opcode property">BEQ</span> ProcessMusicQueue_DPCMLoopSegment
+
+	<span class="token opcode property">BPL</span> ProcessMusicQueue_DPCMNote
+
+	<span class="token opcode property">JSR</span> ProcessMusicQueue_PatchNoteLength
+
+	<span class="token opcode property">STA</span> MusicDPCMNoteStartLength
+	<span class="token opcode property">LDY</span> CurrentMusicDPCMOffset
+	<span class="token opcode property">INC</span> CurrentMusicDPCMOffset
+	<span class="token opcode property">LDA</span> (CurrentMusicPointer), <span class="token register variable">Y</span>
+	<span class="token opcode property">BEQ</span> ProcessMusicQueue_DPCMLoopSegment
+
+ProcessMusicQueue_DPCMNote:&nbsp;</code></pre><aside><p>POI: This left shift precludes using the first DPCM sample (bomb explosion) in the DPCM track.
+This could be to allow $80 for a "rest" note on the DPCM track, but none of the in-game music
+takes advantage of that.</p>
+&nbsp;</aside><pre><a name="l1019" href="#l1019" title="Link to line 1019">#</a><code>IFNDEF EXPAND_MUSIC
+	<span class="token opcode property">ASL</span> <span class="token register variable">A</span>
+ENDIF
+	<span class="token opcode property">STA</span> DPCMQueue
+	<span class="token opcode property">JSR</span> ProcessDPCMQueue
+
+	<span class="token opcode property">LDA</span> MusicDPCMNoteStartLength
+	<span class="token opcode property">STA</span> MusicDPCMNoteLength
+
+ProcessMusicQueue_DPCMEnd:
+	<span class="token opcode property">RTS</span>
+
+ProcessMusicQueue_DPCMLoopSegment:
+	<span class="token opcode property">LDA</span> CurrentMusicDPCMStartOffset
+	<span class="token opcode property">STA</span> CurrentMusicDPCMOffset
+	<span class="token opcode property">JMP</span> ProcessMusicQueue_DPCMByte
+
+
+NoiseVolTable:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$10</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$1E</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$1F</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$16</span>
+
+NoiseLoTable:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$03</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0A</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$02</span>
+
+NoiseHiTable:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$18</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$18</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$58</span>
+
+&nbsp;</code></pre><aside><p>Input
+A = full patch byte
+Output
+A = new note length</p>
+&nbsp;</aside><pre><a name="l1060" href="#l1060" title="Link to line 1060">#</a><code>ProcessMusicQueue_PatchNoteLength:
+	<span class="token opcode property">AND</span> <span class="token hexnumber string">#$0F</span>
+	<span class="token opcode property">CLC</span>
+	<span class="token opcode property">ADC</span> MusicTempoSetting
+	<span class="token opcode property">TAY</span>
+	<span class="token opcode property">LDA</span> NoteLengthTable, <span class="token register variable">Y</span>
+	<span class="token opcode property">RTS</span>
+&nbsp;</code></pre><aside><p>Input
+A = note start length, >= $13 for table A, &#x3C; $13 for instrument table B
+Ouput
+A = starting instrument offset ($16 for short, $3F for long)
+X = duty/volume/envelope ($82)
+Y = sweep ($7F)</p>
+&nbsp;</aside><pre><a name="l1075" href="#l1075" title="Link to line 1075">#</a><code>SetInstrumentStartOffset:
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$13</span>
+	<span class="token opcode property">BCC</span> SetInstrumentStartOffset_Short
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$3F</span>
+	<span class="token opcode property">BNE</span> SetInstrumentStartOffset_Exit
+SetInstrumentStartOffset_Short:
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$16</span>
+SetInstrumentStartOffset_Exit:
+	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$82</span>
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$7F</span>
+	<span class="token opcode property">RTS</span>
+&nbsp;</code></pre><aside><p>Loads instrument data for a square channel</p>
+<p>Each instrument has two lookup tables based on the note length.</p>
+<p>Input
+A = note length, >= $13 for table A, &#x3C; $13 for instrument table B
+X = instrument patch
+Y = instrument offset
+Output
+A = duty/volume/envelope</p>
+&nbsp;</aside><pre><a name="l1099" href="#l1099" title="Link to line 1099">#</a><code>LoadSquareInstrumentDVE:
+	<span class="token opcode property">CPX</span> <span class="token hexnumber string">#$90</span>
+	<span class="token opcode property">BEQ</span> LoadSquareInstrumentDVE_<span class="token decimalnumber string">90</span>_E<span class="token decimalnumber string">0</span>
+
+	<span class="token opcode property">CPX</span> <span class="token hexnumber string">#$E0</span>
+	<span class="token opcode property">BEQ</span> LoadSquareInstrumentDVE_<span class="token decimalnumber string">90</span>_E<span class="token decimalnumber string">0</span>
+
+	<span class="token opcode property">CPX</span> <span class="token hexnumber string">#$A0</span>
+	<span class="token opcode property">BEQ</span> LoadSquareInstrumentDVE_A<span class="token decimalnumber string">0</span>
+
+	<span class="token opcode property">CPX</span> <span class="token hexnumber string">#$B0</span>
+	<span class="token opcode property">BEQ</span> LoadSquareInstrumentDVE_B<span class="token decimalnumber string">0</span>
+
+	<span class="token opcode property">CPX</span> <span class="token hexnumber string">#$C0</span>
+	<span class="token opcode property">BEQ</span> LoadSquareInstrumentDVE_C<span class="token decimalnumber string">0</span>
+
+	<span class="token opcode property">CPX</span> <span class="token hexnumber string">#$D0</span>
+	<span class="token opcode property">BEQ</span> LoadSquareInstrumentDVE_D<span class="token decimalnumber string">0</span>
+
+	<span class="token opcode property">CPX</span> <span class="token hexnumber string">#$F0</span>
+	<span class="token opcode property">BEQ</span> LoadSquareInstrumentDVE_F<span class="token decimalnumber string">0</span>
+
+LoadSquareInstrumentDVE_<span class="token decimalnumber string">80</span>:
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$13</span>
+	<span class="token opcode property">BCC</span> LoadSquareInstrumentDVE_<span class="token decimalnumber string">80</span>_Short
+	<span class="token opcode property">LDA</span> InstrumentDVE_<span class="token decimalnumber string">80</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">BNE</span> LoadSquareInstrumentDVE_<span class="token decimalnumber string">80</span>_Exit
+LoadSquareInstrumentDVE_<span class="token decimalnumber string">80</span>_Short:
+	<span class="token opcode property">LDA</span> InstrumentDVE_<span class="token decimalnumber string">80</span>_Short, <span class="token register variable">Y</span>
+LoadSquareInstrumentDVE_<span class="token decimalnumber string">80</span>_Exit:
+	<span class="token opcode property">RTS</span>
+
+LoadSquareInstrumentDVE_<span class="token decimalnumber string">90</span>_E<span class="token decimalnumber string">0</span>:
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$13</span>
+	<span class="token opcode property">BCC</span> LoadSquareInstrumentDVE_<span class="token decimalnumber string">90</span>_E<span class="token decimalnumber string">0</span>_Short
+	<span class="token opcode property">LDA</span> InstrumentDVE_<span class="token decimalnumber string">90</span>_E<span class="token decimalnumber string">0</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">BNE</span> LoadSquareInstrumentDVE_<span class="token decimalnumber string">90</span>_E<span class="token decimalnumber string">0</span>_Exit
+LoadSquareInstrumentDVE_<span class="token decimalnumber string">90</span>_E<span class="token decimalnumber string">0</span>_Short:
+	<span class="token opcode property">LDA</span> InstrumentDVE_<span class="token decimalnumber string">90</span>_E<span class="token decimalnumber string">0</span>_Short, <span class="token register variable">Y</span>
+LoadSquareInstrumentDVE_<span class="token decimalnumber string">90</span>_E<span class="token decimalnumber string">0</span>_Exit:
+	<span class="token opcode property">RTS</span>
+
+LoadSquareInstrumentDVE_A<span class="token decimalnumber string">0</span>:
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$13</span>
+	<span class="token opcode property">BCC</span> LoadSquareInstrumentDVE_A<span class="token decimalnumber string">0</span>_Short
+	<span class="token opcode property">LDA</span> InstrumentDVE_A<span class="token decimalnumber string">0</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">BNE</span> LoadSquareInstrumentDVE_A<span class="token decimalnumber string">0</span>_Exit
+LoadSquareInstrumentDVE_A<span class="token decimalnumber string">0</span>_Short:
+	<span class="token opcode property">LDA</span> InstrumentDVE_A<span class="token decimalnumber string">0</span>_Short, <span class="token register variable">Y</span>
+LoadSquareInstrumentDVE_A<span class="token decimalnumber string">0</span>_Exit:
+	<span class="token opcode property">RTS</span>
+
+LoadSquareInstrumentDVE_B<span class="token decimalnumber string">0</span>:
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$13</span>
+	<span class="token opcode property">BCC</span> LoadSquareInstrumentDVE_B<span class="token decimalnumber string">0</span>_Short
+	<span class="token opcode property">LDA</span> InstrumentDVE_B<span class="token decimalnumber string">0</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">BNE</span> LoadSquareInstrumentDVE_B<span class="token decimalnumber string">0</span>_Exit
+LoadSquareInstrumentDVE_B<span class="token decimalnumber string">0</span>_Short:
+	<span class="token opcode property">LDA</span> InstrumentDVE_B<span class="token decimalnumber string">0</span>_Short, <span class="token register variable">Y</span>
+LoadSquareInstrumentDVE_B<span class="token decimalnumber string">0</span>_Exit:
+	<span class="token opcode property">RTS</span>
+
+LoadSquareInstrumentDVE_C<span class="token decimalnumber string">0</span>:
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$13</span>
+	<span class="token opcode property">BCC</span> LoadSquareInstrumentDVE_C<span class="token decimalnumber string">0</span>_Short
+	<span class="token opcode property">LDA</span> InstrumentDVE_C<span class="token decimalnumber string">0</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">BNE</span> LoadSquareInstrumentDVE_C<span class="token decimalnumber string">0</span>_Exit
+LoadSquareInstrumentDVE_C<span class="token decimalnumber string">0</span>_Short:
+	<span class="token opcode property">LDA</span> InstrumentDVE_C<span class="token decimalnumber string">0</span>_Short, <span class="token register variable">Y</span>
+LoadSquareInstrumentDVE_C<span class="token decimalnumber string">0</span>_Exit:
+	<span class="token opcode property">RTS</span>
+
+LoadSquareInstrumentDVE_F<span class="token decimalnumber string">0</span>:
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$13</span>
+	<span class="token opcode property">BCC</span> LoadSquareInstrumentDVE_F<span class="token decimalnumber string">0</span>_Short
+	<span class="token opcode property">LDA</span> InstrumentDVE_F<span class="token decimalnumber string">0</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">BNE</span> LoadSquareInstrumentDVE_F<span class="token decimalnumber string">0</span>_Exit
+LoadSquareInstrumentDVE_F<span class="token decimalnumber string">0</span>_Short:
+	<span class="token opcode property">LDA</span> InstrumentDVE_F<span class="token decimalnumber string">0</span>_Short, <span class="token register variable">Y</span>
+LoadSquareInstrumentDVE_F<span class="token decimalnumber string">0</span>_Exit:
+	<span class="token opcode property">RTS</span>
+
+LoadSquareInstrumentDVE_D<span class="token decimalnumber string">0</span>:
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$13</span>
+	<span class="token opcode property">BCC</span> LoadSquareInstrumentDVE_D<span class="token decimalnumber string">0</span>_Short
+	<span class="token opcode property">LDA</span> InstrumentDVE_D<span class="token decimalnumber string">0</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">BNE</span> LoadSquareInstrumentDVE_D<span class="token decimalnumber string">0</span>_Exit
+LoadSquareInstrumentDVE_D<span class="token decimalnumber string">0</span>_Short:
+	<span class="token opcode property">LDA</span> InstrumentDVE_D<span class="token decimalnumber string">0</span>_Short, <span class="token register variable">Y</span>
+LoadSquareInstrumentDVE_D<span class="token decimalnumber string">0</span>_Exit:
+	<span class="token opcode property">RTS</span>
+
+&nbsp;</code></pre><aside><p>Sets volume/sweep on Square 1 channel</p>
+<p>Input
+X = duty/volume/envelope
+Y = sweep</p>
+&nbsp;</aside><pre><a name="l1197" href="#l1197" title="Link to line 1197">#</a><code>SetSquare<span class="token decimalnumber string">1</span>VolumeAndSweep:
+	<span class="token opcode property">STY</span> SQ<span class="token decimalnumber string">1</span>_SWEEP
+	<span class="token opcode property">STX</span> SQ<span class="token decimalnumber string">1</span>_VOL
+	<span class="token opcode property">RTS</span>
+&nbsp;</code></pre><aside><p>Sets volume/sweep on Square 2 channel</p>
+<p>Input
+X = duty/volume/envelope
+Y = sweep</p>
+&nbsp;</aside><pre><a name="l1207" href="#l1207" title="Link to line 1207">#</a><code>SetSquare<span class="token decimalnumber string">2</span>VolumeAndSweep:
+	<span class="token opcode property">STX</span> SQ<span class="token decimalnumber string">2</span>_VOL
+	<span class="token opcode property">STY</span> SQ<span class="token decimalnumber string">2</span>_SWEEP
+	<span class="token opcode property">RTS</span>
+&nbsp;</code></pre><aside><p>Sets volume/sweep on Square 1 channel and plays a note</p>
+<p>Input
+A = note
+X = duty/volume/envelope
+Y = sweep</p>
+&nbsp;</aside><pre><a name="l1218" href="#l1218" title="Link to line 1218">#</a><code>PlaySquare<span class="token decimalnumber string">1</span>Sweep:
+	<span class="token opcode property">STX</span> SQ<span class="token decimalnumber string">1</span>_VOL
+	<span class="token opcode property">STY</span> SQ<span class="token decimalnumber string">1</span>_SWEEP
+&nbsp;</code></pre><aside><p>Play a note on the Square 1 channel</p>
+<p>Input
+A = note</p>
+&nbsp;</aside><pre><a name="l1226" href="#l1226" title="Link to line 1226">#</a><code>PlaySquare<span class="token decimalnumber string">1</span>Note:
+	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$00</span>
+&nbsp;</code></pre><aside><p>Plays a note</p>
+<p>Input
+A = note
+X = channel
+$00: square 1
+$04: square 2
+$08: triangle
+$0C: noise
+Output
+A = $00 for rest, hi frequency otherwise</p>
+&nbsp;</aside><pre><a name="l1240" href="#l1240" title="Link to line 1240">#</a><code>PlayNote:
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$7E</span>
+	<span class="token opcode property">BNE</span> PlayNote_NotRest
+
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$10</span>
+	<span class="token opcode property">STA</span> SQ<span class="token decimalnumber string">1</span>_VOL, <span class="token register variable">X</span>
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$00</span>
+	<span class="token opcode property">RTS</span>
+
+PlayNote_NotRest:
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$01</span>
+	<span class="token opcode property">STY</span> NextOctave
+	<span class="token opcode property">PHA</span>
+	<span class="token opcode property">TAY</span>
+	<span class="token opcode property">BMI</span> PlayNote_LoadFrequencyData
+
+PlayNote_IncrementOctave:
+	<span class="token opcode property">INC</span> NextOctave
+	<span class="token opcode property">SEC</span>
+	<span class="token opcode property">SBC</span> <span class="token hexnumber string">#$18</span>
+	<span class="token opcode property">BPL</span> PlayNote_IncrementOctave
+
+PlayNote_LoadFrequencyData:
+	<span class="token opcode property">CLC</span>
+	<span class="token opcode property">ADC</span> <span class="token hexnumber string">#$18</span>
+	<span class="token opcode property">TAY</span>
+	<span class="token opcode property">LDA</span> NoteFrequencyData, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> NextFrequencyLo
+	<span class="token opcode property">LDA</span> NoteFrequencyData + <span class="token decimalnumber string">1</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> NextFrequencyHi
+
+PlayNote_FrequencyOctaveLoop:
+	<span class="token opcode property">LSR</span> NextFrequencyHi
+	<span class="token opcode property">ROR</span> NextFrequencyLo
+	<span class="token opcode property">DEC</span> NextOctave
+	<span class="token opcode property">BNE</span> PlayNote_FrequencyOctaveLoop
+
+	<span class="token opcode property">PLA</span>
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$38</span>
+	<span class="token opcode property">BCC</span> PlayNote_CheckSquareChorus
+&nbsp;</code></pre><aside><p>tweak the frequency for notes >= $38</p>
+&nbsp;</aside><pre><a name="l1282" href="#l1282" title="Link to line 1282">#</a><code>	<span class="token opcode property">DEC</span> NextFrequencyLo
+&nbsp;</code></pre><aside><p>Square 2 plays slightly detuned when Square 1 is using instrument E0</p>
+<p>This can be used to achieve a honky tonk piano effect, which is used for the
+title screen as well as the bridge of the overworld theme.</p>
+&nbsp;</aside><pre><a name="l1290" href="#l1290" title="Link to line 1290">#</a><code>PlayNote_CheckSquareChorus:
+	<span class="token opcode property">TXA</span>
+	<span class="token opcode property">CMP</span> #APUOffset_Square<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">BNE</span> PlayNote_SetFrequency
+
+	<span class="token opcode property">LDA</span> MusicSquare<span class="token decimalnumber string">1</span>Patch
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$E0</span>
+	<span class="token opcode property">BEQ</span> PlayNote_SetFrequency_Square<span class="token decimalnumber string">2</span>Detuned
+
+IFDEF EXPAND_MUSIC
+	<span class="token opcode property">LDA</span> MusicSquare<span class="token decimalnumber string">1</span>NoteBend, <span class="token register variable">X</span>
+	<span class="token opcode property">BNE</span> NoteBendStashFrequency
+ENDIF
+
+PlayNote_SetFrequency:
+	<span class="token opcode property">LDA</span> NextFrequencyLo
+	<span class="token opcode property">STA</span> SQ<span class="token decimalnumber string">1</span>_LO, <span class="token register variable">X</span>
+	<span class="token opcode property">STA</span> MusicSquare<span class="token decimalnumber string">1</span>Lo, <span class="token register variable">X</span> <span class="token comment">; unused</span>
+	<span class="token opcode property">LDA</span> NextFrequencyHi
+	<span class="token opcode property">ORA</span> <span class="token hexnumber string">#$08</span>
+	<span class="token opcode property">STA</span> SQ<span class="token decimalnumber string">1</span>_HI, <span class="token register variable">X</span>
+	<span class="token opcode property">RTS</span>
+
+PlayNote_SetFrequency_Square<span class="token decimalnumber string">2</span>Detuned:
+	<span class="token opcode property">LDA</span> NextFrequencyLo
+	<span class="token opcode property">SEC</span>
+	<span class="token opcode property">SBC</span> <span class="token hexnumber string">#$02</span>
+	<span class="token opcode property">STA</span> SQ<span class="token decimalnumber string">2</span>_LO
+	<span class="token opcode property">STA</span> MusicSquare<span class="token decimalnumber string">2</span>Lo
+	<span class="token opcode property">LDA</span> NextFrequencyHi
+	<span class="token opcode property">ORA</span> <span class="token hexnumber string">#$08</span>
+	<span class="token opcode property">STA</span> SQ<span class="token decimalnumber string">2</span>_HI
+	<span class="token opcode property">RTS</span>
+&nbsp;</code></pre><aside><p>(not referenced)
+Sets volume/sweep on Square 2 channel and plays a note</p>
+<p>Input
+A = note
+X = duty/volume/envelope
+Y = sweep</p>
+&nbsp;</aside><pre><a name="l1331" href="#l1331" title="Link to line 1331">#</a><code>PlaySquare<span class="token decimalnumber string">2</span>Sweep:
+	<span class="token opcode property">STX</span> SQ<span class="token decimalnumber string">2</span>_VOL
+	<span class="token opcode property">STY</span> SQ<span class="token decimalnumber string">2</span>_SWEEP
+&nbsp;</code></pre><aside><p>Play a note on the Square 2 channel</p>
+<p>Input
+A = note</p>
+&nbsp;</aside><pre><a name="l1339" href="#l1339" title="Link to line 1339">#</a><code>PlaySquare<span class="token decimalnumber string">2</span>Note:
+	<span class="token opcode property">LDX</span> #APUOffset_Square<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">BNE</span> PlayNote
+&nbsp;</code></pre><aside><p>Play a note on the Triangle channel</p>
+<p>Input
+A = note</p>
+&nbsp;</aside><pre><a name="l1347" href="#l1347" title="Link to line 1347">#</a><code>PlayTriangleNote:
+	<span class="token opcode property">LDX</span> #APUOffset_Triangle
+	<span class="token opcode property">BNE</span> PlayNote
+
+
+IFDEF EXPAND_MUSIC&nbsp;</code></pre><aside><p>Determines whether the currently playing track should stop</p>
+<p>Input
+A = MusicPlaying2</p>
+&nbsp;</aside><pre><a name="l1359" href="#l1359" title="Link to line 1359">#</a><code>CheckStopMusic:
+	<span class="token opcode property">CMP</span> #Music<span class="token decimalnumber string">1</span>_Overworld
+	<span class="token opcode property">BEQ</span> CheckStopMusic_Resume
+	<span class="token opcode property">CMP</span> #Music<span class="token decimalnumber string">1</span>_Inside
+	<span class="token opcode property">BEQ</span> CheckStopMusic_Resume
+	<span class="token opcode property">CMP</span> #Music<span class="token decimalnumber string">1</span>_Subspace
+	<span class="token opcode property">BEQ</span> CheckStopMusic_Resume
+
+CheckStopMusic_Stop:
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$00</span>
+	<span class="token opcode property">RTS</span>
+
+CheckStopMusic_Resume:
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$01</span>
+	<span class="token opcode property">RTS</span>
+
+&nbsp;</code></pre><aside><p>Reads ahead to see if we have a note bend</p>
+&nbsp;</aside><pre><a name="l1379" href="#l1379" title="Link to line 1379">#</a><code>CheckSquare<span class="token decimalnumber string">2</span>NoteBend:
+	<span class="token opcode property">LDY</span> CurrentMusicSquare<span class="token decimalnumber string">2</span>Offset
+	<span class="token opcode property">LDA</span> (CurrentMusicPointer), <span class="token register variable">Y</span>
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$FF</span>
+	<span class="token opcode property">BNE</span> CheckSquare<span class="token decimalnumber string">2</span>NoteBend_Exit
+
+	<span class="token opcode property">INC</span> CurrentMusicSquare<span class="token decimalnumber string">2</span>Offset
+
+	<span class="token opcode property">LDA</span> MusicSquare<span class="token decimalnumber string">2</span>Lo
+	<span class="token opcode property">STA</span> MusicSquare<span class="token decimalnumber string">2</span>NoteBend
+
+	<span class="token opcode property">PLA</span>
+	<span class="token opcode property">PLA</span>
+	<span class="token opcode property">JMP</span> ProcessMusicQueue_Square<span class="token decimalnumber string">2</span>NextOffset
+
+CheckSquare<span class="token decimalnumber string">2</span>NoteBend_Exit:
+	<span class="token opcode property">RTS</span>
+
+&nbsp;</code></pre><aside><p>Reads ahead to see if we have a note bend</p>
+&nbsp;</aside><pre><a name="l1401" href="#l1401" title="Link to line 1401">#</a><code>CheckSquare<span class="token decimalnumber string">1</span>NoteBend:
+	<span class="token opcode property">LDY</span> CurrentMusicSquare<span class="token decimalnumber string">1</span>Offset
+	<span class="token opcode property">LDA</span> (CurrentMusicPointer), <span class="token register variable">Y</span>
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$FF</span>
+	<span class="token opcode property">BNE</span> CheckSquare<span class="token decimalnumber string">1</span>NoteBend_Exit
+
+	<span class="token opcode property">INC</span> CurrentMusicSquare<span class="token decimalnumber string">1</span>Offset
+
+	<span class="token opcode property">LDA</span> MusicSquare<span class="token decimalnumber string">1</span>Lo
+	<span class="token opcode property">STA</span> MusicSquare<span class="token decimalnumber string">1</span>NoteBend
+
+	<span class="token opcode property">PLA</span>
+	<span class="token opcode property">PLA</span>
+	<span class="token opcode property">JMP</span> ProcessMusicQueue_Square<span class="token decimalnumber string">1</span>NextOffset
+
+CheckSquare<span class="token decimalnumber string">1</span>NoteBend_Exit:
+	<span class="token opcode property">RTS</span>
+
+
+NoteBendStashFrequency:&nbsp;</code></pre><aside><p>If bend is in effect, this stores the last set frequency</p>
+&nbsp;</aside><pre><a name="l1422" href="#l1422" title="Link to line 1422">#</a><code>	<span class="token opcode property">LDA</span> &#x3C;NextFrequencyLo
+	<span class="token opcode property">STA</span> MusicSquare<span class="token decimalnumber string">1</span>Lo, <span class="token register variable">X</span>
+	<span class="token opcode property">RTS</span>
+
+&nbsp;</code></pre><aside><p>Updates note bend</p>
+<p>Input
+A = rest time remaining
+X = channel
+$00: square 1
+$04: square 2</p>
+&nbsp;</aside><pre><a name="l1436" href="#l1436" title="Link to line 1436">#</a><code>UpdateNoteBend:
+	<span class="token opcode property">AND</span> <span class="token binarynumber string">#%00000011</span>
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$03</span>
+	<span class="token opcode property">BEQ</span> UpdateNoteBend_AfterDecrement
+
+	<span class="token opcode property">DEC</span> MusicSquare<span class="token decimalnumber string">1</span>NoteBend, <span class="token register variable">X</span>
+
+UpdateNoteBend_AfterDecrement:
+	<span class="token opcode property">LDA</span> MusicSquare<span class="token decimalnumber string">1</span>NoteBend, <span class="token register variable">X</span>
+	<span class="token opcode property">CMP</span> MusicSquare<span class="token decimalnumber string">1</span>Lo, <span class="token register variable">X</span>
+	<span class="token opcode property">BCS</span> UpdateNoteBend_Exit
+
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$00</span>
+	<span class="token opcode property">STA</span> MusicSquare<span class="token decimalnumber string">1</span>NoteBend, <span class="token register variable">X</span>
+	<span class="token opcode property">LDA</span> MusicSquare<span class="token decimalnumber string">1</span>Lo, <span class="token register variable">X</span>
+
+UpdateNoteBend_Exit:
+	<span class="token opcode property">STA</span> SQ<span class="token decimalnumber string">1</span>_LO, <span class="token register variable">X</span>
+	<span class="token opcode property">RTS</span>
+ENDIF
+
+&nbsp;</code></pre><aside><hr>
+<p>Various bits of the music engine have been extracted into separate files;
+see the individual files for details on the formats within</p>
+&nbsp;</aside><pre><a name="l1463" href="#l1463" title="Link to line 1463">#</a><code>&nbsp;</code></pre><aside><p>Frequency table for notes; standard between various Mario games</p>
+&nbsp;</aside><pre><a name="l1465" href="#l1465" title="Link to line 1465">#</a><code><span class="token directive keyword">.include</span> <a class="token string" href="/src/music/frequency-table.asm">"src/music/frequency-table.asm"</a><span class="token comment">;</span>
+&nbsp;</code></pre><aside><p>Unused space in the original ($875F - $8EFF)</p>
+&nbsp;</aside><pre><a name="l1468" href="#l1468" title="Link to line 1468">#</a><code>unusedSpace <span class="token hexnumber string">$8F00</span>, <span class="token hexnumber string">$FF</span>
+&nbsp;</code></pre><aside><p>Note lengths for various BPM settings</p>
+&nbsp;</aside><pre><a name="l1471" href="#l1471" title="Link to line 1471">#</a><code><span class="token directive keyword">.include</span> <a class="token string" href="/src/music/note-lengths.asm">"src/music/note-lengths.asm"</a><span class="token comment">;</span>
+&nbsp;</code></pre><aside><p>Unused space in the original ($8FB3 - $8FFF)</p>
+&nbsp;</aside><pre><a name="l1474" href="#l1474" title="Link to line 1474">#</a><code>unusedSpace <span class="token hexnumber string">$9000</span>, <span class="token hexnumber string">$FF</span>
+&nbsp;</code></pre><aside><p>Pointers to music segments</p>
+&nbsp;</aside><pre><a name="l1477" href="#l1477" title="Link to line 1477">#</a><code>IFNDEF EXPAND_MUSIC
+	<span class="token directive keyword">.include</span> <a class="token string" href="/src/music/music-part-pointers.asm">"src/music/music-part-pointers.asm"</a>
+ELSE
+	<span class="token directive keyword">.include</span> <a class="token string" href="/src/music/music-part-pointers-expanded.asm">"src/music/music-part-pointers-expanded.asm"</a>
+ENDIF
+&nbsp;</code></pre><aside><p>Headers for songs (BPM, tracks to use, etc)</p>
+&nbsp;</aside><pre><a name="l1484" href="#l1484" title="Link to line 1484">#</a><code><span class="token directive keyword">.include</span> <a class="token string" href="/src/music/music-headers.asm">"src/music/music-headers.asm"</a>
+&nbsp;</code></pre><aside><p>More music pointers</p>
+&nbsp;</aside><pre><a name="l1487" href="#l1487" title="Link to line 1487">#</a><code><span class="token directive keyword">.include</span> <a class="token string" href="/src/music/music-pointers.asm">"src/music/music-pointers.asm"</a>
+&nbsp;</code></pre><aside><p>Music and track data</p>
+&nbsp;</aside><pre><a name="l1490" href="#l1490" title="Link to line 1490">#</a><code><span class="token directive keyword">.include</span> <a class="token string" href="/src/music/music-data.asm">"src/music/music-data.asm"</a>
+&nbsp;</code></pre><aside><p>Instrument data and definitions</p>
+&nbsp;</aside><pre><a name="l1493" href="#l1493" title="Link to line 1493">#</a><code><span class="token directive keyword">.include</span> <a class="token string" href="/src/music/instruments.asm">"src/music/instruments.asm"</a>
+&nbsp;</code></pre></section></article></main><footer class="sc-htpNat iPvEnY"><p>All product names, logos, and brands are property of their respective owners.</p><p>Annotated disassembly site generator © <!-- -->2019<!-- --> <!-- -->Keith McKnight</p><ul><li><a href="https://github.com/XKeeper0/smb2">GitHub</a></li><li><a href="https://discord.gg/TsWMMeV">Discord</a></li></ul></footer></div></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/src/prg-4-5.asm";window.webpackCompilationHash="2ea601db5f4c75781233";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-e5123abf2b9d78ccb9b7.js"],"component---src-templates-asm-source-jsx":["/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js"],"component---src-templates-asm-directory-jsx":["/component---src-templates-asm-directory-jsx-de110ce639b73c006858.js"],"component---src-pages-404-jsx":["/component---src-pages-404-jsx-2d3be97110fe6b1cc813.js"],"component---src-pages-index-jsx":["/component---src-pages-index-jsx-90677ee39103ae00023b.js"]};/*]]>*/</script><script src="/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js" async=""></script><script src="/commons-96edcb9e9a406c302a22.js" async=""></script><script src="/app-e5123abf2b9d78ccb9b7.js" async=""></script><script src="/webpack-runtime-14b29e9f338a0ab3ef0b.js" async=""></script></body></html>

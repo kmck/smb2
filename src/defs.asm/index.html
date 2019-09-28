@@ -1,0 +1,776 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 2.15.20"/><title data-react-helmet="true">/src/defs.asm | Super Mario Bros 2. Discombobulated</title><meta data-react-helmet="true" name="description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:title" content="/src/defs.asm"/><meta data-react-helmet="true" property="og:description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:creator" content="Keith McKnight"/><meta data-react-helmet="true" name="twitter:title" content="/src/defs.asm"/><meta data-react-helmet="true" name="twitter:description" content="The annotated disassembly of SMB2 (USA) for NES."/><link rel="shortcut icon" href="/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#663399"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=008654519ce705ac7bc44303a9014606"/><link as="script" rel="preload" href="/webpack-runtime-14b29e9f338a0ab3ef0b.js"/><link as="script" rel="preload" href="/app-e5123abf2b9d78ccb9b7.js"/><link as="script" rel="preload" href="/commons-96edcb9e9a406c302a22.js"/><link as="script" rel="preload" href="/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js"/><link as="fetch" rel="preload" href="/page-data/src/defs.asm/page-data.json" crossorigin="anonymous"/></head><body><noscript id="gatsby-noscript">This app works best with JavaScript enabled.</noscript><div id="___gatsby"><div style="outline:none" tabindex="-1" role="group" id="gatsby-focus-wrapper"><div class="sc-bxivhb itivNt"><header class="sc-bwzfXH kFCqhj"><a href="https://github.com/XKeeper0/smb2"><svg class="sc-bdVaJa eSEdyA" fill="#fcfcfc" height="80" viewBox="0 0 250 250" width="80" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l115 115h15l12 27 108 108V0z"></path><g class="octocat" fill="#f65b98"><path class="octocat-arm" d="M128 109c-15-9-9-19-9-19 3-7 2-11 2-11-1-7 3-2 3-2 4 5 2 11 2 11-3 10 5 15 9 16" style="transform-origin:130px 106px"></path><path class="octocat-body" d="M115 115s4 2 5 0l14-14c3-2 6-3 8-3-8-11-15-24 2-41 5-5 10-7 16-7 1-2 3-7 12-11 0 0 5 3 7 16 4 2 8 5 12 9s7 8 9 12c14 3 17 7 17 7-4 8-9 11-11 11 0 6-2 11-7 16-16 16-30 10-41 2 0 3-1 7-5 11l-12 11c-1 1 1 5 1 5z"></path></g></svg></a><h1><a href="/">Super Mario Bros 2. Discombobulated</a></h1><p>The annotated disassembly of SMB2 (USA) for NES.</p></header><main><article class="sc-ifAKCX fpwdji"><header><h3>/src/defs.asm</h3></header><section><aside>
+&nbsp;</aside><pre><a name="l1" href="#l1" title="Link to line 1">#</a><code>.ignorenl
+
+IF INES_MAPPER == MAPPER_FME<span class="token decimalnumber string">7</span>
+  VMirror = <span class="token hexnumber string">$00</span>
+  HMirror = <span class="token hexnumber string">$01</span>
+ELSEIF INES_MAPPER == MAPPER_MMC<span class="token decimalnumber string">5</span>
+  VMirror = <span class="token hexnumber string">$44</span>
+  HMirror = <span class="token hexnumber string">$50</span>
+  NametableMapping = <span class="token hexnumber string">$5105</span>
+ELSE <span class="token comment">; INES_MAPPER == MAPPER_MMC3</span>
+  VMirror = <span class="token hexnumber string">$00</span>
+  HMirror = <span class="token hexnumber string">$01</span>
+  NametableMapping = <span class="token hexnumber string">$A000</span>
+ENDIF
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l17" href="#l17" title="Link to line 17">#</a><code>&nbsp;</code></pre><aside><p>Each level has a maximum of 10 ($00~$09) areas.
+Extra ones are generally empty or pointers to the last 'real' area.
+"Common jars", if used in a level, occupy area $04.
+but if common jars aren't used, it can (and often is) a regular area.</p>
+&nbsp;</aside><pre><a name="l22" href="#l22" title="Link to line 22">#</a><code>AreaIndex_Start = <span class="token hexnumber string">$00</span>
+AreaIndex_Jar = <span class="token hexnumber string">$04</span>
+&nbsp;</code></pre><aside><p>enum PlayerStates (width 1 byte)</p>
+&nbsp;</aside><pre><a name="l26" href="#l26" title="Link to line 26">#</a><code>PlayerState_Normal = <span class="token hexnumber string">$00</span>
+PlayerState_Climbing = <span class="token hexnumber string">$01</span>
+PlayerState_Lifting = <span class="token hexnumber string">$02</span>
+PlayerState_ClimbingAreaTransition = <span class="token hexnumber string">$03</span>
+PlayerState_GoingDownJar = <span class="token hexnumber string">$04</span>
+PlayerState_ExitingJar = <span class="token hexnumber string">$05</span>
+PlayerState_HawkmouthEating = <span class="token hexnumber string">$06</span>
+PlayerState_Dying = <span class="token hexnumber string">$07</span>
+PlayerState_ChangingSize = <span class="token hexnumber string">$08</span>
+&nbsp;</code></pre><aside><p>enum TransitionTypes (width 1 byte)</p>
+&nbsp;</aside><pre><a name="l37" href="#l37" title="Link to line 37">#</a><code>TransitionType_Reset = <span class="token hexnumber string">$00</span>
+TransitionType_Door = <span class="token hexnumber string">$01</span>
+TransitionType_Jar = <span class="token hexnumber string">$02</span>
+TransitionType_Vine = <span class="token hexnumber string">$03</span>
+TransitionType_SubSpace = <span class="token hexnumber string">$04</span>
+TransitionType_Rocket = <span class="token hexnumber string">$05</span>
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l45" href="#l45" title="Link to line 45">#</a><code>&nbsp;</code></pre><aside><p>enum Characters</p>
+&nbsp;</aside><pre><a name="l47" href="#l47" title="Link to line 47">#</a><code>Character_Mario = <span class="token hexnumber string">$00</span>
+Character_Princess = <span class="token hexnumber string">$01</span>
+Character_Toad = <span class="token hexnumber string">$02</span>
+Character_Luigi = <span class="token hexnumber string">$03</span>
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l53" href="#l53" title="Link to line 53">#</a><code>&nbsp;</code></pre><aside><p>enum APUOffset</p>
+&nbsp;</aside><pre><a name="l55" href="#l55" title="Link to line 55">#</a><code>APUOffset_Square<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$00</span>
+APUOffset_Square<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$04</span>
+APUOffset_Triangle = <span class="token hexnumber string">$08</span>
+APUOffset_Noise = <span class="token hexnumber string">$0C</span>
+&nbsp;</code></pre><aside><p>enum Music1</p>
+&nbsp;</aside><pre><a name="l61" href="#l61" title="Link to line 61">#</a><code>IFNDEF EXPAND_MUSIC
+  Music<span class="token decimalnumber string">1</span>_Overworld = <span class="token hexnumber string">$01</span>
+  Music<span class="token decimalnumber string">1</span>_CharacterSelect = <span class="token hexnumber string">$02</span>
+  Music<span class="token decimalnumber string">1</span>_Inside = <span class="token hexnumber string">$04</span>
+  Music<span class="token decimalnumber string">1</span>_Boss = <span class="token hexnumber string">$08</span>
+  Music<span class="token decimalnumber string">1</span>_Invincible = <span class="token hexnumber string">$10</span>
+  Music<span class="token decimalnumber string">1</span>_Subspace = <span class="token hexnumber string">$20</span>
+  Music<span class="token decimalnumber string">1</span>_Wart = <span class="token hexnumber string">$40</span>
+  Music<span class="token decimalnumber string">1</span>_Title = <span class="token hexnumber string">$80</span>
+ELSE
+  Music<span class="token decimalnumber string">1</span>_Overworld = <span class="token hexnumber string">$01</span>
+  Music<span class="token decimalnumber string">1</span>_CharacterSelect = <span class="token hexnumber string">$02</span>
+  Music<span class="token decimalnumber string">1</span>_Inside = <span class="token hexnumber string">$03</span>
+  Music<span class="token decimalnumber string">1</span>_Boss = <span class="token hexnumber string">$04</span>
+  Music<span class="token decimalnumber string">1</span>_Invincible = <span class="token hexnumber string">$05</span>
+  Music<span class="token decimalnumber string">1</span>_Subspace = <span class="token hexnumber string">$06</span>
+  Music<span class="token decimalnumber string">1</span>_Wart = <span class="token hexnumber string">$07</span>
+  Music<span class="token decimalnumber string">1</span>_Title = <span class="token hexnumber string">$08</span>
+ENDIF
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l82" href="#l82" title="Link to line 82">#</a><code>&nbsp;</code></pre><aside><p>enum Music2</p>
+&nbsp;</aside><pre><a name="l84" href="#l84" title="Link to line 84">#</a><code>IFNDEF EXPAND_MUSIC
+  Music<span class="token decimalnumber string">2</span>_MushroomGetJingle = <span class="token hexnumber string">$01</span>
+  Music<span class="token decimalnumber string">2</span>_BossClearFanfare = <span class="token hexnumber string">$02</span>
+  Music<span class="token decimalnumber string">2</span>_EndingAndCast = <span class="token hexnumber string">$04</span>
+  Music<span class="token decimalnumber string">2</span>_DeathJingle = <span class="token hexnumber string">$08</span>
+  Music<span class="token decimalnumber string">2</span>_GameOver = <span class="token hexnumber string">$10</span>
+  Music<span class="token decimalnumber string">2</span>_CrystalGetFanfare = <span class="token hexnumber string">$20</span>
+  Music<span class="token decimalnumber string">2</span>_SlotWarpFanfare = <span class="token hexnumber string">$40</span>
+ELSE
+  Music<span class="token decimalnumber string">2</span>_MushroomGetJingle = <span class="token hexnumber string">$01</span>
+  Music<span class="token decimalnumber string">2</span>_BossClearFanfare = <span class="token hexnumber string">$02</span>
+  Music<span class="token decimalnumber string">2</span>_EndingAndCast = <span class="token hexnumber string">$03</span>
+  Music<span class="token decimalnumber string">2</span>_DeathJingle = <span class="token hexnumber string">$04</span>
+  Music<span class="token decimalnumber string">2</span>_GameOver = <span class="token hexnumber string">$05</span>
+  Music<span class="token decimalnumber string">2</span>_CrystalGetFanfare = <span class="token hexnumber string">$06</span>
+  Music<span class="token decimalnumber string">2</span>_SlotWarpFanfare = <span class="token hexnumber string">$07</span>
+ENDIF
+Music<span class="token decimalnumber string">2</span>_StopMusic = <span class="token hexnumber string">$80</span>
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l104" href="#l104" title="Link to line 104">#</a><code>&nbsp;</code></pre><aside><p>enum ControllerInput (bitfield) (width 1 byte)</p>
+&nbsp;</aside><pre><a name="l106" href="#l106" title="Link to line 106">#</a><code>ControllerInput_Right = <span class="token binarynumber string">%00000001</span>
+ControllerInput_Left = <span class="token binarynumber string">%00000010</span>
+ControllerInput_Down = <span class="token binarynumber string">%00000100</span>
+ControllerInput_Up =  <span class="token binarynumber string">%00001000</span>
+ControllerInput_Start = <span class="token binarynumber string">%00010000</span>
+ControllerInput_Select = <span class="token binarynumber string">%00100000</span>
+ControllerInput_B = <span class="token binarynumber string">%01000000</span>
+ControllerInput_A = <span class="token binarynumber string">%10000000</span>
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l116" href="#l116" title="Link to line 116">#</a><code>&nbsp;</code></pre><aside><p>enum DPCM (width 1 byte)</p>
+&nbsp;</aside><pre><a name="l118" href="#l118" title="Link to line 118">#</a><code>IFNDEF EXPAND_MUSIC
+  DPCM_DoorOpenBombBom = <span class="token hexnumber string">$01</span>
+  DPCM_DrumSample_A = <span class="token hexnumber string">$02</span>
+  DPCM_PlayerHurt = <span class="token hexnumber string">$04</span>
+  DPCM_ItemPull = <span class="token hexnumber string">$08</span>
+  DPCM_BossDeath = <span class="token hexnumber string">$10</span>
+  DPCM_DrumSample_B = <span class="token hexnumber string">$20</span>
+  DPCM_BossHurt = <span class="token hexnumber string">$40</span>
+  DPCM_PlayerDeath = <span class="token hexnumber string">$80</span>
+ELSE
+  DPCM_DoorOpenBombBom = <span class="token hexnumber string">$01</span>
+  DPCM_DrumSample_A = <span class="token hexnumber string">$02</span>
+  DPCM_PlayerHurt = <span class="token hexnumber string">$03</span>
+  DPCM_ItemPull = <span class="token hexnumber string">$04</span>
+  DPCM_BossDeath = <span class="token hexnumber string">$05</span>
+  DPCM_DrumSample_B = <span class="token hexnumber string">$06</span>
+  DPCM_BossHurt = <span class="token hexnumber string">$07</span>
+  DPCM_PlayerDeath = <span class="token hexnumber string">$08</span>
+ENDIF
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l139" href="#l139" title="Link to line 139">#</a><code>&nbsp;</code></pre><aside><p>enum SoundEffect1 (width 1 byte)</p>
+&nbsp;</aside><pre><a name="l141" href="#l141" title="Link to line 141">#</a><code>SoundEffect<span class="token decimalnumber string">1</span>_BirdoShot = <span class="token hexnumber string">$01</span>
+SoundEffect<span class="token decimalnumber string">1</span>_PotionDoorBong = <span class="token hexnumber string">$02</span>
+SoundEffect<span class="token decimalnumber string">1</span>_CherryGet = <span class="token hexnumber string">$04</span>
+SoundEffect<span class="token decimalnumber string">1</span>_ThrowItem = <span class="token hexnumber string">$08</span>
+SoundEffect<span class="token decimalnumber string">1</span>_<span class="token decimalnumber string">1</span>UP = <span class="token hexnumber string">$10</span>
+SoundEffect<span class="token decimalnumber string">1</span>_EnemyHit = <span class="token hexnumber string">$20</span>
+SoundEffect<span class="token decimalnumber string">1</span>_StopwatchTick = <span class="token hexnumber string">$40</span>
+SoundEffect<span class="token decimalnumber string">1</span>_HawkOpen_WartBarf = <span class="token hexnumber string">$80</span>
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l151" href="#l151" title="Link to line 151">#</a><code>&nbsp;</code></pre><aside><p>enum PRGBank (width 1 byte)</p>
+&nbsp;</aside><pre><a name="l153" href="#l153" title="Link to line 153">#</a><code>PRGBank_<span class="token decimalnumber string">0</span>_<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$00</span>
+PRGBank_<span class="token decimalnumber string">2</span>_<span class="token decimalnumber string">3</span> = <span class="token hexnumber string">$01</span>
+PRGBank_<span class="token decimalnumber string">4</span>_<span class="token decimalnumber string">5</span> = <span class="token hexnumber string">$02</span>
+PRGBank_<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">7</span> = <span class="token hexnumber string">$03</span>
+PRGBank_<span class="token decimalnumber string">8</span>_<span class="token decimalnumber string">9</span> = <span class="token hexnumber string">$04</span>
+PRGBank_A_B = <span class="token hexnumber string">$05</span>
+PRGBank_C_D = <span class="token hexnumber string">$06</span>
+PRGBank_E_F = <span class="token hexnumber string">$07</span>
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l163" href="#l163" title="Link to line 163">#</a><code>&nbsp;</code></pre><aside><p>enum ScreenUpdateBuffer</p>
+&nbsp;</aside><pre><a name="l165" href="#l165" title="Link to line 165">#</a><code>ScreenUpdateBuffer_RAM_<span class="token decimalnumber string">301</span> = <span class="token hexnumber string">$00</span>
+ScreenUpdateBuffer_RAM_<span class="token decimalnumber string">583</span> = <span class="token hexnumber string">$01</span>
+ScreenUpdateBuffer_RAM_<span class="token decimalnumber string">55</span>F = <span class="token hexnumber string">$02</span>
+ScreenUpdateBuffer_CharacterSelect = <span class="token hexnumber string">$03</span>
+ScreenUpdateBuffer_BANKE_DE<span class="token decimalnumber string">7</span><span class="token register variable">A</span> = <span class="token hexnumber string">$04</span>
+ScreenUpdateBuffer_Text_Game_Over = <span class="token hexnumber string">$05</span>
+ScreenUpdateBuffer_RAM_<span class="token decimalnumber string">67</span>B = <span class="token hexnumber string">$06</span>
+ScreenUpdateBuffer_Text_Retry = <span class="token hexnumber string">$07</span>
+ScreenUpdateBuffer_RAM_<span class="token decimalnumber string">7168</span> = <span class="token hexnumber string">$08</span> <span class="token comment">; pause / title card?</span>
+ScreenUpdateBuffer_RAM_<span class="token decimalnumber string">67</span>B_again = <span class="token hexnumber string">$09</span>
+ScreenUpdateBuffer_RAM_<span class="token decimalnumber string">693</span> = <span class="token hexnumber string">$0A</span>
+ScreenUpdateBuffer_RAM_<span class="token decimalnumber string">6</span>ab = <span class="token hexnumber string">$0B</span>
+ScreenUpdateBuffer_RAM_<span class="token decimalnumber string">6</span>bd = <span class="token hexnumber string">$0C</span>
+ScreenUpdateBuffer_RAM_<span class="token decimalnumber string">6</span>cc = <span class="token hexnumber string">$0D</span>
+ScreenUpdateBuffer_RAM_<span class="token decimalnumber string">6</span>e<span class="token decimalnumber string">9</span> = <span class="token hexnumber string">$0E</span>
+ScreenUpdateBuffer_RAM_<span class="token decimalnumber string">6</span>da = <span class="token hexnumber string">$0F</span>
+ScreenUpdateBuffer_RAM_<span class="token decimalnumber string">6</span>df = <span class="token hexnumber string">$10</span>
+ScreenUpdateBuffer_RAM_<span class="token decimalnumber string">6</span>e<span class="token decimalnumber string">4</span> = <span class="token hexnumber string">$11</span>
+ScreenUpdateBuffer_RAM_<span class="token decimalnumber string">7194</span> = <span class="token hexnumber string">$12</span>
+ScreenUpdateBuffer_RAM_<span class="token decimalnumber string">71</span><span class="token register variable">a</span><span class="token decimalnumber string">8</span> = <span class="token hexnumber string">$13</span>
+ScreenUpdateBuffer_RAM_<span class="token decimalnumber string">721</span>b = <span class="token hexnumber string">$14</span>
+ScreenUpdateBuffer_TitleCard = <span class="token hexnumber string">$15</span>
+ScreenUpdateBuffer_PauseExtraLife = <span class="token hexnumber string">$16</span>
+ScreenUpdateBuffer_RAM_BonusChanceLayout = <span class="token hexnumber string">$17</span>
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l191" href="#l191" title="Link to line 191">#</a><code>&nbsp;</code></pre><aside><p>enum EndingUpdateBuffer (width 1 byte)</p>
+&nbsp;</aside><pre><a name="l193" href="#l193" title="Link to line 193">#</a><code>EndingUpdateBuffer_RAM_<span class="token decimalnumber string">301</span> = <span class="token hexnumber string">$00</span>
+EndingUpdateBuffer_JarRoom = <span class="token hexnumber string">$01</span>
+EndingUpdateBuffer_CeilingTextAndPodium = <span class="token hexnumber string">$02</span>
+EndingUpdateBuffer_FloorAndSubconParade = <span class="token hexnumber string">$03</span>
+EndingUpdateBuffer_PaletteFade<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$04</span>
+EndingUpdateBuffer_PaletteFade<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$05</span>
+EndingUpdateBuffer_PaletteFade<span class="token decimalnumber string">3</span> = <span class="token hexnumber string">$06</span>
+EndingUpdateBuffer_SubconStandStill = <span class="token hexnumber string">$07</span>
+EndingUpdateBuffer_Unused_THE_END = <span class="token hexnumber string">$08</span>
+EndingUpdateBuffer_Text_MARIO = <span class="token hexnumber string">$09</span>
+EndingUpdateBuffer_Text_PRINCESS = <span class="token hexnumber string">$0A</span>
+EndingUpdateBuffer_Text_TOAD = <span class="token hexnumber string">$0B</span>
+EndingUpdateBuffer_Text_LUIGI = <span class="token hexnumber string">$0C</span>
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l208" href="#l208" title="Link to line 208">#</a><code>&nbsp;</code></pre><aside><p>enum SoundEffect2 (width 1 byte)</p>
+&nbsp;</aside><pre><a name="l210" href="#l210" title="Link to line 210">#</a><code>SoundEffect<span class="token decimalnumber string">2</span>_Jump = <span class="token hexnumber string">$01</span>
+SoundEffect<span class="token decimalnumber string">2</span>_Climbing = <span class="token hexnumber string">$02</span>
+SoundEffect<span class="token decimalnumber string">2</span>_CoinGet = <span class="token hexnumber string">$04</span>
+SoundEffect<span class="token decimalnumber string">2</span>_Shrinking = <span class="token hexnumber string">$08</span>
+SoundEffect<span class="token decimalnumber string">2</span>_IntroFallSlide = <span class="token hexnumber string">$10</span>
+SoundEffect<span class="token decimalnumber string">2</span>_Growing = <span class="token hexnumber string">$20</span>
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l218" href="#l218" title="Link to line 218">#</a><code>&nbsp;</code></pre><aside><p>enum PPUStatus (bitfield) (width 1 byte)</p>
+&nbsp;</aside><pre><a name="l220" href="#l220" title="Link to line 220">#</a><code>PPUStatus_SpriteOverflow = <span class="token binarynumber string">%100000</span>
+PPUStatus_Sprite<span class="token decimalnumber string">0</span>Hit = <span class="token binarynumber string">%1000000</span>
+PPUStatus_VBlankHit = <span class="token binarynumber string">%10000000</span>
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l225" href="#l225" title="Link to line 225">#</a><code>&nbsp;</code></pre><aside><p>enum SoundEffect3</p>
+&nbsp;</aside><pre><a name="l227" href="#l227" title="Link to line 227">#</a><code>SoundEffect<span class="token decimalnumber string">3</span>_ShortNoise = <span class="token hexnumber string">$01</span> <span class="token comment">; Whale spout</span>
+SoundEffect<span class="token decimalnumber string">3</span>_Rumble_A = <span class="token hexnumber string">$02</span> <span class="token comment">; Rocket</span>
+SoundEffect<span class="token decimalnumber string">3</span>_Rumble_B = <span class="token hexnumber string">$04</span> <span class="token comment">; POW rumble</span>
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l232" href="#l232" title="Link to line 232">#</a><code>&nbsp;</code></pre><aside><p>enum SlotMachineSymbols (width 1 byte)</p>
+&nbsp;</aside><pre><a name="l234" href="#l234" title="Link to line 234">#</a><code>Slot_Cherry = <span class="token hexnumber string">$00</span>
+Slot_Star = <span class="token hexnumber string">$08</span>
+Slot_Turnip = <span class="token hexnumber string">$10</span>
+Slot_Snifit = <span class="token hexnumber string">$18</span>
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l240" href="#l240" title="Link to line 240">#</a><code>&nbsp;</code></pre><aside><p>enum SpriteAnimations</p>
+&nbsp;</aside><pre><a name="l242" href="#l242" title="Link to line 242">#</a><code>SpriteAnimation_Walking = <span class="token hexnumber string">$00</span>
+SpriteAnimation_WalkingCarrying = <span class="token hexnumber string">$01</span>
+SpriteAnimation_Standing = <span class="token hexnumber string">$02</span>
+SpriteAnimation_StandingCarrying = <span class="token hexnumber string">$03</span>
+SpriteAnimation_Ducking = <span class="token hexnumber string">$04</span>
+SpriteAnimation_<span class="token decimalnumber string">5</span> = <span class="token hexnumber string">$05</span>
+SpriteAnimation_Jumping = <span class="token hexnumber string">$06</span>
+SpriteAnimation_Dead = <span class="token hexnumber string">$07</span>
+SpriteAnimation_Pulling = <span class="token hexnumber string">$08</span>
+SpriteAnimation_Throwing = <span class="token hexnumber string">$09</span>
+SpriteAnimation_Climbing = <span class="token hexnumber string">$0A</span>
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l255" href="#l255" title="Link to line 255">#</a><code>&nbsp;</code></pre><aside><p>enum PlayerHealthValues</p>
+&nbsp;</aside><pre><a name="l257" href="#l257" title="Link to line 257">#</a><code>PlayerHealth_<span class="token decimalnumber string">1</span>_HP = <span class="token hexnumber string">$0F</span>
+PlayerHealth_<span class="token decimalnumber string">2</span>_HP = <span class="token hexnumber string">$1F</span>
+PlayerHealth_<span class="token decimalnumber string">3</span>_HP = <span class="token hexnumber string">$2F</span>
+PlayerHealth_<span class="token decimalnumber string">4</span>_HP = <span class="token hexnumber string">$3F</span>
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l263" href="#l263" title="Link to line 263">#</a><code>&nbsp;</code></pre><aside><p>enum PPUMaskBitmask (bitfield) (width 1 byte)</p>
+&nbsp;</aside><pre><a name="l265" href="#l265" title="Link to line 265">#</a><code>PPUMask_Grayscale = <span class="token binarynumber string">%00000001</span>
+PPUMask_ShowLeft<span class="token decimalnumber string">8</span>Pixels_BG = <span class="token binarynumber string">%00000010</span>
+PPUMask_ShowLeft<span class="token decimalnumber string">8</span>Pixels_SPR = <span class="token binarynumber string">%00000100</span>
+PPUMask_ShowBackground = <span class="token binarynumber string">%00001000</span>
+PPUMask_ShowSprites = <span class="token binarynumber string">%00010000</span>
+PPUMask_RedEmphasis = <span class="token binarynumber string">%00100000</span>
+PPUMask_GreenEmphasis = <span class="token binarynumber string">%01000000</span>
+PPUMask_BlueEmphasis = <span class="token binarynumber string">%10000000</span>
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l275" href="#l275" title="Link to line 275">#</a><code>&nbsp;</code></pre><aside><p>enum PPUTileDataLength (bitfield) (width 1 byte)</p>
+&nbsp;</aside><pre><a name="l277" href="#l277" title="Link to line 277">#</a><code>PPUData_Length = <span class="token hexnumber string">$00</span>
+PPUTileData_RepeatOneTile = <span class="token hexnumber string">$40</span>
+PPUData_Horizontal = <span class="token hexnumber string">$00</span>
+PPUData_Vertical = <span class="token hexnumber string">$80</span>
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l283" href="#l283" title="Link to line 283">#</a><code>&nbsp;</code></pre><aside><p>enum GameModes</p>
+&nbsp;</aside><pre><a name="l285" href="#l285" title="Link to line 285">#</a><code>GameMode_InGame = <span class="token hexnumber string">$00</span>
+GameMode_TitleCard = <span class="token hexnumber string">$01</span>
+GameMode_GameOver = <span class="token hexnumber string">$02</span>
+GameMode_BonusChance = <span class="token hexnumber string">$03</span>
+GameMode_Warp = <span class="token hexnumber string">$04</span>
+&nbsp;</code></pre><aside><p>enum Stack100</p>
+&nbsp;</aside><pre><a name="l292" href="#l292" title="Link to line 292">#</a><code>Stack<span class="token decimalnumber string">100</span>_Menu = <span class="token binarynumber string">%01000000</span> <span class="token comment">; static screens (eg. character select)</span>
+Stack<span class="token decimalnumber string">100</span>_Pause = <span class="token binarynumber string">%01000001</span> <span class="token comment">; static screen with muted square channels (pause)</span>
+Stack<span class="token decimalnumber string">100</span>_Transition = <span class="token binarynumber string">%10000000</span> <span class="token comment">; used for transitions, disable input and mirroring</span>
+Stack<span class="token decimalnumber string">100</span>_Gameplay = <span class="token binarynumber string">%11000000</span> <span class="token comment">; normal gameplay</span>
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l298" href="#l298" title="Link to line 298">#</a><code>&nbsp;</code></pre><aside><p>enum PPUControl (bitfield) (width 1 byte)</p>
+&nbsp;</aside><pre><a name="l300" href="#l300" title="Link to line 300">#</a><code>PPUCtrl_BaseAddress = <span class="token hexnumber string">$03</span>
+PPUCtrl_Base<span class="token decimalnumber string">2000</span> = <span class="token hexnumber string">$00</span>
+PPUCtrl_Base<span class="token decimalnumber string">2400</span> = <span class="token hexnumber string">$01</span>
+PPUCtrl_Base<span class="token decimalnumber string">2800</span> = <span class="token hexnumber string">$02</span>
+PPUCtrl_Base<span class="token decimalnumber string">2</span>C<span class="token decimalnumber string">00</span> = <span class="token hexnumber string">$03</span>
+PPUCtrl_WriteHorizontal = <span class="token hexnumber string">$00</span>
+PPUCtrl_WriteVertical = <span class="token hexnumber string">$04</span>
+PPUCtrl_Sprite<span class="token decimalnumber string">0000</span> = <span class="token hexnumber string">$00</span>
+PPUCtrl_Sprite<span class="token decimalnumber string">1000</span> = <span class="token hexnumber string">$08</span>
+PPUCtrl_Background<span class="token decimalnumber string">0000</span> = <span class="token hexnumber string">$00</span>
+PPUCtrl_Background<span class="token decimalnumber string">1000</span> = <span class="token hexnumber string">$10</span>
+PPUCtrl_SpriteSize<span class="token decimalnumber string">8</span><span class="token register variable">x</span><span class="token decimalnumber string">8</span> = <span class="token hexnumber string">$00</span>
+PPUCtrl_SpriteSize<span class="token decimalnumber string">8</span><span class="token register variable">x</span><span class="token decimalnumber string">16</span> = <span class="token hexnumber string">$20</span>
+PPUCtrl_NMIDisabled = <span class="token hexnumber string">$00</span>
+PPUCtrl_NMIEnabled = <span class="token hexnumber string">$80</span>
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l317" href="#l317" title="Link to line 317">#</a><code>&nbsp;</code></pre><aside><p>enum EnemyStates</p>
+&nbsp;</aside><pre><a name="l319" href="#l319" title="Link to line 319">#</a><code>EnemyState_Inactive = <span class="token hexnumber string">$00</span>
+EnemyState_Alive = <span class="token hexnumber string">$01</span>
+EnemyState_Dead = <span class="token hexnumber string">$02</span>
+EnemyState_BlockFizzle = <span class="token hexnumber string">$03</span>
+EnemyState_BombExploding = <span class="token hexnumber string">$04</span>
+EnemyState_PuffOfSmoke = <span class="token hexnumber string">$05</span>
+EnemyState_Sand = <span class="token hexnumber string">$06</span>
+EnemyState_Sinking = <span class="token hexnumber string">$07</span>
+EnemyState_<span class="token decimalnumber string">27</span> = <span class="token hexnumber string">$27</span>
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l330" href="#l330" title="Link to line 330">#</a><code>&nbsp;</code></pre><aside><p>enum ObjectAttribute (bitfield)</p>
+&nbsp;</aside><pre><a name="l332" href="#l332" title="Link to line 332">#</a><code>ObjAttrib_Palette = <span class="token binarynumber string">%00000011</span>
+ObjAttrib_Palette<span class="token decimalnumber string">0</span> = <span class="token hexnumber string">$00</span>
+ObjAttrib_Palette<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$01</span>
+ObjAttrib_Palette<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$02</span>
+ObjAttrib_Palette<span class="token decimalnumber string">3</span> = <span class="token hexnumber string">$03</span>
+ObjAttrib_Horizontal = <span class="token binarynumber string">%00000100</span> <span class="token comment">; use with ObjAttrib_16x32 for 32x16</span>
+ObjAttrib_FrontFacing = <span class="token binarynumber string">%00001000</span> <span class="token comment">; no direction-based mirroring</span>
+ObjAttrib_Mirrored = <span class="token binarynumber string">%00010000</span>
+ObjAttrib_BehindBackground = <span class="token binarynumber string">%00100000</span>
+ObjAttrib_<span class="token decimalnumber string">16</span><span class="token register variable">x</span><span class="token decimalnumber string">32</span> = <span class="token binarynumber string">%01000000</span>
+ObjAttrib_UpsideDown = <span class="token binarynumber string">%10000000</span> <span class="token comment">; appears behind background when pulling</span>
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l345" href="#l345" title="Link to line 345">#</a><code>&nbsp;</code></pre><aside><p>enum BackgroundTileIds</p>
+&nbsp;</aside><pre><a name="l347" href="#l347" title="Link to line 347">#</a><code>BackgroundTile_Black = <span class="token hexnumber string">$00</span>
+BackgroundTile_BgCloudLeft = <span class="token hexnumber string">$01</span>
+BackgroundTile_BgCloudRight = <span class="token hexnumber string">$02</span>
+BackgroundTile_BgCloudSmall = <span class="token hexnumber string">$03</span>
+BackgroundTile_WaterfallTop = <span class="token hexnumber string">$04</span>
+BackgroundTile_Waterfall = <span class="token hexnumber string">$05</span>
+BackgroundTile_WaterfallSplash = <span class="token hexnumber string">$06</span>
+BackgroundTile_Chain = <span class="token hexnumber string">$07</span>
+BackgroundTile_WaterTop = <span class="token hexnumber string">$08</span>
+BackgroundTile_HouseLeft = <span class="token hexnumber string">$09</span>
+BackgroundTile_Water = <span class="token hexnumber string">$0A</span>
+BackgroundTile_HouseMiddle = <span class="token hexnumber string">$0B</span>
+BackgroundTile_WaterWhale = <span class="token hexnumber string">$0C</span>
+BackgroundTile_HouseRight = <span class="token hexnumber string">$0D</span>
+BackgroundTile_Unused<span class="token decimalnumber string">0</span>E = <span class="token hexnumber string">$0E</span>
+BackgroundTile_Unused<span class="token decimalnumber string">0</span>F = <span class="token hexnumber string">$0F</span>
+BackgroundTile_Unused<span class="token decimalnumber string">10</span> = <span class="token hexnumber string">$10</span>
+BackgroundTile_WaterWhaleTail = <span class="token hexnumber string">$11</span>
+BackgroundTile_JumpThroughBlock = <span class="token hexnumber string">$12</span>
+BackgroundTile_CloudLeft = <span class="token hexnumber string">$13</span>
+BackgroundTile_CloudMiddle = <span class="token hexnumber string">$14</span>
+BackgroundTile_CloudRight = <span class="token hexnumber string">$15</span>
+BackgroundTile_JumpThroughIce = <span class="token hexnumber string">$16</span>
+BackgroundTile_ChainStandable = <span class="token hexnumber string">$17</span>
+BackgroundTile_SolidBrick<span class="token decimalnumber string">0</span> = <span class="token hexnumber string">$18</span>
+BackgroundTile_GroundBrick<span class="token decimalnumber string">0</span> = <span class="token hexnumber string">$19</span>
+BackgroundTile_Spikes = <span class="token hexnumber string">$1A</span>
+BackgroundTile_SolidRoundBrick<span class="token decimalnumber string">0</span> = <span class="token hexnumber string">$1B</span>
+BackgroundTile_SolidBlock = <span class="token hexnumber string">$1C</span>
+BackgroundTile_CactusTop = <span class="token hexnumber string">$1D</span>
+BackgroundTile_CactusMiddle = <span class="token hexnumber string">$1E</span>
+BackgroundTile_FrozenRock = <span class="token hexnumber string">$1F</span>
+BackgroundTile_LogPillarTop<span class="token decimalnumber string">0</span> = <span class="token hexnumber string">$20</span>
+BackgroundTile_LogPillarMiddle<span class="token decimalnumber string">0</span> = <span class="token hexnumber string">$21</span>
+BackgroundTile_ClawGripRock = <span class="token hexnumber string">$22</span>
+BackgroundTile_Unused<span class="token decimalnumber string">23</span> = <span class="token hexnumber string">$23</span> <span class="token comment">; These are just solid palette-swapped mirrors of $40</span>
+BackgroundTile_Unused<span class="token decimalnumber string">24</span> = <span class="token hexnumber string">$24</span>
+BackgroundTile_Unused<span class="token decimalnumber string">25</span> = <span class="token hexnumber string">$25</span>
+BackgroundTile_Unused<span class="token decimalnumber string">26</span> = <span class="token hexnumber string">$26</span>
+BackgroundTile_Unused<span class="token decimalnumber string">27</span> = <span class="token hexnumber string">$27</span>
+BackgroundTile_Unused<span class="token decimalnumber string">28</span> = <span class="token hexnumber string">$28</span>
+BackgroundTile_Unused<span class="token decimalnumber string">29</span> = <span class="token hexnumber string">$29</span>
+BackgroundTile_Unused<span class="token decimalnumber string">2</span><span class="token register variable">A</span> = <span class="token hexnumber string">$2A</span>
+BackgroundTile_Unused<span class="token decimalnumber string">2</span>B = <span class="token hexnumber string">$2B</span>
+BackgroundTile_Unused<span class="token decimalnumber string">2</span>C = <span class="token hexnumber string">$2C</span>
+BackgroundTile_Unused<span class="token decimalnumber string">2</span>D = <span class="token hexnumber string">$2D</span>
+BackgroundTile_Unused<span class="token decimalnumber string">2</span>E = <span class="token hexnumber string">$2E</span>
+BackgroundTile_Unused<span class="token decimalnumber string">2</span>F = <span class="token hexnumber string">$2F</span>
+BackgroundTile_Unused<span class="token decimalnumber string">30</span> = <span class="token hexnumber string">$30</span>
+BackgroundTile_Unused<span class="token decimalnumber string">31</span> = <span class="token hexnumber string">$31</span>
+BackgroundTile_Unused<span class="token decimalnumber string">32</span> = <span class="token hexnumber string">$32</span>
+BackgroundTile_Unused<span class="token decimalnumber string">33</span> = <span class="token hexnumber string">$33</span>
+BackgroundTile_Unused<span class="token decimalnumber string">34</span> = <span class="token hexnumber string">$34</span>
+BackgroundTile_Unused<span class="token decimalnumber string">35</span> = <span class="token hexnumber string">$35</span>
+BackgroundTile_Unused<span class="token decimalnumber string">36</span> = <span class="token hexnumber string">$36</span>
+BackgroundTile_Unused<span class="token decimalnumber string">37</span> = <span class="token hexnumber string">$37</span>
+BackgroundTile_Unused<span class="token decimalnumber string">38</span> = <span class="token hexnumber string">$38</span>
+BackgroundTile_Unused<span class="token decimalnumber string">39</span> = <span class="token hexnumber string">$39</span>
+BackgroundTile_Unused<span class="token decimalnumber string">3</span><span class="token register variable">A</span> = <span class="token hexnumber string">$3A</span>
+BackgroundTile_Unused<span class="token decimalnumber string">3</span>B = <span class="token hexnumber string">$3B</span>
+BackgroundTile_Unused<span class="token decimalnumber string">3</span>C = <span class="token hexnumber string">$3C</span>
+BackgroundTile_Unused<span class="token decimalnumber string">3</span>D = <span class="token hexnumber string">$3D</span>
+BackgroundTile_Unused<span class="token decimalnumber string">3</span>E = <span class="token hexnumber string">$3E</span>
+BackgroundTile_Unused<span class="token decimalnumber string">3</span>F = <span class="token hexnumber string">$3F</span>
+BackgroundTile_Sky = <span class="token hexnumber string">$40</span>
+BackgroundTile_SubspaceMushroom<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$41</span>
+BackgroundTile_SubspaceMushroom<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$42</span>
+BackgroundTile_GrassCoin = <span class="token hexnumber string">$43</span>
+BackgroundTile_GrassLargeVeggie = <span class="token hexnumber string">$44</span>
+BackgroundTile_GrassSmallVeggie = <span class="token hexnumber string">$45</span>
+BackgroundTile_GrassRocket = <span class="token hexnumber string">$46</span>
+BackgroundTile_GrassShell = <span class="token hexnumber string">$47</span>
+BackgroundTile_GrassBomb = <span class="token hexnumber string">$48</span>
+BackgroundTile_GrassPotion = <span class="token hexnumber string">$49</span>
+BackgroundTile_Grass<span class="token decimalnumber string">1</span>UP = <span class="token hexnumber string">$4A</span>
+BackgroundTile_GrassPow = <span class="token hexnumber string">$4B</span>
+BackgroundTile_GrassBobOmb = <span class="token hexnumber string">$4C</span>
+BackgroundTile_GrassInactive = <span class="token hexnumber string">$4D</span>
+BackgroundTile_Cherry = <span class="token hexnumber string">$4E</span>
+BackgroundTile_DoorTop = <span class="token hexnumber string">$4F</span>
+BackgroundTile_DoorBottomLock = <span class="token hexnumber string">$50</span>
+BackgroundTile_DoorBottom = <span class="token hexnumber string">$51</span>
+BackgroundTile_LightDoor = <span class="token hexnumber string">$52</span>
+BackgroundTile_LightTrailRight = <span class="token hexnumber string">$53</span>
+BackgroundTile_LightTrail = <span class="token hexnumber string">$54</span>
+BackgroundTile_LightTrailLeft = <span class="token hexnumber string">$55</span>
+BackgroundTile_LightDoorEndLevel = <span class="token hexnumber string">$56</span>
+BackgroundTile_DoorBottomLockStuck = <span class="token hexnumber string">$57</span>
+BackgroundTile_DrawBridgeChain = <span class="token hexnumber string">$58</span>
+BackgroundTile_Whale = <span class="token hexnumber string">$59</span>
+BackgroundTile_WhaleEye = <span class="token hexnumber string">$5A</span>
+BackgroundTile_Phanto = <span class="token hexnumber string">$5B</span>
+BackgroundTile_TreeBackgroundLeft = <span class="token hexnumber string">$5C</span>
+BackgroundTile_TreeBackgroundMiddleLeft = <span class="token hexnumber string">$5D</span>
+BackgroundTile_TreeBackgroundRight = <span class="token hexnumber string">$5E</span>
+BackgroundTile_TreeBackgroundMiddleRight = <span class="token hexnumber string">$5F</span>
+BackgroundTile_WhaleTopLeft = <span class="token hexnumber string">$60</span>
+BackgroundTile_WhaleTop = <span class="token hexnumber string">$61</span>
+BackgroundTile_WhaleTopRight = <span class="token hexnumber string">$62</span>
+BackgroundTile_WhaleTail = <span class="token hexnumber string">$63</span>
+BackgroundTile_JumpThroughMachineBlock = <span class="token hexnumber string">$64</span>
+BackgroundTile_Bridge = <span class="token hexnumber string">$65</span>
+BackgroundTile_BridgeShadow = <span class="token hexnumber string">$66</span>
+BackgroundTile_ConveyorLeft = <span class="token hexnumber string">$67</span>
+BackgroundTile_ConveyorRight = <span class="token hexnumber string">$68</span>
+BackgroundTile_MushroomBlock = <span class="token hexnumber string">$69</span>
+BackgroundTile_Unused<span class="token decimalnumber string">6</span>AMushroomBlock = <span class="token hexnumber string">$6A</span>
+BackgroundTile_Unused<span class="token decimalnumber string">6</span>BMushroomBlock = <span class="token hexnumber string">$6B</span>
+BackgroundTile_POWBlock = <span class="token hexnumber string">$6C</span>
+BackgroundTile_Unused<span class="token decimalnumber string">6</span>D = <span class="token hexnumber string">$6D</span> <span class="token comment">; Used to mark where the liftable blocks end</span>
+BackgroundTile_SolidBrick<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$6E</span>
+BackgroundTile_JarTopPointer = <span class="token hexnumber string">$6F</span>
+BackgroundTile_JarMiddle = <span class="token hexnumber string">$70</span>
+BackgroundTile_JarBottom = <span class="token hexnumber string">$71</span>
+BackgroundTile_JarSmall = <span class="token hexnumber string">$72</span>
+BackgroundTile_JarTopGeneric = <span class="token hexnumber string">$73</span>
+BackgroundTile_JarTopNonEnterable = <span class="token hexnumber string">$74</span>
+BackgroundTile_LogLeft = <span class="token hexnumber string">$75</span>
+BackgroundTile_LogMiddle = <span class="token hexnumber string">$76</span>
+BackgroundTile_LogRight = <span class="token hexnumber string">$77</span>
+BackgroundTile_LogRightTree = <span class="token hexnumber string">$78</span>
+BackgroundTile_LogPillarTop<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$79</span>
+BackgroundTile_LogPillarMiddle<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$7A</span>
+BackgroundTile_Unused<span class="token decimalnumber string">7</span>B = <span class="token hexnumber string">$7B</span>
+BackgroundTile_Unused<span class="token decimalnumber string">7</span>C = <span class="token hexnumber string">$7C</span>
+BackgroundTile_Unused<span class="token decimalnumber string">7</span>D = <span class="token hexnumber string">$7D</span>
+BackgroundTile_Unused<span class="token decimalnumber string">7</span>E = <span class="token hexnumber string">$7E</span>
+BackgroundTile_Unused<span class="token decimalnumber string">7</span>F = <span class="token hexnumber string">$7F</span>
+BackgroundTile_Ladder = <span class="token hexnumber string">$80</span>
+BackgroundTile_LadderShadow = <span class="token hexnumber string">$81</span>
+BackgroundTile_PalmTreeTrunk = <span class="token hexnumber string">$82</span>
+BackgroundTile_DarkDoor = <span class="token hexnumber string">$83</span>
+BackgroundTile_PyramidLeftAngle = <span class="token hexnumber string">$84</span>
+BackgroundTile_PyramidLeft = <span class="token hexnumber string">$85</span>
+BackgroundTile_PyramidRight = <span class="token hexnumber string">$86</span>
+BackgroundTile_PyramidRightAngle = <span class="token hexnumber string">$87</span>
+BackgroundTile_StarBg<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$88</span>
+BackgroundTile_StarBg<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$89</span>
+BackgroundTile_QuicksandSlow = <span class="token hexnumber string">$8A</span>
+BackgroundTile_QuicksandFast = <span class="token hexnumber string">$8B</span>
+BackgroundTile_HornTopLeft = <span class="token hexnumber string">$8C</span>
+BackgroundTile_HornTopRight = <span class="token hexnumber string">$8D</span>
+BackgroundTile_HornBottomLeft = <span class="token hexnumber string">$8E</span>
+BackgroundTile_HornBottomRight = <span class="token hexnumber string">$8F</span>
+BackgroundTile_BackgroundBrick = <span class="token hexnumber string">$90</span>
+BackgroundTile_JumpthroughSand = <span class="token hexnumber string">$91</span>
+BackgroundTile_JumpthroughWoodBlock = <span class="token hexnumber string">$92</span>
+BackgroundTile_DiggableSand = <span class="token hexnumber string">$93</span>
+BackgroundTile_LadderStandable = <span class="token hexnumber string">$94</span>
+BackgroundTile_LadderStandableShadow = <span class="token hexnumber string">$95</span>
+BackgroundTile_JumpthroughSandBlock = <span class="token hexnumber string">$96</span>
+BackgroundTile_JumpthroughBrick = <span class="token hexnumber string">$97</span>
+BackgroundTile_<span class="token decimalnumber string">98</span> = <span class="token hexnumber string">$98</span>
+BackgroundTile_SolidSand = <span class="token hexnumber string">$99</span>
+BackgroundTile_<span class="token decimalnumber string">9</span><span class="token register variable">A</span> = <span class="token hexnumber string">$9A</span>
+BackgroundTile_SolidBrick<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$9B</span>
+BackgroundTile_GroundBrick<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$9C</span>
+BackgroundTile_BombableBrick = <span class="token hexnumber string">$9D</span>
+BackgroundTile_JarWall = <span class="token hexnumber string">$9E</span> <span class="token comment">; solid color, solid wall</span>
+BackgroundTile_RockWallAngle = <span class="token hexnumber string">$9F</span>
+BackgroundTile_RockWall = <span class="token hexnumber string">$A0</span>
+BackgroundTile_RockWallOffset = <span class="token hexnumber string">$A1</span>
+BackgroundTile_SolidRoundBrick<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$A2</span>
+BackgroundTile_SolidBrick<span class="token decimalnumber string">2</span>Wall = <span class="token hexnumber string">$A3</span>
+BackgroundTile_SolidWood = <span class="token hexnumber string">$A4</span>
+BackgroundTile_RockWallEyeLeft = <span class="token hexnumber string">$A5</span> <span class="token comment">; World 6</span>
+BackgroundTile_RockWallEyeRight = <span class="token hexnumber string">$A6</span> <span class="token comment">; World 6</span>
+BackgroundTile_RockWallMouth = <span class="token hexnumber string">$A7</span> <span class="token comment">; World 6</span>
+BackgroundTile_WindowTop = <span class="token hexnumber string">$A8</span> <span class="token comment">; World 7</span>
+BackgroundTile_DoorwayTop = <span class="token hexnumber string">$A9</span> <span class="token comment">; World 7</span>
+BackgroundTile_ColumnPillarTop<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$AA</span>
+BackgroundTile_ColumnPillarMiddle<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$AB</span>
+BackgroundTile_UnusedAC = <span class="token hexnumber string">$AC</span>
+BackgroundTile_UnusedAD = <span class="token hexnumber string">$AD</span>
+BackgroundTile_UnusedAE = <span class="token hexnumber string">$AE</span>
+BackgroundTile_UnusedAF = <span class="token hexnumber string">$AF</span>
+BackgroundTile_UnusedB<span class="token decimalnumber string">0</span> = <span class="token hexnumber string">$B0</span> <span class="token comment">; These are just solid palette-swapped mirrors of $C4</span>
+BackgroundTile_UnusedB<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$B1</span>
+BackgroundTile_UnusedB<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$B2</span>
+BackgroundTile_UnusedB<span class="token decimalnumber string">3</span> = <span class="token hexnumber string">$B3</span> <span class="token comment">; SolidPlatformLeft2</span>
+BackgroundTile_UnusedB<span class="token decimalnumber string">4</span> = <span class="token hexnumber string">$B4</span> <span class="token comment">; SolidPlatformMiddle2</span>
+BackgroundTile_UnusedB<span class="token decimalnumber string">5</span> = <span class="token hexnumber string">$B5</span> <span class="token comment">; SolidPlatformRight2</span>
+BackgroundTile_UnusedB<span class="token decimalnumber string">6</span> = <span class="token hexnumber string">$B6</span> <span class="token comment">; SolidPlatformTopLeft2</span>
+BackgroundTile_UnusedB<span class="token decimalnumber string">7</span> = <span class="token hexnumber string">$B7</span>
+BackgroundTile_UnusedB<span class="token decimalnumber string">8</span> = <span class="token hexnumber string">$B8</span> <span class="token comment">; SolidPlatformTop2</span>
+BackgroundTile_UnusedB<span class="token decimalnumber string">9</span> = <span class="token hexnumber string">$B9</span>
+BackgroundTile_UnusedBA = <span class="token hexnumber string">$BA</span> <span class="token comment">; SolidPlatformTopRight2</span>
+BackgroundTile_UnusedBB = <span class="token hexnumber string">$BB</span>
+BackgroundTile_UnusedBC = <span class="token hexnumber string">$BC</span> <span class="token comment">; SolidPlatformTopLeftOverlap2</span>
+BackgroundTile_UnusedBD = <span class="token hexnumber string">$BD</span> <span class="token comment">; SolidPlatformTopRightOverlap2</span>
+BackgroundTile_UnusedBE = <span class="token hexnumber string">$BE</span> <span class="token comment">; SolidPlatformTopLeftOverlapEdge2</span>
+BackgroundTile_UnusedBF = <span class="token hexnumber string">$BF</span> <span class="token comment">; SolidPlatformTopRightOverlapEdge2</span>
+BackgroundTile_PalmTreeTop = <span class="token hexnumber string">$C0</span>
+BackgroundTile_VineTop = <span class="token hexnumber string">$C1</span>
+BackgroundTile_Vine = <span class="token hexnumber string">$C2</span>
+BackgroundTile_VineBottom = <span class="token hexnumber string">$C3</span>
+BackgroundTile_ClimbableSky = <span class="token hexnumber string">$C4</span>
+BackgroundTile_UnusedC<span class="token decimalnumber string">5</span> = <span class="token hexnumber string">$C5</span>
+BackgroundTile_JarOutsideBackground = <span class="token hexnumber string">$C6</span> <span class="token comment">; solid color, background</span>
+BackgroundTile_GreenPlatformLeft = <span class="token hexnumber string">$C7</span>
+BackgroundTile_GreenPlatformMiddle = <span class="token hexnumber string">$C8</span>
+BackgroundTile_GreenPlatformRight = <span class="token hexnumber string">$C9</span>
+BackgroundTile_GreenPlatformTopLeft = <span class="token hexnumber string">$CA</span>
+BackgroundTile_MushroomTopLeft = <span class="token hexnumber string">$CB</span>
+BackgroundTile_GreenPlatformTop = <span class="token hexnumber string">$CC</span>
+BackgroundTile_MushroomTopMiddle = <span class="token hexnumber string">$CD</span>
+BackgroundTile_GreenPlatformTopRight = <span class="token hexnumber string">$CE</span>
+BackgroundTile_MushroomTopRight = <span class="token hexnumber string">$CF</span>
+BackgroundTile_GreenPlatformTopLeftOverlap = <span class="token hexnumber string">$D0</span>
+BackgroundTile_GreenPlatformTopRightOverlap = <span class="token hexnumber string">$D1</span>
+BackgroundTile_GreenPlatformTopLeftOverlapEdge = <span class="token hexnumber string">$D2</span>
+BackgroundTile_GreenPlatformTopRightOverlapEdge = <span class="token hexnumber string">$D3</span>
+BackgroundTile_VineStandable = <span class="token hexnumber string">$D4</span>
+BackgroundTile_SolidGrass = <span class="token hexnumber string">$D5</span>
+BackgroundTile_SolidBrick<span class="token decimalnumber string">3</span> = <span class="token hexnumber string">$D6</span>
+BackgroundTile_GroundBrick<span class="token decimalnumber string">3</span> = <span class="token hexnumber string">$D7</span> <span class="token comment">; World 7</span>
+BackgroundTile_UnusedD<span class="token decimalnumber string">8</span> = <span class="token hexnumber string">$D8</span>
+BackgroundTile_UnusedD<span class="token decimalnumber string">9</span> = <span class="token hexnumber string">$D9</span>
+BackgroundTile_UnusedDA = <span class="token hexnumber string">$DA</span>
+BackgroundTile_UnusedDB = <span class="token hexnumber string">$DB</span>
+BackgroundTile_UnusedDC = <span class="token hexnumber string">$DC</span>
+BackgroundTile_UnusedDD = <span class="token hexnumber string">$DD</span>
+BackgroundTile_UnusedDE = <span class="token hexnumber string">$DE</span>
+BackgroundTile_UnusedDF = <span class="token hexnumber string">$DF</span>
+BackgroundTile_UnusedE<span class="token decimalnumber string">0</span> = <span class="token hexnumber string">$E0</span>
+BackgroundTile_UnusedE<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$E1</span>
+BackgroundTile_UnusedE<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$E2</span>
+BackgroundTile_UnusedE<span class="token decimalnumber string">3</span> = <span class="token hexnumber string">$E3</span>
+BackgroundTile_UnusedE<span class="token decimalnumber string">4</span> = <span class="token hexnumber string">$E4</span>
+BackgroundTile_UnusedE<span class="token decimalnumber string">5</span> = <span class="token hexnumber string">$E5</span>
+BackgroundTile_UnusedE<span class="token decimalnumber string">6</span> = <span class="token hexnumber string">$E6</span>
+BackgroundTile_UnusedE<span class="token decimalnumber string">7</span> = <span class="token hexnumber string">$E7</span>
+BackgroundTile_UnusedE<span class="token decimalnumber string">8</span> = <span class="token hexnumber string">$E8</span>
+BackgroundTile_UnusedE<span class="token decimalnumber string">9</span> = <span class="token hexnumber string">$E9</span>
+BackgroundTile_UnusedEA = <span class="token hexnumber string">$EA</span>
+BackgroundTile_UnusedEB = <span class="token hexnumber string">$EB</span>
+BackgroundTile_UnusedEC = <span class="token hexnumber string">$EC</span>
+BackgroundTile_UnusedED = <span class="token hexnumber string">$ED</span>
+BackgroundTile_UnusedEE = <span class="token hexnumber string">$EE</span>
+BackgroundTile_UnusedEF = <span class="token hexnumber string">$EF</span>
+BackgroundTile_UnusedF<span class="token decimalnumber string">0</span> = <span class="token hexnumber string">$F0</span>
+BackgroundTile_UnusedF<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$F1</span>
+BackgroundTile_UnusedF<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$F2</span>
+BackgroundTile_UnusedF<span class="token decimalnumber string">3</span> = <span class="token hexnumber string">$F3</span>
+BackgroundTile_UnusedF<span class="token decimalnumber string">4</span> = <span class="token hexnumber string">$F4</span>
+BackgroundTile_UnusedF<span class="token decimalnumber string">5</span> = <span class="token hexnumber string">$F5</span>
+BackgroundTile_UnusedF<span class="token decimalnumber string">6</span> = <span class="token hexnumber string">$F6</span>
+BackgroundTile_UnusedF<span class="token decimalnumber string">7</span> = <span class="token hexnumber string">$F7</span>
+BackgroundTile_UnusedF<span class="token decimalnumber string">8</span> = <span class="token hexnumber string">$F8</span>
+BackgroundTile_UnusedF<span class="token decimalnumber string">9</span> = <span class="token hexnumber string">$F9</span>
+BackgroundTile_UnusedFA = <span class="token hexnumber string">$FA</span>
+BackgroundTile_UnusedFB = <span class="token hexnumber string">$FB</span>
+BackgroundTile_UnusedFC = <span class="token hexnumber string">$FC</span>
+BackgroundTile_UnusedFD = <span class="token hexnumber string">$FD</span>
+BackgroundTile_UnusedFE = <span class="token hexnumber string">$FE</span>
+BackgroundTile_UnusedFF = <span class="token hexnumber string">$FF</span>
+&nbsp;</code></pre><aside><p>enum EnemyIds</p>
+&nbsp;</aside><pre><a name="l605" href="#l605" title="Link to line 605">#</a><code>Enemy_Heart = <span class="token hexnumber string">$00</span>
+Enemy_ShyguyRed = <span class="token hexnumber string">$01</span>
+Enemy_Tweeter = <span class="token hexnumber string">$02</span>
+Enemy_ShyguyPink = <span class="token hexnumber string">$03</span>
+Enemy_Porcupo = <span class="token hexnumber string">$04</span>
+Enemy_SnifitRed = <span class="token hexnumber string">$05</span>
+Enemy_SnifitGray = <span class="token hexnumber string">$06</span>
+Enemy_SnifitPink = <span class="token hexnumber string">$07</span>
+Enemy_Ostro = <span class="token hexnumber string">$08</span>
+Enemy_BobOmb = <span class="token hexnumber string">$09</span>
+Enemy_AlbatossCarryingBobOmb = <span class="token hexnumber string">$0A</span>
+Enemy_AlbatossStartRight = <span class="token hexnumber string">$0B</span>
+Enemy_AlbatossStartLeft = <span class="token hexnumber string">$0C</span>
+Enemy_NinjiRunning = <span class="token hexnumber string">$0D</span>
+Enemy_NinjiJumping = <span class="token hexnumber string">$0E</span>
+Enemy_BeezoDiving = <span class="token hexnumber string">$0F</span>
+Enemy_BeezoStraight = <span class="token hexnumber string">$10</span>
+Enemy_WartBubble = <span class="token hexnumber string">$11</span>
+Enemy_Pidgit = <span class="token hexnumber string">$12</span>
+Enemy_Trouter = <span class="token hexnumber string">$13</span>
+Enemy_Hoopstar = <span class="token hexnumber string">$14</span>
+Enemy_JarGeneratorShyguy = <span class="token hexnumber string">$15</span>
+Enemy_JarGeneratorBobOmb = <span class="token hexnumber string">$16</span>
+Enemy_Phanto = <span class="token hexnumber string">$17</span>
+Enemy_CobratJar = <span class="token hexnumber string">$18</span>
+Enemy_CobratSand = <span class="token hexnumber string">$19</span>
+Enemy_Pokey = <span class="token hexnumber string">$1A</span>
+Enemy_Bullet = <span class="token hexnumber string">$1B</span>
+Enemy_Birdo = <span class="token hexnumber string">$1C</span>
+Enemy_Mouser = <span class="token hexnumber string">$1D</span>
+Enemy_Egg = <span class="token hexnumber string">$1E</span>
+Enemy_Tryclyde = <span class="token hexnumber string">$1F</span>
+Enemy_Fireball = <span class="token hexnumber string">$20</span>
+Enemy_Clawgrip = <span class="token hexnumber string">$21</span>
+Enemy_ClawgripRock = <span class="token hexnumber string">$22</span>
+Enemy_PanserStationaryFiresAngled = <span class="token hexnumber string">$23</span>
+Enemy_PanserWalking = <span class="token hexnumber string">$24</span>
+Enemy_PanserStationaryFiresUp = <span class="token hexnumber string">$25</span>
+Enemy_Autobomb = <span class="token hexnumber string">$26</span>
+Enemy_AutobombFire = <span class="token hexnumber string">$27</span>
+Enemy_WhaleSpout = <span class="token hexnumber string">$28</span>
+Enemy_Flurry = <span class="token hexnumber string">$29</span>
+Enemy_Fryguy = <span class="token hexnumber string">$2A</span>
+Enemy_FryguySplit = <span class="token hexnumber string">$2B</span>
+Enemy_Wart = <span class="token hexnumber string">$2C</span>
+Enemy_HawkmouthBoss = <span class="token hexnumber string">$2D</span>
+Enemy_Spark<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$2E</span> <span class="token comment">; clockwise, slow</span>
+Enemy_Spark<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$2F</span> <span class="token comment">; clockwise, fast</span>
+Enemy_Spark<span class="token decimalnumber string">3</span> = <span class="token hexnumber string">$30</span> <span class="token comment">; counter-clockwise, slow</span>
+Enemy_Spark<span class="token decimalnumber string">4</span> = <span class="token hexnumber string">$31</span> <span class="token comment">; counter-clockwise, fast</span>
+Enemy_VegetableSmall = <span class="token hexnumber string">$32</span>
+Enemy_VegetableLarge = <span class="token hexnumber string">$33</span>
+Enemy_VegetableWart = <span class="token hexnumber string">$34</span>
+Enemy_Shell = <span class="token hexnumber string">$35</span>
+Enemy_Coin = <span class="token hexnumber string">$36</span>
+Enemy_Bomb = <span class="token hexnumber string">$37</span>
+Enemy_Rocket = <span class="token hexnumber string">$38</span>
+Enemy_MushroomBlock = <span class="token hexnumber string">$39</span>
+Enemy_POWBlock = <span class="token hexnumber string">$3A</span>
+Enemy_FallingLogs = <span class="token hexnumber string">$3B</span>
+Enemy_SubspaceDoor = <span class="token hexnumber string">$3C</span>
+Enemy_Key = <span class="token hexnumber string">$3D</span>
+Enemy_SubspacePotion = <span class="token hexnumber string">$3E</span>
+Enemy_Mushroom = <span class="token hexnumber string">$3F</span>
+Enemy_Mushroom<span class="token decimalnumber string">1</span>up = <span class="token hexnumber string">$40</span>
+Enemy_FlyingCarpet = <span class="token hexnumber string">$41</span>
+Enemy_HawkmouthRight = <span class="token hexnumber string">$42</span>
+Enemy_HawkmouthLeft = <span class="token hexnumber string">$43</span>
+Enemy_CrystalBall = <span class="token hexnumber string">$44</span>
+Enemy_Starman = <span class="token hexnumber string">$45</span>
+Enemy_Stopwatch = <span class="token hexnumber string">$46</span>
+Enemy_AttackAlbatossCarryingBobOmb = <span class="token hexnumber string">$47</span>
+Enemy_AttackBeezo = <span class="token hexnumber string">$48</span>
+Enemy_StopAttack = <span class="token hexnumber string">$49</span>
+Enemy_VegetableThrower = <span class="token hexnumber string">$4A</span> <span class="token comment">; Used in Wart's room</span>
+Enemy_<span class="token decimalnumber string">4</span>B = <span class="token hexnumber string">$4B</span> <span class="token comment">; crash</span>
+Enemy_<span class="token decimalnumber string">4</span>C = <span class="token hexnumber string">$4C</span> <span class="token comment">; weird! makes game think you can always jump and pick up an enemy</span>
+Enemy_<span class="token decimalnumber string">4</span>D = <span class="token hexnumber string">$4D</span> <span class="token comment">; crash</span>
+Enemy_<span class="token decimalnumber string">4</span>E = <span class="token hexnumber string">$4E</span> <span class="token comment">; hangs, forces background scroll?</span>
+Enemy_<span class="token decimalnumber string">4</span>F = <span class="token hexnumber string">$4F</span> <span class="token comment">; hangs, forces background scroll?</span>
+Enemy_<span class="token decimalnumber string">50</span> = <span class="token hexnumber string">$50</span> <span class="token comment">; crash, b+w palette?</span>
+Enemy_<span class="token decimalnumber string">51</span> = <span class="token hexnumber string">$51</span> <span class="token comment">; crash</span>
+Enemy_<span class="token decimalnumber string">52</span> = <span class="token hexnumber string">$52</span> <span class="token comment">; hangs, forces background scroll?</span>
+Enemy_<span class="token decimalnumber string">53</span> = <span class="token hexnumber string">$53</span> <span class="token comment">; hangs, forces background scroll?</span>
+Enemy_<span class="token decimalnumber string">54</span> = <span class="token hexnumber string">$54</span> <span class="token comment">; weird invisible thing that doesn't quite crash</span>
+Enemy_<span class="token decimalnumber string">55</span> = <span class="token hexnumber string">$55</span> <span class="token comment">; seems to mess up player physics</span>
+Enemy_<span class="token decimalnumber string">56</span> = <span class="token hexnumber string">$56</span> <span class="token comment">; crash</span>
+Enemy_<span class="token decimalnumber string">57</span> = <span class="token hexnumber string">$57</span> <span class="token comment">; seems to mess up player physics</span>
+Enemy_<span class="token decimalnumber string">58</span> = <span class="token hexnumber string">$58</span> <span class="token comment">; seems to mess up player physics</span>
+Enemy_<span class="token decimalnumber string">59</span> = <span class="token hexnumber string">$59</span> <span class="token comment">; crash</span>
+Enemy_<span class="token decimalnumber string">5</span><span class="token register variable">A</span> = <span class="token hexnumber string">$5A</span> <span class="token comment">; crash</span>
+Enemy_<span class="token decimalnumber string">5</span>B = <span class="token hexnumber string">$5B</span> <span class="token comment">; hangs, forces background scroll?</span>
+Enemy_BossBirdo = <span class="token hexnumber string">$5C</span>
+Enemy_BossMouser = <span class="token hexnumber string">$5D</span>
+Enemy_BossEgg = <span class="token hexnumber string">$5E</span>
+Enemy_BossTryclyde = <span class="token hexnumber string">$5F</span>
+Enemy_BossFireball = <span class="token hexnumber string">$60</span>
+Enemy_BossClawgrip = <span class="token hexnumber string">$61</span>
+Enemy_BossClawgripRock = <span class="token hexnumber string">$62</span>
+Enemy_BossPanserStationaryFiresAngled = <span class="token hexnumber string">$63</span>
+Enemy_BossPanserWalking = <span class="token hexnumber string">$64</span>
+Enemy_BossPanserStationaryFiresUp = <span class="token hexnumber string">$65</span>
+Enemy_BossAutobomb = <span class="token hexnumber string">$66</span>
+Enemy_BossAutobombFire = <span class="token hexnumber string">$67</span>
+Enemy_BossWhaleSpout = <span class="token hexnumber string">$68</span>
+Enemy_BossFlurry = <span class="token hexnumber string">$69</span>
+Enemy_BossFryguy = <span class="token hexnumber string">$6A</span>
+Enemy_BossFryguySplit = <span class="token hexnumber string">$6B</span>
+Enemy_BossWart = <span class="token hexnumber string">$6C</span>
+Enemy_BossHawkmouthBoss = <span class="token hexnumber string">$6D</span>
+Enemy_BossSpark<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$6E</span>
+Enemy_BossSpark<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$6F</span>
+Enemy_BossSpark<span class="token decimalnumber string">3</span> = <span class="token hexnumber string">$70</span>
+Enemy_BossSpark<span class="token decimalnumber string">4</span> = <span class="token hexnumber string">$71</span>
+Enemy_BossVegetableSmall = <span class="token hexnumber string">$72</span>
+Enemy_BossVegetableLarge = <span class="token hexnumber string">$73</span>
+Enemy_BossVegetableWart = <span class="token hexnumber string">$74</span>
+Enemy_BossShell = <span class="token hexnumber string">$75</span>
+Enemy_BossCoin = <span class="token hexnumber string">$76</span>
+Enemy_BossBomb = <span class="token hexnumber string">$77</span>
+Enemy_BossRocket = <span class="token hexnumber string">$78</span>
+Enemy_BossMushroomBlock = <span class="token hexnumber string">$79</span>
+Enemy_BossPOWBlock = <span class="token hexnumber string">$7A</span>
+Enemy_BossFallingLogs = <span class="token hexnumber string">$7B</span>
+Enemy_BossSubspaceDoor = <span class="token hexnumber string">$7C</span>
+Enemy_BossKey = <span class="token hexnumber string">$7D</span>
+Enemy_BossSubspacePotion = <span class="token hexnumber string">$7E</span>
+Enemy_BossMushroom = <span class="token hexnumber string">$7F</span>
+
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l735" href="#l735" title="Link to line 735">#</a><code>LevelDirection_Horizontal = <span class="token decimalnumber string">1</span>
+LevelDirection_Vertical = <span class="token decimalnumber string">0</span>
+
+LevelMusic_Overworld = <span class="token decimalnumber string">0</span>
+LevelMusic_Underground = <span class="token decimalnumber string">1</span>
+LevelMusic_Boss = <span class="token decimalnumber string">2</span>
+LevelMusic_Wart = <span class="token decimalnumber string">3</span>
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l745" href="#l745" title="Link to line 745">#</a><code>&nbsp;</code></pre><aside><p>enum CollisionFlags (bitfield) (width 1 byte)</p>
+&nbsp;</aside><pre><a name="l747" href="#l747" title="Link to line 747">#</a><code>CollisionFlags_<span class="token decimalnumber string">00</span> = <span class="token binarynumber string">%00000000</span>
+CollisionFlags_Right = <span class="token binarynumber string">%00000001</span>
+CollisionFlags_Left = <span class="token binarynumber string">%00000010</span>
+CollisionFlags_Down = <span class="token binarynumber string">%00000100</span>
+CollisionFlags_Up = <span class="token binarynumber string">%00001000</span>
+CollisionFlags_Damage = <span class="token binarynumber string">%00010000</span>
+CollisionFlags_PlayerOnTop = <span class="token binarynumber string">%00100000</span>
+CollisionFlags_PlayerInsideMaybe = <span class="token binarynumber string">%01000000</span>
+CollisionFlags_<span class="token decimalnumber string">80</span> = <span class="token binarynumber string">%10000000</span>
+
+&nbsp;</code></pre><aside><p>enum CHRBank (width 1 byte)</p>
+&nbsp;</aside><pre><a name="l758" href="#l758" title="Link to line 758">#</a><code>CHRBank_Mario = <span class="token hexnumber string">$00</span>
+CHRBank_Luigi = <span class="token hexnumber string">$01</span>
+CHRBank_Princess = <span class="token hexnumber string">$02</span>
+CHRBank_Toad = <span class="token hexnumber string">$03</span>
+CHRBank_MarioSmall = <span class="token hexnumber string">$04</span>
+CHRBank_LuigiSmall = <span class="token hexnumber string">$05</span>
+CHRBank_PrincessSmall = <span class="token hexnumber string">$06</span>
+CHRBank_ToadSmall = <span class="token hexnumber string">$07</span>
+
+CHRBank_CommonEnemies<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$08</span>
+CHRBank_CommonEnemies<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$09</span>
+
+CHRBank_BackgroundGrassClawgrip = <span class="token hexnumber string">$0A</span>
+
+CHRBank_EnemiesGrass = <span class="token hexnumber string">$0C</span>
+CHRBank_EnemiesDesert = <span class="token hexnumber string">$0D</span>
+CHRBank_EnemiesIce = <span class="token hexnumber string">$0E</span>
+CHRBank_EnemiesSky = <span class="token hexnumber string">$0F</span>
+
+CHRBank_BackgroundGrass = <span class="token hexnumber string">$10</span>
+CHRBank_BackgroundDesert = <span class="token hexnumber string">$12</span>
+CHRBank_BackgroundIce = <span class="token hexnumber string">$14</span>
+CHRBank_BackgroundSky = <span class="token hexnumber string">$16</span>
+
+CHRBank_Animated<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$18</span>
+CHRBank_Animated<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$1A</span>
+CHRBank_Animated<span class="token decimalnumber string">3</span> = <span class="token hexnumber string">$1C</span>
+CHRBank_Animated<span class="token decimalnumber string">4</span> = <span class="token hexnumber string">$1E</span>
+CHRBank_Animated<span class="token decimalnumber string">5</span> = <span class="token hexnumber string">$20</span>
+CHRBank_Animated<span class="token decimalnumber string">6</span> = <span class="token hexnumber string">$22</span>
+CHRBank_Animated<span class="token decimalnumber string">7</span> = <span class="token hexnumber string">$24</span>
+CHRBank_Animated<span class="token decimalnumber string">8</span> = <span class="token hexnumber string">$26</span>
+
+CHRBank_TitleScreenBG<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$28</span>
+CHRBank_TitleScreenBG<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$2A</span>
+
+CHRBank_CharacterSelectBG<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$2C</span>
+CHRBank_CharacterSelectBG<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$2E</span>
+CHRBank_CharacterSelectSprites = <span class="token hexnumber string">$30</span>
+
+CHRBank_ChanceBG<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$34</span>
+CHRBank_ChanceBG<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$36</span>
+
+CHRBank_CelebrationBG<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$38</span>
+CHRBank_CelebrationBG<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$3A</span>
+
+CHRBank_TitleCardGrass = <span class="token hexnumber string">$40</span>
+CHRBank_TitleCardDesert = <span class="token hexnumber string">$42</span>
+CHRBank_TitleCardIce = <span class="token hexnumber string">$44</span>
+CHRBank_TitleCardSky = <span class="token hexnumber string">$46</span>
+
+CHRBank_EndingSprites = <span class="token hexnumber string">$48</span>
+CHRBank_EndingCast<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$4C</span>
+CHRBank_EndingCast<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$4D</span>
+CHRBank_EndingCast<span class="token decimalnumber string">3</span> = <span class="token hexnumber string">$4E</span>
+CHRBank_EndingCast<span class="token decimalnumber string">4</span> = <span class="token hexnumber string">$4F</span>
+CHRBank_EndingBackground<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$50</span>
+CHRBank_EndingBackground<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$54</span>
+CHRBank_EndingBackground<span class="token decimalnumber string">3</span> = <span class="token hexnumber string">$58</span>
+CHRBank_EndingBackground<span class="token decimalnumber string">4</span> = <span class="token hexnumber string">$5C</span>
+CHRBank_EndingBackground<span class="token decimalnumber string">5</span> = <span class="token hexnumber string">$60</span>
+CHRBank_EndingBackground<span class="token decimalnumber string">6</span> = <span class="token hexnumber string">$64</span>
+CHRBank_EndingBackground<span class="token decimalnumber string">7</span> = <span class="token hexnumber string">$68</span>
+CHRBank_EndingBackground<span class="token decimalnumber string">8</span> = <span class="token hexnumber string">$6C</span>
+CHRBank_EndingBackground<span class="token decimalnumber string">9</span> = <span class="token hexnumber string">$70</span>
+CHRBank_EndingBackground<span class="token decimalnumber string">10</span> = <span class="token hexnumber string">$74</span>
+CHRBank_EndingBackground<span class="token decimalnumber string">11</span> = <span class="token hexnumber string">$78</span>
+CHRBank_EndingBackground<span class="token decimalnumber string">12</span> = <span class="token hexnumber string">$7C</span>
+
+
+.endinl
+&nbsp;</code></pre></section></article></main><footer class="sc-htpNat iPvEnY"><p>All product names, logos, and brands are property of their respective owners.</p><p>Annotated disassembly site generator © <!-- -->2019<!-- --> <!-- -->Keith McKnight</p><ul><li><a href="https://github.com/XKeeper0/smb2">GitHub</a></li><li><a href="https://discord.gg/TsWMMeV">Discord</a></li></ul></footer></div></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/src/defs.asm";window.webpackCompilationHash="2ea601db5f4c75781233";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-e5123abf2b9d78ccb9b7.js"],"component---src-templates-asm-source-jsx":["/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js"],"component---src-templates-asm-directory-jsx":["/component---src-templates-asm-directory-jsx-de110ce639b73c006858.js"],"component---src-pages-404-jsx":["/component---src-pages-404-jsx-2d3be97110fe6b1cc813.js"],"component---src-pages-index-jsx":["/component---src-pages-index-jsx-90677ee39103ae00023b.js"]};/*]]>*/</script><script src="/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js" async=""></script><script src="/commons-96edcb9e9a406c302a22.js" async=""></script><script src="/app-e5123abf2b9d78ccb9b7.js" async=""></script><script src="/webpack-runtime-14b29e9f338a0ab3ef0b.js" async=""></script></body></html>

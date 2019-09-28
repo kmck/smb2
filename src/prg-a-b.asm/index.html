@@ -1,0 +1,628 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 2.15.20"/><title data-react-helmet="true">/src/prg-a-b.asm | Super Mario Bros 2. Discombobulated</title><meta data-react-helmet="true" name="description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:title" content="/src/prg-a-b.asm"/><meta data-react-helmet="true" property="og:description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:creator" content="Keith McKnight"/><meta data-react-helmet="true" name="twitter:title" content="/src/prg-a-b.asm"/><meta data-react-helmet="true" name="twitter:description" content="The annotated disassembly of SMB2 (USA) for NES."/><link rel="shortcut icon" href="/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#663399"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=008654519ce705ac7bc44303a9014606"/><link as="script" rel="preload" href="/webpack-runtime-14b29e9f338a0ab3ef0b.js"/><link as="script" rel="preload" href="/app-e5123abf2b9d78ccb9b7.js"/><link as="script" rel="preload" href="/commons-96edcb9e9a406c302a22.js"/><link as="script" rel="preload" href="/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js"/><link as="fetch" rel="preload" href="/page-data/src/prg-a-b.asm/page-data.json" crossorigin="anonymous"/></head><body><noscript id="gatsby-noscript">This app works best with JavaScript enabled.</noscript><div id="___gatsby"><div style="outline:none" tabindex="-1" role="group" id="gatsby-focus-wrapper"><div class="sc-bxivhb itivNt"><header class="sc-bwzfXH kFCqhj"><a href="https://github.com/XKeeper0/smb2"><svg class="sc-bdVaJa eSEdyA" fill="#fcfcfc" height="80" viewBox="0 0 250 250" width="80" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l115 115h15l12 27 108 108V0z"></path><g class="octocat" fill="#f65b98"><path class="octocat-arm" d="M128 109c-15-9-9-19-9-19 3-7 2-11 2-11-1-7 3-2 3-2 4 5 2 11 2 11-3 10 5 15 9 16" style="transform-origin:130px 106px"></path><path class="octocat-body" d="M115 115s4 2 5 0l14-14c3-2 6-3 8-3-8-11-15-24 2-41 5-5 10-7 16-7 1-2 3-7 12-11 0 0 5 3 7 16 4 2 8 5 12 9s7 8 9 12c14 3 17 7 17 7-4 8-9 11-11 11 0 6-2 11-7 16-16 16-30 10-41 2 0 3-1 7-5 11l-12 11c-1 1 1 5 1 5z"></path></g></svg></a><h1><a href="/">Super Mario Bros 2. Discombobulated</a></h1><p>The annotated disassembly of SMB2 (USA) for NES.</p></header><main><article class="sc-ifAKCX fpwdji"><header><h3>/src/prg-a-b.asm</h3></header><section><aside><h1>Bank A &#x26; Bank B</h1>
+<p>What's inside:</p>
+<ul>
+<li>Level title card background data and palettes</li>
+<li>Bonus chance background data and palettes</li>
+<li>Character select palettes</li>
+<li>Character data (physics, palettes, etc.)</li>
+<li>Character stats bootstrapping</li>
+</ul>
+&nbsp;</aside><pre><a name="l13" href="#l13" title="Link to line 13">#</a><code>&nbsp;</code></pre><aside><p>This title card is used for every world from 1 to 6.
+The only difference is the loaded CHR banks.</p>
+&nbsp;</aside><pre><a name="l18" href="#l18" title="Link to line 18">#</a><code>World<span class="token decimalnumber string">1</span>thru<span class="token decimalnumber string">6</span>TitleCard:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$B0</span>, <span class="token hexnumber string">$B2</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$B1</span>, <span class="token hexnumber string">$B3</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$C0</span>, <span class="token hexnumber string">$C1</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span> <span class="token comment">; $10</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$B4</span>, <span class="token hexnumber string">$B5</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$B6</span>, <span class="token hexnumber string">$B8</span>, <span class="token hexnumber string">$BA</span>, <span class="token hexnumber string">$B8</span>, <span class="token hexnumber string">$BA</span>, <span class="token hexnumber string">$BC</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span> <span class="token comment">; $20</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$B4</span>, <span class="token hexnumber string">$B5</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$B7</span>, <span class="token hexnumber string">$B9</span>, <span class="token hexnumber string">$BB</span>, <span class="token hexnumber string">$B9</span>, <span class="token hexnumber string">$BB</span>, <span class="token hexnumber string">$BD</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span> <span class="token comment">; $30</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$B4</span>, <span class="token hexnumber string">$B5</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$B7</span>, <span class="token hexnumber string">$B9</span>, <span class="token hexnumber string">$BB</span>, <span class="token hexnumber string">$B9</span>, <span class="token hexnumber string">$BB</span>, <span class="token hexnumber string">$BD</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span> <span class="token comment">; $40</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$B4</span>, <span class="token hexnumber string">$B5</span>, <span class="token hexnumber string">$C0</span>, <span class="token hexnumber string">$C1</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$B7</span>, <span class="token hexnumber string">$B9</span>, <span class="token hexnumber string">$BB</span>, <span class="token hexnumber string">$B9</span>, <span class="token hexnumber string">$BB</span>, <span class="token hexnumber string">$BD</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span> <span class="token comment">; $50</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$CA</span>, <span class="token hexnumber string">$CC</span>, <span class="token hexnumber string">$CA</span>, <span class="token hexnumber string">$CC</span>, <span class="token hexnumber string">$CA</span>, <span class="token hexnumber string">$CC</span>, <span class="token hexnumber string">$CA</span>, <span class="token hexnumber string">$CC</span>, <span class="token hexnumber string">$CA</span>, <span class="token hexnumber string">$CC</span>, <span class="token hexnumber string">$CA</span>, <span class="token hexnumber string">$CC</span>, <span class="token hexnumber string">$CA</span>, <span class="token hexnumber string">$CC</span>, <span class="token hexnumber string">$CA</span>, <span class="token hexnumber string">$CC</span> <span class="token comment">; $60</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$CB</span>, <span class="token hexnumber string">$CD</span>, <span class="token hexnumber string">$CB</span>, <span class="token hexnumber string">$CD</span>, <span class="token hexnumber string">$CB</span>, <span class="token hexnumber string">$CD</span>, <span class="token hexnumber string">$CB</span>, <span class="token hexnumber string">$CD</span>, <span class="token hexnumber string">$CB</span>, <span class="token hexnumber string">$CD</span>, <span class="token hexnumber string">$CB</span>, <span class="token hexnumber string">$CD</span>, <span class="token hexnumber string">$CB</span>, <span class="token hexnumber string">$CD</span>, <span class="token hexnumber string">$CB</span>, <span class="token hexnumber string">$CD</span> <span class="token comment">; $70</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$CE</span>, <span class="token hexnumber string">$CF</span>, <span class="token hexnumber string">$CE</span>, <span class="token hexnumber string">$CF</span>, <span class="token hexnumber string">$CE</span>, <span class="token hexnumber string">$CF</span>, <span class="token hexnumber string">$CE</span>, <span class="token hexnumber string">$CF</span>, <span class="token hexnumber string">$CE</span>, <span class="token hexnumber string">$CF</span>, <span class="token hexnumber string">$CE</span>, <span class="token hexnumber string">$CF</span>, <span class="token hexnumber string">$CE</span>, <span class="token hexnumber string">$CF</span>, <span class="token hexnumber string">$CE</span>, <span class="token hexnumber string">$CF</span> <span class="token comment">; $80</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$CF</span>, <span class="token hexnumber string">$CE</span>, <span class="token hexnumber string">$CF</span>, <span class="token hexnumber string">$CE</span>, <span class="token hexnumber string">$CF</span>, <span class="token hexnumber string">$CE</span>, <span class="token hexnumber string">$CF</span>, <span class="token hexnumber string">$CE</span>, <span class="token hexnumber string">$CF</span>, <span class="token hexnumber string">$CE</span>, <span class="token hexnumber string">$CF</span>, <span class="token hexnumber string">$CE</span>, <span class="token hexnumber string">$CF</span>, <span class="token hexnumber string">$CE</span>, <span class="token hexnumber string">$CF</span>, <span class="token hexnumber string">$CE</span> <span class="token comment">; $90</span>
+&nbsp;</code></pre><aside><p>This one is the special one used for World 7</p>
+&nbsp;</aside><pre><a name="l33" href="#l33" title="Link to line 33">#</a><code>World<span class="token decimalnumber string">7</span>TitleCard:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$B0</span>, <span class="token hexnumber string">$B2</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$B1</span>, <span class="token hexnumber string">$B3</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$C0</span>, <span class="token hexnumber string">$C1</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span> <span class="token comment">; $10</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$B1</span>, <span class="token hexnumber string">$B3</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$B6</span>, <span class="token hexnumber string">$B8</span>, <span class="token hexnumber string">$BA</span>, <span class="token hexnumber string">$B8</span>, <span class="token hexnumber string">$BA</span>, <span class="token hexnumber string">$BC</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span> <span class="token comment">; $20</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$B1</span>, <span class="token hexnumber string">$B3</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$B7</span>, <span class="token hexnumber string">$B9</span>, <span class="token hexnumber string">$BB</span>, <span class="token hexnumber string">$B9</span>, <span class="token hexnumber string">$BB</span>, <span class="token hexnumber string">$BD</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span> <span class="token comment">; $30</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$B1</span>, <span class="token hexnumber string">$B3</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$CA</span>, <span class="token hexnumber string">$FC</span>, <span class="token hexnumber string">$FC</span>, <span class="token hexnumber string">$FC</span>, <span class="token hexnumber string">$FC</span>, <span class="token hexnumber string">$CC</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span> <span class="token comment">; $40</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$B1</span>, <span class="token hexnumber string">$B3</span>, <span class="token hexnumber string">$C0</span>, <span class="token hexnumber string">$C1</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$CA</span>, <span class="token hexnumber string">$FC</span>, <span class="token hexnumber string">$FC</span>, <span class="token hexnumber string">$FC</span>, <span class="token hexnumber string">$FC</span>, <span class="token hexnumber string">$CC</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span> <span class="token comment">; $50</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$A8</span>, <span class="token hexnumber string">$AC</span>, <span class="token hexnumber string">$AA</span>, <span class="token hexnumber string">$AC</span>, <span class="token hexnumber string">$AA</span>, <span class="token hexnumber string">$AC</span>, <span class="token hexnumber string">$AA</span>, <span class="token hexnumber string">$AC</span>, <span class="token hexnumber string">$AA</span>, <span class="token hexnumber string">$AC</span>, <span class="token hexnumber string">$AA</span>, <span class="token hexnumber string">$AC</span>, <span class="token hexnumber string">$AA</span>, <span class="token hexnumber string">$AC</span>, <span class="token hexnumber string">$AA</span>, <span class="token hexnumber string">$AE</span> <span class="token comment">; $60</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$A9</span>, <span class="token hexnumber string">$AD</span>, <span class="token hexnumber string">$AB</span>, <span class="token hexnumber string">$AD</span>, <span class="token hexnumber string">$AB</span>, <span class="token hexnumber string">$AD</span>, <span class="token hexnumber string">$AB</span>, <span class="token hexnumber string">$AD</span>, <span class="token hexnumber string">$AB</span>, <span class="token hexnumber string">$AD</span>, <span class="token hexnumber string">$AB</span>, <span class="token hexnumber string">$AD</span>, <span class="token hexnumber string">$AB</span>, <span class="token hexnumber string">$AD</span>, <span class="token hexnumber string">$AB</span>, <span class="token hexnumber string">$AF</span> <span class="token comment">; $70</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span> <span class="token comment">; $80</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span> <span class="token comment">; $90</span>
+
+BonusChanceLayout:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$20</span>, <span class="token hexnumber string">$00</span>, <span class="token hexnumber string">$60</span>, <span class="token hexnumber string">$FD</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$20</span>, <span class="token hexnumber string">$20</span>, <span class="token hexnumber string">$60</span>, <span class="token hexnumber string">$FD</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$20</span>, <span class="token hexnumber string">$40</span>, <span class="token hexnumber string">$60</span>, <span class="token hexnumber string">$FD</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$20</span>, <span class="token hexnumber string">$60</span>, <span class="token hexnumber string">$60</span>, <span class="token hexnumber string">$FD</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$23</span>, <span class="token hexnumber string">$40</span>, <span class="token hexnumber string">$60</span>, <span class="token hexnumber string">$FD</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$23</span>, <span class="token hexnumber string">$60</span>, <span class="token hexnumber string">$60</span>, <span class="token hexnumber string">$FD</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$23</span>, <span class="token hexnumber string">$80</span>, <span class="token hexnumber string">$60</span>, <span class="token hexnumber string">$FD</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$23</span>, <span class="token hexnumber string">$A0</span>, <span class="token hexnumber string">$60</span>, <span class="token hexnumber string">$FD</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$20</span>, <span class="token hexnumber string">$80</span>, <span class="token hexnumber string">$D6</span>, <span class="token hexnumber string">$FD</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$20</span>, <span class="token hexnumber string">$81</span>, <span class="token hexnumber string">$D6</span>, <span class="token hexnumber string">$FD</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$20</span>, <span class="token hexnumber string">$82</span>, <span class="token hexnumber string">$D6</span>, <span class="token hexnumber string">$FD</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$20</span>, <span class="token hexnumber string">$9D</span>, <span class="token hexnumber string">$D6</span>, <span class="token hexnumber string">$FD</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$20</span>, <span class="token hexnumber string">$9E</span>, <span class="token hexnumber string">$D6</span>, <span class="token hexnumber string">$FD</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$20</span>, <span class="token hexnumber string">$9F</span>, <span class="token hexnumber string">$D6</span>, <span class="token hexnumber string">$FD</span>
+
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$20</span>, <span class="token hexnumber string">$68</span>, <span class="token hexnumber string">$10</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$48</span>, <span class="token hexnumber string">$4A</span>, <span class="token hexnumber string">$4C</span>, <span class="token hexnumber string">$4E</span>, <span class="token hexnumber string">$50</span>, <span class="token hexnumber string">$51</span>, <span class="token hexnumber string">$52</span>, <span class="token hexnumber string">$53</span>, <span class="token hexnumber string">$54</span>, <span class="token hexnumber string">$55</span>, <span class="token hexnumber string">$56</span>, <span class="token hexnumber string">$57</span>, <span class="token hexnumber string">$58</span>, <span class="token hexnumber string">$5A</span>, <span class="token hexnumber string">$5C</span>, <span class="token hexnumber string">$5E</span>
+
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$20</span>, <span class="token hexnumber string">$83</span>, <span class="token hexnumber string">$09</span>, <span class="token hexnumber string">$FD</span>, <span class="token hexnumber string">$FD</span>, <span class="token hexnumber string">$22</span>, <span class="token hexnumber string">$23</span>, <span class="token hexnumber string">$24</span>, <span class="token hexnumber string">$49</span>, <span class="token hexnumber string">$4B</span>, <span class="token hexnumber string">$4D</span>, <span class="token hexnumber string">$4F</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$20</span>, <span class="token hexnumber string">$94</span>, <span class="token hexnumber string">$09</span>, <span class="token hexnumber string">$59</span>, <span class="token hexnumber string">$5B</span>, <span class="token hexnumber string">$5D</span>, <span class="token hexnumber string">$5F</span>, <span class="token hexnumber string">$2E</span>, <span class="token hexnumber string">$2F</span>, <span class="token hexnumber string">$30</span>, <span class="token hexnumber string">$FD</span>, <span class="token hexnumber string">$FD</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$20</span>, <span class="token hexnumber string">$A3</span>, <span class="token hexnumber string">$04</span>, <span class="token hexnumber string">$FD</span>, <span class="token hexnumber string">$25</span>, <span class="token hexnumber string">$26</span>, <span class="token hexnumber string">$27</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$20</span>, <span class="token hexnumber string">$B9</span>, <span class="token hexnumber string">$04</span>, <span class="token hexnumber string">$31</span>, <span class="token hexnumber string">$32</span>, <span class="token hexnumber string">$33</span>, <span class="token hexnumber string">$FD</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$20</span>, <span class="token hexnumber string">$C3</span>, <span class="token hexnumber string">$04</span>, <span class="token hexnumber string">$FD</span>, <span class="token hexnumber string">$28</span>, <span class="token hexnumber string">$29</span>, <span class="token hexnumber string">$2A</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$20</span>, <span class="token hexnumber string">$D9</span>, <span class="token hexnumber string">$04</span>, <span class="token hexnumber string">$34</span>, <span class="token hexnumber string">$35</span>, <span class="token hexnumber string">$36</span>, <span class="token hexnumber string">$FD</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$20</span>, <span class="token hexnumber string">$E3</span>, <span class="token hexnumber string">$03</span>, <span class="token hexnumber string">$2B</span>, <span class="token hexnumber string">$2C</span>, <span class="token hexnumber string">$2D</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$20</span>, <span class="token hexnumber string">$FA</span>, <span class="token hexnumber string">$03</span>, <span class="token hexnumber string">$37</span>, <span class="token hexnumber string">$38</span>, <span class="token hexnumber string">$39</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$21</span>, <span class="token hexnumber string">$03</span>, <span class="token hexnumber string">$02</span>, <span class="token hexnumber string">$3A</span>, <span class="token hexnumber string">$3B</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$21</span>, <span class="token hexnumber string">$1B</span>, <span class="token hexnumber string">$02</span>, <span class="token hexnumber string">$40</span>, <span class="token hexnumber string">$41</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$21</span>, <span class="token hexnumber string">$23</span>, <span class="token hexnumber string">$D0</span>, <span class="token hexnumber string">$3C</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$21</span>, <span class="token hexnumber string">$3C</span>, <span class="token hexnumber string">$D0</span>, <span class="token hexnumber string">$42</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$22</span>, <span class="token hexnumber string">$02</span>, <span class="token hexnumber string">$02</span>, <span class="token hexnumber string">$3E</span>, <span class="token hexnumber string">$3F</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$22</span>, <span class="token hexnumber string">$1C</span>, <span class="token hexnumber string">$02</span>, <span class="token hexnumber string">$61</span>, <span class="token hexnumber string">$62</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$22</span>, <span class="token hexnumber string">$22</span>, <span class="token hexnumber string">$02</span>, <span class="token hexnumber string">$43</span>, <span class="token hexnumber string">$44</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$22</span>, <span class="token hexnumber string">$3C</span>, <span class="token hexnumber string">$02</span>, <span class="token hexnumber string">$63</span>, <span class="token hexnumber string">$64</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$22</span>, <span class="token hexnumber string">$43</span>, <span class="token hexnumber string">$01</span>, <span class="token hexnumber string">$45</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$22</span>, <span class="token hexnumber string">$5C</span>, <span class="token hexnumber string">$01</span>, <span class="token hexnumber string">$65</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$22</span>, <span class="token hexnumber string">$C4</span>, <span class="token hexnumber string">$02</span>, <span class="token hexnumber string">$A6</span>, <span class="token hexnumber string">$A8</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$22</span>, <span class="token hexnumber string">$E4</span>, <span class="token hexnumber string">$02</span>, <span class="token hexnumber string">$A7</span>, <span class="token hexnumber string">$A9</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$22</span>, <span class="token hexnumber string">$FA</span>, <span class="token hexnumber string">$04</span>, <span class="token hexnumber string">$80</span>, <span class="token hexnumber string">$82</span>, <span class="token hexnumber string">$88</span>, <span class="token hexnumber string">$8A</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$23</span>, <span class="token hexnumber string">$04</span>, <span class="token hexnumber string">$02</span>, <span class="token hexnumber string">$90</span>, <span class="token hexnumber string">$92</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$23</span>, <span class="token hexnumber string">$14</span>, <span class="token hexnumber string">$02</span>, <span class="token hexnumber string">$9E</span>, <span class="token hexnumber string">$A0</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$23</span>, <span class="token hexnumber string">$1A</span>, <span class="token hexnumber string">$04</span>, <span class="token hexnumber string">$81</span>, <span class="token hexnumber string">$83</span>, <span class="token hexnumber string">$89</span>, <span class="token hexnumber string">$8B</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$23</span>, <span class="token hexnumber string">$23</span>, <span class="token hexnumber string">$03</span>, <span class="token hexnumber string">$46</span>, <span class="token hexnumber string">$91</span>, <span class="token hexnumber string">$93</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$23</span>, <span class="token hexnumber string">$2A</span>, <span class="token hexnumber string">$02</span>, <span class="token hexnumber string">$A2</span>, <span class="token hexnumber string">$A4</span>
+
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$23</span>, <span class="token hexnumber string">$2E</span>, <span class="token hexnumber string">$10</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$67</span>, <span class="token hexnumber string">$6C</span>, <span class="token hexnumber string">$6E</span>, <span class="token hexnumber string">$70</span>, <span class="token hexnumber string">$72</span>, <span class="token hexnumber string">$69</span>, <span class="token hexnumber string">$9F</span>, <span class="token hexnumber string">$A1</span>, <span class="token hexnumber string">$75</span>, <span class="token hexnumber string">$98</span>, <span class="token hexnumber string">$9A</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$84</span>, <span class="token hexnumber string">$86</span>, <span class="token hexnumber string">$8C</span>, <span class="token hexnumber string">$8E</span>
+
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$23</span>, <span class="token hexnumber string">$43</span>, <span class="token hexnumber string">$1B</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$47</span>, <span class="token hexnumber string">$94</span>, <span class="token hexnumber string">$96</span>, <span class="token hexnumber string">$74</span>, <span class="token hexnumber string">$74</span>, <span class="token hexnumber string">$74</span>, <span class="token hexnumber string">$74</span>, <span class="token hexnumber string">$A3</span>, <span class="token hexnumber string">$A5</span>, <span class="token hexnumber string">$74</span>, <span class="token hexnumber string">$66</span>, <span class="token hexnumber string">$68</span>, <span class="token hexnumber string">$6D</span>, <span class="token hexnumber string">$6F</span>, <span class="token hexnumber string">$71</span>, <span class="token hexnumber string">$73</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$6A</span>, <span class="token hexnumber string">$6B</span>, <span class="token hexnumber string">$74</span>, <span class="token hexnumber string">$74</span>, <span class="token hexnumber string">$99</span>, <span class="token hexnumber string">$9B</span>, <span class="token hexnumber string">$74</span>, <span class="token hexnumber string">$85</span>, <span class="token hexnumber string">$87</span>, <span class="token hexnumber string">$8D</span>, <span class="token hexnumber string">$8F</span>
+
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$23</span>, <span class="token hexnumber string">$64</span>, <span class="token hexnumber string">$05</span>, <span class="token hexnumber string">$95</span>, <span class="token hexnumber string">$97</span>, <span class="token hexnumber string">$FD</span>, <span class="token hexnumber string">$AA</span>, <span class="token hexnumber string">$AB</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$23</span>, <span class="token hexnumber string">$77</span>, <span class="token hexnumber string">$05</span>, <span class="token hexnumber string">$9C</span>, <span class="token hexnumber string">$9D</span>, <span class="token hexnumber string">$AA</span>, <span class="token hexnumber string">$AB</span>, <span class="token hexnumber string">$AB</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$23</span>, <span class="token hexnumber string">$89</span>, <span class="token hexnumber string">$02</span>, <span class="token hexnumber string">$AA</span>, <span class="token hexnumber string">$AB</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$20</span>, <span class="token hexnumber string">$C9</span>, <span class="token hexnumber string">$0E</span>, <span class="token hexnumber string">$78</span>, <span class="token hexnumber string">$AC</span>, <span class="token hexnumber string">$B0</span>, <span class="token hexnumber string">$B4</span>, <span class="token hexnumber string">$B7</span>, <span class="token hexnumber string">$BA</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$BC</span>, <span class="token hexnumber string">$BE</span>, <span class="token hexnumber string">$C1</span>, <span class="token hexnumber string">$C4</span>, <span class="token hexnumber string">$C7</span>, <span class="token hexnumber string">$CB</span>, <span class="token hexnumber string">$7C</span>
+
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$20</span>, <span class="token hexnumber string">$E8</span>, <span class="token hexnumber string">$10</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$1C</span>, <span class="token hexnumber string">$79</span>, <span class="token hexnumber string">$AD</span>, <span class="token hexnumber string">$B1</span>, <span class="token hexnumber string">$B5</span>, <span class="token hexnumber string">$B8</span>, <span class="token hexnumber string">$BB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$BD</span>, <span class="token hexnumber string">$BF</span>, <span class="token hexnumber string">$C2</span>, <span class="token hexnumber string">$C5</span>, <span class="token hexnumber string">$C8</span>, <span class="token hexnumber string">$CC</span>, <span class="token hexnumber string">$7D</span>, <span class="token hexnumber string">$1E</span>
+
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$21</span>, <span class="token hexnumber string">$08</span>, <span class="token hexnumber string">$10</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$1D</span>, <span class="token hexnumber string">$7A</span>, <span class="token hexnumber string">$AE</span>, <span class="token hexnumber string">$B2</span>, <span class="token hexnumber string">$B6</span>, <span class="token hexnumber string">$B9</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$FB</span>, <span class="token hexnumber string">$C0</span>, <span class="token hexnumber string">$C3</span>, <span class="token hexnumber string">$C6</span>, <span class="token hexnumber string">$C9</span>, <span class="token hexnumber string">$CD</span>, <span class="token hexnumber string">$7E</span>, <span class="token hexnumber string">$1F</span>
+
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$21</span>, <span class="token hexnumber string">$29</span>, <span class="token hexnumber string">$03</span>, <span class="token hexnumber string">$7B</span>, <span class="token hexnumber string">$AF</span>, <span class="token hexnumber string">$B3</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$21</span>, <span class="token hexnumber string">$34</span>, <span class="token hexnumber string">$03</span>, <span class="token hexnumber string">$CA</span>, <span class="token hexnumber string">$CE</span>, <span class="token hexnumber string">$7F</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$21</span>, <span class="token hexnumber string">$6A</span>, <span class="token hexnumber string">$0C</span>, <span class="token hexnumber string">$14</span>, <span class="token hexnumber string">$10</span>, <span class="token hexnumber string">$10</span>, <span class="token hexnumber string">$16</span>, <span class="token hexnumber string">$14</span>, <span class="token hexnumber string">$10</span>, <span class="token hexnumber string">$10</span>, <span class="token hexnumber string">$16</span>, <span class="token hexnumber string">$14</span>, <span class="token hexnumber string">$10</span>, <span class="token hexnumber string">$10</span>, <span class="token hexnumber string">$16</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$21</span>, <span class="token hexnumber string">$8A</span>, <span class="token hexnumber string">$0C</span>, <span class="token hexnumber string">$11</span>, <span class="token hexnumber string">$FC</span>, <span class="token hexnumber string">$FC</span>, <span class="token hexnumber string">$12</span>, <span class="token hexnumber string">$11</span>, <span class="token hexnumber string">$FC</span>, <span class="token hexnumber string">$FC</span>, <span class="token hexnumber string">$12</span>, <span class="token hexnumber string">$11</span>, <span class="token hexnumber string">$FC</span>, <span class="token hexnumber string">$FC</span>, <span class="token hexnumber string">$12</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$21</span>, <span class="token hexnumber string">$AA</span>, <span class="token hexnumber string">$0C</span>, <span class="token hexnumber string">$11</span>, <span class="token hexnumber string">$FC</span>, <span class="token hexnumber string">$FC</span>, <span class="token hexnumber string">$12</span>, <span class="token hexnumber string">$11</span>, <span class="token hexnumber string">$FC</span>, <span class="token hexnumber string">$FC</span>, <span class="token hexnumber string">$12</span>, <span class="token hexnumber string">$11</span>, <span class="token hexnumber string">$FC</span>, <span class="token hexnumber string">$FC</span>, <span class="token hexnumber string">$12</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$21</span>, <span class="token hexnumber string">$CA</span>, <span class="token hexnumber string">$0C</span>, <span class="token hexnumber string">$15</span>, <span class="token hexnumber string">$13</span>, <span class="token hexnumber string">$13</span>, <span class="token hexnumber string">$17</span>, <span class="token hexnumber string">$15</span>, <span class="token hexnumber string">$13</span>, <span class="token hexnumber string">$13</span>, <span class="token hexnumber string">$17</span>, <span class="token hexnumber string">$15</span>, <span class="token hexnumber string">$13</span>, <span class="token hexnumber string">$13</span>, <span class="token hexnumber string">$17</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$22</span>, <span class="token hexnumber string">$0D</span>, <span class="token hexnumber string">$02</span>, <span class="token hexnumber string">$18</span>, <span class="token hexnumber string">$1A</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$22</span>, <span class="token hexnumber string">$2D</span>, <span class="token hexnumber string">$02</span>, <span class="token hexnumber string">$19</span>, <span class="token hexnumber string">$1B</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$23</span>, <span class="token hexnumber string">$D2</span>, <span class="token hexnumber string">$04</span>, <span class="token hexnumber string">$80</span>, <span class="token hexnumber string">$A0</span>, <span class="token hexnumber string">$A0</span>, <span class="token hexnumber string">$20</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$23</span>, <span class="token hexnumber string">$DA</span>, <span class="token hexnumber string">$04</span>, <span class="token hexnumber string">$88</span>, <span class="token hexnumber string">$AA</span>, <span class="token hexnumber string">$AA</span>, <span class="token hexnumber string">$22</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$23</span>, <span class="token hexnumber string">$E4</span>, <span class="token hexnumber string">$01</span>, <span class="token hexnumber string">$0A</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$23</span>, <span class="token hexnumber string">$EA</span>, <span class="token hexnumber string">$05</span>, <span class="token hexnumber string">$A0</span>, <span class="token hexnumber string">$A0</span>, <span class="token hexnumber string">$A0</span>, <span class="token hexnumber string">$A0</span>, <span class="token hexnumber string">$20</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>
+
+&nbsp;</code></pre><aside><p>Copies the Bonus Chance PPU data</p>
+<p>This copies in two $100 byte chunks, the second of which includes extra data
+that is never used because of the terminating $00</p>
+&nbsp;</aside><pre><a name="l130" href="#l130" title="Link to line 130">#</a><code>CopyBonusChanceLayoutToRAM:
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$00</span>
+CopyBonusChanceLayoutToRAM_Loop<span class="token decimalnumber string">1</span>:
+	<span class="token opcode property">LDA</span> BonusChanceLayout, <span class="token register variable">Y</span> <span class="token comment">; Blindly copy $100 bytes from $8140 to $7400</span>
+	<span class="token opcode property">STA</span> BonusChanceLayoutRAM, <span class="token register variable">Y</span>
+	<span class="token opcode property">DEY</span>
+	<span class="token opcode property">BNE</span> CopyBonusChanceLayoutToRAM_Loop<span class="token decimalnumber string">1</span>
+
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$00</span>
+CopyBonusChanceLayoutToRAM_Loop<span class="token decimalnumber string">2</span>:&nbsp;</code></pre><aside><p>Blindly copy $100 more bytes from $8240 to $7500
+That range includes this code! clap. clap.</p>
+&nbsp;</aside><pre><a name="l142" href="#l142" title="Link to line 142">#</a><code>	<span class="token opcode property">LDA</span> BonusChanceLayout + <span class="token hexnumber string">$100</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> BonusChanceLayoutRAM<span class="token decimalnumber string">2</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">DEY</span>
+	<span class="token opcode property">BNE</span> CopyBonusChanceLayoutToRAM_Loop<span class="token decimalnumber string">2</span>
+
+	<span class="token opcode property">RTS</span>
+
+&nbsp;</code></pre><aside><p>=============== S U B R O U T I N E =======================================</p>
+&nbsp;</aside><pre><a name="l150" href="#l150" title="Link to line 150">#</a><code>DrawTitleCardWorldImage:
+	<span class="token opcode property">LDA</span> CurrentWorld
+	<span class="token opcode property">CMP</span> <span class="token decimalnumber string">#6</span>
+	<span class="token opcode property">BEQ</span> loc_BANKA_<span class="token decimalnumber string">8392</span> <span class="token comment">; Special case for World 7's title card</span>
+
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$25</span>
+	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">0</span>
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$C8</span>
+	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">LDY</span> <span class="token decimalnumber string">#0</span>
+
+loc_BANKA_<span class="token decimalnumber string">8338</span>:
+	<span class="token opcode property">LDX</span> #$F
+	<span class="token opcode property">LDA</span> PPUSTATUS
+	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">0</span>
+	<span class="token opcode property">STA</span> PPUADDR
+
+loc_BANKA_<span class="token decimalnumber string">8342</span>:
+	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">STA</span> PPUADDR
+
+loc_BANKA_<span class="token decimalnumber string">8347</span>:
+	<span class="token opcode property">LDA</span> World<span class="token decimalnumber string">1</span>thru<span class="token decimalnumber string">6</span>TitleCard, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> PPUDATA
+	<span class="token opcode property">INY</span>
+	<span class="token opcode property">DEX</span>
+	<span class="token opcode property">BPL</span> loc_BANKA_<span class="token decimalnumber string">8347</span>
+
+	<span class="token opcode property">CPY</span> <span class="token hexnumber string">#$A0</span>
+	<span class="token opcode property">BCS</span> loc_BANKA_<span class="token decimalnumber string">8364</span>
+
+	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">ADC</span> <span class="token hexnumber string">#$20</span>
+	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">0</span>
+	<span class="token opcode property">ADC</span> <span class="token decimalnumber string">#0</span>
+	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">0</span>
+	<span class="token opcode property">JMP</span> loc_BANKA_<span class="token decimalnumber string">8338</span>
+
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l191" href="#l191" title="Link to line 191">#</a><code>loc_BANKA_<span class="token decimalnumber string">8364</span>:
+	<span class="token opcode property">LDA</span> CurrentWorld
+	<span class="token opcode property">CMP</span> <span class="token decimalnumber string">#1</span>
+	<span class="token opcode property">BEQ</span> loc_BANKA_<span class="token decimalnumber string">8371</span>
+
+	<span class="token opcode property">CMP</span> <span class="token decimalnumber string">#5</span>
+	<span class="token opcode property">BEQ</span> loc_BANKA_<span class="token decimalnumber string">8371</span>
+
+	<span class="token opcode property">BNE</span> loc_BANKA_<span class="token decimalnumber string">8389</span>
+
+loc_BANKA_<span class="token decimalnumber string">8371</span>:
+	<span class="token opcode property">AND</span> <span class="token hexnumber string">#$80</span>
+	<span class="token opcode property">BNE</span> loc_BANKA_<span class="token decimalnumber string">8389</span>
+
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$26</span>
+	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">0</span>
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$88</span>
+	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">LDA</span> CurrentWorld
+	<span class="token opcode property">ORA</span> <span class="token hexnumber string">#$80</span>
+	<span class="token opcode property">STA</span> CurrentWorld
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$80</span>
+	<span class="token opcode property">BNE</span> loc_BANKA_<span class="token decimalnumber string">8338</span>
+
+loc_BANKA_<span class="token decimalnumber string">8389</span>:
+	<span class="token opcode property">LDA</span> CurrentWorld
+	<span class="token opcode property">AND</span> #$F
+	<span class="token opcode property">STA</span> CurrentWorld
+	<span class="token opcode property">RTS</span>
+
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l223" href="#l223" title="Link to line 223">#</a><code>loc_BANKA_<span class="token decimalnumber string">8392</span>:
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$25</span>
+	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">0</span>
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$C8</span>
+	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">LDY</span> <span class="token decimalnumber string">#0</span>
+
+loc_BANKA_<span class="token decimalnumber string">839</span>C:
+	<span class="token opcode property">LDX</span> #$F
+	<span class="token opcode property">LDA</span> PPUSTATUS
+	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">0</span>
+	<span class="token opcode property">STA</span> PPUADDR
+	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">STA</span> PPUADDR
+
+loc_BANKA_<span class="token decimalnumber string">83</span>AB:
+	<span class="token opcode property">LDA</span> World<span class="token decimalnumber string">7</span>TitleCard, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> PPUDATA
+	<span class="token opcode property">INY</span>
+	<span class="token opcode property">DEX</span>
+	<span class="token opcode property">BPL</span> loc_BANKA_<span class="token decimalnumber string">83</span>AB
+
+	<span class="token opcode property">CPY</span> <span class="token hexnumber string">#$A0</span>
+	<span class="token opcode property">BCS</span> locret_BANKA_<span class="token decimalnumber string">83</span>C<span class="token decimalnumber string">8</span>
+
+	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">ADC</span> <span class="token hexnumber string">#$20</span>
+	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">0</span>
+	<span class="token opcode property">ADC</span> <span class="token decimalnumber string">#0</span>
+	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">0</span>
+	<span class="token opcode property">JMP</span> loc_BANKA_<span class="token decimalnumber string">839</span>C
+
+&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l258" href="#l258" title="Link to line 258">#</a><code>locret_BANKA_<span class="token decimalnumber string">83</span>C<span class="token decimalnumber string">8</span>:
+	<span class="token opcode property">RTS</span>
+
+&nbsp;</code></pre><aside><p>End of function DrawTitleCardWorldImage</p>
+&nbsp;</aside><pre><a name="l263" href="#l263" title="Link to line 263">#</a><code>StatOffsets:
+	<span class="token directive keyword">.db</span> (MarioStats - CharacterStats)
+	<span class="token directive keyword">.db</span> (PrincessStats - CharacterStats)
+	<span class="token directive keyword">.db</span> (ToadStats - CharacterStats)
+	<span class="token directive keyword">.db</span> (LuigiStats - CharacterStats)
+
+CharacterStats:
+MarioStats:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span> <span class="token comment">; Pick-up Speed, frame 1/6 - pulling</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$04</span> <span class="token comment">; Pick-up Speed, frame 2/6 - pulling</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$02</span> <span class="token comment">; Pick-up Speed, frame 3/6 - ducking</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$01</span> <span class="token comment">; Pick-up Speed, frame 4/6 - ducking</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$04</span> <span class="token comment">; Pick-up Speed, frame 5/6 - ducking</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$07</span> <span class="token comment">; Pick-up Speed, frame 6/6 - ducking</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$B0</span> <span class="token comment">; Jump Speed, still - no object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$B0</span> <span class="token comment">; Jump Speed, still - with object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$98</span> <span class="token comment">; Jump Speed, charged - no object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$98</span> <span class="token comment">; Jump Speed, charged - with object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$A6</span> <span class="token comment">; Jump Speed, running - no object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$AA</span> <span class="token comment">; Jump Speed, running - with object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$E0</span> <span class="token comment">; Jump Speed - in quicksand</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span> <span class="token comment">; Floating Time</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$07</span> <span class="token comment">; Gravity without Jump button pressed</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$04</span> <span class="token comment">; Gravity with Jump button pressed</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$08</span> <span class="token comment">; Gravity in quicksand</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$18</span> <span class="token comment">; Running Speed, right - no object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$18</span> <span class="token comment">; Running Speed, right - with object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$04</span> <span class="token comment">; Running Speed, right - in quicksand</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$E8</span> <span class="token comment">; Running Speed, left - no object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$E8</span> <span class="token comment">; Running Speed, left - with object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FC</span> <span class="token comment">; Running Speed, left - in quicksand</span>
+
+ToadStats:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span> <span class="token comment">; Pick-up Speed, frame 1/6 - pulling</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$01</span> <span class="token comment">; Pick-up Speed, frame 2/6 - pulling</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$01</span> <span class="token comment">; Pick-up Speed, frame 3/6 - ducking</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$01</span> <span class="token comment">; Pick-up Speed, frame 4/6 - ducking</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$01</span> <span class="token comment">; Pick-up Speed, frame 5/6 - ducking</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$02</span> <span class="token comment">; Pick-up Speed, frame 6/6 - ducking</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$B2</span> <span class="token comment">; Jump Speed, still - no object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$B2</span> <span class="token comment">; Jump Speed, still - with object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$98</span> <span class="token comment">; Jump Speed, charged - no object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$98</span> <span class="token comment">; Jump Speed, charged - with object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$AD</span> <span class="token comment">; Jump Speed, running - no object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$AD</span> <span class="token comment">; Jump Speed, running - with object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$E0</span> <span class="token comment">; Jump Speed - in quicksand</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span> <span class="token comment">; Floating Time</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$07</span> <span class="token comment">; Gravity without Jump button pressed</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$04</span> <span class="token comment">; Gravity with Jump button pressed</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$08</span> <span class="token comment">; Gravity in quicksand</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$18</span> <span class="token comment">; Running Speed, right - no object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$1D</span> <span class="token comment">; Running Speed, right - with object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$04</span> <span class="token comment">; Running Speed, right - in quicksand</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$E8</span> <span class="token comment">; Running Speed, left - no object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$E3</span> <span class="token comment">; Running Speed, left - with object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FC</span> <span class="token comment">; Running Speed, left - in quicksand</span>
+
+LuigiStats:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span> <span class="token comment">; Pick-up Speed, frame 1/6 - pulling</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$04</span> <span class="token comment">; Pick-up Speed, frame 2/6 - pulling</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$02</span> <span class="token comment">; Pick-up Speed, frame 3/6 - ducking</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$01</span> <span class="token comment">; Pick-up Speed, frame 4/6 - ducking</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$04</span> <span class="token comment">; Pick-up Speed, frame 5/6 - ducking</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$07</span> <span class="token comment">; Pick-up Speed, frame 6/6 - ducking</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$D6</span> <span class="token comment">; Jump Speed, still - no object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$D6</span> <span class="token comment">; Jump Speed, still - with object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$C9</span> <span class="token comment">; Jump Speed, charged - no object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$C9</span> <span class="token comment">; Jump Speed, charged - with object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$D0</span> <span class="token comment">; Jump Speed, running - no object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$D4</span> <span class="token comment">; Jump Speed, running - with object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$E0</span> <span class="token comment">; Jump Speed - in quicksand</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span> <span class="token comment">; Floating Time</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$02</span> <span class="token comment">; Gravity without Jump button pressed</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$01</span> <span class="token comment">; Gravity with Jump button pressed</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$08</span> <span class="token comment">; Gravity in quicksand</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$18</span> <span class="token comment">; Running Speed, right - no object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$16</span> <span class="token comment">; Running Speed, right - with object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$04</span> <span class="token comment">; Running Speed, right - in quicksand</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$E8</span> <span class="token comment">; Running Speed, left - no object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$EA</span> <span class="token comment">; Running Speed, left - with object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FC</span> <span class="token comment">; Running Speed, left - in quicksand</span>
+
+PrincessStats:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span> <span class="token comment">; Pick-up Speed, frame 1/6 - pulling</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$06</span> <span class="token comment">; Pick-up Speed, frame 2/6 - pulling</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$04</span> <span class="token comment">; Pick-up Speed, frame 3/6 - ducking</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$02</span> <span class="token comment">; Pick-up Speed, frame 4/6 - ducking</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$06</span> <span class="token comment">; Pick-up Speed, frame 5/6 - ducking</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0C</span> <span class="token comment">; Pick-up Speed, frame 6/6 - ducking</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$B3</span> <span class="token comment">; Jump Speed, still - no object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$B3</span> <span class="token comment">; Jump Speed, still - with object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$98</span> <span class="token comment">; Jump Speed, charged - no object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$98</span> <span class="token comment">; Jump Speed, charged - with object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$AC</span> <span class="token comment">; Jump Speed, running - no object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$B3</span> <span class="token comment">; Jump Speed, running - with object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$E0</span> <span class="token comment">; Jump Speed - in quicksand</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$3C</span> <span class="token comment">; Floating Time</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$07</span> <span class="token comment">; Gravity without Jump button pressed</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$04</span> <span class="token comment">; Gravity with Jump button pressed</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$08</span> <span class="token comment">; Gravity in quicksand</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$18</span> <span class="token comment">; Running Speed, right - no object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$15</span> <span class="token comment">; Running Speed, right - with object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$04</span> <span class="token comment">; Running Speed, right - in quicksand</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$E8</span> <span class="token comment">; Running Speed, left - no object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$EB</span> <span class="token comment">; Running Speed, left - with object</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FC</span> <span class="token comment">; Running Speed, left - in quicksand</span>
+
+CharacterPalette:
+MarioPalette:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0F</span>,<span class="token hexnumber string">$01</span>,<span class="token hexnumber string">$16</span>,<span class="token hexnumber string">$27</span>
+PrincessPalette:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0F</span>,<span class="token hexnumber string">$06</span>,<span class="token hexnumber string">$25</span>,<span class="token hexnumber string">$36</span>
+ToadPalette:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0F</span>,<span class="token hexnumber string">$01</span>,<span class="token hexnumber string">$30</span>,<span class="token hexnumber string">$27</span>
+LuigiPalette:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0F</span>,<span class="token hexnumber string">$01</span>,<span class="token hexnumber string">$2A</span>,<span class="token hexnumber string">$36</span>
+
+MysteryData<span class="token decimalnumber string">14439</span>:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$DF</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$EF</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$F7</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FB</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FF</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FF</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FF</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$AF</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$D7</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$EB</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$F5</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FB</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$F7</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$EF</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$DF</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FF</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FF</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FF</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$F5</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$EB</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$D7</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$AF</span>
+
+&nbsp;</code></pre><aside><p>This copies the selected character's stats
+into memory for use later, but also a bunch
+of other unrelated crap like the
+Bonus Chance slot reels (???) and
+god knows what else.</p>
+&nbsp;</aside><pre><a name="l415" href="#l415" title="Link to line 415">#</a><code>CopyCharacterStatsAndStuff:
+IFDEF CONTROLLER_<span class="token decimalnumber string">2</span>_DEBUG
+	<span class="token opcode property">JSR</span> CopyCharacterStats
+ENDIF
+
+	<span class="token opcode property">LDX</span> CurrentCharacter
+	<span class="token opcode property">LDY</span> StatOffsets, <span class="token register variable">X</span>
+	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$00</span>
+loc_BANKA_<span class="token decimalnumber string">8458</span>:
+	<span class="token opcode property">LDA</span> CharacterStats, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> CharacterStatsRAM, <span class="token register variable">X</span>
+	<span class="token opcode property">INY</span>
+	<span class="token opcode property">INX</span>
+	<span class="token opcode property">CPX</span> <span class="token hexnumber string">#$17</span>
+	<span class="token opcode property">BCC</span> loc_BANKA_<span class="token decimalnumber string">8458</span>
+
+	<span class="token opcode property">LDA</span> CurrentCharacter
+	<span class="token opcode property">ASL</span> <span class="token register variable">A</span>
+	<span class="token opcode property">ASL</span> <span class="token register variable">A</span>
+	<span class="token opcode property">TAY</span>
+	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$00</span>
+loc_BANKA_<span class="token decimalnumber string">846</span>B:
+	<span class="token opcode property">LDA</span> CharacterPalette, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> RestorePlayerPalette<span class="token decimalnumber string">0</span>, <span class="token register variable">X</span>
+	<span class="token opcode property">INY</span>
+	<span class="token opcode property">INX</span>
+	<span class="token opcode property">CPX</span> <span class="token hexnumber string">#$04</span>
+	<span class="token opcode property">BCC</span> loc_BANKA_<span class="token decimalnumber string">846</span>B
+
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$4C</span>
+loc_BANKA_<span class="token decimalnumber string">8479</span>:
+	<span class="token opcode property">LDA</span> PlayerSelectPalettes, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> PPUBuffer_<span class="token decimalnumber string">55</span>F, <span class="token register variable">Y</span>
+	<span class="token opcode property">DEY</span>
+	<span class="token opcode property">CPY</span> <span class="token hexnumber string">#$FF</span>
+	<span class="token opcode property">BNE</span> loc_BANKA_<span class="token decimalnumber string">8479</span>
+
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$B6</span>
+loc_BANKA_<span class="token decimalnumber string">8486</span>:
+	<span class="token opcode property">LDA</span> BonusChanceReel<span class="token decimalnumber string">1</span>Order, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> SlotMachineReelOrder<span class="token decimalnumber string">1</span>RAM, <span class="token register variable">Y</span>
+	<span class="token opcode property">DEY</span>
+	<span class="token opcode property">CPY</span> <span class="token hexnumber string">#$FF</span>
+	<span class="token opcode property">BNE</span> loc_BANKA_<span class="token decimalnumber string">8486</span>
+
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$63</span>
+loc_BANKA_<span class="token decimalnumber string">8493</span>:
+	<span class="token opcode property">LDA</span> Text_Unknown<span class="token decimalnumber string">5</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> PPUBuffer_<span class="token decimalnumber string">7168</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">DEY</span>
+	<span class="token opcode property">CPY</span> <span class="token hexnumber string">#$FF</span>
+	<span class="token opcode property">BNE</span> loc_BANKA_<span class="token decimalnumber string">8493</span>
+
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$17</span>
+loc_BANKA_<span class="token decimalnumber string">84</span><span class="token register variable">A</span><span class="token decimalnumber string">0</span>:
+	<span class="token opcode property">LDA</span> MysteryData<span class="token decimalnumber string">14439</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> unk_RAM_<span class="token decimalnumber string">7150</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">DEY</span>
+	<span class="token opcode property">BPL</span> loc_BANKA_<span class="token decimalnumber string">84</span><span class="token register variable">A</span><span class="token decimalnumber string">0</span>
+
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$4F</span>
+loc_BANKA_<span class="token decimalnumber string">84</span>AB:
+	<span class="token opcode property">LDA</span> byte_BANKF_F<span class="token decimalnumber string">099</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> unk_RAM_<span class="token decimalnumber string">7100</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">DEY</span>
+	<span class="token opcode property">BPL</span> loc_BANKA_<span class="token decimalnumber string">84</span>AB
+
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$03</span>
+loc_BANKA_<span class="token decimalnumber string">84</span>B<span class="token decimalnumber string">6</span>:
+	<span class="token opcode property">LDA</span> byte_BANKA_<span class="token decimalnumber string">84</span>E<span class="token decimalnumber string">1</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">71</span>CC, <span class="token register variable">Y</span>
+	<span class="token opcode property">DEY</span>
+	<span class="token opcode property">BPL</span> loc_BANKA_<span class="token decimalnumber string">84</span>B<span class="token decimalnumber string">6</span>
+&nbsp;</code></pre><aside><p>Collision data</p>
+&nbsp;</aside><pre><a name="l490" href="#l490" title="Link to line 490">#</a><code>	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$49</span>
+loc_BANKA_<span class="token decimalnumber string">84</span>C<span class="token decimalnumber string">1</span>:
+	<span class="token opcode property">LDA</span> byte_BANKF_F<span class="token decimalnumber string">607</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> unk_RAM_<span class="token decimalnumber string">71</span>D<span class="token decimalnumber string">1</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">DEY</span>
+	<span class="token opcode property">BPL</span> loc_BANKA_<span class="token decimalnumber string">84</span>C<span class="token decimalnumber string">1</span>
+
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$20</span>
+loc_BANKA_<span class="token decimalnumber string">84</span>CC:
+	<span class="token opcode property">LDA</span> EndOfLevelDoor, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> PPUBuffer_<span class="token decimalnumber string">721</span>B, <span class="token register variable">Y</span>
+	<span class="token opcode property">DEY</span>
+	<span class="token opcode property">BPL</span> loc_BANKA_<span class="token decimalnumber string">84</span>CC
+
+	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$06</span>
+loc_BANKA_<span class="token decimalnumber string">84</span>D<span class="token decimalnumber string">7</span>:
+	<span class="token opcode property">LDA</span> byte_BANKA_<span class="token decimalnumber string">84</span>E<span class="token decimalnumber string">5</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> unk_RAM_<span class="token decimalnumber string">7265</span>, <span class="token register variable">Y</span>
+	<span class="token opcode property">DEY</span>
+	<span class="token opcode property">BPL</span> loc_BANKA_<span class="token decimalnumber string">84</span>D<span class="token decimalnumber string">7</span>
+
+	<span class="token opcode property">RTS</span>
+&nbsp;</code></pre><aside><p>End of function CopyCharacterStatsAndStuff</p>
+&nbsp;</aside><pre><a name="l514" href="#l514" title="Link to line 514">#</a><code>&nbsp;</code></pre><aside><hr>
+&nbsp;</aside><pre><a name="l516" href="#l516" title="Link to line 516">#</a><code>byte_BANKA_<span class="token decimalnumber string">84</span>E<span class="token decimalnumber string">1</span>:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$01</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FF</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>
+
+byte_BANKA_<span class="token decimalnumber string">84</span>E<span class="token decimalnumber string">5</span>:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$E0</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FF</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$D0</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$E0</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FF</span>
+
+PlayerSelectPalettes:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$3F</span>, <span class="token hexnumber string">$00</span>, <span class="token hexnumber string">$20</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0F</span>, <span class="token hexnumber string">$28</span>, <span class="token hexnumber string">$16</span>, <span class="token hexnumber string">$06</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0F</span>, <span class="token hexnumber string">$30</span>, <span class="token hexnumber string">$12</span>, <span class="token hexnumber string">$16</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0F</span>, <span class="token hexnumber string">$30</span>, <span class="token hexnumber string">$16</span>, <span class="token hexnumber string">$12</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0F</span>, <span class="token hexnumber string">$30</span>, <span class="token hexnumber string">$12</span>, <span class="token hexnumber string">$16</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0F</span>, <span class="token hexnumber string">$22</span>, <span class="token hexnumber string">$12</span>, <span class="token hexnumber string">$01</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0F</span>, <span class="token hexnumber string">$22</span>, <span class="token hexnumber string">$12</span>, <span class="token hexnumber string">$01</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0F</span>, <span class="token hexnumber string">$22</span>, <span class="token hexnumber string">$12</span>, <span class="token hexnumber string">$01</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0F</span>, <span class="token hexnumber string">$22</span>, <span class="token hexnumber string">$12</span>, <span class="token hexnumber string">$01</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>
+BonusChanceText_X_<span class="token decimalnumber string">1</span>:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$22</span>,<span class="token hexnumber string">$30</span>,<span class="token hexnumber string">$03</span>,<span class="token hexnumber string">$EA</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$D1</span>
+BonusChanceText_EXTRA_LIFE_<span class="token decimalnumber string">1</span>:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$22</span>,<span class="token hexnumber string">$C9</span>,<span class="token hexnumber string">$0F</span>,<span class="token hexnumber string">$DE</span>,<span class="token hexnumber string">$F1</span>,<span class="token hexnumber string">$ED</span>,<span class="token hexnumber string">$EB</span>,<span class="token hexnumber string">$DA</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$E5</span>,<span class="token hexnumber string">$E2</span>,<span class="token hexnumber string">$DF</span>,<span class="token hexnumber string">$DE</span>,<span class="token hexnumber string">$F9</span>,<span class="token hexnumber string">$F9</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$F9</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$D1</span>,<span class="token hexnumber string">$00</span> <span class="token comment">; $0F</span>
+BonusChanceBackgroundPalettes:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0F</span>,<span class="token hexnumber string">$27</span>,<span class="token hexnumber string">$17</span>,<span class="token hexnumber string">$07</span> <span class="token comment">; $00</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0F</span>,<span class="token hexnumber string">$37</span>,<span class="token hexnumber string">$16</span>,<span class="token hexnumber string">$12</span> <span class="token comment">; $04</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0F</span>,<span class="token hexnumber string">$30</span>,<span class="token hexnumber string">$10</span>,<span class="token hexnumber string">$00</span> <span class="token comment">; $08</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0F</span>,<span class="token hexnumber string">$21</span>,<span class="token hexnumber string">$12</span>,<span class="token hexnumber string">$01</span> <span class="token comment">; $0C</span>
+BonusChanceReel<span class="token decimalnumber string">1</span>Order:
+	<span class="token directive keyword">.db</span> Slot_Snifit <span class="token comment">; $00</span>
+	<span class="token directive keyword">.db</span> Slot_Turnip <span class="token comment">; $01 ; Graphics exist for a mushroom (not used)</span>
+	<span class="token directive keyword">.db</span> Slot_Star   <span class="token comment">; $02</span>
+	<span class="token directive keyword">.db</span> Slot_Turnip <span class="token comment">; $03</span>
+	<span class="token directive keyword">.db</span> Slot_Snifit <span class="token comment">; $04</span>
+	<span class="token directive keyword">.db</span> Slot_Star   <span class="token comment">; $05</span>
+	<span class="token directive keyword">.db</span> Slot_Cherry <span class="token comment">; $06</span>
+	<span class="token directive keyword">.db</span> Slot_Turnip <span class="token comment">; $07</span>
+BonusChanceReel<span class="token decimalnumber string">2</span>Order:
+	<span class="token directive keyword">.db</span> Slot_Star   <span class="token comment">; $00</span>
+	<span class="token directive keyword">.db</span> Slot_Snifit <span class="token comment">; $01</span>
+	<span class="token directive keyword">.db</span> Slot_Cherry <span class="token comment">; $02</span>
+	<span class="token directive keyword">.db</span> Slot_Snifit <span class="token comment">; $03</span>
+	<span class="token directive keyword">.db</span> Slot_Turnip <span class="token comment">; $04</span>
+	<span class="token directive keyword">.db</span> Slot_Star   <span class="token comment">; $05</span>
+	<span class="token directive keyword">.db</span> Slot_Snifit <span class="token comment">; $06</span>
+	<span class="token directive keyword">.db</span> Slot_Turnip <span class="token comment">; $07</span>
+BonusChanceReel<span class="token decimalnumber string">3</span>Order:
+	<span class="token directive keyword">.db</span> Slot_Star   <span class="token comment">; $00</span>
+	<span class="token directive keyword">.db</span> Slot_Snifit <span class="token comment">; $01</span>
+	<span class="token directive keyword">.db</span> Slot_Star   <span class="token comment">; $02</span>
+	<span class="token directive keyword">.db</span> Slot_Turnip <span class="token comment">; $03</span>
+	<span class="token directive keyword">.db</span> Slot_Star   <span class="token comment">; $04</span>
+	<span class="token directive keyword">.db</span> Slot_Cherry <span class="token comment">; $05</span>
+	<span class="token directive keyword">.db</span> Slot_Turnip <span class="token comment">; $06</span>
+	<span class="token directive keyword">.db</span> Slot_Snifit <span class="token comment">; $07</span>
+BonusChanceUnusedCoinSprite:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$F8</span>,<span class="token hexnumber string">$19</span>,<span class="token hexnumber string">$01</span>,<span class="token hexnumber string">$60</span>,<span class="token hexnumber string">$F8</span>,<span class="token hexnumber string">$1B</span>,<span class="token hexnumber string">$01</span>,<span class="token hexnumber string">$68</span>
+BonusChanceUnusedImajinHead:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$CB</span>,<span class="token hexnumber string">$B0</span>,<span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$A0</span>,<span class="token hexnumber string">$CB</span>,<span class="token hexnumber string">$B0</span>,<span class="token hexnumber string">$40</span>,<span class="token hexnumber string">$A8</span>
+BonusChanceUnusedLinaHead:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$CB</span>,<span class="token hexnumber string">$B2</span>,<span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$A0</span>,<span class="token hexnumber string">$CB</span>,<span class="token hexnumber string">$B2</span>,<span class="token hexnumber string">$40</span>,<span class="token hexnumber string">$A8</span>
+BonusChanceUnusedMamaHead:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$CB</span>,<span class="token hexnumber string">$B6</span>,<span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$A0</span>,<span class="token hexnumber string">$CB</span>,<span class="token hexnumber string">$B6</span>,<span class="token hexnumber string">$40</span>,<span class="token hexnumber string">$A8</span>
+BonusChanceUnusedPapaHead:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$CB</span>,<span class="token hexnumber string">$B4</span>,<span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$A0</span>,<span class="token hexnumber string">$CB</span>,<span class="token hexnumber string">$B4</span>,<span class="token hexnumber string">$40</span>,<span class="token hexnumber string">$A8</span>
+BonusChanceUnused_Blank<span class="token decimalnumber string">20</span>C<span class="token decimalnumber string">6</span>:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$20</span>,<span class="token hexnumber string">$C6</span>,<span class="token hexnumber string">$14</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$00</span> <span class="token comment">; $0F</span>
+BonusChanceText_NO_BONUS:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$22</span>,<span class="token hexnumber string">$86</span>,<span class="token hexnumber string">$14</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$E7</span>,<span class="token hexnumber string">$E8</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$DB</span>,<span class="token hexnumber string">$E8</span>,<span class="token hexnumber string">$E7</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$EE</span>,<span class="token hexnumber string">$EC</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$00</span> <span class="token comment">; $0F</span>
+BonusChanceText_PUSH_A_BUTTON:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$22</span>,<span class="token hexnumber string">$89</span>,<span class="token hexnumber string">$0E</span>,<span class="token hexnumber string">$E9</span>,<span class="token hexnumber string">$EE</span>,<span class="token hexnumber string">$EC</span>,<span class="token hexnumber string">$E1</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$0E</span>,$F,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$DB</span>,<span class="token hexnumber string">$EE</span>,<span class="token hexnumber string">$ED</span>,<span class="token hexnumber string">$ED</span>,<span class="token hexnumber string">$E8</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$E7</span>,<span class="token hexnumber string">$00</span> <span class="token comment">; $10</span>
+BonusChanceText_PLAYER_<span class="token decimalnumber string">1</span>UP:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$22</span>,<span class="token hexnumber string">$8B</span>,<span class="token hexnumber string">$0B</span>,<span class="token hexnumber string">$E9</span>,<span class="token hexnumber string">$E5</span>,<span class="token hexnumber string">$DA</span>,<span class="token hexnumber string">$F2</span>,<span class="token hexnumber string">$DE</span>,<span class="token hexnumber string">$EB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$D1</span>,<span class="token hexnumber string">$EE</span>,<span class="token hexnumber string">$E9</span>,<span class="token hexnumber string">$00</span>
+Text_PAUSE:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$25</span>,<span class="token hexnumber string">$ED</span>,<span class="token hexnumber string">$05</span>,<span class="token hexnumber string">$E9</span>,<span class="token hexnumber string">$DA</span>,<span class="token hexnumber string">$EE</span>,<span class="token hexnumber string">$EC</span>,<span class="token hexnumber string">$DE</span>
+Text_Unknown:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$27</span>,<span class="token hexnumber string">$DB</span>,<span class="token hexnumber string">$02</span>,<span class="token hexnumber string">$AA</span>,<span class="token hexnumber string">$AA</span>,<span class="token hexnumber string">$00</span>
+Text_Unknown<span class="token decimalnumber string">2</span>:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$22</span>,<span class="token hexnumber string">$86</span>,<span class="token hexnumber string">$54</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$00</span>
+Text_Unknown<span class="token decimalnumber string">3</span>:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$22</span>,<span class="token hexnumber string">$AA</span>,<span class="token hexnumber string">$4D</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$00</span>
+Text_Unknown<span class="token decimalnumber string">4</span>:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$22</span>,<span class="token hexnumber string">$EB</span>,<span class="token hexnumber string">$4B</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$00</span>
+Text_PAUSE_Erase:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$25</span>,<span class="token hexnumber string">$ED</span>,<span class="token hexnumber string">$05</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$00</span>
+Text_Unknown<span class="token decimalnumber string">5</span>:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$25</span>,<span class="token hexnumber string">$0E</span>,<span class="token hexnumber string">$07</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span> <span class="token comment">; This one is actually used, just not sure what for</span>
+Text_WORLD_<span class="token decimalnumber string">1</span>_<span class="token decimalnumber string">1</span>:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$24</span>,<span class="token hexnumber string">$CA</span>,<span class="token hexnumber string">$0B</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$F0</span>,<span class="token hexnumber string">$E8</span>,<span class="token hexnumber string">$EB</span>,<span class="token hexnumber string">$E5</span>,<span class="token hexnumber string">$DD</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$D1</span>,<span class="token hexnumber string">$F3</span>,<span class="token hexnumber string">$D1</span>
+Text_EXTRA_LIFE_<span class="token decimalnumber string">0</span>:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$23</span>,<span class="token hexnumber string">$48</span>,<span class="token hexnumber string">$10</span>,<span class="token hexnumber string">$DE</span>,<span class="token hexnumber string">$F1</span>,<span class="token hexnumber string">$ED</span>,<span class="token hexnumber string">$EB</span>,<span class="token hexnumber string">$DA</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$E5</span>,<span class="token hexnumber string">$E2</span>,<span class="token hexnumber string">$DF</span>,<span class="token hexnumber string">$DE</span>,<span class="token hexnumber string">$F9</span>,<span class="token hexnumber string">$F9</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$F9</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$D0</span>,<span class="token hexnumber string">$00</span> <span class="token comment">; $0F</span>
+Text_WARP:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$21</span>,<span class="token hexnumber string">$8E</span>,<span class="token hexnumber string">$04</span>,<span class="token hexnumber string">$F0</span>,<span class="token hexnumber string">$DA</span>,<span class="token hexnumber string">$EB</span>,<span class="token hexnumber string">$E9</span>
+&nbsp;</code></pre><aside><p>Doki Doki Panic pseudo-leftover
+This actually has extra spaces on either end:
+"-WORLD-" ... It originally said "CHAPTER"</p>
+&nbsp;</aside><pre><a name="l625" href="#l625" title="Link to line 625">#</a><code>Text_WORLD_<span class="token decimalnumber string">1</span>:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$22</span>,<span class="token hexnumber string">$0C</span>,<span class="token hexnumber string">$09</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$F0</span>,<span class="token hexnumber string">$E8</span>,<span class="token hexnumber string">$EB</span>,<span class="token hexnumber string">$E5</span>,<span class="token hexnumber string">$DD</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$D1</span>,<span class="token hexnumber string">$00</span>
+Text_Unknown<span class="token decimalnumber string">6</span>:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$21</span>,<span class="token hexnumber string">$6A</span>,<span class="token hexnumber string">$01</span>,<span class="token hexnumber string">$FB</span>
+Text_Unknown<span class="token decimalnumber string">7</span>:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$21</span>,<span class="token hexnumber string">$AA</span>,<span class="token hexnumber string">$01</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$00</span>
+Text_Unknown<span class="token decimalnumber string">8</span>:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$21</span>,<span class="token hexnumber string">$97</span>,<span class="token hexnumber string">$C6</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$00</span>
+UnusedText_THANK_YOU:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$21</span>,<span class="token hexnumber string">$0C</span>,<span class="token hexnumber string">$09</span>,<span class="token hexnumber string">$ED</span>,<span class="token hexnumber string">$E1</span>,<span class="token hexnumber string">$3A</span>,<span class="token hexnumber string">$E7</span>,<span class="token hexnumber string">$E4</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$F2</span>,<span class="token hexnumber string">$E8</span>,<span class="token hexnumber string">$EE</span>
+UnusedText_Blank<span class="token decimalnumber string">214</span>D:
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$21</span>,<span class="token hexnumber string">$4D</span>,<span class="token hexnumber string">$06</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$FB</span>,<span class="token hexnumber string">$00</span>
+
+IFDEF CONTROLLER_<span class="token decimalnumber string">2</span>_DEBUG&nbsp;</code></pre><aside><p>Copies all character stats to RAM for hot-swapping the current character</p>
+&nbsp;</aside><pre><a name="l642" href="#l642" title="Link to line 642">#</a><code>CopyCharacterStats:
+	<span class="token opcode property">LDX</span> #(MysteryData<span class="token decimalnumber string">14439</span> - StatOffsets - <span class="token decimalnumber string">1</span>)
+CopyCharacterStats_Loop:
+	<span class="token opcode property">LDA</span> StatOffsets, <span class="token register variable">X</span>
+	<span class="token opcode property">STA</span> StatOffsetsRAM, <span class="token register variable">X</span>
+	<span class="token opcode property">DEX</span>
+	<span class="token opcode property">BPL</span> CopyCharacterStats_Loop
+
+	<span class="token opcode property">RTS</span>
+ENDIF
+
+
+IFDEF DEBUG
+	<span class="token directive keyword">.include</span> <a class="token string" href="/src/extras/debug-a.asm">"src/extras/debug-a.asm"</a>
+ENDIF
+&nbsp;</code></pre></section></article></main><footer class="sc-htpNat iPvEnY"><p>All product names, logos, and brands are property of their respective owners.</p><p>Annotated disassembly site generator © <!-- -->2019<!-- --> <!-- -->Keith McKnight</p><ul><li><a href="https://github.com/XKeeper0/smb2">GitHub</a></li><li><a href="https://discord.gg/TsWMMeV">Discord</a></li></ul></footer></div></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/src/prg-a-b.asm";window.webpackCompilationHash="2ea601db5f4c75781233";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-e5123abf2b9d78ccb9b7.js"],"component---src-templates-asm-source-jsx":["/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js"],"component---src-templates-asm-directory-jsx":["/component---src-templates-asm-directory-jsx-de110ce639b73c006858.js"],"component---src-pages-404-jsx":["/component---src-pages-404-jsx-2d3be97110fe6b1cc813.js"],"component---src-pages-index-jsx":["/component---src-pages-index-jsx-90677ee39103ae00023b.js"]};/*]]>*/</script><script src="/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js" async=""></script><script src="/commons-96edcb9e9a406c302a22.js" async=""></script><script src="/app-e5123abf2b9d78ccb9b7.js" async=""></script><script src="/webpack-runtime-14b29e9f338a0ab3ef0b.js" async=""></script></body></html>

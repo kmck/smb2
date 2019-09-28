@@ -1,0 +1,123 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 2.15.20"/><title data-react-helmet="true">/config.asm | Super Mario Bros 2. Discombobulated</title><meta data-react-helmet="true" name="description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:title" content="/config.asm"/><meta data-react-helmet="true" property="og:description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:creator" content="Keith McKnight"/><meta data-react-helmet="true" name="twitter:title" content="/config.asm"/><meta data-react-helmet="true" name="twitter:description" content="The annotated disassembly of SMB2 (USA) for NES."/><link rel="shortcut icon" href="/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#663399"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=008654519ce705ac7bc44303a9014606"/><link as="script" rel="preload" href="/webpack-runtime-14b29e9f338a0ab3ef0b.js"/><link as="script" rel="preload" href="/app-e5123abf2b9d78ccb9b7.js"/><link as="script" rel="preload" href="/commons-96edcb9e9a406c302a22.js"/><link as="script" rel="preload" href="/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js"/><link as="fetch" rel="preload" href="/page-data/config.asm/page-data.json" crossorigin="anonymous"/></head><body><noscript id="gatsby-noscript">This app works best with JavaScript enabled.</noscript><div id="___gatsby"><div style="outline:none" tabindex="-1" role="group" id="gatsby-focus-wrapper"><div class="sc-bxivhb itivNt"><header class="sc-bwzfXH kFCqhj"><a href="https://github.com/XKeeper0/smb2"><svg class="sc-bdVaJa eSEdyA" fill="#fcfcfc" height="80" viewBox="0 0 250 250" width="80" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l115 115h15l12 27 108 108V0z"></path><g class="octocat" fill="#f65b98"><path class="octocat-arm" d="M128 109c-15-9-9-19-9-19 3-7 2-11 2-11-1-7 3-2 3-2 4 5 2 11 2 11-3 10 5 15 9 16" style="transform-origin:130px 106px"></path><path class="octocat-body" d="M115 115s4 2 5 0l14-14c3-2 6-3 8-3-8-11-15-24 2-41 5-5 10-7 16-7 1-2 3-7 12-11 0 0 5 3 7 16 4 2 8 5 12 9s7 8 9 12c14 3 17 7 17 7-4 8-9 11-11 11 0 6-2 11-7 16-16 16-30 10-41 2 0 3-1 7-5 11l-12 11c-1 1 1 5 1 5z"></path></g></svg></a><h1><a href="/">Super Mario Bros 2. Discombobulated</a></h1><p>The annotated disassembly of SMB2 (USA) for NES.</p></header><main><article class="sc-ifAKCX fpwdji"><header><h3>/config.asm</h3></header><section><aside><hr>
+<h2>Super Mario Bros. 2 Disassembly Config</h2>
+<p>By default, this repository is set up to build an identical copy
+of the original PRG0 revision of Super Mario Bros. 2 (USA).</p>
+<p>You can tweak the build settings below. To remove
+the default options, comment them out.
+(Changing the assignment to 0 won't work.)</p>
+<p>To enable them indefinitely, uncomment the definition.</p>
+<p>To enable them for a single build from the command line, use
+build -dFLAGNAME
+For example, to build a PRG1/Rev A ROM,
+build -dREV_A</p>
+&nbsp;</aside><pre><a name="l18" href="#l18" title="Link to line 18">#</a><code>&nbsp;</code></pre><aside><hr>
+<p>Compatibility fixes for the disassembly
+In some locations, Nintendo used absolute addressing instead of
+zero-page for addresses in the zero page.
+This flag adds in raw bytes to match the opcodes,
+as this assembler isn't capable of forcing absolute addressing for zp.</p>
+<p>Note that if you use this, you should probably use
+PRESERVE_FREE_SPACE, too.</p>
+&nbsp;</aside><pre><a name="l28" href="#l28" title="Link to line 28">#</a><code>COMPATIBILITY = <span class="token decimalnumber string">1</span>
+&nbsp;</code></pre><aside><hr>
+<p>Preserve unused space.
+Free space in the original ROM will continue to be padded outwards,
+to the extent that it was in the original.
+Adding your own code should shrink the free space afterwards automatically.</p>
+<p>Turning this off will "squish" most banks and move free space
+within them to the end, making it easier to add your own code anywhere.
+...but it might also cause problems if data gets relocated
+when it isn't properly pointed to.</p>
+&nbsp;</aside><pre><a name="l40" href="#l40" title="Link to line 40">#</a><code>PRESERVE_UNUSED_SPACE = <span class="token decimalnumber string">1</span>
+
+
+
+&nbsp;</code></pre><aside><hr>
+<p>Build PRG1 / Revision A ROM.</p>
+<p>Differences:</p>
+<p>PRG-2-3: Fixes bug where killing one of the mini FryGuy enemies
+while changing size from taking damage would cause
+the enemy to do the "flip over and fall off" death
+instead of the "puff of smoke" death, which caused
+the "number of small bosses left" number to not
+decrease. Which meant the boss fight never ended.
+Hope you had an extra life and a second controller...</p>
+<p>PRG-E-F: Fixes a minor issue when played on PAL consoles where
+remarkably poor luck would cause the bonus chance screen
+to end up rendering completely invisibly due to an NMI hitting
+at the worst possible time.
+The fix just waits for an NMI cycle before doing its work.</p>
+<p>REV_A = 1</p>
+&nbsp;</aside><pre><a name="l63" href="#l63" title="Link to line 63">#</a><code>
+&nbsp;</code></pre><aside><hr>
+<p>Patches that fix bugs or glitches</p>
+&nbsp;</aside><pre><a name="l68" href="#l68" title="Link to line 68">#</a><code>&nbsp;</code></pre><aside><p>Show all 8 frames of CHR cycling animation
+FIX_CHR_CYCLE = 1</p>
+&nbsp;</aside><pre><a name="l72" href="#l72" title="Link to line 72">#</a><code>&nbsp;</code></pre><aside><p>Fixes the POW falling log glitch
+FIX_POW_LOG_GLITCH = 1</p>
+&nbsp;</aside><pre><a name="l75" href="#l75" title="Link to line 75">#</a><code>&nbsp;</code></pre><aside><p>Fixes vine climbing bug when holding up and down simultaneously
+FIX_CLIMB_ZIP = 1</p>
+&nbsp;</aside><pre><a name="l78" href="#l78" title="Link to line 78">#</a><code>
+&nbsp;</code></pre><aside><p>Fixes green platform tiles in Subspace
+FIX_SUBSPACE_TILES = 1</p>
+&nbsp;</aside><pre><a name="l81" href="#l81" title="Link to line 81">#</a><code>
+&nbsp;</code></pre><aside><hr>
+<p>Patches that alter the game in
+interesting or useful ways</p>
+&nbsp;</aside><pre><a name="l86" href="#l86" title="Link to line 86">#</a><code>&nbsp;</code></pre><aside><p>Skips Bonus Chance after the end of a level
+DISABLE_BONUS_CHANCE = 1</p>
+&nbsp;</aside><pre><a name="l90" href="#l90" title="Link to line 90">#</a><code>&nbsp;</code></pre><aside><p>Go to the Charater Select screen after death
+CHARACTER_SELECT_AFTER_DEATH = 1</p>
+&nbsp;</aside><pre><a name="l93" href="#l93" title="Link to line 93">#</a><code>&nbsp;</code></pre><aside><p>Restore the prototype's DPCM samples and/or music;
+NOTE: The prototype underground music requires the shortened prototype ending music to fit
+everything in the music header table. Use EXPAND_MUSIC to remove this restriction.
+PROTOTYPE_DPCM_SAMPLES = 1
+PROTOTYPE_INSTRUMENTS = 1
+PROTOTYPE_MUSIC_STARMAN = 1
+PROTOTYPE_MUSIC_UNDERGROUND = 1
+PROTOTYPE_MUSIC_ENDING = 1</p>
+&nbsp;</aside><pre><a name="l102" href="#l102" title="Link to line 102">#</a><code>&nbsp;</code></pre><aside><p>Include debugging tools
+(push Select to open the debug menu)
+DEBUG = 1</p>
+&nbsp;</aside><pre><a name="l106" href="#l106" title="Link to line 106">#</a><code>
+
+&nbsp;</code></pre><aside><p>Include controller 2 debug features
+(@TODO: explain usage)
+CONTROLLER_2_DEBUG = 1</p>
+&nbsp;</aside><pre><a name="l110" href="#l110" title="Link to line 110">#</a><code>
+&nbsp;</code></pre><aside><hr>
+<p>Patches and enhancements largely useful
+only to people hacking the game</p>
+&nbsp;</aside><pre><a name="l116" href="#l116" title="Link to line 116">#</a><code>&nbsp;</code></pre><aside><p>Expand PRG and/or CHR to max capacity
+EXPAND_PRG = 1
+EXPAND_CHR = 1</p>
+&nbsp;</aside><pre><a name="l121" href="#l121" title="Link to line 121">#</a><code>&nbsp;</code></pre><aside><p>Use MMC5 (mapper 5) instead of MMC3 (mapper 4)
+Based on RetroRain's MMC5 patch (<a href="https://www.romhacking.net/hacks/2568">https://www.romhacking.net/hacks/2568</a>)
+MMC5 = 1</p>
+&nbsp;</aside><pre><a name="l125" href="#l125" title="Link to line 125">#</a><code>&nbsp;</code></pre><aside><p>Use FME-7 (mapper 69) instead of MMC3 (mapper 4)
+FME7 = 1</p>
+&nbsp;</aside><pre><a name="l128" href="#l128" title="Link to line 128">#</a><code>&nbsp;</code></pre><aside><p>Pads title screen PPU data for easier modification
+PAD_TITLE_SCREEN_PPU_DATA = 1</p>
+&nbsp;</aside><pre><a name="l131" href="#l131" title="Link to line 131">#</a><code>&nbsp;</code></pre><aside><p>Expands various lookup tables so that more values can be added
+EXPAND_TABLES = 1</p>
+&nbsp;</aside><pre><a name="l134" href="#l134" title="Link to line 134">#</a><code>&nbsp;</code></pre><aside><p>Skip unnecessary bonus chance RAM copy
+BONUS_CHANCE_RAM_CLEANUP = 1</p>
+&nbsp;</aside><pre><a name="l137" href="#l137" title="Link to line 137">#</a><code>&nbsp;</code></pre><aside><p>Uses an alternative pointer method for music headers to allow for more segments
+EXPAND_MUSIC = 1</p>
+&nbsp;</aside><pre><a name="l140" href="#l140" title="Link to line 140">#</a><code>&nbsp;</code></pre><aside><p>Encode world tileset in unused 3 bits of area header byte 2
+AREA_HEADER_TILESET = 1</p>
+&nbsp;</aside><pre><a name="l143" href="#l143" title="Link to line 143">#</a><code>&nbsp;</code></pre><aside><p>Checks the CHR latch variable to reload the CHR data
+RESET_CHR_LATCH = 1</p>
+&nbsp;</aside><pre><a name="l146" href="#l146" title="Link to line 146">#</a><code>&nbsp;</code></pre><aside><p>Encode level engine object mode switch in unused 2 bits of area header byte 4
+ENABLE_LEVEL_OBJECT_MODE = 1</p>
+&nbsp;</aside><pre><a name="l149" href="#l149" title="Link to line 149">#</a><code>&nbsp;</code></pre><aside><p>Enables additional level engine features
+LEVEL_ENGINE_UPGRADES = 1</p>
+&nbsp;</aside><pre><a name="l152" href="#l152" title="Link to line 152">#</a><code>&nbsp;</code></pre><aside><p>Enables quicksand tile behavior outside of worlds 2 and 6
+ALWAYS_ALLOW_QUICKSAND = 1</p>
+&nbsp;</aside><pre><a name="l155" href="#l155" title="Link to line 155">#</a><code>&nbsp;</code></pre><aside><p>Use a tile attributes table for rather than TileSolidnessTable
+ENABLE_TILE_ATTRIBUTES_TABLE = 1</p>
+&nbsp;</aside><pre><a name="l158" href="#l158" title="Link to line 158">#</a><code>&nbsp;</code></pre><aside><p>Disables door pointers, so that area pointers are always required
+DISABLE_DOOR_POINTERS = 1</p>
+&nbsp;</aside><pre><a name="l161" href="#l161" title="Link to line 161">#</a><code>&nbsp;</code></pre><aside><p>Enables full-page door/vine searching so that entrances don't need to align
+ROBUST_TRANSITION_SEARCH = 1</p>
+&nbsp;</aside><pre><a name="l164" href="#l164" title="Link to line 164">#</a><code>&nbsp;</code></pre></section></article></main><footer class="sc-htpNat iPvEnY"><p>All product names, logos, and brands are property of their respective owners.</p><p>Annotated disassembly site generator © <!-- -->2019<!-- --> <!-- -->Keith McKnight</p><ul><li><a href="https://github.com/XKeeper0/smb2">GitHub</a></li><li><a href="https://discord.gg/TsWMMeV">Discord</a></li></ul></footer></div></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/config.asm";window.webpackCompilationHash="2ea601db5f4c75781233";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-e5123abf2b9d78ccb9b7.js"],"component---src-templates-asm-source-jsx":["/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js"],"component---src-templates-asm-directory-jsx":["/component---src-templates-asm-directory-jsx-de110ce639b73c006858.js"],"component---src-pages-404-jsx":["/component---src-pages-404-jsx-2d3be97110fe6b1cc813.js"],"component---src-pages-index-jsx":["/component---src-pages-index-jsx-90677ee39103ae00023b.js"]};/*]]>*/</script><script src="/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js" async=""></script><script src="/commons-96edcb9e9a406c302a22.js" async=""></script><script src="/app-e5123abf2b9d78ccb9b7.js" async=""></script><script src="/webpack-runtime-14b29e9f338a0ab3ef0b.js" async=""></script></body></html>

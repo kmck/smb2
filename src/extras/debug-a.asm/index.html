@@ -1,0 +1,387 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 2.15.20"/><title data-react-helmet="true">/src/extras/debug-a.asm | Super Mario Bros 2. Discombobulated</title><meta data-react-helmet="true" name="description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:title" content="/src/extras/debug-a.asm"/><meta data-react-helmet="true" property="og:description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:creator" content="Keith McKnight"/><meta data-react-helmet="true" name="twitter:title" content="/src/extras/debug-a.asm"/><meta data-react-helmet="true" name="twitter:description" content="The annotated disassembly of SMB2 (USA) for NES."/><link rel="shortcut icon" href="/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#663399"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=008654519ce705ac7bc44303a9014606"/><link as="script" rel="preload" href="/webpack-runtime-14b29e9f338a0ab3ef0b.js"/><link as="script" rel="preload" href="/app-e5123abf2b9d78ccb9b7.js"/><link as="script" rel="preload" href="/commons-96edcb9e9a406c302a22.js"/><link as="script" rel="preload" href="/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js"/><link as="fetch" rel="preload" href="/page-data/src/extras/debug-a.asm/page-data.json" crossorigin="anonymous"/></head><body><noscript id="gatsby-noscript">This app works best with JavaScript enabled.</noscript><div id="___gatsby"><div style="outline:none" tabindex="-1" role="group" id="gatsby-focus-wrapper"><div class="sc-bxivhb itivNt"><header class="sc-bwzfXH kFCqhj"><a href="https://github.com/XKeeper0/smb2"><svg class="sc-bdVaJa eSEdyA" fill="#fcfcfc" height="80" viewBox="0 0 250 250" width="80" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l115 115h15l12 27 108 108V0z"></path><g class="octocat" fill="#f65b98"><path class="octocat-arm" d="M128 109c-15-9-9-19-9-19 3-7 2-11 2-11-1-7 3-2 3-2 4 5 2 11 2 11-3 10 5 15 9 16" style="transform-origin:130px 106px"></path><path class="octocat-body" d="M115 115s4 2 5 0l14-14c3-2 6-3 8-3-8-11-15-24 2-41 5-5 10-7 16-7 1-2 3-7 12-11 0 0 5 3 7 16 4 2 8 5 12 9s7 8 9 12c14 3 17 7 17 7-4 8-9 11-11 11 0 6-2 11-7 16-16 16-30 10-41 2 0 3-1 7-5 11l-12 11c-1 1 1 5 1 5z"></path></g></svg></a><h1><a href="/">Super Mario Bros 2. Discombobulated</a></h1><p>The annotated disassembly of SMB2 (USA) for NES.</p></header><main><article class="sc-ifAKCX fpwdji"><header><h3>/src/extras/debug-a.asm</h3></header><section><aside>
+&nbsp;</aside><pre><a name="l1" href="#l1" title="Link to line 1">#</a><code>
+&nbsp;</code></pre><aside><p>Custom debug menu for SMB2, probably to help with speedrunners
+or just testing this disassembly.
+@TODO Should probably save a handful of important memory values,
+like the nametable scroll position, maybe some other stuff like
+the contents of $00 and $01 since we clobber those.
+The ability to "abort" is a huuuuge gamble since the game will
+most likely take it <em>extremely</em> poorly.</p>
+&nbsp;</aside><pre><a name="l9" href="#l9" title="Link to line 9">#</a><code>Debug_CurrentMenuOption = <span class="token hexnumber string">$7FE0</span>
+Debug_InMenu = <span class="token hexnumber string">$7FEF</span>
+Debug_MenuOptionCount = #$<span class="token decimalnumber string">4</span>
+
+Debug_InitMenu:
+	<span class="token opcode property">LDA</span> <span class="token decimalnumber string">#0</span>
+	<span class="token opcode property">STA</span> Debug_CurrentMenuOption
+
+	<span class="token opcode property">JSR</span> EnableNMI
+	<span class="token opcode property">JSR</span> WaitForNMI_TurnOffPPU
+	<span class="token opcode property">JSR</span> DisableNMI
+	<span class="token opcode property">JSR</span> SetScrollXYTo<span class="token decimalnumber string">0</span>
+	<span class="token opcode property">JSR</span> SetBlackAndWhitePalette
+	<span class="token opcode property">JSR</span> ClearNametablesAndSprites
+	<span class="token opcode property">JSR</span> DisableNMI
+
+	<span class="token opcode property">LDA</span> #CHRBank_TitleScreenBG<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">STA</span> BackgroundCHR<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">LDA</span> #CHRBank_TitleScreenBG<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">STA</span> BackgroundCHR<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">LDA</span> #CHRBank_EnemiesDesert
+	<span class="token opcode property">STA</span> SpriteCHR<span class="token decimalnumber string">1</span>
+
+	<span class="token opcode property">JSR</span> EnableNMI
+	<span class="token opcode property">JSR</span> WaitForNMI_TurnOnPPU
+&nbsp;</code></pre><aside><p>Draw debug menu text</p>
+&nbsp;</aside><pre><a name="l37" href="#l37" title="Link to line 37">#</a><code>	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$00</span> <span class="token comment">; DEBUG MENU</span>
+	<span class="token opcode property">JSR</span> Debug_BufferText
+	<span class="token opcode property">JSR</span> WaitForNMI
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$01</span> <span class="token comment">; WORLD ?</span>
+	<span class="token opcode property">JSR</span> Debug_BufferText
+	<span class="token opcode property">JSR</span> WaitForNMI
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$02</span> <span class="token comment">; LEVEL ?</span>
+	<span class="token opcode property">JSR</span> Debug_BufferText
+	<span class="token opcode property">JSR</span> WaitForNMI
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$03</span> <span class="token comment">; AREA ?</span>
+	<span class="token opcode property">JSR</span> Debug_BufferText
+	<span class="token opcode property">JSR</span> WaitForNMI
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$04</span> <span class="token comment">; CHARACTER ?</span>
+	<span class="token opcode property">JSR</span> Debug_BufferText
+	<span class="token opcode property">JSR</span> WaitForNMI
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$05</span> <span class="token comment">; B BUTTON ... ABORT</span>
+	<span class="token opcode property">JSR</span> Debug_BufferText
+	<span class="token opcode property">JSR</span> WaitForNMI
+
+	<span class="token opcode property">JSR</span> Debug_UpdateWorld <span class="token comment">; Draw in the actual values...</span>
+	<span class="token opcode property">JSR</span> WaitForNMI
+	<span class="token opcode property">JSR</span> Debug_UpdateLevel
+	<span class="token opcode property">JSR</span> WaitForNMI
+	<span class="token opcode property">JSR</span> Debug_UpdateArea
+	<span class="token opcode property">JSR</span> WaitForNMI
+	<span class="token opcode property">JSR</span> Debug_UpdateCharacter
+	<span class="token opcode property">JSR</span> WaitForNMI
+&nbsp;</code></pre><aside><p>Add the goofy smiley cursor</p>
+&nbsp;</aside><pre><a name="l66" href="#l66" title="Link to line 66">#</a><code>	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$4a</span> <span class="token comment">; Y</span>
+	<span class="token opcode property">STA</span> SpriteDMAArea
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$38</span> <span class="token comment">; Tile</span>
+	<span class="token opcode property">STA</span> SpriteDMAArea + <span class="token decimalnumber string">1</span>
+	<span class="token opcode property">LDA</span> #$<span class="token decimalnumber string">0</span> <span class="token comment">; Attributes</span>
+	<span class="token opcode property">STA</span> SpriteDMAArea + <span class="token decimalnumber string">2</span>
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$1b</span> <span class="token comment">; X</span>
+	<span class="token opcode property">STA</span> SpriteDMAArea + <span class="token decimalnumber string">3</span>
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$4a</span>
+	<span class="token opcode property">STA</span> SpriteDMAArea + <span class="token decimalnumber string">4</span>
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$3A</span>
+	<span class="token opcode property">STA</span> SpriteDMAArea + <span class="token decimalnumber string">5</span>
+	<span class="token opcode property">LDA</span> #$<span class="token decimalnumber string">0</span>
+	<span class="token opcode property">STA</span> SpriteDMAArea + <span class="token decimalnumber string">6</span>
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$23</span>
+	<span class="token opcode property">STA</span> SpriteDMAArea + <span class="token decimalnumber string">7</span>
+
+
+Debug_MenuLoop:
+	<span class="token opcode property">JSR</span> WaitForNMI
+
+	<span class="token opcode property">LDA</span> Debug_CurrentMenuOption <span class="token comment">; Update cursor sprite</span>
+	<span class="token opcode property">ASL</span> <span class="token register variable">A</span>
+	<span class="token opcode property">ASL</span> <span class="token register variable">A</span>
+	<span class="token opcode property">ASL</span> <span class="token register variable">A</span>
+	<span class="token opcode property">ASL</span> <span class="token register variable">A</span>
+	<span class="token opcode property">CLC</span>
+	<span class="token opcode property">ADC</span> <span class="token hexnumber string">#$4a</span> <span class="token comment">; Move the cursor</span>
+	<span class="token opcode property">STA</span> SpriteDMAArea
+	<span class="token opcode property">STA</span> SpriteDMAArea + <span class="token decimalnumber string">4</span>
+
+	<span class="token opcode property">LDA</span> Player<span class="token decimalnumber string">1</span>JoypadPress <span class="token comment">; Check if we should abort</span>
+	<span class="token opcode property">CMP</span> #ControllerInput_B
+	<span class="token opcode property">BEQ</span> Debug_DoAbort
+
+	<span class="token opcode property">LDA</span> Player<span class="token decimalnumber string">1</span>JoypadPress <span class="token comment">; Check if we should abort</span>
+	<span class="token opcode property">CMP</span> #ControllerInput_A
+	<span class="token opcode property">BEQ</span> Debug_DoActivate
+
+	<span class="token opcode property">CMP</span> #ControllerInput_Down <span class="token comment">; Otherwise, move the cursor down?</span>
+	<span class="token opcode property">BEQ</span> Debug_MenuDown
+
+	<span class="token opcode property">CMP</span> #ControllerInput_Up <span class="token comment">; Maybe up instead?</span>
+	<span class="token opcode property">BEQ</span> Debug_MenuUp
+
+	<span class="token opcode property">LDA</span> Debug_CurrentMenuOption
+	<span class="token opcode property">JSR</span> JumpToTableAfterJump
+	<span class="token directive keyword">.dw</span> DebugMenu_World
+	<span class="token directive keyword">.dw</span> DebugMenu_Level
+	<span class="token directive keyword">.dw</span> DebugMenu_Area
+	<span class="token directive keyword">.dw</span> DebugMenu_Character
+
+
+Debug_DoAbort:
+	<span class="token opcode property">JMP</span> Debug_Abort
+
+Debug_DoActivate:
+	<span class="token opcode property">JMP</span> Debug_Activate
+
+Debug_MenuUp:
+	<span class="token opcode property">LDA</span> Debug_CurrentMenuOption
+	<span class="token opcode property">BEQ</span> Debug_MenuLoop
+	<span class="token opcode property">DEC</span> Debug_CurrentMenuOption
+	<span class="token opcode property">JMP</span> +
+
+Debug_MenuDown:
+	<span class="token opcode property">LDA</span> Debug_CurrentMenuOption
+	<span class="token opcode property">CMP</span> #Debug_MenuOptionCount - <span class="token decimalnumber string">1</span>
+	<span class="token opcode property">BEQ</span> Debug_MenuLoop
+	<span class="token opcode property">INC</span> Debug_CurrentMenuOption
+
++	<span class="token opcode property">LDA</span> #SoundEffect<span class="token decimalnumber string">1</span>_CherryGet
+	<span class="token opcode property">STA</span> SoundEffectQueue<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">JMP</span> Debug_MenuLoop
+
+
+
+DebugMenu_DoNothing:
+-f	<span class="token opcode property">LDA</span> #SoundEffect<span class="token decimalnumber string">1</span>_HawkOpen_WartBarf
+	<span class="token opcode property">STA</span> SoundEffectQueue<span class="token decimalnumber string">1</span>
+-q	<span class="token opcode property">JMP</span> Debug_MenuLoop
+
+DebugMenu_World:
+	<span class="token opcode property">LDA</span> Player<span class="token decimalnumber string">1</span>JoypadPress
+	<span class="token opcode property">CMP</span> #ControllerInput_Left <span class="token comment">; If left, decrease</span>
+	<span class="token opcode property">BEQ</span> +l
+	<span class="token opcode property">CMP</span> #ControllerInput_Right <span class="token comment">; If right, increase</span>
+	<span class="token opcode property">BEQ</span> +r
+	<span class="token opcode property">BNE</span> -q
++l	<span class="token opcode property">LDA</span> CurrentWorld <span class="token comment">; Check current world...</span>
+	<span class="token opcode property">BEQ</span> -f <span class="token comment">; World is already 1, go away</span>
+	<span class="token opcode property">DEC</span> CurrentWorld <span class="token comment">; Decrease</span>
+	<span class="token opcode property">JMP</span> +s <span class="token comment">; Skip ahead</span>
++r	<span class="token opcode property">LDA</span> CurrentWorld
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$06</span> <span class="token comment">; bug: lets you go one too high lol oops</span>
+	<span class="token opcode property">BEQ</span> -f <span class="token comment">; Already at world 7, go away</span>
+	<span class="token opcode property">INC</span> CurrentWorld <span class="token comment">; Otherwise increase</span>
++s	<span class="token opcode property">LDA</span> #SoundEffect<span class="token decimalnumber string">2</span>_CoinGet
+	<span class="token opcode property">STA</span> SoundEffectQueue<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">JSR</span> Debug_UpdateWorld
+	<span class="token opcode property">JMP</span> Debug_MenuLoop
+
+
+DebugMenu_Level:
+	<span class="token opcode property">LDA</span> Player<span class="token decimalnumber string">1</span>JoypadPress
+	<span class="token opcode property">CMP</span> #ControllerInput_Left <span class="token comment">; If left, decrease</span>
+	<span class="token opcode property">BEQ</span> +l
+	<span class="token opcode property">CMP</span> #ControllerInput_Right <span class="token comment">; If right, increase</span>
+	<span class="token opcode property">BEQ</span> +r
+	<span class="token opcode property">BNE</span> -q
++l	<span class="token opcode property">LDA</span> CurrentLevel <span class="token comment">; Check current world...</span>
+	<span class="token opcode property">BEQ</span> -f <span class="token comment">; Level is already 0, go away</span>
+	<span class="token opcode property">DEC</span> CurrentLevel <span class="token comment">; Decrease</span>
+	<span class="token opcode property">JMP</span> +s <span class="token comment">; Skip ahead</span>
++r	<span class="token opcode property">LDA</span> CurrentLevel
+	<span class="token opcode property">CMP</span> #WorldStartingLevel + <span class="token decimalnumber string">7</span>
+	<span class="token opcode property">BEQ</span> -f <span class="token comment">; Already at last level, go away</span>
+	<span class="token opcode property">INC</span> CurrentLevel <span class="token comment">; Otherwise increase</span>
++s	<span class="token opcode property">LDA</span> #SoundEffect<span class="token decimalnumber string">2</span>_CoinGet
+	<span class="token opcode property">STA</span> SoundEffectQueue<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">JSR</span> Debug_UpdateLevel
+	<span class="token opcode property">JMP</span> Debug_MenuLoop
+
+
+DebugMenu_Area:
+	<span class="token opcode property">LDA</span> Player<span class="token decimalnumber string">1</span>JoypadPress
+	<span class="token opcode property">CMP</span> #ControllerInput_Left <span class="token comment">; If left, decrease</span>
+	<span class="token opcode property">BEQ</span> +l
+	<span class="token opcode property">CMP</span> #ControllerInput_Right <span class="token comment">; If right, increase</span>
+	<span class="token opcode property">BEQ</span> +r
+	<span class="token opcode property">BNE</span> +q
++l	<span class="token opcode property">LDA</span> CurrentLevelArea <span class="token comment">; Check current area...</span>
+	<span class="token opcode property">BEQ</span> +f <span class="token comment">; Area is already 0, go away</span>
+	<span class="token opcode property">DEC</span> CurrentLevelArea <span class="token comment">; Decrease</span>
+	<span class="token opcode property">JMP</span> +s <span class="token comment">; Skip ahead</span>
++r	<span class="token opcode property">LDA</span> CurrentLevelArea
+	<span class="token opcode property">CMP</span> #$<span class="token decimalnumber string">9</span>
+	<span class="token opcode property">BEQ</span> +f <span class="token comment">; Already at area 9, go away</span>
+	<span class="token opcode property">INC</span> CurrentLevelArea <span class="token comment">; Otherwise increase</span>
++s	<span class="token opcode property">LDA</span> #SoundEffect<span class="token decimalnumber string">2</span>_CoinGet
+	<span class="token opcode property">STA</span> SoundEffectQueue<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">JSR</span> Debug_UpdateArea
+	<span class="token opcode property">JMP</span> Debug_MenuLoop
+
+-f
++f
+	<span class="token opcode property">LDA</span> #SoundEffect<span class="token decimalnumber string">1</span>_HawkOpen_WartBarf
+	<span class="token opcode property">STA</span> SoundEffectQueue<span class="token decimalnumber string">1</span>
++q
+-q
+	<span class="token opcode property">JMP</span> Debug_MenuLoop
+
+
+DebugMenu_Character:
+	<span class="token opcode property">LDA</span> Player<span class="token decimalnumber string">1</span>JoypadPress
+	<span class="token opcode property">CMP</span> #ControllerInput_Left <span class="token comment">; If left, decrease</span>
+	<span class="token opcode property">BEQ</span> +l
+	<span class="token opcode property">CMP</span> #ControllerInput_Right <span class="token comment">; If right, increase</span>
+	<span class="token opcode property">BEQ</span> +r
+	<span class="token opcode property">BNE</span> -q
++l	<span class="token opcode property">LDA</span> CurrentCharacter <span class="token comment">; Check current character...</span>
+	<span class="token opcode property">BEQ</span> -f <span class="token comment">; Character is already 0, go away</span>
+	<span class="token opcode property">DEC</span> CurrentCharacter <span class="token comment">; Decrease</span>
+	<span class="token opcode property">JMP</span> +s <span class="token comment">; Skip ahead</span>
++r	<span class="token opcode property">LDA</span> CurrentCharacter
+	<span class="token opcode property">CMP</span> <span class="token decimalnumber string">#3</span>
+	<span class="token opcode property">BEQ</span> -f <span class="token comment">; Already at character 3, go away</span>
+	<span class="token opcode property">INC</span> CurrentCharacter <span class="token comment">; Otherwise increase</span>
++s	<span class="token opcode property">LDA</span> #SoundEffect<span class="token decimalnumber string">2</span>_CoinGet
+	<span class="token opcode property">STA</span> SoundEffectQueue<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">JSR</span> Debug_UpdateCharacter
+	<span class="token opcode property">JMP</span> Debug_MenuLoop
+
+
+
+
+
+&nbsp;</code></pre><aside><p>Part of update menu screen loop pls ignore</p>
+&nbsp;</aside><pre><a name="l245" href="#l245" title="Link to line 245">#</a><code>-:
+	<span class="token opcode property">JSR</span> Debug_BufferText <span class="token comment">; Draw requested text</span>
+	<span class="token opcode property">PLA</span> <span class="token comment">; Pull the value to update...</span>
+	<span class="token opcode property">CLC</span>
+	<span class="token opcode property">ADC</span> <span class="token hexnumber string">#$D0</span> <span class="token comment">; Move to character offset</span>
+	<span class="token opcode property">STA</span> PPUBuffer_<span class="token decimalnumber string">301</span> + <span class="token decimalnumber string">3</span>
+	<span class="token opcode property">RTS</span>
+
+Debug_UpdateWorld:
+	<span class="token opcode property">LDX</span> CurrentWorld <span class="token comment">; Load current world</span>
+	<span class="token opcode property">INX</span>
+	<span class="token opcode property">TXA</span>
+	<span class="token opcode property">PHA</span> <span class="token comment">; Push onto stack</span>
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$06</span> <span class="token comment">; Load text to update</span>
+	<span class="token opcode property">BNE</span> - <span class="token comment">; Go do that.</span>
+
+Debug_UpdateArea:
+	<span class="token opcode property">LDA</span> CurrentLevelArea <span class="token comment">; Load current world</span>
+	<span class="token opcode property">PHA</span> <span class="token comment">; Push onto stack</span>
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$08</span> <span class="token comment">; Load text to update</span>
+	<span class="token opcode property">BNE</span> - <span class="token comment">; Go do that.</span>
+
+Debug_UpdateCharacter:
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$09</span> <span class="token comment">; Load text offset of Mario (0)</span>
+	<span class="token opcode property">CLC</span>
+	<span class="token opcode property">ADC</span> CurrentCharacter <span class="token comment">; Add the character index ...</span>
+	<span class="token opcode property">JSR</span> Debug_BufferText <span class="token comment">; ...and draw it.</span>
+	<span class="token opcode property">RTS</span>
+
+
+Debug_UpdateLevel:
+	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$00</span> <span class="token comment">; Set X to 0</span>
+-
+	<span class="token opcode property">LDA</span> CurrentLevel <span class="token comment">; Get the starting level index</span>
+	<span class="token opcode property">CMP</span> WorldStartingLevel, <span class="token register variable">X</span> <span class="token comment">; Is it higher than our current level?</span>
+	<span class="token opcode property">BCC</span> + <span class="token comment">; Yep, jump outta here</span>
+	<span class="token opcode property">INX</span> <span class="token comment">; No, try next index</span>
+	<span class="token opcode property">BNE</span> -&nbsp;</code></pre><aside><p>At this point, X has the index we used</p>
+&nbsp;</aside><pre><a name="l284" href="#l284" title="Link to line 284">#</a><code>+
+	<span class="token opcode property">DEX</span> <span class="token comment">; Go down one</span>
+	<span class="token opcode property">TXA</span> <span class="token comment">; This is current world - 1</span>
+	<span class="token opcode property">PHA</span> <span class="token comment">; Stuff onto stack</span>
+	<span class="token opcode property">LDA</span> CurrentLevel
+	<span class="token opcode property">SEC</span>
+	<span class="token opcode property">SBC</span> WorldStartingLevel, <span class="token register variable">X</span> <span class="token comment">; Get the starting level index</span>
+	<span class="token opcode property">PHA</span>
+
+	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$07</span> <span class="token comment">; Load text offset of Mario (0)</span>
+	<span class="token opcode property">JSR</span> Debug_BufferText <span class="token comment">; ...and draw it.</span>
+	<span class="token opcode property">PLA</span> <span class="token comment">; Then draw the level number...</span>
+	<span class="token opcode property">CLC</span>
+	<span class="token opcode property">ADC</span> <span class="token hexnumber string">#$D1</span>
+	<span class="token opcode property">STA</span> PPUBuffer_<span class="token decimalnumber string">301</span> + <span class="token decimalnumber string">9</span>
+	<span class="token opcode property">PLA</span> <span class="token comment">; ...and the world number...</span>
+	<span class="token opcode property">CLC</span>
+	<span class="token opcode property">ADC</span> <span class="token hexnumber string">#$D1</span>
+	<span class="token opcode property">STA</span> PPUBuffer_<span class="token decimalnumber string">301</span> + <span class="token decimalnumber string">7</span>
+	<span class="token opcode property">LDA</span> CurrentLevel <span class="token comment">; ...and the internal level number high nybble...</span>
+	<span class="token opcode property">LSR</span>
+	<span class="token opcode property">LSR</span>
+	<span class="token opcode property">LSR</span>
+	<span class="token opcode property">LSR</span>
+	<span class="token opcode property">CLC</span>
+	<span class="token opcode property">ADC</span> <span class="token hexnumber string">#$D0</span>
+	<span class="token opcode property">STA</span> PPUBuffer_<span class="token decimalnumber string">301</span> + <span class="token decimalnumber string">3</span>
+	<span class="token opcode property">LDA</span> CurrentLevel <span class="token comment">; ...and the internal level number low nybble.</span>
+	<span class="token opcode property">AND</span> <span class="token hexnumber string">#$0F</span>
+	<span class="token opcode property">CLC</span>
+	<span class="token opcode property">ADC</span> <span class="token hexnumber string">#$D0</span>
+	<span class="token opcode property">STA</span> PPUBuffer_<span class="token decimalnumber string">301</span> + <span class="token decimalnumber string">4</span>
+	<span class="token opcode property">RTS</span>
+
+
+&nbsp;</code></pre><aside><p>WorldStartingLevel</p>
+&nbsp;</aside><pre><a name="l319" href="#l319" title="Link to line 319">#</a><code>Debug_BufferText:
+	<span class="token opcode property">ASL</span> <span class="token register variable">A</span> <span class="token comment">; Rotate A left one</span>
+	<span class="token opcode property">TAX</span> <span class="token comment">; A->X</span>
+	<span class="token opcode property">LDA</span> DebugPPU_TextPointers, <span class="token register variable">X</span> <span class="token comment">; Load low pointer</span>
+	<span class="token opcode property">STA</span> $<span class="token decimalnumber string">0</span> <span class="token comment">; Store one byte to low address</span>
+	<span class="token opcode property">LDA</span> DebugPPU_TextPointers + <span class="token decimalnumber string">1</span>, <span class="token register variable">X</span> <span class="token comment">; Store high pointer</span>
+	<span class="token opcode property">STA</span> $<span class="token decimalnumber string">1</span> <span class="token comment">; Store one byte to low address</span>
+	<span class="token opcode property">LDA</span> ($<span class="token decimalnumber string">0</span>), <span class="token register variable">Y</span> <span class="token comment">; Load the length of data to copy</span>
+	<span class="token opcode property">TAY</span>
+-
+	<span class="token opcode property">LDA</span> ($<span class="token decimalnumber string">0</span>), <span class="token register variable">Y</span> <span class="token comment">; Load our PPU data...</span>
+	<span class="token opcode property">STA</span> PPUBuffer_<span class="token decimalnumber string">301</span> - <span class="token decimalnumber string">1</span>, <span class="token register variable">Y</span> <span class="token comment">; ...and store it in the buffer</span>
+	<span class="token opcode property">DEY</span>
+	<span class="token opcode property">BNE</span> -
+	<span class="token opcode property">RTS</span>
+
+
+
+
+
+
+
+DebugPPU_TextPointers:
+	<span class="token directive keyword">.dw</span> DebugPPU_DebugText <span class="token comment">; 0</span>
+	<span class="token directive keyword">.dw</span> DebugPPU_WorldText <span class="token comment">; 1</span>
+	<span class="token directive keyword">.dw</span> DebugPPU_LevelText <span class="token comment">; 2</span>
+	<span class="token directive keyword">.dw</span> DebugPPU_AreaText <span class="token comment">; 3</span>
+	<span class="token directive keyword">.dw</span> DebugPPU_CharacterText <span class="token comment">; 4</span>
+	<span class="token directive keyword">.dw</span> DebugPPU_AbortText <span class="token comment">; 5</span>
+
+	<span class="token directive keyword">.dw</span> DebugPPU_UpdateWorld <span class="token comment">; 6</span>
+	<span class="token directive keyword">.dw</span> DebugPPU_UpdateLevel <span class="token comment">; 7</span>
+	<span class="token directive keyword">.dw</span> DebugPPU_UpdateArea <span class="token comment">; 8</span>
+	<span class="token directive keyword">.dw</span> DebugPPU_UpdateCharacter<span class="token decimalnumber string">0</span> <span class="token comment">; 9</span>
+	<span class="token directive keyword">.dw</span> DebugPPU_UpdateCharacter<span class="token decimalnumber string">1</span> <span class="token comment">; 10</span>
+	<span class="token directive keyword">.dw</span> DebugPPU_UpdateCharacter<span class="token decimalnumber string">2</span> <span class="token comment">; 11</span>
+	<span class="token directive keyword">.dw</span> DebugPPU_UpdateCharacter<span class="token decimalnumber string">3</span> <span class="token comment">; 12</span>
+
+
+DebugPPU_DebugText: <span class="token comment">; DEBUG</span>
+	<span class="token directive keyword">.db</span> <span class="token decimalnumber string">#10</span>+<span class="token decimalnumber string">4</span>, <span class="token hexnumber string">#$20</span>, <span class="token hexnumber string">#$CB</span>, #$<span class="token register variable">A</span>, <span class="token hexnumber string">#$DD</span>, <span class="token hexnumber string">#$DE</span>, <span class="token hexnumber string">#$DB</span>, <span class="token hexnumber string">#$EE</span>, <span class="token hexnumber string">#$E0</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$E6</span>, <span class="token hexnumber string">#$DE</span>, <span class="token hexnumber string">#$E7</span>, <span class="token hexnumber string">#$EE</span>, <span class="token decimalnumber string">#0</span>
+
+DebugPPU_WorldText: <span class="token comment">; WORLD ?</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">#$08</span>+<span class="token decimalnumber string">4</span>, <span class="token hexnumber string">#$21</span>, <span class="token hexnumber string">#$46</span>, #$<span class="token decimalnumber string">8</span>, <span class="token hexnumber string">#$F0</span>, <span class="token hexnumber string">#$E8</span>, <span class="token hexnumber string">#$EB</span>, <span class="token hexnumber string">#$E5</span>, <span class="token hexnumber string">#$DD</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$F5</span>, <span class="token decimalnumber string">#0</span>
+
+DebugPPU_LevelText: <span class="token comment">; LEVEL ?</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">#$08</span>+<span class="token decimalnumber string">4</span>, <span class="token hexnumber string">#$21</span>, <span class="token hexnumber string">#$86</span>, #$<span class="token decimalnumber string">8</span>, <span class="token hexnumber string">#$E5</span>, <span class="token hexnumber string">#$DE</span>, <span class="token hexnumber string">#$EF</span>, <span class="token hexnumber string">#$DE</span>, <span class="token hexnumber string">#$E5</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$F5</span>, <span class="token decimalnumber string">#0</span>
+
+DebugPPU_AreaText: <span class="token comment">; AREA  ?</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">#$08</span>+<span class="token decimalnumber string">4</span>, <span class="token hexnumber string">#$21</span>, <span class="token hexnumber string">#$C6</span>, #$<span class="token decimalnumber string">8</span>, <span class="token hexnumber string">#$DA</span>, <span class="token hexnumber string">#$EB</span>, <span class="token hexnumber string">#$DE</span>, <span class="token hexnumber string">#$DA</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$F5</span>, <span class="token decimalnumber string">#0</span>
+
+DebugPPU_CharacterText: <span class="token comment">; CHARACTER ?</span>
+	<span class="token directive keyword">.db</span> <span class="token decimalnumber string">#13</span>+<span class="token decimalnumber string">4</span>, <span class="token hexnumber string">#$22</span>, <span class="token hexnumber string">#$06</span>, #$C, <span class="token hexnumber string">#$DC</span>, <span class="token hexnumber string">#$E1</span>, <span class="token hexnumber string">#$DA</span>, <span class="token hexnumber string">#$EB</span>, <span class="token hexnumber string">#$DA</span>, <span class="token hexnumber string">#$DC</span>, <span class="token hexnumber string">#$ED</span>, <span class="token hexnumber string">#$DE</span>, <span class="token hexnumber string">#$EB</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$F5</span>, <span class="token decimalnumber string">#0</span>
+
+DebugPPU_AbortText: <span class="token comment">; B BUTTON...ABORT</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">#$12</span>+<span class="token decimalnumber string">4</span>, <span class="token hexnumber string">#$23</span>, <span class="token hexnumber string">#$27</span>, <span class="token hexnumber string">#$12</span>, <span class="token hexnumber string">#$DB</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$DB</span>, <span class="token hexnumber string">#$EE</span>, <span class="token hexnumber string">#$ED</span>, <span class="token hexnumber string">#$ED</span>, <span class="token hexnumber string">#$E8</span>, <span class="token hexnumber string">#$E7</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$CF</span>, <span class="token hexnumber string">#$CF</span>, <span class="token hexnumber string">#$CF</span>, <span class="token hexnumber string">#$FB</span>,<span class="token hexnumber string">#$DA</span>, <span class="token hexnumber string">#$DB</span>, <span class="token hexnumber string">#$E8</span>, <span class="token hexnumber string">#$EB</span>, <span class="token hexnumber string">#$ED</span>, <span class="token hexnumber string">#$00</span>
+
+DebugPPU_UpdateWorld: <span class="token comment">; ?</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">#$01</span>+<span class="token decimalnumber string">4</span>, <span class="token hexnumber string">#$21</span>, <span class="token hexnumber string">#$4D</span>, <span class="token hexnumber string">#$01</span>, <span class="token hexnumber string">#$FB</span>, <span class="token decimalnumber string">#0</span>
+DebugPPU_UpdateLevel: <span class="token comment">; ?</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">#$06</span>+<span class="token decimalnumber string">7</span>, <span class="token hexnumber string">#$21</span>, <span class="token hexnumber string">#$8C</span>, <span class="token hexnumber string">#$07</span>, <span class="token hexnumber string">#$F5</span>, <span class="token hexnumber string">#$F5</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$F5</span>, <span class="token hexnumber string">#$F4</span>, <span class="token hexnumber string">#$F5</span>, <span class="token decimalnumber string">#0</span>
+DebugPPU_UpdateArea: <span class="token comment">; ?</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">#$01</span>+<span class="token decimalnumber string">4</span>, <span class="token hexnumber string">#$21</span>, <span class="token hexnumber string">#$CD</span>, <span class="token hexnumber string">#$01</span>, <span class="token hexnumber string">#$FB</span>, <span class="token decimalnumber string">#0</span>
+DebugPPU_UpdateCharacter<span class="token decimalnumber string">0</span>: <span class="token comment">; 0 MARIO</span>
+	<span class="token directive keyword">.db</span> #$<span class="token register variable">A</span>+<span class="token decimalnumber string">4</span>, <span class="token hexnumber string">#$22</span>, <span class="token hexnumber string">#$11</span>, #$<span class="token register variable">A</span>, <span class="token hexnumber string">#$D0</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$E6</span>, <span class="token hexnumber string">#$DA</span>, <span class="token hexnumber string">#$EB</span>, <span class="token hexnumber string">#$E2</span>, <span class="token hexnumber string">#$E8</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$FB</span>, <span class="token decimalnumber string">#0</span>
+DebugPPU_UpdateCharacter<span class="token decimalnumber string">1</span>: <span class="token comment">; 1 PRINCESS</span>
+	<span class="token directive keyword">.db</span> #$<span class="token register variable">A</span>+<span class="token decimalnumber string">4</span>, <span class="token hexnumber string">#$22</span>, <span class="token hexnumber string">#$11</span>, #$<span class="token register variable">A</span>, <span class="token hexnumber string">#$D1</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$E9</span>, <span class="token hexnumber string">#$EB</span>, <span class="token hexnumber string">#$E2</span>, <span class="token hexnumber string">#$E7</span>, <span class="token hexnumber string">#$DC</span>, <span class="token hexnumber string">#$DE</span>, <span class="token hexnumber string">#$EC</span>, <span class="token hexnumber string">#$EC</span>, <span class="token decimalnumber string">#0</span>
+DebugPPU_UpdateCharacter<span class="token decimalnumber string">2</span>: <span class="token comment">; 2 TOAD</span>
+	<span class="token directive keyword">.db</span> #$<span class="token register variable">A</span>+<span class="token decimalnumber string">4</span>, <span class="token hexnumber string">#$22</span>, <span class="token hexnumber string">#$11</span>, #$<span class="token register variable">A</span>, <span class="token hexnumber string">#$D2</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$ED</span>, <span class="token hexnumber string">#$E8</span>, <span class="token hexnumber string">#$DA</span>, <span class="token hexnumber string">#$DD</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$FB</span>, <span class="token decimalnumber string">#0</span>
+DebugPPU_UpdateCharacter<span class="token decimalnumber string">3</span>: <span class="token comment">; 3 LUIGI</span>
+	<span class="token directive keyword">.db</span> #$<span class="token register variable">A</span>+<span class="token decimalnumber string">4</span>, <span class="token hexnumber string">#$22</span>, <span class="token hexnumber string">#$11</span>, #$<span class="token register variable">A</span>, <span class="token hexnumber string">#$D3</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$E5</span>, <span class="token hexnumber string">#$EE</span>, <span class="token hexnumber string">#$E2</span>, <span class="token hexnumber string">#$E0</span>, <span class="token hexnumber string">#$E2</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$FB</span>, <span class="token hexnumber string">#$FB</span>, <span class="token decimalnumber string">#0</span>
+&nbsp;</code></pre></section></article></main><footer class="sc-htpNat iPvEnY"><p>All product names, logos, and brands are property of their respective owners.</p><p>Annotated disassembly site generator © <!-- -->2019<!-- --> <!-- -->Keith McKnight</p><ul><li><a href="https://github.com/XKeeper0/smb2">GitHub</a></li><li><a href="https://discord.gg/TsWMMeV">Discord</a></li></ul></footer></div></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/src/extras/debug-a.asm";window.webpackCompilationHash="2ea601db5f4c75781233";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-e5123abf2b9d78ccb9b7.js"],"component---src-templates-asm-source-jsx":["/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js"],"component---src-templates-asm-directory-jsx":["/component---src-templates-asm-directory-jsx-de110ce639b73c006858.js"],"component---src-pages-404-jsx":["/component---src-pages-404-jsx-2d3be97110fe6b1cc813.js"],"component---src-pages-index-jsx":["/component---src-pages-index-jsx-90677ee39103ae00023b.js"]};/*]]>*/</script><script src="/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js" async=""></script><script src="/commons-96edcb9e9a406c302a22.js" async=""></script><script src="/app-e5123abf2b9d78ccb9b7.js" async=""></script><script src="/webpack-runtime-14b29e9f338a0ab3ef0b.js" async=""></script></body></html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 2.15.20"/><title data-react-helmet="true">/src/music/music-part-pointers-expanded.asm | Super Mario Bros 2. Discombobulated</title><meta data-react-helmet="true" name="description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:title" content="/src/music/music-part-pointers-expanded.asm"/><meta data-react-helmet="true" property="og:description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:creator" content="Keith McKnight"/><meta data-react-helmet="true" name="twitter:title" content="/src/music/music-part-pointers-expanded.asm"/><meta data-react-helmet="true" name="twitter:description" content="The annotated disassembly of SMB2 (USA) for NES."/><link rel="shortcut icon" href="/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#663399"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=008654519ce705ac7bc44303a9014606"/><link as="script" rel="preload" href="/webpack-runtime-14b29e9f338a0ab3ef0b.js"/><link as="script" rel="preload" href="/app-e5123abf2b9d78ccb9b7.js"/><link as="script" rel="preload" href="/commons-96edcb9e9a406c302a22.js"/><link as="script" rel="preload" href="/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js"/><link as="fetch" rel="preload" href="/page-data/src/music/music-part-pointers-expanded.asm/page-data.json" crossorigin="anonymous"/></head><body><noscript id="gatsby-noscript">This app works best with JavaScript enabled.</noscript><div id="___gatsby"><div style="outline:none" tabindex="-1" role="group" id="gatsby-focus-wrapper"><div class="sc-bxivhb itivNt"><header class="sc-bwzfXH kFCqhj"><a href="https://github.com/XKeeper0/smb2"><svg class="sc-bdVaJa eSEdyA" fill="#fcfcfc" height="80" viewBox="0 0 250 250" width="80" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l115 115h15l12 27 108 108V0z"></path><g class="octocat" fill="#f65b98"><path class="octocat-arm" d="M128 109c-15-9-9-19-9-19 3-7 2-11 2-11-1-7 3-2 3-2 4 5 2 11 2 11-3 10 5 15 9 16" style="transform-origin:130px 106px"></path><path class="octocat-body" d="M115 115s4 2 5 0l14-14c3-2 6-3 8-3-8-11-15-24 2-41 5-5 10-7 16-7 1-2 3-7 12-11 0 0 5 3 7 16 4 2 8 5 12 9s7 8 9 12c14 3 17 7 17 7-4 8-9 11-11 11 0 6-2 11-7 16-16 16-30 10-41 2 0 3-1 7-5 11l-12 11c-1 1 1 5 1 5z"></path></g></svg></a><h1><a href="/">Super Mario Bros 2. Discombobulated</a></h1><p>The annotated disassembly of SMB2 (USA) for NES.</p></header><main><article class="sc-ifAKCX fpwdji"><header><h3>/src/music/music-part-pointers-expanded.asm</h3></header><section><aside>
+&nbsp;</aside><pre><a name="l1" href="#l1" title="Link to line 1">#</a><code>MusicPointerOffset:
+MusicHeaderPointersLo:
+Music_CharacterSelect:
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderCharacterSelect<span class="token decimalnumber string">1</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderCharacterSelect<span class="token decimalnumber string">2</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderCharacterSelect<span class="token decimalnumber string">3</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderCharacterSelect<span class="token decimalnumber string">4</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderCharacterSelect<span class="token decimalnumber string">5</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderCharacterSelect<span class="token decimalnumber string">6</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderCharacterSelect<span class="token decimalnumber string">7</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderCharacterSelect<span class="token decimalnumber string">8</span>
+Music_Overworld:
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderOverworld<span class="token decimalnumber string">1</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderOverworld<span class="token decimalnumber string">2</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderOverworld<span class="token decimalnumber string">3</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderOverworld<span class="token decimalnumber string">4</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderOverworld<span class="token decimalnumber string">5</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderOverworld<span class="token decimalnumber string">6</span>
+IFNDEF PROTOTYPE_MUSIC_UNDERGROUND
+Music_Underground:
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderUnderground
+ELSE
+Music_Underground:
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderUndergroundBeta<span class="token decimalnumber string">1</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderUndergroundBeta<span class="token decimalnumber string">2</span>
+ENDIF
+Music_Boss:
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderBoss
+Music_Star:
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderStar
+Music_Wart:
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderWart
+Music_Crystal:
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderCrystal
+Music_GameOver:
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderGameOver
+Music_BossBeaten:
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderBossBeaten
+Music_MushroomBonusChance:
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderMushroomBonusChance
+Music_Death:
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderDeath
+Music_TitleScreen:
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderTitleScreen<span class="token decimalnumber string">1</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderTitleScreen<span class="token decimalnumber string">2</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderTitleScreen<span class="token decimalnumber string">3</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderTitleScreen<span class="token decimalnumber string">4</span>
+Music_Subspace:
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderSubspace<span class="token decimalnumber string">1</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderSubspace<span class="token decimalnumber string">2</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderSubspace<span class="token decimalnumber string">3</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderSubspace<span class="token decimalnumber string">4</span>
+Music_Ending:
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderEnding<span class="token decimalnumber string">1</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderEnding<span class="token decimalnumber string">2</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderEnding<span class="token decimalnumber string">3</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderEnding<span class="token decimalnumber string">4</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderEnding<span class="token decimalnumber string">5</span>
+	<span class="token directive keyword">.db</span> &#x3C;MusicHeaderEnding<span class="token decimalnumber string">6</span>
+
+MusicHeaderPointersHi:
+	<span class="token directive keyword">.db</span> >MusicHeaderCharacterSelect<span class="token decimalnumber string">1</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderCharacterSelect<span class="token decimalnumber string">2</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderCharacterSelect<span class="token decimalnumber string">3</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderCharacterSelect<span class="token decimalnumber string">4</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderCharacterSelect<span class="token decimalnumber string">5</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderCharacterSelect<span class="token decimalnumber string">6</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderCharacterSelect<span class="token decimalnumber string">7</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderCharacterSelect<span class="token decimalnumber string">8</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderOverworld<span class="token decimalnumber string">1</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderOverworld<span class="token decimalnumber string">2</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderOverworld<span class="token decimalnumber string">3</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderOverworld<span class="token decimalnumber string">4</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderOverworld<span class="token decimalnumber string">5</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderOverworld<span class="token decimalnumber string">6</span>
+IFNDEF PROTOTYPE_MUSIC_UNDERGROUND
+	<span class="token directive keyword">.db</span> >MusicHeaderUnderground
+ELSE
+	<span class="token directive keyword">.db</span> >MusicHeaderUndergroundBeta<span class="token decimalnumber string">1</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderUndergroundBeta<span class="token decimalnumber string">2</span>
+ENDIF
+	<span class="token directive keyword">.db</span> >MusicHeaderBoss
+	<span class="token directive keyword">.db</span> >MusicHeaderStar
+	<span class="token directive keyword">.db</span> >MusicHeaderWart
+	<span class="token directive keyword">.db</span> >MusicHeaderCrystal
+	<span class="token directive keyword">.db</span> >MusicHeaderGameOver
+	<span class="token directive keyword">.db</span> >MusicHeaderBossBeaten
+	<span class="token directive keyword">.db</span> >MusicHeaderMushroomBonusChance
+	<span class="token directive keyword">.db</span> >MusicHeaderDeath
+	<span class="token directive keyword">.db</span> >MusicHeaderTitleScreen<span class="token decimalnumber string">1</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderTitleScreen<span class="token decimalnumber string">2</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderTitleScreen<span class="token decimalnumber string">3</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderTitleScreen<span class="token decimalnumber string">4</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderSubspace<span class="token decimalnumber string">1</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderSubspace<span class="token decimalnumber string">2</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderSubspace<span class="token decimalnumber string">3</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderSubspace<span class="token decimalnumber string">4</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderEnding<span class="token decimalnumber string">1</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderEnding<span class="token decimalnumber string">3</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderEnding<span class="token decimalnumber string">2</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderEnding<span class="token decimalnumber string">5</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderEnding<span class="token decimalnumber string">4</span>
+	<span class="token directive keyword">.db</span> >MusicHeaderEnding<span class="token decimalnumber string">6</span>
+
+<span class="token directive keyword">.pad</span> MusicPointerOffset + <span class="token hexnumber string">$200</span>, <span class="token hexnumber string">$FF</span>
+
+&nbsp;</code></pre><aside><h1>Music Part Pointers</h1>
+<p>These are the pointers to various music segments used to cue those themes in
+the game as well as handle relative offsets for looping segments</p>
+&nbsp;</aside><pre><a name="l115" href="#l115" title="Link to line 115">#</a><code>MusicPartPointers:
+&nbsp;</code></pre><aside><p>These pointers correspond to MusicQueue2 fanfares that temporarily interrupt
+the current background music</p>
+&nbsp;</aside><pre><a name="l119" href="#l119" title="Link to line 119">#</a><code>MusicPartPointers_Mushroom:
+  musicPointerOffset Music_MushroomBonusChance, <span class="token decimalnumber string">0</span>
+
+MusicPartPointers_BossBeaten:
+  musicPointerOffset Music_BossBeaten, <span class="token decimalnumber string">0</span>
+&nbsp;</code></pre><aside><p>This version of the crystal fanfare is unused, because special logic in
+ProcessMusicQueue uses this slot for the ending theme instead.</p>
+&nbsp;</aside><pre><a name="l127" href="#l127" title="Link to line 127">#</a><code>MusicPartPointers_CrystalUnused:
+  musicPointerOffset Music_Crystal, <span class="token decimalnumber string">0</span>
+
+MusicPartPointers_Death:
+  musicPointerOffset Music_Death, <span class="token decimalnumber string">0</span>
+
+MusicPartPointers_GameOver:
+	musicPointerOffset Music_GameOver, <span class="token decimalnumber string">0</span>
+
+MusicPartPointers_Crystal:
+	musicPointerOffset Music_Crystal, <span class="token decimalnumber string">0</span>
+
+MusicPartPointers_BonusChance:
+	musicPointerOffset Music_MushroomBonusChance, <span class="token decimalnumber string">0</span>
+&nbsp;</code></pre><aside><p>The rest of the pointers correspond to music that uses the pointer tables
+with support for segment-based looping.</p>
+&nbsp;</aside><pre><a name="l144" href="#l144" title="Link to line 144">#</a><code>MusicPartPointers_CharacterSelect:
+	musicPointerOffset Music_CharacterSelect, <span class="token decimalnumber string">0</span>
+MusicPartPointers_CharacterSelectLoop:
+	musicPointerOffset Music_CharacterSelect, <span class="token decimalnumber string">1</span>
+	musicPointerOffset Music_CharacterSelect, <span class="token decimalnumber string">2</span>
+	musicPointerOffset Music_CharacterSelect, <span class="token decimalnumber string">1</span>
+	musicPointerOffset Music_CharacterSelect, <span class="token decimalnumber string">3</span>
+	musicPointerOffset Music_CharacterSelect, <span class="token decimalnumber string">4</span>
+	musicPointerOffset Music_CharacterSelect, <span class="token decimalnumber string">5</span>
+	musicPointerOffset Music_CharacterSelect, <span class="token decimalnumber string">6</span>
+MusicPartPointers_CharacterSelectEnd:
+	musicPointerOffset Music_CharacterSelect, <span class="token decimalnumber string">7</span>
+
+
+MusicPartPointers_Overworld:
+	musicPointerOffset Music_Overworld, <span class="token decimalnumber string">0</span>
+MusicPartPointers_OverworldLoop:
+	musicPointerOffset Music_Overworld, <span class="token decimalnumber string">1</span>
+	musicPointerOffset Music_Overworld, <span class="token decimalnumber string">2</span>
+	musicPointerOffset Music_Overworld, <span class="token decimalnumber string">3</span>
+	musicPointerOffset Music_Overworld, <span class="token decimalnumber string">2</span>
+	musicPointerOffset Music_Overworld, <span class="token decimalnumber string">4</span>
+MusicPartPointers_OverworldEnd:
+	musicPointerOffset Music_Overworld, <span class="token decimalnumber string">5</span>
+
+
+MusicPartPointers_Boss:
+MusicPartPointers_BossLoop:
+MusicPartPointers_BossEnd:
+	musicPointerOffset Music_Boss, <span class="token decimalnumber string">0</span>
+
+
+MusicPartPointers_Star:
+MusicPartPointers_StarLoop:
+MusicPartPointers_StarEnd:
+	musicPointerOffset Music_Star, <span class="token decimalnumber string">0</span>
+
+
+MusicPartPointers_Wart:
+MusicPartPointers_WartLoop:
+MusicPartPointers_WartEnd:
+	musicPointerOffset Music_Wart, <span class="token decimalnumber string">0</span>
+
+
+MusicPartPointers_TitleScreen:
+	musicPointerOffset Music_TitleScreen, <span class="token decimalnumber string">0</span>
+	musicPointerOffset Music_TitleScreen, <span class="token decimalnumber string">1</span>
+	musicPointerOffset Music_TitleScreen, <span class="token decimalnumber string">2</span>
+MusicPartPointers_TitleScreenEnd:
+	musicPointerOffset Music_TitleScreen, <span class="token decimalnumber string">3</span>
+
+
+MusicPartPointers_SubSpace:
+MusicPartPointers_SubSpaceLoop:
+	musicPointerOffset Music_Subspace, <span class="token decimalnumber string">0</span>
+	musicPointerOffset Music_Subspace, <span class="token decimalnumber string">1</span>
+	musicPointerOffset Music_Subspace, <span class="token decimalnumber string">2</span>
+	musicPointerOffset Music_Subspace, <span class="token decimalnumber string">1</span>
+MusicPartPointers_SubSpaceEnd:
+	musicPointerOffset Music_Subspace, <span class="token decimalnumber string">3</span>
+
+
+MusicPartPointers_Ending:
+	musicPointerOffset Music_Ending, <span class="token decimalnumber string">0</span>
+	musicPointerOffset Music_Ending, <span class="token decimalnumber string">1</span>
+	musicPointerOffset Music_Ending, <span class="token decimalnumber string">2</span>
+	musicPointerOffset Music_Ending, <span class="token decimalnumber string">3</span>
+IFNDEF PROTOTYPE_MUSIC_ENDING
+	musicPointerOffset Music_Ending, <span class="token decimalnumber string">4</span>
+MusicPartPointers_EndingLoop:
+MusicPartPointers_EndingEnd:
+	musicPointerOffset Music_Ending, <span class="token decimalnumber string">5</span>
+ELSE
+MusicPartPointers_EndingEnd:
+	musicPointerOffset Music_Ending, <span class="token decimalnumber string">4</span>
+ENDIF
+
+
+IFNDEF PROTOTYPE_MUSIC_UNDERGROUND
+MusicPartPointers_Underground:
+MusicPartPointers_UndergroundLoop:
+MusicPartPointers_UndergroundEnd:
+	musicPointerOffset Music_Underground, <span class="token decimalnumber string">0</span>
+ELSE
+MusicPartPointers_Underground:
+MusicPartPointers_UndergroundLoop:
+	musicPointerOffset Music_Underground, <span class="token decimalnumber string">0</span>
+	musicPointerOffset Music_Underground, <span class="token decimalnumber string">0</span>
+	musicPointerOffset Music_Underground, <span class="token decimalnumber string">1</span>
+MusicPartPointers_UndergroundEnd:
+	musicPointerOffset Music_Underground, <span class="token decimalnumber string">1</span>
+ENDIF
+
+<span class="token directive keyword">.pad</span> MusicPartPointers + <span class="token hexnumber string">$100</span>, <span class="token hexnumber string">$FF</span>
+&nbsp;</code></pre></section></article></main><footer class="sc-htpNat iPvEnY"><p>All product names, logos, and brands are property of their respective owners.</p><p>Annotated disassembly site generator © <!-- -->2019<!-- --> <!-- -->Keith McKnight</p><ul><li><a href="https://github.com/XKeeper0/smb2">GitHub</a></li><li><a href="https://discord.gg/TsWMMeV">Discord</a></li></ul></footer></div></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/src/music/music-part-pointers-expanded.asm";window.webpackCompilationHash="2ea601db5f4c75781233";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-e5123abf2b9d78ccb9b7.js"],"component---src-templates-asm-source-jsx":["/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js"],"component---src-templates-asm-directory-jsx":["/component---src-templates-asm-directory-jsx-de110ce639b73c006858.js"],"component---src-pages-404-jsx":["/component---src-pages-404-jsx-2d3be97110fe6b1cc813.js"],"component---src-pages-index-jsx":["/component---src-pages-index-jsx-90677ee39103ae00023b.js"]};/*]]>*/</script><script src="/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js" async=""></script><script src="/commons-96edcb9e9a406c302a22.js" async=""></script><script src="/app-e5123abf2b9d78ccb9b7.js" async=""></script><script src="/webpack-runtime-14b29e9f338a0ab3ef0b.js" async=""></script></body></html>

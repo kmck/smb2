@@ -1,0 +1,139 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 2.15.20"/><title data-react-helmet="true">/smb2.asm | Super Mario Bros 2. Discombobulated</title><meta data-react-helmet="true" name="description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:title" content="/smb2.asm"/><meta data-react-helmet="true" property="og:description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:creator" content="Keith McKnight"/><meta data-react-helmet="true" name="twitter:title" content="/smb2.asm"/><meta data-react-helmet="true" name="twitter:description" content="The annotated disassembly of SMB2 (USA) for NES."/><link rel="shortcut icon" href="/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#663399"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=008654519ce705ac7bc44303a9014606"/><link as="script" rel="preload" href="/webpack-runtime-14b29e9f338a0ab3ef0b.js"/><link as="script" rel="preload" href="/app-e5123abf2b9d78ccb9b7.js"/><link as="script" rel="preload" href="/commons-96edcb9e9a406c302a22.js"/><link as="script" rel="preload" href="/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js"/><link as="fetch" rel="preload" href="/page-data/smb2.asm/page-data.json" crossorigin="anonymous"/></head><body><noscript id="gatsby-noscript">This app works best with JavaScript enabled.</noscript><div id="___gatsby"><div style="outline:none" tabindex="-1" role="group" id="gatsby-focus-wrapper"><div class="sc-bxivhb itivNt"><header class="sc-bwzfXH kFCqhj"><a href="https://github.com/XKeeper0/smb2"><svg class="sc-bdVaJa eSEdyA" fill="#fcfcfc" height="80" viewBox="0 0 250 250" width="80" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l115 115h15l12 27 108 108V0z"></path><g class="octocat" fill="#f65b98"><path class="octocat-arm" d="M128 109c-15-9-9-19-9-19 3-7 2-11 2-11-1-7 3-2 3-2 4 5 2 11 2 11-3 10 5 15 9 16" style="transform-origin:130px 106px"></path><path class="octocat-body" d="M115 115s4 2 5 0l14-14c3-2 6-3 8-3-8-11-15-24 2-41 5-5 10-7 16-7 1-2 3-7 12-11 0 0 5 3 7 16 4 2 8 5 12 9s7 8 9 12c14 3 17 7 17 7-4 8-9 11-11 11 0 6-2 11-7 16-16 16-30 10-41 2 0 3-1 7-5 11l-12 11c-1 1 1 5 1 5z"></path></g></svg></a><h1><a href="/">Super Mario Bros 2. Discombobulated</a></h1><p>The annotated disassembly of SMB2 (USA) for NES.</p></header><main><article class="sc-ifAKCX fpwdji"><header><h3>/smb2.asm</h3></header><section><aside><hr>
+<hr>
+<p>Super Mario Bros. 2 (USA) disassembly</p>
+<h2><a href="https://github.com/xkeeper0/smb2/">https://github.com/xkeeper0/smb2/</a></h2>
+<hr>
+&nbsp;</aside><pre><a name="l7" href="#l7" title="Link to line 7">#</a><code>
+<span class="token directive keyword">.include</span> <a class="token string" href="/config.asm">"config.asm"</a>
+<span class="token directive keyword">.include</span> <a class="token string" href="/constants.asm">"constants.asm"</a>
+
+INES_MAPPER = MAPPER_MMC<span class="token decimalnumber string">3</span>
+IFDEF FME<span class="token decimalnumber string">7</span>
+	INES_MAPPER = MAPPER_FME<span class="token decimalnumber string">7</span>
+ENDIF
+IFDEF MMC<span class="token decimalnumber string">5</span>
+	INES_MAPPER = MAPPER_MMC<span class="token decimalnumber string">5</span>
+ENDIF
+&nbsp;</code></pre><aside><hr>
+<p>Add NES header</p>
+&nbsp;</aside><pre><a name="l21" href="#l21" title="Link to line 21">#</a><code>	<span class="token directive keyword">.db</span> <span class="token string">"NES"</span>, <span class="token hexnumber string">$1a</span> <span class="token comment">; identification of the iNES header</span>
+
+IFDEF EXPAND_PRG
+	<span class="token directive keyword">.db</span> <span class="token decimalnumber string">16</span> <span class="token comment">; this can go up to 32</span>
+ELSE
+	<span class="token directive keyword">.db</span> <span class="token decimalnumber string">8</span> <span class="token comment">; number of 16KB PRG-ROM pages</span>
+ENDIF
+
+IFDEF EXPAND_CHR
+	<span class="token directive keyword">.db</span> <span class="token decimalnumber string">32</span>
+ELSE
+	<span class="token directive keyword">.db</span> <span class="token decimalnumber string">16</span> <span class="token comment">; number of 8KB CHR-ROM pages</span>
+ENDIF
+
+IF INES_MAPPER == MAPPER_FME<span class="token decimalnumber string">7</span>
+	<span class="token directive keyword">.db</span> (INES_MAPPER &#x26; <span class="token binarynumber string">%00001111</span>) &#x3C;&#x3C; <span class="token decimalnumber string">4</span> <span class="token comment">; mapper (lower nybble) and mirroring</span>
+	<span class="token directive keyword">.db</span> (INES_MAPPER &#x26; <span class="token binarynumber string">%11110000</span>) | <span class="token binarynumber string">%1000</span> <span class="token comment">; mapper (upper nybble) and iNES 2.0</span>
+	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">2</span>, <span class="token hexnumber string">$00</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$70</span> <span class="token comment">; flags 10</span>
+	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">5</span>, <span class="token hexnumber string">$00</span> <span class="token comment">; clear the remaining bytes</span>
+ELSEIF INES_MAPPER == MAPPER_MMC<span class="token decimalnumber string">5</span>
+	<span class="token directive keyword">.db</span> (INES_MAPPER &#x26; <span class="token binarynumber string">%00001111</span>) &#x3C;&#x3C; <span class="token decimalnumber string">4</span> | <span class="token binarynumber string">%10</span> <span class="token comment">; mapper (lower nybble) and mirroring</span>
+	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">3</span>, <span class="token hexnumber string">$00</span>
+	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$70</span> <span class="token comment">; flags 10</span>
+	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">5</span>, <span class="token hexnumber string">$00</span> <span class="token comment">; clear the remaining bytes</span>
+ELSE <span class="token comment">; INES_MAPPER == MAPPER_MMC3</span>
+	<span class="token directive keyword">.db</span> (INES_MAPPER &#x26; <span class="token binarynumber string">%00001111</span>) &#x3C;&#x3C; <span class="token decimalnumber string">4</span> <span class="token comment">; mapper (lower nybble) and mirroring</span>
+	<span class="token directive keyword">.db</span> INES_MAPPER &#x26; <span class="token binarynumber string">%11110000</span> <span class="token comment">; mapper (upper nybble)</span>
+	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">8</span>, <span class="token hexnumber string">$00</span> <span class="token comment">; clear the remaining bytes</span>
+ENDIF
+&nbsp;</code></pre><aside><hr>
+<p>Add macros</p>
+&nbsp;</aside><pre><a name="l54" href="#l54" title="Link to line 54">#</a><code><span class="token directive keyword">.include</span> <a class="token string" href="/src/macros.asm">"src/macros.asm"</a>
+&nbsp;</code></pre><aside><hr>
+<p>Add definitions</p>
+&nbsp;</aside><pre><a name="l58" href="#l58" title="Link to line 58">#</a><code><span class="token directive keyword">.enum</span> <span class="token hexnumber string">$0000</span>
+<span class="token directive keyword">.include</span> <a class="token string" href="/src/defs.asm">"src/defs.asm"</a>
+.ende
+&nbsp;</code></pre><aside><p>Add RAM definitions</p>
+&nbsp;</aside><pre><a name="l63" href="#l63" title="Link to line 63">#</a><code><span class="token directive keyword">.enum</span> <span class="token hexnumber string">$0000</span>
+<span class="token directive keyword">.include</span> <a class="token string" href="/src/ram.asm">"src/ram.asm"</a>
+.ende
+&nbsp;</code></pre><aside><hr>
+<p>Add each of the 16 banks.
+In SMB2, banks are swapped in pairs.
+The game was clearly designed originally to use the MMC1 mapper,
+and very minimal changes were made to make that work.
+These banks are still TECHNICALLY two different banks,
+but due to this little hack a lot of data runs between
+bank boundaries, and it's easier to keep together
+You should split these again if you plan on making any
+really huge modifications...</p>
+&nbsp;</aside><pre><a name="l77" href="#l77" title="Link to line 77">#</a><code>&nbsp;</code></pre><aside><hr>
+<p>Banks 0 and 1. Basically potpourri.
+Lots of crap everywhere.
+Title screen and some other stuff too.</p>
+&nbsp;</aside><pre><a name="l82" href="#l82" title="Link to line 82">#</a><code><span class="token directive keyword">.base</span> <span class="token hexnumber string">$8000</span>
+<span class="token directive keyword">.include</span> <a class="token string" href="/src/prg-0-1.asm">"src/prg-0-1.asm"</a>
+<span class="token directive keyword">.pad</span> <span class="token hexnumber string">$c000</span>, <span class="token hexnumber string">$ff</span>
+&nbsp;</code></pre><aside><hr>
+<p>Banks 2 and 3. Enemy/object code.</p>
+&nbsp;</aside><pre><a name="l88" href="#l88" title="Link to line 88">#</a><code><span class="token directive keyword">.base</span> <span class="token hexnumber string">$8000</span>
+<span class="token directive keyword">.include</span> <a class="token string" href="/src/prg-2-3.asm">"src/prg-2-3.asm"</a>
+<span class="token directive keyword">.pad</span> <span class="token hexnumber string">$c000</span>, <span class="token hexnumber string">$ff</span>
+&nbsp;</code></pre><aside><hr>
+<p>Banks 4 and 5. Music engine and song data.</p>
+&nbsp;</aside><pre><a name="l94" href="#l94" title="Link to line 94">#</a><code><span class="token directive keyword">.base</span> <span class="token hexnumber string">$8000</span>
+<span class="token directive keyword">.include</span> <a class="token string" href="/src/prg-4-5.asm">"src/prg-4-5.asm"</a>
+<span class="token directive keyword">.pad</span> <span class="token hexnumber string">$c000</span>, <span class="token hexnumber string">$ff</span>
+&nbsp;</code></pre><aside><hr>
+<p>Bank 6 and 7. Level handling ode, I think.
+Hmm, I wonder how this actually works when
+dealing with the fact the level data is
+in another bank...
+Bank 7 is completely empty.</p>
+&nbsp;</aside><pre><a name="l104" href="#l104" title="Link to line 104">#</a><code><span class="token directive keyword">.base</span> <span class="token hexnumber string">$8000</span>
+<span class="token directive keyword">.include</span> <a class="token string" href="/src/prg-6-7.asm">"src/prg-6-7.asm"</a>
+<span class="token directive keyword">.pad</span> <span class="token hexnumber string">$c000</span>, <span class="token hexnumber string">$ff</span>
+&nbsp;</code></pre><aside><hr>
+<p>Bank 8 and 9. Entirely level data.
+Some more unused space as usual.</p>
+&nbsp;</aside><pre><a name="l111" href="#l111" title="Link to line 111">#</a><code><span class="token directive keyword">.base</span> <span class="token hexnumber string">$8000</span>
+<span class="token directive keyword">.include</span> <a class="token string" href="/src/prg-8-9.asm">"src/prg-8-9.asm"</a>
+<span class="token directive keyword">.pad</span> <span class="token hexnumber string">$c000</span>, <span class="token hexnumber string">$ff</span>
+&nbsp;</code></pre><aside><hr>
+<p>Banks A and B. Mostly bonus chance,
+character stats, and some PPU commands.
+Lots of empty space here too</p>
+&nbsp;</aside><pre><a name="l119" href="#l119" title="Link to line 119">#</a><code><span class="token directive keyword">.base</span> <span class="token hexnumber string">$8000</span>
+<span class="token directive keyword">.include</span> <a class="token string" href="/src/prg-a-b.asm">"src/prg-a-b.asm"</a>
+<span class="token directive keyword">.pad</span> <span class="token hexnumber string">$c000</span>, <span class="token hexnumber string">$ff</span>
+&nbsp;</code></pre><aside><hr>
+<p>Banks C and D. The first half is
+a lot of data for the credits.
+The second half is totally empty.</p>
+&nbsp;</aside><pre><a name="l127" href="#l127" title="Link to line 127">#</a><code><span class="token directive keyword">.base</span> <span class="token hexnumber string">$8000</span>
+<span class="token directive keyword">.include</span> <a class="token string" href="/src/prg-c-d.asm">"src/prg-c-d.asm"</a>
+<span class="token directive keyword">.pad</span> <span class="token hexnumber string">$c000</span>, <span class="token hexnumber string">$ff</span>
+&nbsp;</code></pre><aside><hr>
+<p>extra PRG-ROM pages (8 bank pairs)</p>
+&nbsp;</aside><pre><a name="l133" href="#l133" title="Link to line 133">#</a><code>IFDEF EXPAND_PRG
+<span class="token directive keyword">.dsb</span> (<span class="token decimalnumber string">8</span> * <span class="token hexnumber string">$4000</span>), <span class="token hexnumber string">$ff</span>
+ENDIF
+&nbsp;</code></pre><aside><hr>
+<p>Banks E and F. Fixed at $C000-FFFF.
+Important things like NMI and often-used
+routines.
+Bank E also contains PCM data for the
+drums and samples.</p>
+&nbsp;</aside><pre><a name="l143" href="#l143" title="Link to line 143">#</a><code><span class="token directive keyword">.base</span> <span class="token hexnumber string">$c000</span>    <span class="token comment">; Technically not needed but consistent</span>
+<span class="token directive keyword">.include</span> <a class="token string" href="/src/prg-e-f.asm">"src/prg-e-f.asm"</a>
+
+&nbsp;</code></pre><aside><hr>
+<p>include CHR-ROM</p>
+&nbsp;</aside><pre><a name="l149" href="#l149" title="Link to line 149">#</a><code><span class="token directive keyword">.incbin</span> <span class="token string">"smb2.chr"</span>
+&nbsp;</code></pre><aside><hr>
+<p>extra CHR-ROM pages</p>
+&nbsp;</aside><pre><a name="l153" href="#l153" title="Link to line 153">#</a><code>IFDEF EXPAND_CHR
+<span class="token directive keyword">.dsb</span> (<span class="token decimalnumber string">16</span> * <span class="token hexnumber string">$2000</span>), <span class="token hexnumber string">$00</span>
+ENDIF
+&nbsp;</code></pre></section></article></main><footer class="sc-htpNat iPvEnY"><p>All product names, logos, and brands are property of their respective owners.</p><p>Annotated disassembly site generator © <!-- -->2019<!-- --> <!-- -->Keith McKnight</p><ul><li><a href="https://github.com/XKeeper0/smb2">GitHub</a></li><li><a href="https://discord.gg/TsWMMeV">Discord</a></li></ul></footer></div></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/smb2.asm";window.webpackCompilationHash="2ea601db5f4c75781233";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-e5123abf2b9d78ccb9b7.js"],"component---src-templates-asm-source-jsx":["/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js"],"component---src-templates-asm-directory-jsx":["/component---src-templates-asm-directory-jsx-de110ce639b73c006858.js"],"component---src-pages-404-jsx":["/component---src-pages-404-jsx-2d3be97110fe6b1cc813.js"],"component---src-pages-index-jsx":["/component---src-pages-index-jsx-90677ee39103ae00023b.js"]};/*]]>*/</script><script src="/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js" async=""></script><script src="/commons-96edcb9e9a406c302a22.js" async=""></script><script src="/app-e5123abf2b9d78ccb9b7.js" async=""></script><script src="/webpack-runtime-14b29e9f338a0ab3ef0b.js" async=""></script></body></html>

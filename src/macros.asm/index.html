@@ -1,0 +1,95 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 2.15.20"/><title data-react-helmet="true">/src/macros.asm | Super Mario Bros 2. Discombobulated</title><meta data-react-helmet="true" name="description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:title" content="/src/macros.asm"/><meta data-react-helmet="true" property="og:description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:creator" content="Keith McKnight"/><meta data-react-helmet="true" name="twitter:title" content="/src/macros.asm"/><meta data-react-helmet="true" name="twitter:description" content="The annotated disassembly of SMB2 (USA) for NES."/><link rel="shortcut icon" href="/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#663399"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=008654519ce705ac7bc44303a9014606"/><link as="script" rel="preload" href="/webpack-runtime-14b29e9f338a0ab3ef0b.js"/><link as="script" rel="preload" href="/app-e5123abf2b9d78ccb9b7.js"/><link as="script" rel="preload" href="/commons-96edcb9e9a406c302a22.js"/><link as="script" rel="preload" href="/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js"/><link as="fetch" rel="preload" href="/page-data/src/macros.asm/page-data.json" crossorigin="anonymous"/></head><body><noscript id="gatsby-noscript">This app works best with JavaScript enabled.</noscript><div id="___gatsby"><div style="outline:none" tabindex="-1" role="group" id="gatsby-focus-wrapper"><div class="sc-bxivhb itivNt"><header class="sc-bwzfXH kFCqhj"><a href="https://github.com/XKeeper0/smb2"><svg class="sc-bdVaJa eSEdyA" fill="#fcfcfc" height="80" viewBox="0 0 250 250" width="80" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l115 115h15l12 27 108 108V0z"></path><g class="octocat" fill="#f65b98"><path class="octocat-arm" d="M128 109c-15-9-9-19-9-19 3-7 2-11 2-11-1-7 3-2 3-2 4 5 2 11 2 11-3 10 5 15 9 16" style="transform-origin:130px 106px"></path><path class="octocat-body" d="M115 115s4 2 5 0l14-14c3-2 6-3 8-3-8-11-15-24 2-41 5-5 10-7 16-7 1-2 3-7 12-11 0 0 5 3 7 16 4 2 8 5 12 9s7 8 9 12c14 3 17 7 17 7-4 8-9 11-11 11 0 6-2 11-7 16-16 16-30 10-41 2 0 3-1 7-5 11l-12 11c-1 1 1 5 1 5z"></path></g></svg></a><h1><a href="/">Super Mario Bros 2. Discombobulated</a></h1><p>The annotated disassembly of SMB2 (USA) for NES.</p></header><main><article class="sc-ifAKCX fpwdji"><header><h3>/src/macros.asm</h3></header><section><aside><h1>Macros</h1>
+&nbsp;</aside><pre><a name="l6" href="#l6" title="Link to line 6">#</a><code>&nbsp;</code></pre><aside><p>Include COMPATIBILITY-flag-related macros</p>
+&nbsp;</aside><pre><a name="l8" href="#l8" title="Link to line 8">#</a><code>include <a class="token string" href="/src/compatibility-shims.asm">"src/compatibility-shims.asm"</a>
+&nbsp;</code></pre><aside><p>Pad out unused space used in the original, if needed</p>
+&nbsp;</aside><pre><a name="l13" href="#l13" title="Link to line 13">#</a><code>MACRO unusedSpace padTo with
+	IFDEF PRESERVE_UNUSED_SPACE
+		<span class="token directive keyword">.pad</span> padTo, with
+	ENDIF
+ENDM
+&nbsp;</code></pre><aside><p>distTo
+Outputs distance (byte) to label
+e.g.:
+.db (+ - $)  is  distTo +</p>
+&nbsp;</aside><pre><a name="l24" href="#l24" title="Link to line 24">#</a><code>MACRO distTo label
+	<span class="token directive keyword">.db</span> (label - $)
+ENDM
+
+MACRO enemy <span class="token register variable">x</span>, <span class="token register variable">y</span>, type
+	<span class="token directive keyword">.db</span> type, <span class="token register variable">x</span> &#x3C;&#x3C; <span class="token decimalnumber string">4</span> | <span class="token register variable">y</span>
+ENDM
+&nbsp;</code></pre><aside><p>LevelHeader macro</p>
+<p>The order of the parameters is slightly different than how it's encoded, but
+hopefully this order is a little more intuitive?</p>
+&nbsp;</aside><pre><a name="l38" href="#l38" title="Link to line 38">#</a><code>MACRO levelHeader pages, horizontal, bgPalette, spritePalette, music, objectTypeAXFX, objectType<span class="token decimalnumber string">3</span><span class="token register variable">X</span><span class="token decimalnumber string">9</span><span class="token register variable">X</span>, groundSetting, groundType
+	<span class="token directive keyword">.db</span> horizontal &#x3C;&#x3C; <span class="token decimalnumber string">7</span> | bgPalette &#x3C;&#x3C; <span class="token decimalnumber string">3</span> | spritePalette
+	<span class="token directive keyword">.db</span> <span class="token binarynumber string">%11100000</span> | groundSetting
+	<span class="token directive keyword">.db</span> pages &#x3C;&#x3C; <span class="token decimalnumber string">4</span> | objectTypeAXFX &#x3C;&#x3C; <span class="token decimalnumber string">2</span> | objectType<span class="token decimalnumber string">3</span><span class="token register variable">X</span><span class="token decimalnumber string">9</span><span class="token register variable">X</span>
+	IFNDEF LEVEL_ENGINE_UPGRADES
+		<span class="token directive keyword">.db</span> groundType &#x3C;&#x3C; <span class="token decimalnumber string">3</span> | music
+	ENDIF
+	IFDEF LEVEL_ENGINE_UPGRADES
+		<span class="token directive keyword">.db</span> groundType &#x3C;&#x3C; <span class="token decimalnumber string">4</span> | music
+	ENDIF
+ENDM
+
+MACRO musicPointerOffset label, offset
+	<span class="token directive keyword">.db</span> (label - MusicPointerOffset + offset)
+ENDM
+
+MACRO musicPart label
+	<span class="token directive keyword">.db</span> (label - MusicPartPointers)
+ENDM
+
+MACRO noteLength label
+	<span class="token directive keyword">.db</span> (label - NoteLengthTable)
+ENDM
+&nbsp;</code></pre><aside><p>MusicHeader macro, to replace this:
+oteLength NoteLengthTable_300bpm
+dw MusicDataXXX
+db MusicDataXXX_Triangle - MusicDataXXX
+db MusicDataXXX_Square1 - MusicDataXXX
+db MusicDataXXX_Noise - MusicDataXXX
+no noise channel, using $00 from below</p>
+<p>Setting "noise" or "dpcm" to -1 will suppress output of $00 for music headers
+"reuse" the note length from the following header to save bytes.</p>
+<p>If EXPAND_MUSIC is enabled, the $00 will always be output.</p>
+&nbsp;</aside><pre><a name="l76" href="#l76" title="Link to line 76">#</a><code>MACRO musicHeader noteLengthLabel, square<span class="token decimalnumber string">2</span>, triangle, square<span class="token decimalnumber string">1</span>, noise, dpcm
+	noteLength noteLengthLabel
+	<span class="token directive keyword">.dw</span> square<span class="token decimalnumber string">2</span>
+	IF triangle &#x3C;= <span class="token decimalnumber string">0</span>
+		<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>
+	ELSE
+		<span class="token directive keyword">.db</span> (triangle - square<span class="token decimalnumber string">2</span>)
+	ENDIF
+	IF square<span class="token decimalnumber string">1</span> &#x3C;= <span class="token decimalnumber string">0</span>
+		<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>
+	ELSE
+		<span class="token directive keyword">.db</span> (square<span class="token decimalnumber string">1</span> - square<span class="token decimalnumber string">2</span>)
+	ENDIF
+
+	IFNDEF EXPAND_MUSIC
+		IF noise = <span class="token decimalnumber string">0</span>
+			<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>
+		ELSEIF noise > <span class="token decimalnumber string">0</span>
+			<span class="token directive keyword">.db</span> (noise - square<span class="token decimalnumber string">2</span>)
+		ENDIF
+		IF dpcm = <span class="token decimalnumber string">0</span>
+			<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>
+		ELSEIF dpcm > <span class="token decimalnumber string">0</span>
+			<span class="token directive keyword">.db</span> (dpcm - square<span class="token decimalnumber string">2</span>)
+		ENDIF
+	ELSE
+		IF noise &#x3C;= <span class="token decimalnumber string">0</span>
+			<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>
+		ELSE
+			<span class="token directive keyword">.db</span> (noise - square<span class="token decimalnumber string">2</span>)
+		ENDIF
+		IF dpcm &#x3C;= <span class="token decimalnumber string">0</span>
+			<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>
+		ELSE
+			<span class="token directive keyword">.db</span> (dpcm - square<span class="token decimalnumber string">2</span>)
+		ENDIF
+	ENDIF
+ENDM
+&nbsp;</code></pre></section></article></main><footer class="sc-htpNat iPvEnY"><p>All product names, logos, and brands are property of their respective owners.</p><p>Annotated disassembly site generator © <!-- -->2019<!-- --> <!-- -->Keith McKnight</p><ul><li><a href="https://github.com/XKeeper0/smb2">GitHub</a></li><li><a href="https://discord.gg/TsWMMeV">Discord</a></li></ul></footer></div></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/src/macros.asm";window.webpackCompilationHash="2ea601db5f4c75781233";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-e5123abf2b9d78ccb9b7.js"],"component---src-templates-asm-source-jsx":["/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js"],"component---src-templates-asm-directory-jsx":["/component---src-templates-asm-directory-jsx-de110ce639b73c006858.js"],"component---src-pages-404-jsx":["/component---src-pages-404-jsx-2d3be97110fe6b1cc813.js"],"component---src-pages-index-jsx":["/component---src-pages-index-jsx-90677ee39103ae00023b.js"]};/*]]>*/</script><script src="/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js" async=""></script><script src="/commons-96edcb9e9a406c302a22.js" async=""></script><script src="/app-e5123abf2b9d78ccb9b7.js" async=""></script><script src="/webpack-runtime-14b29e9f338a0ab3ef0b.js" async=""></script></body></html>

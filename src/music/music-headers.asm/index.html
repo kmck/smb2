@@ -1,0 +1,175 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 2.15.20"/><title data-react-helmet="true">/src/music/music-headers.asm | Super Mario Bros 2. Discombobulated</title><meta data-react-helmet="true" name="description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:title" content="/src/music/music-headers.asm"/><meta data-react-helmet="true" property="og:description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:creator" content="Keith McKnight"/><meta data-react-helmet="true" name="twitter:title" content="/src/music/music-headers.asm"/><meta data-react-helmet="true" name="twitter:description" content="The annotated disassembly of SMB2 (USA) for NES."/><link rel="shortcut icon" href="/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#663399"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=008654519ce705ac7bc44303a9014606"/><link as="script" rel="preload" href="/webpack-runtime-14b29e9f338a0ab3ef0b.js"/><link as="script" rel="preload" href="/app-e5123abf2b9d78ccb9b7.js"/><link as="script" rel="preload" href="/commons-96edcb9e9a406c302a22.js"/><link as="script" rel="preload" href="/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js"/><link as="fetch" rel="preload" href="/page-data/src/music/music-headers.asm/page-data.json" crossorigin="anonymous"/></head><body><noscript id="gatsby-noscript">This app works best with JavaScript enabled.</noscript><div id="___gatsby"><div style="outline:none" tabindex="-1" role="group" id="gatsby-focus-wrapper"><div class="sc-bxivhb itivNt"><header class="sc-bwzfXH kFCqhj"><a href="https://github.com/XKeeper0/smb2"><svg class="sc-bdVaJa eSEdyA" fill="#fcfcfc" height="80" viewBox="0 0 250 250" width="80" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l115 115h15l12 27 108 108V0z"></path><g class="octocat" fill="#f65b98"><path class="octocat-arm" d="M128 109c-15-9-9-19-9-19 3-7 2-11 2-11-1-7 3-2 3-2 4 5 2 11 2 11-3 10 5 15 9 16" style="transform-origin:130px 106px"></path><path class="octocat-body" d="M115 115s4 2 5 0l14-14c3-2 6-3 8-3-8-11-15-24 2-41 5-5 10-7 16-7 1-2 3-7 12-11 0 0 5 3 7 16 4 2 8 5 12 9s7 8 9 12c14 3 17 7 17 7-4 8-9 11-11 11 0 6-2 11-7 16-16 16-30 10-41 2 0 3-1 7-5 11l-12 11c-1 1 1 5 1 5z"></path></g></svg></a><h1><a href="/">Super Mario Bros 2. Discombobulated</a></h1><p>The annotated disassembly of SMB2 (USA) for NES.</p></header><main><article class="sc-ifAKCX fpwdji"><header><h3>/src/music/music-headers.asm</h3></header><section><aside><h1>Music Headers</h1>
+<p>These are broken down by song segment and point to the note length table and
+and individual channel data. Square 2 is the main pointer, and triangle,
+square 1, and noise are stored as offets relative to the main pointer.</p>
+<p>Bytes:
+00: Note length table (from $8F00)
+01: Main address / Square 2 (lo)
+02: Main address / Square 2 (hi)
+03: Triangle offset from main
+04: Square 1 offset from main
+05: Noise/DPCM offset from main</p>
+<p>For the musicHeader macro, specifying $00 is "none", -1 for noise/pcm is "omit".
+Some of the music headers use the $00 from the next header's note length table,
+to save one byte (in a ROM /full/ of unused space...)</p>
+<p>This turns out to be important because the music part pointers are stored as
+offsets from MusicPartPointers, which means they can't be larger than $FF!</p>
+&nbsp;</aside><pre><a name="l24" href="#l24" title="Link to line 24">#</a><code>MusicPartHeaders:
+&nbsp;</code></pre><aside><hr>
+<p>Character select segments 1 through 5
+(6 through 8 are a ways below this)</p>
+&nbsp;</aside><pre><a name="l29" href="#l29" title="Link to line 29">#</a><code>MusicHeaderCharacterSelect<span class="token decimalnumber string">1</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">300</span>bpm, MusicDataCharacterSelect<span class="token decimalnumber string">1</span>, MusicDataCharacterSelect<span class="token decimalnumber string">1</span>_Triangle, MusicDataCharacterSelect<span class="token decimalnumber string">1</span>_Square<span class="token decimalnumber string">1</span>, MusicDataCharacterSelect<span class="token decimalnumber string">1</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderCharacterSelect<span class="token decimalnumber string">2</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">300</span>bpm, MusicDataCharacterSelect<span class="token decimalnumber string">2</span>, MusicDataCharacterSelect<span class="token decimalnumber string">2</span>_Triangle, MusicDataCharacterSelect<span class="token decimalnumber string">2</span>_Square<span class="token decimalnumber string">1</span>, MusicDataCharacterSelect<span class="token decimalnumber string">2</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderCharacterSelect<span class="token decimalnumber string">3</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">300</span>bpm, MusicDataCharacterSelect<span class="token decimalnumber string">3</span>, MusicDataCharacterSelect<span class="token decimalnumber string">3</span>_Triangle, MusicDataCharacterSelect<span class="token decimalnumber string">3</span>_Square<span class="token decimalnumber string">1</span>, MusicDataCharacterSelect<span class="token decimalnumber string">3</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderCharacterSelect<span class="token decimalnumber string">4</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">300</span>bpm, MusicDataCharacterSelect<span class="token decimalnumber string">4</span>, MusicDataCharacterSelect<span class="token decimalnumber string">4</span>_Triangle, MusicDataCharacterSelect<span class="token decimalnumber string">4</span>_Square<span class="token decimalnumber string">1</span>, MusicDataCharacterSelect<span class="token decimalnumber string">4</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderCharacterSelect<span class="token decimalnumber string">5</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">300</span>bpm, MusicDataCharacterSelect<span class="token decimalnumber string">5</span>, MusicDataCharacterSelect<span class="token decimalnumber string">5</span>_Triangle, MusicDataCharacterSelect<span class="token decimalnumber string">5</span>_Square<span class="token decimalnumber string">1</span>, MusicDataCharacterSelect<span class="token decimalnumber string">5</span>_Noise, -<span class="token decimalnumber string">1</span>
+&nbsp;</code></pre><aside><hr>
+<p>Overworld music headers</p>
+&nbsp;</aside><pre><a name="l46" href="#l46" title="Link to line 46">#</a><code>MusicHeaderOverworld<span class="token decimalnumber string">1</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">200</span>bpm, MusicDataOverworld<span class="token decimalnumber string">1</span>, MusicDataOverworld<span class="token decimalnumber string">1</span>_Triangle, MusicDataOverworld<span class="token decimalnumber string">1</span>_Square<span class="token decimalnumber string">1</span>, MusicDataOverworld<span class="token decimalnumber string">1</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderOverworld<span class="token decimalnumber string">2</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">200</span>bpm, MusicDataOverworld<span class="token decimalnumber string">2</span>, MusicDataOverworld<span class="token decimalnumber string">2</span>_Triangle, MusicDataOverworld<span class="token decimalnumber string">2</span>_Square<span class="token decimalnumber string">1</span>, MusicDataOverworld<span class="token decimalnumber string">2</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderOverworld<span class="token decimalnumber string">3</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">200</span>bpm, MusicDataOverworld<span class="token decimalnumber string">3</span>, MusicDataOverworld<span class="token decimalnumber string">3</span>_Triangle, MusicDataOverworld<span class="token decimalnumber string">3</span>_Square<span class="token decimalnumber string">1</span>, MusicDataOverworld<span class="token decimalnumber string">3</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderOverworld<span class="token decimalnumber string">4</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">200</span>bpm, MusicDataOverworld<span class="token decimalnumber string">4</span>, MusicDataOverworld<span class="token decimalnumber string">4</span>_Triangle, MusicDataOverworld<span class="token decimalnumber string">4</span>_Square<span class="token decimalnumber string">1</span>, MusicDataOverworld<span class="token decimalnumber string">4</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderOverworld<span class="token decimalnumber string">5</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">200</span>bpm, MusicDataOverworld<span class="token decimalnumber string">5</span>, MusicDataOverworld<span class="token decimalnumber string">5</span>_Triangle, MusicDataOverworld<span class="token decimalnumber string">5</span>_Square<span class="token decimalnumber string">1</span>, MusicDataOverworld<span class="token decimalnumber string">5</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderOverworld<span class="token decimalnumber string">6</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">200</span>bpm, MusicDataOverworld<span class="token decimalnumber string">6</span>, MusicDataOverworld<span class="token decimalnumber string">6</span>_Triangle, MusicDataOverworld<span class="token decimalnumber string">6</span>_Square<span class="token decimalnumber string">1</span>, MusicDataOverworld<span class="token decimalnumber string">6</span>_Noise, -<span class="token decimalnumber string">1</span>
+&nbsp;</code></pre><aside><hr>
+<p>Underground music</p>
+&nbsp;</aside><pre><a name="l66" href="#l66" title="Link to line 66">#</a><code>IFNDEF PROTOTYPE_MUSIC_UNDERGROUND
+MusicHeaderUnderground:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">129</span>bpm, MusicDataUnderground, MusicDataUnderground_Triangle, MusicDataUnderground_Square<span class="token decimalnumber string">1</span>, -<span class="token decimalnumber string">1</span>, MusicDataUnderground_DPCM
+ENDIF
+&nbsp;</code></pre><aside><hr>
+<p>Boss and boss area music</p>
+&nbsp;</aside><pre><a name="l73" href="#l73" title="Link to line 73">#</a><code>MusicHeaderBoss:
+IFNDEF PROTOTYPE_MUSIC_ENDING
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">200</span>bpm, MusicDataBoss, MusicDataBoss_Triangle, MusicDataBoss_Square<span class="token decimalnumber string">1</span>, <span class="token hexnumber string">$00</span>, -<span class="token decimalnumber string">1</span>
+ELSE&nbsp;</code></pre><aside><p>sharing $00 with NoteLengthTable_300bpm from the segment below
+(we're scrounging for bytes to avoid overflowing the music header table)</p>
+&nbsp;</aside><pre><a name="l79" href="#l79" title="Link to line 79">#</a><code>	musicHeader NoteLengthTable_<span class="token decimalnumber string">200</span>bpm, MusicDataBoss, MusicDataBoss_Triangle, MusicDataBoss_Square<span class="token decimalnumber string">1</span>, -<span class="token decimalnumber string">1</span>, -<span class="token decimalnumber string">1</span>
+ENDIF
+&nbsp;</code></pre><aside><hr>
+<p>Starman music</p>
+&nbsp;</aside><pre><a name="l84" href="#l84" title="Link to line 84">#</a><code>MusicHeaderStar:
+IFNDEF PROTOTYPE_MUSIC_STARMAN
+	IFNDEF PROTOTYPE_MUSIC_UNDERGROUND
+		musicHeader NoteLengthTable_<span class="token decimalnumber string">300</span>bpm, MusicDataStar, MusicDataStar_Triangle, MusicDataStar_Square<span class="token decimalnumber string">1</span>, -<span class="token decimalnumber string">1</span>, MusicDataStar_DPCM
+	ELSE
+		musicHeader NoteLengthTable_<span class="token decimalnumber string">300</span>bpm, MusicDataStar, MusicDataStar_Triangle, MusicDataStar_Square<span class="token decimalnumber string">1</span>, <span class="token hexnumber string">$00</span>, MusicDataStar_DPCM
+	ENDIF
+ENDIF
+IFDEF PROTOTYPE_MUSIC_STARMAN
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">300</span>bpm, MusicDataStar, MusicDataStar_Triangle, MusicDataStar_Square<span class="token decimalnumber string">1</span>, MusicDataStar_Noise, -<span class="token decimalnumber string">1</span>
+ENDIF
+&nbsp;</code></pre><aside><hr>
+<p>Wart's final boss music</p>
+&nbsp;</aside><pre><a name="l98" href="#l98" title="Link to line 98">#</a><code>MusicHeaderWart:
+IFNDEF PROTOTYPE_MUSIC_ENDING
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">200</span>bpm, MusicDataWart, MusicDataWart_Triangle, MusicDataWart_Square<span class="token decimalnumber string">1</span>, <span class="token hexnumber string">$00</span>, -<span class="token decimalnumber string">1</span>
+ELSE&nbsp;</code></pre><aside><p>sharing $00 with NoteLengthTable_300bpm from the segment below
+(we're scrounging for bytes to avoid overflowing the music header table)</p>
+&nbsp;</aside><pre><a name="l104" href="#l104" title="Link to line 104">#</a><code>	musicHeader NoteLengthTable_<span class="token decimalnumber string">200</span>bpm, MusicDataWart, MusicDataWart_Triangle, MusicDataWart_Square<span class="token decimalnumber string">1</span>, -<span class="token decimalnumber string">1</span>, -<span class="token decimalnumber string">1</span>
+ENDIF
+
+&nbsp;</code></pre><aside><hr>
+<p>Various shorter jingles, extra character select segments (8, 7, 6), and other potpourri</p>
+&nbsp;</aside><pre><a name="l109" href="#l109" title="Link to line 109">#</a><code>MusicHeaderCrystal:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">300</span>bpm, MusicDataCrystal, MusicDataCrystal_Triangle, MusicDataCrystal_Square<span class="token decimalnumber string">1</span>, -<span class="token decimalnumber string">1</span>, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderGameOver:
+ 	musicHeader NoteLengthTable_<span class="token decimalnumber string">300</span>bpm, MusicDataGameOver, MusicDataGameOver_Triangle, MusicDataGameOver_Square<span class="token decimalnumber string">1</span>, -<span class="token decimalnumber string">1</span>, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderBossBeaten:
+ 	musicHeader NoteLengthTable_<span class="token decimalnumber string">300</span>bpm, MusicDataBossBeaten, MusicDataBossBeaten_Triangle, MusicDataBossBeaten_Square<span class="token decimalnumber string">1</span>, -<span class="token decimalnumber string">1</span>, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderCharacterSelect<span class="token decimalnumber string">8</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">300</span>bpm, MusicDataCharacterSelect<span class="token decimalnumber string">8</span>, MusicDataCharacterSelect<span class="token decimalnumber string">8</span>_Triangle, MusicDataCharacterSelect<span class="token decimalnumber string">8</span>_Square<span class="token decimalnumber string">1</span>, MusicDataCharacterSelect<span class="token decimalnumber string">8</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderMushroomBonusChance:
+ 	musicHeader NoteLengthTable_<span class="token decimalnumber string">150</span>bpm, MusicDataMushroomBonusChance, <span class="token hexnumber string">$00</span>, MusicDataMushroomBonusChance_Square<span class="token decimalnumber string">1</span>, -<span class="token decimalnumber string">1</span>, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderCharacterSelect<span class="token decimalnumber string">7</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">300</span>bpm, MusicDataCharacterSelect<span class="token decimalnumber string">7</span>, MusicDataCharacterSelect<span class="token decimalnumber string">7</span>_Triangle, MusicDataCharacterSelect<span class="token decimalnumber string">7</span>_Square<span class="token decimalnumber string">1</span>, MusicDataCharacterSelect<span class="token decimalnumber string">7</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderDeath:
+ 	musicHeader NoteLengthTable_<span class="token decimalnumber string">200</span>bpm, MusicDataDeath, MusicDataDeath_Triangle, MusicDataDeath_Square<span class="token decimalnumber string">1</span>, -<span class="token decimalnumber string">1</span>, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderCharacterSelect<span class="token decimalnumber string">6</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">300</span>bpm, MusicDataCharacterSelect<span class="token decimalnumber string">6</span>, MusicDataCharacterSelect<span class="token decimalnumber string">6</span>_Triangle, MusicDataCharacterSelect<span class="token decimalnumber string">6</span>_Square<span class="token decimalnumber string">1</span>, MusicDataCharacterSelect<span class="token decimalnumber string">6</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+&nbsp;</code></pre><aside><hr>
+<p>Title screen segments</p>
+&nbsp;</aside><pre><a name="l136" href="#l136" title="Link to line 136">#</a><code>MusicHeaderTitleScreen<span class="token decimalnumber string">2</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">225</span>bpm, MusicDataTitleScreen<span class="token decimalnumber string">2</span>, MusicDataTitleScreen<span class="token decimalnumber string">2</span>_Triangle, MusicDataTitleScreen<span class="token decimalnumber string">2</span>_Square<span class="token decimalnumber string">1</span>, MusicDataTitleScreen<span class="token decimalnumber string">2</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderTitleScreen<span class="token decimalnumber string">1</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">225</span>bpm, MusicDataTitleScreen<span class="token decimalnumber string">1</span>, MusicDataTitleScreen<span class="token decimalnumber string">1</span>_Triangle, MusicDataTitleScreen<span class="token decimalnumber string">1</span>_Square<span class="token decimalnumber string">1</span>, MusicDataTitleScreen<span class="token decimalnumber string">1</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderTitleScreen<span class="token decimalnumber string">3</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">225</span>bpm, MusicDataTitleScreen<span class="token decimalnumber string">3</span>, MusicDataTitleScreen<span class="token decimalnumber string">3</span>_Triangle, MusicDataTitleScreen<span class="token decimalnumber string">3</span>_Square<span class="token decimalnumber string">1</span>, MusicDataTitleScreen<span class="token decimalnumber string">3</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderTitleScreen<span class="token decimalnumber string">4</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">225</span>bpm, MusicDataTitleScreen<span class="token decimalnumber string">4</span>, MusicDataTitleScreen<span class="token decimalnumber string">4</span>_Triangle, MusicDataTitleScreen<span class="token decimalnumber string">4</span>_Square<span class="token decimalnumber string">1</span>, MusicDataTitleScreen<span class="token decimalnumber string">4</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+&nbsp;</code></pre><aside><hr>
+<p>Subspace music, quite longer than normally heard</p>
+&nbsp;</aside><pre><a name="l151" href="#l151" title="Link to line 151">#</a><code>MusicHeaderSubspace<span class="token decimalnumber string">1</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">200</span>bpm, MusicDataSubspace<span class="token decimalnumber string">1</span>, MusicDataSubspace<span class="token decimalnumber string">1</span>_Triangle, MusicDataSubspace<span class="token decimalnumber string">1</span>_Square<span class="token decimalnumber string">1</span>, MusicDataSubspace<span class="token decimalnumber string">1</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderSubspace<span class="token decimalnumber string">2</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">200</span>bpm, MusicDataSubspace<span class="token decimalnumber string">2</span>, MusicDataSubspace<span class="token decimalnumber string">2</span>_Triangle, MusicDataSubspace<span class="token decimalnumber string">2</span>_Square<span class="token decimalnumber string">1</span>, MusicDataSubspace<span class="token decimalnumber string">2</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderSubspace<span class="token decimalnumber string">3</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">200</span>bpm, MusicDataSubspace<span class="token decimalnumber string">3</span>, MusicDataSubspace<span class="token decimalnumber string">3</span>_Triangle, MusicDataSubspace<span class="token decimalnumber string">3</span>_Square<span class="token decimalnumber string">1</span>, MusicDataSubspace<span class="token decimalnumber string">3</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderSubspace<span class="token decimalnumber string">4</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">200</span>bpm, MusicDataSubspace<span class="token decimalnumber string">4</span>, MusicDataSubspace<span class="token decimalnumber string">4</span>_Triangle, MusicDataSubspace<span class="token decimalnumber string">4</span>_Square<span class="token decimalnumber string">1</span>, MusicDataSubspace<span class="token decimalnumber string">4</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+&nbsp;</code></pre><aside><hr>
+<p>Ending music</p>
+&nbsp;</aside><pre><a name="l166" href="#l166" title="Link to line 166">#</a><code>MusicHeaderEnding<span class="token decimalnumber string">1</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">129</span>bpm, MusicDataEnding<span class="token decimalnumber string">1</span>, MusicDataEnding<span class="token decimalnumber string">1</span>_Triangle, MusicDataEnding<span class="token decimalnumber string">1</span>_Square<span class="token decimalnumber string">1</span>, MusicDataEnding<span class="token decimalnumber string">1</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderEnding<span class="token decimalnumber string">3</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">129</span>bpm, MusicDataEnding<span class="token decimalnumber string">3</span>, MusicDataEnding<span class="token decimalnumber string">3</span>_Triangle, MusicDataEnding<span class="token decimalnumber string">3</span>_Square<span class="token decimalnumber string">1</span>, MusicDataEnding<span class="token decimalnumber string">3</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderEnding<span class="token decimalnumber string">2</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">129</span>bpm, MusicDataEnding<span class="token decimalnumber string">2</span>, MusicDataEnding<span class="token decimalnumber string">2</span>_Triangle, MusicDataEnding<span class="token decimalnumber string">2</span>_Square<span class="token decimalnumber string">1</span>, MusicDataEnding<span class="token decimalnumber string">2</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderEnding<span class="token decimalnumber string">5</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">129</span>bpm, MusicDataEnding<span class="token decimalnumber string">5</span>, MusicDataEnding<span class="token decimalnumber string">5</span>_Triangle, MusicDataEnding<span class="token decimalnumber string">5</span>_Square<span class="token decimalnumber string">1</span>, MusicDataEnding<span class="token decimalnumber string">5</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+MusicHeaderEnding<span class="token decimalnumber string">4</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">129</span>bpm, MusicDataEnding<span class="token decimalnumber string">4</span>, MusicDataEnding<span class="token decimalnumber string">4</span>_Triangle, MusicDataEnding<span class="token decimalnumber string">4</span>_Square<span class="token decimalnumber string">1</span>, MusicDataEnding<span class="token decimalnumber string">4</span>_Noise, -<span class="token decimalnumber string">1</span>
+
+IFNDEF PROTOTYPE_MUSIC_ENDING
+MusicHeaderEnding<span class="token decimalnumber string">6</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">129</span>bpm, MusicDataEnding<span class="token decimalnumber string">6</span>, <span class="token hexnumber string">$00</span>, MusicDataEnding<span class="token decimalnumber string">6</span>_Square<span class="token decimalnumber string">1</span>, <span class="token hexnumber string">$00</span>, -<span class="token decimalnumber string">1</span>
+ENDIF
+
+IFDEF PROTOTYPE_MUSIC_UNDERGROUND&nbsp;</code></pre><aside><p>Much cooler SMB3-esque underground music...
+apparently using /both/ noise and DPCM (!)</p>
+&nbsp;</aside><pre><a name="l190" href="#l190" title="Link to line 190">#</a><code>MusicHeaderUndergroundBeta<span class="token decimalnumber string">1</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">200</span>bpm, MusicDataUndergroundBeta<span class="token decimalnumber string">1</span>, MusicDataUndergroundBeta<span class="token decimalnumber string">1</span>_Triangle, MusicDataUndergroundBeta<span class="token decimalnumber string">1</span>_Square<span class="token decimalnumber string">1</span>, MusicDataUndergroundBeta<span class="token decimalnumber string">1</span>_Noise, MusicDataUndergroundBeta<span class="token decimalnumber string">1</span>_DPCM
+MusicHeaderUndergroundBeta<span class="token decimalnumber string">2</span>:
+	musicHeader NoteLengthTable_<span class="token decimalnumber string">200</span>bpm, MusicDataUndergroundBeta<span class="token decimalnumber string">2</span>, MusicDataUndergroundBeta<span class="token decimalnumber string">2</span>_Triangle, MusicDataUndergroundBeta<span class="token decimalnumber string">2</span>_Square<span class="token decimalnumber string">1</span>, MusicDataUndergroundBeta<span class="token decimalnumber string">2</span>_Noise, MusicDataUndergroundBeta<span class="token decimalnumber string">2</span>_DPCM
+ENDIF
+&nbsp;</code></pre></section></article></main><footer class="sc-htpNat iPvEnY"><p>All product names, logos, and brands are property of their respective owners.</p><p>Annotated disassembly site generator © <!-- -->2019<!-- --> <!-- -->Keith McKnight</p><ul><li><a href="https://github.com/XKeeper0/smb2">GitHub</a></li><li><a href="https://discord.gg/TsWMMeV">Discord</a></li></ul></footer></div></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/src/music/music-headers.asm";window.webpackCompilationHash="2ea601db5f4c75781233";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-e5123abf2b9d78ccb9b7.js"],"component---src-templates-asm-source-jsx":["/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js"],"component---src-templates-asm-directory-jsx":["/component---src-templates-asm-directory-jsx-de110ce639b73c006858.js"],"component---src-pages-404-jsx":["/component---src-pages-404-jsx-2d3be97110fe6b1cc813.js"],"component---src-pages-index-jsx":["/component---src-pages-index-jsx-90677ee39103ae00023b.js"]};/*]]>*/</script><script src="/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js" async=""></script><script src="/commons-96edcb9e9a406c302a22.js" async=""></script><script src="/app-e5123abf2b9d78ccb9b7.js" async=""></script><script src="/webpack-runtime-14b29e9f338a0ab3ef0b.js" async=""></script></body></html>

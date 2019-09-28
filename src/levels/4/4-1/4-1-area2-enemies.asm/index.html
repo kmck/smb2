@@ -1,0 +1,99 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 2.15.20"/><title data-react-helmet="true">/src/levels/4/4-1/4-1-area2-enemies.asm | Super Mario Bros 2. Discombobulated</title><meta data-react-helmet="true" name="description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:title" content="/src/levels/4/4-1/4-1-area2-enemies.asm"/><meta data-react-helmet="true" property="og:description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:creator" content="Keith McKnight"/><meta data-react-helmet="true" name="twitter:title" content="/src/levels/4/4-1/4-1-area2-enemies.asm"/><meta data-react-helmet="true" name="twitter:description" content="The annotated disassembly of SMB2 (USA) for NES."/><link rel="shortcut icon" href="/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#663399"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=008654519ce705ac7bc44303a9014606"/><link as="script" rel="preload" href="/webpack-runtime-14b29e9f338a0ab3ef0b.js"/><link as="script" rel="preload" href="/app-e5123abf2b9d78ccb9b7.js"/><link as="script" rel="preload" href="/commons-96edcb9e9a406c302a22.js"/><link as="script" rel="preload" href="/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js"/><link as="fetch" rel="preload" href="/page-data/src/levels/4/4-1/4-1-area2-enemies.asm/page-data.json" crossorigin="anonymous"/></head><body><noscript id="gatsby-noscript">This app works best with JavaScript enabled.</noscript><div id="___gatsby"><div style="outline:none" tabindex="-1" role="group" id="gatsby-focus-wrapper"><div class="sc-bxivhb itivNt"><header class="sc-bwzfXH kFCqhj"><a href="https://github.com/XKeeper0/smb2"><svg class="sc-bdVaJa eSEdyA" fill="#fcfcfc" height="80" viewBox="0 0 250 250" width="80" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l115 115h15l12 27 108 108V0z"></path><g class="octocat" fill="#f65b98"><path class="octocat-arm" d="M128 109c-15-9-9-19-9-19 3-7 2-11 2-11-1-7 3-2 3-2 4 5 2 11 2 11-3 10 5 15 9 16" style="transform-origin:130px 106px"></path><path class="octocat-body" d="M115 115s4 2 5 0l14-14c3-2 6-3 8-3-8-11-15-24 2-41 5-5 10-7 16-7 1-2 3-7 12-11 0 0 5 3 7 16 4 2 8 5 12 9s7 8 9 12c14 3 17 7 17 7-4 8-9 11-11 11 0 6-2 11-7 16-16 16-30 10-41 2 0 3-1 7-5 11l-12 11c-1 1 1 5 1 5z"></path></g></svg></a><h1><a href="/">Super Mario Bros 2. Discombobulated</a></h1><p>The annotated disassembly of SMB2 (USA) for NES.</p></header><main><article class="sc-ifAKCX fpwdji"><header><h3>/src/levels/4/4-1/4-1-area2-enemies.asm</h3></header><section><aside><p>Level 4-1, Area 2</p>
+&nbsp;</aside><pre><a name="l2" href="#l2" title="Link to line 2">#</a><code>
+EnemyData_Level_<span class="token decimalnumber string">4</span>_<span class="token decimalnumber string">1</span>_Area<span class="token decimalnumber string">2</span>:
+&nbsp;</code></pre><aside><p>This area is unused...
+it has another lonely Boss Birdo...
+and a fucking billion empty pages.
+Nintendo, what were you on???</p>
+&nbsp;</aside><pre><a name="l9" href="#l9" title="Link to line 9">#</a><code>&nbsp;</code></pre><aside><p>Page 0</p>
+&nbsp;</aside><pre><a name="l11" href="#l11" title="Link to line 11">#</a><code>	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 1</p>
+&nbsp;</aside><pre><a name="l14" href="#l14" title="Link to line 14">#</a><code>+	distTo + <span class="token comment">; $03 (1 enemy)</span>
+	enemy $B, $<span class="token decimalnumber string">8</span>, Enemy_BossBirdo
+&nbsp;</code></pre><aside><p>Page 2</p>
+&nbsp;</aside><pre><a name="l18" href="#l18" title="Link to line 18">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 3</p>
+&nbsp;</aside><pre><a name="l21" href="#l21" title="Link to line 21">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 4</p>
+&nbsp;</aside><pre><a name="l24" href="#l24" title="Link to line 24">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 5</p>
+&nbsp;</aside><pre><a name="l27" href="#l27" title="Link to line 27">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 6</p>
+&nbsp;</aside><pre><a name="l30" href="#l30" title="Link to line 30">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 7</p>
+&nbsp;</aside><pre><a name="l33" href="#l33" title="Link to line 33">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 8</p>
+&nbsp;</aside><pre><a name="l36" href="#l36" title="Link to line 36">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 9</p>
+&nbsp;</aside><pre><a name="l39" href="#l39" title="Link to line 39">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page A</p>
+&nbsp;</aside><pre><a name="l42" href="#l42" title="Link to line 42">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page B</p>
+&nbsp;</aside><pre><a name="l45" href="#l45" title="Link to line 45">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page C</p>
+&nbsp;</aside><pre><a name="l48" href="#l48" title="Link to line 48">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page D</p>
+&nbsp;</aside><pre><a name="l51" href="#l51" title="Link to line 51">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page E</p>
+&nbsp;</aside><pre><a name="l54" href="#l54" title="Link to line 54">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page F</p>
+&nbsp;</aside><pre><a name="l57" href="#l57" title="Link to line 57">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 10</p>
+&nbsp;</aside><pre><a name="l60" href="#l60" title="Link to line 60">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 11</p>
+&nbsp;</aside><pre><a name="l63" href="#l63" title="Link to line 63">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 12</p>
+&nbsp;</aside><pre><a name="l66" href="#l66" title="Link to line 66">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 13</p>
+&nbsp;</aside><pre><a name="l69" href="#l69" title="Link to line 69">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 14</p>
+&nbsp;</aside><pre><a name="l72" href="#l72" title="Link to line 72">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 15</p>
+&nbsp;</aside><pre><a name="l75" href="#l75" title="Link to line 75">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 16</p>
+&nbsp;</aside><pre><a name="l78" href="#l78" title="Link to line 78">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 17</p>
+&nbsp;</aside><pre><a name="l81" href="#l81" title="Link to line 81">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 18</p>
+&nbsp;</aside><pre><a name="l84" href="#l84" title="Link to line 84">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 19</p>
+&nbsp;</aside><pre><a name="l87" href="#l87" title="Link to line 87">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 1A</p>
+&nbsp;</aside><pre><a name="l90" href="#l90" title="Link to line 90">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 1B</p>
+&nbsp;</aside><pre><a name="l93" href="#l93" title="Link to line 93">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 1C</p>
+&nbsp;</aside><pre><a name="l96" href="#l96" title="Link to line 96">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 1D</p>
+&nbsp;</aside><pre><a name="l99" href="#l99" title="Link to line 99">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 1E</p>
+&nbsp;</aside><pre><a name="l102" href="#l102" title="Link to line 102">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 1F</p>
+&nbsp;</aside><pre><a name="l105" href="#l105" title="Link to line 105">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 20</p>
+&nbsp;</aside><pre><a name="l108" href="#l108" title="Link to line 108">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 21</p>
+&nbsp;</aside><pre><a name="l111" href="#l111" title="Link to line 111">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 22</p>
+&nbsp;</aside><pre><a name="l114" href="#l114" title="Link to line 114">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 23</p>
+&nbsp;</aside><pre><a name="l117" href="#l117" title="Link to line 117">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 24</p>
+&nbsp;</aside><pre><a name="l120" href="#l120" title="Link to line 120">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 25</p>
+&nbsp;</aside><pre><a name="l123" href="#l123" title="Link to line 123">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 26</p>
+&nbsp;</aside><pre><a name="l126" href="#l126" title="Link to line 126">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 27</p>
+&nbsp;</aside><pre><a name="l129" href="#l129" title="Link to line 129">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 28</p>
+&nbsp;</aside><pre><a name="l132" href="#l132" title="Link to line 132">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 29</p>
+&nbsp;</aside><pre><a name="l135" href="#l135" title="Link to line 135">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 2A</p>
+&nbsp;</aside><pre><a name="l138" href="#l138" title="Link to line 138">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>Page 2B</p>
+&nbsp;</aside><pre><a name="l141" href="#l141" title="Link to line 141">#</a><code>+	distTo + <span class="token comment">; $01 (0 enemies)</span>
+&nbsp;</code></pre><aside><p>End of enemy data</p>
+&nbsp;</aside><pre><a name="l144" href="#l144" title="Link to line 144">#</a><code>+
+&nbsp;</code></pre></section></article></main><footer class="sc-htpNat iPvEnY"><p>All product names, logos, and brands are property of their respective owners.</p><p>Annotated disassembly site generator © <!-- -->2019<!-- --> <!-- -->Keith McKnight</p><ul><li><a href="https://github.com/XKeeper0/smb2">GitHub</a></li><li><a href="https://discord.gg/TsWMMeV">Discord</a></li></ul></footer></div></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/src/levels/4/4-1/4-1-area2-enemies.asm";window.webpackCompilationHash="2ea601db5f4c75781233";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-e5123abf2b9d78ccb9b7.js"],"component---src-templates-asm-source-jsx":["/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js"],"component---src-templates-asm-directory-jsx":["/component---src-templates-asm-directory-jsx-de110ce639b73c006858.js"],"component---src-pages-404-jsx":["/component---src-pages-404-jsx-2d3be97110fe6b1cc813.js"],"component---src-pages-index-jsx":["/component---src-pages-index-jsx-90677ee39103ae00023b.js"]};/*]]>*/</script><script src="/component---src-templates-asm-source-jsx-2a3033eb4063531183b6.js" async=""></script><script src="/commons-96edcb9e9a406c302a22.js" async=""></script><script src="/app-e5123abf2b9d78ccb9b7.js" async=""></script><script src="/webpack-runtime-14b29e9f338a0ab3ef0b.js" async=""></script></body></html>
