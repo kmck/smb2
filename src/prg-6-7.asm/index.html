@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 2.15.28"/><title data-react-helmet="true">/src/prg-6-7.asm | Super Mario Bros 2. Discombobulated</title><meta data-react-helmet="true" name="description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:title" content="/src/prg-6-7.asm"/><meta data-react-helmet="true" property="og:description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:creator" content="Keith McKnight"/><meta data-react-helmet="true" name="twitter:title" content="/src/prg-6-7.asm"/><meta data-react-helmet="true" name="twitter:description" content="The annotated disassembly of SMB2 (USA) for NES."/><style data-styled="hwySwS cARMVe  jZQtxI eRqCXL kvnzNL" data-styled-version="4.4.0">
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 2.15.28"/><title data-react-helmet="true">/src/prg-6-7.asm | Super Mario Bros 2. Discombobulated</title><meta data-react-helmet="true" name="description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:title" content="/src/prg-6-7.asm"/><meta data-react-helmet="true" property="og:description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:creator" content="Keith McKnight"/><meta data-react-helmet="true" name="twitter:title" content="/src/prg-6-7.asm"/><meta data-react-helmet="true" name="twitter:description" content="The annotated disassembly of SMB2 (USA) for NES."/><style data-styled="kVlzQS cARMVe  jZQtxI eRqCXL kvnzNL" data-styled-version="4.4.0">
 /* sc-component-id: sc-global-2942123777 */
 @import url('https://fonts.googleapis.com/css?family=Asap:400,600|Fira+Code:400&display=swap'); html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,main,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;} article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section{display:block;} *[hidden]{display:none;} body{line-height:1;} ol,ul{list-style:none;} blockquote,q{quotes:none;} blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;} table{border-collapse:collapse;border-spacing:0;} *,*::before,*::after{box-sizing:border-box;} html{font-size:16px;} body{font-family:'Asap',sans-serif;font-weight:400;font-size:0.9rem;line-height:1.2;background-color:#fcfcfc;color:#000000;} *::selection{background-color:#f53a1b;color:#fcfcfc;} a{color:#0923f8;} a:hover{color:#0f5ef4;} a:active{color:#f53a1b;} strong,b{font-weight:600;} em,i{font-style:italic;} pre,code{font-family:'Fira Code',monospace;font-weight:400;} h1,h2,h3,h4,h5,h5{font-family:'Asap',sans-serif;font-weight:600;margin-top:0.2rem;margin-bottom:0.4rem;} p,figure,pre{margin-bottom:0.2rem;} h1{font-size:2rem;} h2{font-size:1.6rem;} h3{font-size:1.3rem;} h4{font-size:1rem;} h5{font-size:0.8rem;} h6{font-size:0.6rem;} ul{list-style:square;} ul li{margin-left:1.5em;} hr{border:0;border-top:1px solid #bcbcbc;}
 /* sc-component-id: GithubCorner-sc-112dcqw-0 */
@@ -10,7 +10,7 @@ body *:focus > .eRqCXL .octocat-arm,.eRqCXL:focus .octocat-arm,.eRqCXL:hover .oc
 /* sc-component-id: Layout-sc-11e418k-0 */
 .cARMVe{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;min-height:100vh;} .cARMVe > main{-webkit-box-flex:1;-webkit-flex-grow:1;-ms-flex-positive:1;flex-grow:1;}
 /* sc-component-id: AsmSource-h73kpj-0 */
-.hwySwS > header{padding:1rem 4rem;background-color:#fbdfab;color:#e25c22;} .hwySwS > header h3{font-family:'Fira Code',monospace;font-weight:400;} .hwySwS > section{display:grid;grid-template-columns:[code-comment] minmax(min-content,50%) [code-content] minmax(50%,max-content);line-height:1.3;} .hwySwS > section > aside,.hwySwS > section > pre{position:relative;margin:0;padding:0;border:1px solid transparent;border-radius:0;box-sizing:border-box;} .hwySwS > section > aside:nth-child(1),.hwySwS > section > pre:nth-child(2){padding-top:1rem;} .hwySwS > section > aside{grid-column:code-comment;padding-left:4rem;padding-right:1rem;background-color:#f8f8f8;color:#000000;word-break:break-word;} .hwySwS > section > pre{grid-column:code-content;padding-left:1rem;padding-right:1rem;overflow:visible;white-space:pre-wrap;word-break:break-word;tab-size:4;} .hwySwS > section > pre > a[name][href^="#"]{position:absolute;top:0;right:1rem;-webkit-text-decoration:none;text-decoration:none;color:#f65b98;-webkit-transition:opacity 0.1s linear;transition:opacity 0.1s linear;opacity:0;} .hwySwS > section > pre:hover > a[name][href^="#"]{opacity:1;} @media (max-width:800px){.hwySwS > header{padding-left:2rem;padding-right:2rem;}.hwySwS > section{display:block;}.hwySwS > section > aside,.hwySwS > section > pre{padding-top:1rem;padding-bottom:1rem;}.hwySwS > section > aside{max-width:none;padding-left:2rem;padding-right:2rem;color:#7c7c7c;}.hwySwS > section > aside:before{content:'';position:absolute;top:0;bottom:0;left:0;pointer-events:none;width:4px;background-color:#bcbcbc;}} .hwySwS .token{color:#4f2f04;} .hwySwS .keyword{color:#d61eca;} .hwySwS .variable{color:#f7b72a;} .hwySwS .opcode{color:#f53a1b;} .hwySwS .string{color:#17a61a;} .hwySwS .decimalnumber{color:#4430b9;} .hwySwS .hexnumber{color:#0923f8;} .hwySwS .binarynumber{color:#034057;} .hwySwS .register{color:#f65b98;} .hwySwS .directive{color:#fa9f4e;} .hwySwS .comment{color:#7c7c7c;}</style><link rel="shortcut icon" href="/smb2/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="manifest" href="/smb2/manifest.webmanifest"/><meta name="theme-color" content="#663399"/><link rel="apple-touch-icon" sizes="48x48" href="/smb2/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="72x72" href="/smb2/icons/icon-72x72.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="96x96" href="/smb2/icons/icon-96x96.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="144x144" href="/smb2/icons/icon-144x144.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="192x192" href="/smb2/icons/icon-192x192.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="256x256" href="/smb2/icons/icon-256x256.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="384x384" href="/smb2/icons/icon-384x384.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="512x512" href="/smb2/icons/icon-512x512.png?v=008654519ce705ac7bc44303a9014606"/><link as="script" rel="preload" href="/smb2/webpack-runtime-1d141d49dfe2e87693c4.js"/><link as="script" rel="preload" href="/smb2/app-caeaaca84425fcb8fada.js"/><link as="script" rel="preload" href="/smb2/commons-ed99ba16edc92f5f584d.js"/><link as="script" rel="preload" href="/smb2/component---src-templates-asm-source-jsx-01cd7319362b643a9863.js"/><link as="fetch" rel="preload" href="/smb2/page-data/src/prg-6-7.asm/page-data.json" crossorigin="anonymous"/></head><body><noscript id="gatsby-noscript">This app works best with JavaScript enabled.</noscript><div id="___gatsby"><div style="outline:none" tabindex="-1" role="group" id="gatsby-focus-wrapper"><div class="Layout-sc-11e418k-0 cARMVe"><header class="Header-mdepkv-0 jZQtxI"><a href="https://github.com/XKeeper0/smb2"><svg class="GithubCorner-sc-112dcqw-0 eRqCXL" fill="#fcfcfc" height="80" viewBox="0 0 250 250" width="80" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l115 115h15l12 27 108 108V0z"></path><g class="octocat" fill="#f65b98"><path class="octocat-arm" d="M128 109c-15-9-9-19-9-19 3-7 2-11 2-11-1-7 3-2 3-2 4 5 2 11 2 11-3 10 5 15 9 16" style="transform-origin:130px 106px"></path><path class="octocat-body" d="M115 115s4 2 5 0l14-14c3-2 6-3 8-3-8-11-15-24 2-41 5-5 10-7 16-7 1-2 3-7 12-11 0 0 5 3 7 16 4 2 8 5 12 9s7 8 9 12c14 3 17 7 17 7-4 8-9 11-11 11 0 6-2 11-7 16-16 16-30 10-41 2 0 3-1 7-5 11l-12 11c-1 1 1 5 1 5z"></path></g></svg></a><h1><a href="/smb2/">Super Mario Bros 2. Discombobulated</a></h1><p>The annotated disassembly of SMB2 (USA) for NES.</p></header><main><article class="AsmSource-h73kpj-0 hwySwS"><header><h3>/src/prg-6-7.asm</h3></header><section><aside><h1>Bank 6 &#x26; Bank 7</h1>
+.kVlzQS > header{padding:1rem 4rem;background-color:#fbdfab;color:#e25c22;} .kVlzQS > header h3{font-family:'Fira Code',monospace;font-weight:400;} .kVlzQS > section{display:grid;grid-template-columns:[code-comment] minmax(min-content,50%) [code-content] minmax(50%,max-content);line-height:1.3;} .kVlzQS > section > aside,.kVlzQS > section > pre{position:relative;margin:0;padding:0;border:1px solid transparent;border-radius:0;box-sizing:border-box;} .kVlzQS > section > aside:nth-child(1),.kVlzQS > section > pre:nth-child(2){padding-top:1rem;} .kVlzQS > section > aside{grid-column:code-comment;padding-left:4rem;padding-right:1rem;background-color:#f8f8f8;color:#000000;word-break:break-word;} .kVlzQS > section > pre{grid-column:code-content;padding-left:1rem;padding-right:1rem;overflow:visible;white-space:pre-wrap;word-break:break-word;tab-size:4;} .kVlzQS > section > pre > a[name][href^="#"]{position:absolute;top:0;right:1rem;-webkit-text-decoration:none;text-decoration:none;color:#f65b98;-webkit-transition:opacity 0.1s linear;transition:opacity 0.1s linear;opacity:0;} .kVlzQS > section > pre > a[name][href^="#"]:focus,.kVlzQS > section > pre > a[name][href^="#"]:hover{opacity:1;} .kVlzQS > section > pre:hover > a[name][href^="#"]{opacity:1;} @media (max-width:800px){.kVlzQS > header{padding-left:2rem;padding-right:2rem;}.kVlzQS > section{display:block;}.kVlzQS > section > aside,.kVlzQS > section > pre{padding-top:1rem;padding-bottom:1rem;}.kVlzQS > section > aside{max-width:none;padding-left:2rem;padding-right:2rem;color:#7c7c7c;}.kVlzQS > section > aside:before{content:'';position:absolute;top:0;bottom:0;left:0;pointer-events:none;width:4px;background-color:#bcbcbc;}} .kVlzQS .token{color:#4f2f04;} .kVlzQS .keyword{color:#d61eca;} .kVlzQS .variable{color:#f7b72a;} .kVlzQS .opcode{color:#f53a1b;} .kVlzQS .string{color:#17a61a;} .kVlzQS .decimalnumber{color:#4430b9;} .kVlzQS .hexnumber{color:#0923f8;} .kVlzQS .binarynumber{color:#034057;} .kVlzQS .register{color:#f65b98;} .kVlzQS .directive{color:#fa9f4e;} .kVlzQS .comment{color:#7c7c7c;}</style><link rel="shortcut icon" href="/smb2/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="manifest" href="/smb2/manifest.webmanifest"/><meta name="theme-color" content="#663399"/><link rel="apple-touch-icon" sizes="48x48" href="/smb2/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="72x72" href="/smb2/icons/icon-72x72.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="96x96" href="/smb2/icons/icon-96x96.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="144x144" href="/smb2/icons/icon-144x144.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="192x192" href="/smb2/icons/icon-192x192.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="256x256" href="/smb2/icons/icon-256x256.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="384x384" href="/smb2/icons/icon-384x384.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="512x512" href="/smb2/icons/icon-512x512.png?v=008654519ce705ac7bc44303a9014606"/><link as="script" rel="preload" href="/smb2/webpack-runtime-9aaafdd3739959e4e4d9.js"/><link as="script" rel="preload" href="/smb2/app-caeaaca84425fcb8fada.js"/><link as="script" rel="preload" href="/smb2/commons-ed99ba16edc92f5f584d.js"/><link as="script" rel="preload" href="/smb2/component---src-templates-asm-source-jsx-e658357d8ad4566d46d3.js"/><link as="fetch" rel="preload" href="/smb2/page-data/src/prg-6-7.asm/page-data.json" crossorigin="anonymous"/></head><body><noscript id="gatsby-noscript">This app works best with JavaScript enabled.</noscript><div id="___gatsby"><div style="outline:none" tabindex="-1" role="group" id="gatsby-focus-wrapper"><div class="Layout-sc-11e418k-0 cARMVe"><header class="Header-mdepkv-0 jZQtxI"><a href="https://github.com/XKeeper0/smb2"><svg class="GithubCorner-sc-112dcqw-0 eRqCXL" fill="#fcfcfc" height="80" viewBox="0 0 250 250" width="80" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l115 115h15l12 27 108 108V0z"></path><g class="octocat" fill="#f65b98"><path class="octocat-arm" d="M128 109c-15-9-9-19-9-19 3-7 2-11 2-11-1-7 3-2 3-2 4 5 2 11 2 11-3 10 5 15 9 16" style="transform-origin:130px 106px"></path><path class="octocat-body" d="M115 115s4 2 5 0l14-14c3-2 6-3 8-3-8-11-15-24 2-41 5-5 10-7 16-7 1-2 3-7 12-11 0 0 5 3 7 16 4 2 8 5 12 9s7 8 9 12c14 3 17 7 17 7-4 8-9 11-11 11 0 6-2 11-7 16-16 16-30 10-41 2 0 3-1 7-5 11l-12 11c-1 1 1 5 1 5z"></path></g></svg></a><h1><a href="/smb2/">Super Mario Bros 2. Discombobulated</a></h1><p>The annotated disassembly of SMB2 (USA) for NES.</p></header><main><article class="AsmSource-h73kpj-0 kVlzQS"><header><h3>/src/prg-6-7.asm</h3></header><section><aside><h1>Bank 6 &#x26; Bank 7</h1>
 <p>What's inside:</p>
 <ul>
 <li>Level palettes</li>
@@ -763,8 +763,11 @@ UnusedTileQuads<span class="token decimalnumber string">4</span>:
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$8E</span>,<span class="token hexnumber string">$8F</span>,<span class="token hexnumber string">$8F</span>,<span class="token hexnumber string">$8E</span> <span class="token comment">; $58</span>
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$72</span>,<span class="token hexnumber string">$73</span>,<span class="token hexnumber string">$73</span>,<span class="token hexnumber string">$72</span> <span class="token comment">; $5C</span>
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$44</span>,<span class="token hexnumber string">$45</span>,<span class="token hexnumber string">$45</span>,<span class="token hexnumber string">$44</span> <span class="token comment">; $60</span>
-&nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l835" href="#l835" title="Link to line 835">#</a><code>CreateObjects_<span class="token decimalnumber string">30</span>thruF<span class="token decimalnumber string">0</span>:
+
+&nbsp;</code></pre><aside><p>The $3X-$FX range is used for objects that specify a type in the upper nybble
+and length in the lower nybble, including runs of horizontal or vertical
+blocks, platforms, and waterfalls.</p>
+&nbsp;</aside><pre><a name="l841" href="#l841" title="Link to line 841">#</a><code>CreateObjects_<span class="token decimalnumber string">30</span>thruF<span class="token decimalnumber string">0</span>:
 	<span class="token opcode property">JSR</span> JumpToTableAfterJump
 
 	<span class="token directive keyword">.dw</span> CreateObject_HorizontalBlocks <span class="token comment">; $3X</span>
@@ -778,16 +781,17 @@ UnusedTileQuads<span class="token decimalnumber string">4</span>:
 IFNDEF ENABLE_LEVEL_OBJECT_MODE
 	<span class="token directive keyword">.dw</span> CreateObject_WhaleOrDrawBridgeChain <span class="token comment">; $BX</span>
 	<span class="token directive keyword">.dw</span> CreateObject_JumpthroughPlatform <span class="token comment">; $CX</span>
-ENDIF
-IFDEF ENABLE_LEVEL_OBJECT_MODE
+ELSE
 	<span class="token directive keyword">.dw</span> CreateObject_Platform_BX <span class="token comment">; $BX</span>
 	<span class="token directive keyword">.dw</span> CreateObject_Platform_CX <span class="token comment">; $CX</span>
 ENDIF
 	<span class="token directive keyword">.dw</span> CreateObject_HorizontalPlatform <span class="token comment">; $DX</span>
 	<span class="token directive keyword">.dw</span> CreateObject_HorizontalPlatform <span class="token comment">; $EX</span>
 	<span class="token directive keyword">.dw</span> CreateObject_WaterfallOrFrozenRocks <span class="token comment">; $FX</span>
-
-CreateObjects_<span class="token decimalnumber string">00</span>:
+&nbsp;</code></pre><aside><p>The $0X-$2X range is used for various single-block and one-off objects, such a
+mushroom blocks, standable vines, doors, and vertical objects that extend all
+the way to the ground.</p>
+&nbsp;</aside><pre><a name="l868" href="#l868" title="Link to line 868">#</a><code>CreateObjects_<span class="token decimalnumber string">00</span>:
 	<span class="token opcode property">JSR</span> JumpToTableAfterJump
 
 	<span class="token directive keyword">.dw</span> CreateObject_SingleBlock <span class="token comment">; $00</span>
@@ -836,7 +840,14 @@ CreateObjects_<span class="token decimalnumber string">10</span>:
 CreateObjects_<span class="token decimalnumber string">20</span>:
 	<span class="token opcode property">JMP</span> CreateObject_SingleObject
 
-WorldObjectTilePointersLo:
+
+&nbsp;</code></pre><aside><h1>World Object Tiles</h1>
+<p>The repeating blocks in the <code>$3X-$AX</code> range are specified per world in these
+lookup tables. Each world has 4 values for each object type, which are
+selected using byte 3 of the area header.</p>
+<p><code>$3X-$9X</code> is specified using <code>%......XX</code> in byte 3 of the header.
+<code>$AX</code> (ladder/chain) is specified using <code>%....XX..</code> in byte 3 of the header.</p>
+&nbsp;</aside><pre><a name="l929" href="#l929" title="Link to line 929">#</a><code>WorldObjectTilePointersLo:
 	<span class="token directive keyword">.db</span> &#x3C;World<span class="token decimalnumber string">1</span>ObjectTiles
 	<span class="token directive keyword">.db</span> &#x3C;World<span class="token decimalnumber string">2</span>ObjectTiles
 	<span class="token directive keyword">.db</span> &#x3C;World<span class="token decimalnumber string">3</span>ObjectTiles
@@ -947,11 +958,11 @@ ClimbableTilePlatform:
 
 &nbsp;</code></pre><aside><p>Find the corresponding climbable tile</p>
 <p>Input
-A = search tile
-Output
+A = search tile</p>
+<p>Output
 A = replace tile
 C = set if a match was found</p>
-&nbsp;</aside><pre><a name="l1027" href="#l1027" title="Link to line 1027">#</a><code>FindClimableTile:
+&nbsp;</aside><pre><a name="l1050" href="#l1050" title="Link to line 1050">#</a><code>FindClimableTile:
 	<span class="token opcode property">STX</span> byte_RAM_<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">LDX</span> #(ClimbableTilePlatform - ClimbableTileSearch - <span class="token decimalnumber string">1</span>)
 
@@ -973,15 +984,15 @@ FindClimableTile_LoadReplacement:
 &nbsp;</code></pre><aside><p>Creates a climbable tile that you can stand on based on ObjectTypeAXthruFX</p>
 <p>Output
 A = tile that was written</p>
-&nbsp;</aside><pre><a name="l1053" href="#l1053" title="Link to line 1053">#</a><code>CreateObject_StandableObjectType:
+&nbsp;</aside><pre><a name="l1076" href="#l1076" title="Link to line 1076">#</a><code>CreateObject_StandableObjectType:
 	<span class="token opcode property">LDA</span> ObjectTypeAXthruFX
 	<span class="token opcode property">BEQ</span> CreateObject_StandableObjectType_TableOffset
 &nbsp;</code></pre><aside><p>Offset for shadow</p>
-&nbsp;</aside><pre><a name="l1058" href="#l1058" title="Link to line 1058">#</a><code>	<span class="token opcode property">CLC</span>
+&nbsp;</aside><pre><a name="l1081" href="#l1081" title="Link to line 1081">#</a><code>	<span class="token opcode property">CLC</span>
 	<span class="token opcode property">ADC</span> <span class="token hexnumber string">#$04</span>
 
 CreateObject_StandableObjectType_TableOffset:&nbsp;</code></pre><aside><p>Offset to ladder/chain object definition</p>
-&nbsp;</aside><pre><a name="l1063" href="#l1063" title="Link to line 1063">#</a><code>	<span class="token opcode property">ADC</span> <span class="token hexnumber string">#$1C</span>
+&nbsp;</aside><pre><a name="l1086" href="#l1086" title="Link to line 1086">#</a><code>	<span class="token opcode property">ADC</span> <span class="token hexnumber string">#$1C</span>
 	<span class="token opcode property">TAX</span>
 
 	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
@@ -1004,7 +1015,7 @@ CreateObject_StandableObjectType_TableOffset:&nbsp;</code></pre><aside><p>Offset
 &nbsp;</code></pre><aside><p>Creates a climbable tile that you can stand on based on the based on the tile underneath</p>
 <p>Output
 A = tile that was written</p>
-&nbsp;</aside><pre><a name="l1090" href="#l1090" title="Link to line 1090">#</a><code>CreateObject_StandableAutomatic:
+&nbsp;</aside><pre><a name="l1113" href="#l1113" title="Link to line 1113">#</a><code>CreateObject_StandableAutomatic:
 	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 
@@ -1031,10 +1042,10 @@ $08 = whale
 $09 = jumpthrough platform
 $0A = log platform
 $0B = cloud platform
-$0C = waterfall
-Output
+$0C = waterfall</p>
+<p>Output
 A = tile that was written</p>
-&nbsp;</aside><pre><a name="l1123" href="#l1123" title="Link to line 1123">#</a><code>CreateWorldSpecificTile:
+&nbsp;</aside><pre><a name="l1148" href="#l1148" title="Link to line 1148">#</a><code>CreateWorldSpecificTile:
 	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">50</span>E
 	<span class="token opcode property">ASL</span> <span class="token register variable">A</span>
 	<span class="token opcode property">ASL</span> <span class="token register variable">A</span>
@@ -1058,7 +1069,7 @@ CreateWorldSpecificTile_ApplyObjectType:
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$03</span>
 	<span class="token opcode property">BNE</span> CreateWorldSpecificTile_LookUpTile
 &nbsp;</code></pre><aside><p>bridge casts a shadow on background bricks</p>
-&nbsp;</aside><pre><a name="l1148" href="#l1148" title="Link to line 1148">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
+&nbsp;</aside><pre><a name="l1173" href="#l1173" title="Link to line 1173">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">CMP</span> #BackgroundTile_BackgroundBrick
 	<span class="token opcode property">BNE</span> CreateWorldSpecificTile_LookUpTile
 
@@ -1082,8 +1093,11 @@ CreateWorldSpecificTile_Exit:
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">RTS</span>
 
-
-CreateObject_HorizontalBlocks:
+&nbsp;</code></pre><aside><p>Creates a horizontal run of blocks</p>
+<p>Input
+byte_RAM_50D = number of blocks to create
+byte_RAM_E7 = target tile placement offset</p>
+&nbsp;</aside><pre><a name="l1205" href="#l1205" title="Link to line 1205">#</a><code>CreateObject_HorizontalBlocks:
 	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 
 CreateObject_HorizontalBlocks_Loop:
@@ -1096,8 +1110,11 @@ CreateObject_HorizontalBlocks_Loop:
 
 	<span class="token opcode property">RTS</span>
 
-
-CreateObject_LightEntranceRight:
+&nbsp;</code></pre><aside><p>Creates a light entrance with the trail facing right</p>
+<p>World 6 has some extra logic to make the entrance extend down to the floor.</p>
+<p>Input
+byte_RAM_E7 = target tile placement offset</p>
+&nbsp;</aside><pre><a name="l1227" href="#l1227" title="Link to line 1227">#</a><code>CreateObject_LightEntranceRight:
 	<span class="token opcode property">LDA</span> CurrentWorldTileset
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$05</span>
 	<span class="token opcode property">BNE</span> CreateObject_LightEntranceRight_NotWorld<span class="token decimalnumber string">6</span>
@@ -1180,8 +1197,10 @@ CreateObject_LightEntranceRight_World<span class="token decimalnumber string">6<
 CreateObject_LightEntranceRight_World<span class="token decimalnumber string">6</span>_Exit:
 	<span class="token opcode property">RTS</span>
 
-
-CreateObject_LightEntranceLeft:
+&nbsp;</code></pre><aside><p>Creates a light entrance with the trail facing left</p>
+<p>Input
+byte_RAM_E7 = target tile placement offset</p>
+&nbsp;</aside><pre><a name="l1317" href="#l1317" title="Link to line 1317">#</a><code>CreateObject_LightEntranceLeft:
 	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">LDA</span> #BackgroundTile_LightDoor
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
@@ -1217,12 +1236,33 @@ ENDIF
 CreateObject_LightEntranceLeft_World<span class="token decimalnumber string">6</span>or<span class="token decimalnumber string">7</span>Exit:
 	<span class="token opcode property">RTS</span>
 
-
-CreateObject_VerticalBlocks:
+&nbsp;</code></pre><aside><p>Creates a vertical run of blocks</p>
+<p>Input
+byte_RAM_50D = number of blocks to create
+byte_RAM_50E = type of object to create (upper nybble of level object minus 3)
+$00 = jumpthrough block
+$01 = solid block
+$02 = grass
+$03 = bridge
+$04 = spikes
+$05 = vertical rock
+$06 = vertical rock with angle
+$07 = ladder
+$08 = whale
+$09 = jumpthrough platform
+$0A = log platform
+$0B = cloud platform
+$0C = waterfall
+byte_RAM_E7 = target tile placement offset</p>
+&nbsp;</aside><pre><a name="l1375" href="#l1375" title="Link to line 1375">#</a><code>CreateObject_VerticalBlocks:
 	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 
-IFNDEF LEVEL_ENGINE_UPGRADES
-	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">50</span>E
+IFNDEF LEVEL_ENGINE_UPGRADES&nbsp;</code></pre><aside><p>This little hack is used to show the pile of rocks behind ClawGrip in his boss
+room. If we're currently in 5-2, area 5, the vertical rock wall with an angled
+top is replaced by ClawGrip's rocks instead.</p>
+<p>The level/area check is important! If you go into one of the duplicates of the
+boss room, you'll see the angled rock wall instead.</p>
+&nbsp;</aside><pre><a name="l1387" href="#l1387" title="Link to line 1387">#</a><code>	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">50</span>E
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$06</span>
 	<span class="token opcode property">BNE</span> CreateObject_VerticalBlocks_NotClawGrip
 
@@ -1252,9 +1292,11 @@ CreateObject_VerticalBlocks_NotClawGrip:
 
 IFNDEF LEVEL_ENGINE_UPGRADES
 	<span class="token opcode property">LDA</span> #BackgroundTile_RockWallAngle
-ELSE&nbsp;</code></pre><aside><p>use the previous tile for the top of the column (eg. angled rock wall)
-UNLESS we're using a sky tile or have set an object type for in the level header</p>
-&nbsp;</aside><pre><a name="l1345" href="#l1345" title="Link to line 1345">#</a><code>	<span class="token opcode property">LDX</span> ObjectType<span class="token decimalnumber string">3</span>Xthru<span class="token decimalnumber string">9</span><span class="token register variable">X</span>
+ELSE&nbsp;</code></pre><aside><p>Use the previous tile for the top of the column UNLESS we're using a sky
+tile or have set an object type for in the level header.</p>
+<p>This supports creating a normal vertical block run for $9X as well as the
+special rock wall with an angled top.</p>
+&nbsp;</aside><pre><a name="l1425" href="#l1425" title="Link to line 1425">#</a><code>	<span class="token opcode property">LDX</span> ObjectType<span class="token decimalnumber string">3</span>Xthru<span class="token decimalnumber string">9</span><span class="token register variable">X</span>
 	<span class="token opcode property">BNE</span> CreateObject_VerticalBlocks_Normal
 	<span class="token opcode property">JSR</span> CreateWorldSpecificTile
 	<span class="token opcode property">CMP</span> #BackgroundTile_Sky
@@ -1276,8 +1318,10 @@ CreateObject_VerticalBlocks_NextRow:
 
 	<span class="token opcode property">RTS</span>
 
-
-World<span class="token decimalnumber string">1</span>thru<span class="token decimalnumber string">6</span>SingleBlocks:
+&nbsp;</code></pre><aside><p>Lookup tables for single blocks</p>
+<p>Each the lower nybble of the object type is used as the offset, except for the
+standable ladder, which is described in the subroutine below.</p>
+&nbsp;</aside><pre><a name="l1454" href="#l1454" title="Link to line 1454">#</a><code>World<span class="token decimalnumber string">1</span>thru<span class="token decimalnumber string">6</span>SingleBlocks:
 	<span class="token directive keyword">.db</span> BackgroundTile_MushroomBlock
 	<span class="token directive keyword">.db</span> BackgroundTile_POWBlock
 	<span class="token directive keyword">.db</span> BackgroundTile_BombableBrick
@@ -1295,20 +1339,27 @@ World<span class="token decimalnumber string">7</span>SingleBlocks:
 	<span class="token directive keyword">.db</span> BackgroundTile_LadderStandable
 	<span class="token directive keyword">.db</span> BackgroundTile_LadderStandableShadow
 
-CreateObject_SingleBlock:
+&nbsp;</code></pre><aside><p>Creates a single block</p>
+<p>Input
+byte_RAM_50E = object type to use as an offset in the lookup table</p>
+&nbsp;</aside><pre><a name="l1479" href="#l1479" title="Link to line 1479">#</a><code>CreateObject_SingleBlock:
 	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">50</span>E
 	<span class="token opcode property">TAX</span>
-	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$05</span>
+&nbsp;</code></pre><aside><p>Object <code>$05</code> is a single ladder tile that the player can stand on.</p>
+<p>When <code>ObjectTypeAXthruFX</code> is set, it is given a shadow. This works by
+incrementing the offset by one so that object <code>$05</code> ends up using offset <code>$06</code>
+in the lookup table!</p>
+&nbsp;</aside><pre><a name="l1490" href="#l1490" title="Link to line 1490">#</a><code>	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$05</span>
 	<span class="token opcode property">BNE</span> CreateObject_SingleBlock_NotLadderStandable
-&nbsp;</code></pre><aside><p>the ladder has a shadow ObjectTypeAXthruFX is set</p>
-&nbsp;</aside><pre><a name="l1393" href="#l1393" title="Link to line 1393">#</a><code>	<span class="token opcode property">LDA</span> ObjectTypeAXthruFX
+
+	<span class="token opcode property">LDA</span> ObjectTypeAXthruFX
 	<span class="token opcode property">BEQ</span> CreateObject_SingleBlock_NotLadderStandable
 
 	<span class="token opcode property">INX</span>
 
 CreateObject_SingleBlock_NotLadderStandable:
-	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
-	<span class="token opcode property">LDA</span> CurrentWorldTileset
+	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>&nbsp;</code></pre><aside><p>World 7 gets its own lookup table for climbable chains instead of vines</p>
+&nbsp;</aside><pre><a name="l1501" href="#l1501" title="Link to line 1501">#</a><code>	<span class="token opcode property">LDA</span> CurrentWorldTileset
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$06</span>
 	<span class="token opcode property">BNE</span> CreateObject_SingleBlock_NotWorld<span class="token decimalnumber string">7</span>
 
@@ -1323,7 +1374,8 @@ CreateObject_SingleBlock_Exit:
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">RTS</span>
 
-HorizontalPlatformLeftTiles:
+&nbsp;</code></pre><aside><p>Horizontal platform lookup tables. Choose between logs and clouds.</p>
+&nbsp;</aside><pre><a name="l1520" href="#l1520" title="Link to line 1520">#</a><code>HorizontalPlatformLeftTiles:
 	<span class="token directive keyword">.db</span> BackgroundTile_LogLeft
 	<span class="token directive keyword">.db</span> BackgroundTile_CloudLeft
 HorizontalPlatformMiddleTiles:
@@ -1332,13 +1384,15 @@ HorizontalPlatformMiddleTiles:
 HorizontalPlatformRightTiles:
 	<span class="token directive keyword">.db</span> BackgroundTile_LogRight
 	<span class="token directive keyword">.db</span> BackgroundTile_CloudRight
-
-CreateObject_HorizontalPlatform:
+&nbsp;</code></pre><aside><p>Creates a horizontal platform with special tiles for the endcaps.</p>
+<p>The log platforms and jump-through cloud platforms both use this.</p>
+&nbsp;</aside><pre><a name="l1535" href="#l1535" title="Link to line 1535">#</a><code>CreateObject_HorizontalPlatform:
 	<span class="token opcode property">LDA</span> CurrentWorldTileset
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$04</span>
 	<span class="token opcode property">BNE</span> CreateObject_HorizontalPlatform_NotWorld<span class="token decimalnumber string">5</span>
-
-	<span class="token opcode property">JMP</span> CreateObject_HorizontalPlatform_World<span class="token decimalnumber string">5</span>
+&nbsp;</code></pre><aside><p>In World 5, we want to do some special stuff to make the logs look like
+branches coming out of the tree trunk background.</p>
+&nbsp;</aside><pre><a name="l1542" href="#l1542" title="Link to line 1542">#</a><code>	<span class="token opcode property">JMP</span> CreateObject_HorizontalPlatform_World<span class="token decimalnumber string">5</span>
 
 CreateObject_HorizontalPlatform_NotWorld<span class="token decimalnumber string">5</span>:
 	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
@@ -1366,8 +1420,8 @@ CreateObject_HorizontalPlatform_Exit:
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">RTS</span>
 
-
-GreenPlatformTiles:
+&nbsp;</code></pre><aside><p>Lookup table for the big green platforms</p>
+&nbsp;</aside><pre><a name="l1574" href="#l1574" title="Link to line 1574">#</a><code>GreenPlatformTiles:
 	<span class="token directive keyword">.db</span> BackgroundTile_GreenPlatformTopLeft
 	<span class="token directive keyword">.db</span> BackgroundTile_GreenPlatformTop
 	<span class="token directive keyword">.db</span> BackgroundTile_GreenPlatformTopRight
@@ -1376,7 +1430,7 @@ GreenPlatformTiles:
 	<span class="token directive keyword">.db</span> BackgroundTile_GreenPlatformRight
 &nbsp;</code></pre><aside><p>These are the background tiles that the green platforms are allowed to overwrite.
 Any other tiles will stop the green platform from extending to the bottom of the page.</p>
-&nbsp;</aside><pre><a name="l1469" href="#l1469" title="Link to line 1469">#</a><code>GreenPlatformOverwriteTiles:
+&nbsp;</aside><pre><a name="l1584" href="#l1584" title="Link to line 1584">#</a><code>GreenPlatformOverwriteTiles:
 	<span class="token directive keyword">.db</span> BackgroundTile_Sky
 	<span class="token directive keyword">.db</span> BackgroundTile_WaterfallTop
 	<span class="token directive keyword">.db</span> BackgroundTile_Waterfall
@@ -1388,17 +1442,15 @@ ENDIF
 GreenPlatformTiles_End:
 
 
-IFNDEF ENABLE_LEVEL_OBJECT_MODE&nbsp;</code></pre><aside><p>Either draw typical green hill platforms (W1-6) or a mushroom-like platform (W7)</p>
-&nbsp;</aside><pre><a name="l1483" href="#l1483" title="Link to line 1483">#</a><code>CreateObject_JumpthroughPlatform:
+IFNDEF ENABLE_LEVEL_OBJECT_MODE&nbsp;</code></pre><aside><p>Draws the typical green hill platforms in Worlds 1 through 6 or the mushroom
+house platforms in World 7.</p>
+&nbsp;</aside><pre><a name="l1601" href="#l1601" title="Link to line 1601">#</a><code>CreateObject_JumpthroughPlatform:
 	<span class="token opcode property">LDA</span> CurrentWorldTileset
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$06</span>
 	<span class="token opcode property">BNE</span> CreateObject_GreenJumpthroughPlatform
 
 	<span class="token opcode property">JMP</span> CreateObject_MushroomJumpthroughPlatform
-ENDIF
-
-
-IFDEF ENABLE_LEVEL_OBJECT_MODE
+ELSE
 CreateObject_Platform_CX:
 	<span class="token opcode property">LDA</span> LevelObjectMode
 	<span class="token opcode property">JSR</span> JumpToTableAfterJump
@@ -1410,7 +1462,7 @@ CreateObject_Platform_CX:
 ENDIF
 
 &nbsp;</code></pre><aside><p>Typical (usually) green hill platforms used throughout World 1 through 6</p>
-&nbsp;</aside><pre><a name="l1505" href="#l1505" title="Link to line 1505">#</a><code>CreateObject_GreenJumpthroughPlatform:
+&nbsp;</aside><pre><a name="l1620" href="#l1620" title="Link to line 1620">#</a><code>CreateObject_GreenJumpthroughPlatform:
 	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$00</span>
 
 loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>BBF:
@@ -1454,10 +1506,10 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">JMP</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>BBF
 
 &nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l1549" href="#l1549" title="Link to line 1549">#</a><code>locret_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>BFA:
+&nbsp;</aside><pre><a name="l1664" href="#l1664" title="Link to line 1664">#</a><code>locret_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>BFA:
 	<span class="token opcode property">RTS</span>
 &nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l1554" href="#l1554" title="Link to line 1554">#</a><code>GreenPlatformOverlapCompareTiles:
+&nbsp;</aside><pre><a name="l1669" href="#l1669" title="Link to line 1669">#</a><code>GreenPlatformOverlapCompareTiles:
 	<span class="token directive keyword">.db</span> BackgroundTile_GreenPlatformLeft
 	<span class="token directive keyword">.db</span> BackgroundTile_GreenPlatformMiddle
 	<span class="token directive keyword">.db</span> BackgroundTile_GreenPlatformRight
@@ -1527,7 +1579,7 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">JMP</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>C<span class="token decimalnumber string">4</span>D
 
 &nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l1624" href="#l1624" title="Link to line 1624">#</a><code>loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>C<span class="token decimalnumber string">46</span>:
+&nbsp;</aside><pre><a name="l1739" href="#l1739" title="Link to line 1739">#</a><code>loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>C<span class="token decimalnumber string">46</span>:
 	<span class="token opcode property">LDX</span> byte_RAM_<span class="token decimalnumber string">8</span>
 	<span class="token opcode property">LDA</span> GreenPlatformTiles, <span class="token register variable">X</span>
 
@@ -1597,7 +1649,7 @@ rock platforms beneath them. Since the rock comes later, tree trunk tiles would
 render all the way down to the screen and through to the next page!</p>
 <p>Using a new object layer would have achieved the same effect, but the
 developer decided to create this special case instead.</p>
-&nbsp;</aside><pre><a name="l1700" href="#l1700" title="Link to line 1700">#</a><code>CreateObject_Tall_World<span class="token decimalnumber string">5</span>:
+&nbsp;</aside><pre><a name="l1815" href="#l1815" title="Link to line 1815">#</a><code>CreateObject_Tall_World<span class="token decimalnumber string">5</span>:
 	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$00</span>
 	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">50</span>E
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$05</span>
@@ -1628,7 +1680,7 @@ CreateObject_Tall_World<span class="token decimalnumber string">5</span>_Exit:
 	<span class="token opcode property">RTS</span>
 
 &nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l1731" href="#l1731" title="Link to line 1731">#</a><code>CreateObject_BigCloud:
+&nbsp;</aside><pre><a name="l1846" href="#l1846" title="Link to line 1846">#</a><code>CreateObject_BigCloud:
 	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">LDA</span> #BackgroundTile_BgCloudLeft
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
@@ -1638,7 +1690,7 @@ CreateObject_Tall_World<span class="token decimalnumber string">5</span>_Exit:
 	<span class="token opcode property">RTS</span>
 
 &nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l1742" href="#l1742" title="Link to line 1742">#</a><code>CreateObject_SmallCloud:
+&nbsp;</aside><pre><a name="l1857" href="#l1857" title="Link to line 1857">#</a><code>CreateObject_SmallCloud:
 	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">LDA</span> #BackgroundTile_BgCloudSmall
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
@@ -1711,11 +1763,11 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">JMP</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>CFA
 
 &nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l1816" href="#l1816" title="Link to line 1816">#</a><code>locret_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>D<span class="token decimalnumber string">12</span>:
+&nbsp;</aside><pre><a name="l1931" href="#l1931" title="Link to line 1931">#</a><code>locret_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>D<span class="token decimalnumber string">12</span>:
 	<span class="token opcode property">RTS</span>
 
 &nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l1821" href="#l1821" title="Link to line 1821">#</a><code>CreateObject_VineBottom:
+&nbsp;</aside><pre><a name="l1936" href="#l1936" title="Link to line 1936">#</a><code>CreateObject_VineBottom:
 	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">LDA</span> #BackgroundTile_VineBottom
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
@@ -1755,7 +1807,7 @@ SingleObjects:
 	<span class="token directive keyword">.db</span> BackgroundTile_Phanto <span class="token comment">; $2C</span>
 	<span class="token directive keyword">.db</span> BackgroundTile_SubspaceMushroom<span class="token decimalnumber string">2</span> <span class="token comment">; $2D</span>
 	<span class="token directive keyword">.db</span> BackgroundTile_WhaleEye <span class="token comment">; $2E</span>&nbsp;</code></pre><aside><p>No entry for $2F in this table, so it uses tile $A4 due to the LDY below</p>
-&nbsp;</aside><pre><a name="l1863" href="#l1863" title="Link to line 1863">#</a><code>IFDEF EXPAND_TABLES
+&nbsp;</aside><pre><a name="l1978" href="#l1978" title="Link to line 1978">#</a><code>IFDEF EXPAND_TABLES
 	<span class="token directive keyword">.db</span> BackgroundTile_SolidWood <span class="token comment">; $2F</span>
 ENDIF
 
@@ -1930,7 +1982,7 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">RTS</span>
 
 &nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l2038" href="#l2038" title="Link to line 2038">#</a><code>loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>DDF:
+&nbsp;</aside><pre><a name="l2153" href="#l2153" title="Link to line 2153">#</a><code>loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>DDF:
 	<span class="token opcode property">LDA</span> #BackgroundTile_PyramidLeftAngle
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">LDX</span> byte_RAM_<span class="token decimalnumber string">8</span>
@@ -1966,7 +2018,7 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">TAY</span>
 	<span class="token opcode property">JMP</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>DD<span class="token decimalnumber string">8</span>
 &nbsp;</code></pre><aside><p>Not referenced, maybe unused...?</p>
-&nbsp;</aside><pre><a name="l2076" href="#l2076" title="Link to line 2076">#</a><code>	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
+&nbsp;</aside><pre><a name="l2191" href="#l2191" title="Link to line 2191">#</a><code>	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">LDA</span> #BackgroundTile_CactusTop
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 
@@ -1980,13 +2032,13 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">RTS</span>
 
 &nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l2090" href="#l2090" title="Link to line 2090">#</a><code>loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>E<span class="token decimalnumber string">1</span>E:
+&nbsp;</aside><pre><a name="l2205" href="#l2205" title="Link to line 2205">#</a><code>loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>E<span class="token decimalnumber string">1</span>E:
 	<span class="token opcode property">LDA</span> #BackgroundTile_CactusMiddle
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">BNE</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>E<span class="token decimalnumber string">14</span>
 
 &nbsp;</code></pre><aside><p>=============== S U B R O U T I N E =======================================</p>
-&nbsp;</aside><pre><a name="l2097" href="#l2097" title="Link to line 2097">#</a><code>sub_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>E<span class="token decimalnumber string">24</span>:
+&nbsp;</aside><pre><a name="l2212" href="#l2212" title="Link to line 2212">#</a><code>sub_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>E<span class="token decimalnumber string">24</span>:
 	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">9</span>
 	<span class="token opcode property">ASL</span> <span class="token register variable">A</span>
 	<span class="token opcode property">ASL</span> <span class="token register variable">A</span>
@@ -2014,7 +2066,7 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">RTS</span>
 
 &nbsp;</code></pre><aside><p>End of function sub_BANK6_8E24</p>
-&nbsp;</aside><pre><a name="l2126" href="#l2126" title="Link to line 2126">#</a><code>StarBackgroundTiles:
+&nbsp;</aside><pre><a name="l2241" href="#l2241" title="Link to line 2241">#</a><code>StarBackgroundTiles:
 	<span class="token directive keyword">.db</span> BackgroundTile_Sky
 	<span class="token directive keyword">.db</span> BackgroundTile_StarBg<span class="token decimalnumber string">1</span>
 	<span class="token directive keyword">.db</span> BackgroundTile_Sky
@@ -2032,7 +2084,7 @@ CreateObject_StarBackground:
 	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$31</span>
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">9</span>
 
-loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>E<span class="token decimalnumber string">56</span>:
+CreateObject_StarBackground_Loop:
 	<span class="token opcode property">JSR</span> sub_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>E<span class="token decimalnumber string">24</span>
 
 	<span class="token opcode property">AND</span> <span class="token hexnumber string">#$07</span>
@@ -2042,7 +2094,7 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">JSR</span> IncrementAreaYOffset
 
 	<span class="token opcode property">CPY</span> <span class="token hexnumber string">#$30</span>
-	<span class="token opcode property">BCC</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>E<span class="token decimalnumber string">56</span>
+	<span class="token opcode property">BCC</span> CreateObject_StarBackground_Loop
 
 	<span class="token opcode property">TYA</span>
 	<span class="token opcode property">AND</span> <span class="token hexnumber string">#$0F</span>
@@ -2052,7 +2104,7 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">LDA</span> byte_RAM_D
 	<span class="token opcode property">STA</span> byte_RAM_E<span class="token decimalnumber string">8</span>
 	<span class="token opcode property">CMP</span> #$<span class="token register variable">A</span>
-	<span class="token opcode property">BNE</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>E<span class="token decimalnumber string">56</span>
+	<span class="token opcode property">BNE</span> CreateObject_StarBackground_Loop
 
 	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$00</span>
 	<span class="token opcode property">STA</span> byte_RAM_E<span class="token decimalnumber string">8</span>
@@ -2060,18 +2112,23 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">STA</span> byte_RAM_E<span class="token decimalnumber string">5</span>
 	<span class="token opcode property">RTS</span>
 
-WhaleLeftTiles:
+&nbsp;</code></pre><aside><p>Lookup table for whale tiles.</p>
+<p>It's unclear why there are entries for black background tiles and jumpthrough
+cloud platforms, but the mushroom houses table also has this.</p>
+&nbsp;</aside><pre><a name="l2295" href="#l2295" title="Link to line 2295">#</a><code>WhaleLeftTiles:
 	<span class="token directive keyword">.db</span> BackgroundTile_Black
 	<span class="token directive keyword">.db</span> BackgroundTile_CloudLeft
 	<span class="token directive keyword">.db</span> BackgroundTile_WhaleTopLeft
 	<span class="token directive keyword">.db</span> BackgroundTile_Whale
 	<span class="token directive keyword">.db</span> BackgroundTile_WaterWhale
+
 WhaleMiddleTiles:
 	<span class="token directive keyword">.db</span> BackgroundTile_Black
 	<span class="token directive keyword">.db</span> BackgroundTile_CloudMiddle
 	<span class="token directive keyword">.db</span> BackgroundTile_WhaleTop
 	<span class="token directive keyword">.db</span> BackgroundTile_Whale
 	<span class="token directive keyword">.db</span> BackgroundTile_WaterWhale
+
 WhaleRightTiles:
 	<span class="token directive keyword">.db</span> BackgroundTile_Black
 	<span class="token directive keyword">.db</span> BackgroundTile_CloudRight
@@ -2079,8 +2136,12 @@ WhaleRightTiles:
 	<span class="token directive keyword">.db</span> BackgroundTile_Whale
 	<span class="token directive keyword">.db</span> BackgroundTile_WaterWhale
 
-&nbsp;</code></pre><aside><p>=============== S U B R O U T I N E =======================================</p>
-&nbsp;</aside><pre><a name="l2193" href="#l2193" title="Link to line 2193">#</a><code>sub_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>E<span class="token decimalnumber string">8</span>F:
+&nbsp;</code></pre><aside><p>Draws a row of the whale</p>
+<p>Input
+byte_RAM_E7 = target tile placement offset
+byte_RAM_50D = width of house
+byte_RAM_50E = offset in the tile lookup table plus $0A, for some reason</p>
+&nbsp;</aside><pre><a name="l2325" href="#l2325" title="Link to line 2325">#</a><code>CreateObject_WhaleRow:
 	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">50</span>E
 	<span class="token opcode property">SEC</span>
@@ -2089,26 +2150,32 @@ WhaleRightTiles:
 	<span class="token opcode property">LDA</span> WhaleLeftTiles, <span class="token register variable">X</span>
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">DEC</span> byte_RAM_<span class="token decimalnumber string">50</span>D
-	<span class="token opcode property">BEQ</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>EAF
+	<span class="token opcode property">BEQ</span> CreateObject_WhaleRow_Right
 
-loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>EA<span class="token decimalnumber string">2</span>:
+CreateObject_WhaleRow_Loop:
 	<span class="token opcode property">JSR</span> IncrementAreaXOffset
 
 	<span class="token opcode property">LDA</span> WhaleMiddleTiles, <span class="token register variable">X</span>
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">DEC</span> byte_RAM_<span class="token decimalnumber string">50</span>D
-	<span class="token opcode property">BNE</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>EA<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">BNE</span> CreateObject_WhaleRow_Loop
 
-loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>EAF:
+CreateObject_WhaleRow_Right:
 	<span class="token opcode property">JSR</span> IncrementAreaXOffset
 
 	<span class="token opcode property">LDA</span> WhaleRightTiles, <span class="token register variable">X</span>
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">RTS</span>
-&nbsp;</code></pre><aside><p>End of function sub_BANK6_8E8F</p>
-&nbsp;</aside><pre><a name="l2221" href="#l2221" title="Link to line 2221">#</a><code>
-&nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l2223" href="#l2223" title="Link to line 2223">#</a><code>IFDEF ENABLE_LEVEL_OBJECT_MODE
+
+
+IFNDEF ENABLE_LEVEL_OBJECT_MODE
+CreateObject_WhaleOrDrawBridgeChain:
+	<span class="token opcode property">LDA</span> CurrentWorldTileset
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$06</span>
+	<span class="token opcode property">BNE</span> CreateObject_Whale
+
+	<span class="token opcode property">JMP</span> CreateObject_DrawBridgeChain
+ELSE
 CreateObject_Platform_BX:
 	<span class="token opcode property">LDA</span> LevelObjectMode
 	<span class="token opcode property">JSR</span> JumpToTableAfterJump
@@ -2118,74 +2185,64 @@ CreateObject_Platform_BX:
 	<span class="token directive keyword">.dw</span> CreateObject_FrozenRocks
 	<span class="token directive keyword">.dw</span> CreateObject_DrawBridgeChain
 ENDIF
-
-IFNDEF ENABLE_LEVEL_OBJECT_MODE
-CreateObject_WhaleOrDrawBridgeChain:
-	<span class="token opcode property">LDA</span> CurrentWorldTileset
-	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$06</span>
-	<span class="token opcode property">BNE</span> CreateObject_Whale
-
-	<span class="token opcode property">JMP</span> CreateObject_DrawBridgeChain
-ENDIF
-
-&nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l2245" href="#l2245" title="Link to line 2245">#</a><code>CreateObject_Whale:
+&nbsp;</code></pre><aside><p>Draws a whale.</p>
+<p>Input
+byte_RAM_50D = width of whale</p>
+&nbsp;</aside><pre><a name="l2376" href="#l2376" title="Link to line 2376">#</a><code>CreateObject_Whale:
 	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">50</span>D
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$0C</span>
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">50</span>E
-	<span class="token opcode property">JSR</span> sub_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>E<span class="token decimalnumber string">8</span>F
+	<span class="token opcode property">JSR</span> CreateObject_WhaleRow
 
 	<span class="token opcode property">INC</span> byte_RAM_<span class="token decimalnumber string">50</span>E
 
-loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>ED<span class="token decimalnumber string">2</span>:
+CreateObject_Whale_Loop:
 	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">50</span>D
 	<span class="token opcode property">LDA</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">CLC</span>
 	<span class="token opcode property">ADC</span> <span class="token hexnumber string">#$10</span>
 	<span class="token opcode property">STA</span> byte_RAM_E<span class="token decimalnumber string">7</span>
-	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$B0</span>
-	<span class="token opcode property">BCC</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>EE<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$B0</span>&nbsp;</code></pre><aside><p>This branch doesn't actually skip anything...</p>
+&nbsp;</aside><pre><a name="l2394" href="#l2394" title="Link to line 2394">#</a><code>	<span class="token opcode property">BCC</span> CreateObject_Whale_AboveWater
 
-loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>EE<span class="token decimalnumber string">2</span>:
+CreateObject_Whale_AboveWater:
 	<span class="token opcode property">LDX</span> byte_RAM_E<span class="token decimalnumber string">8</span>
 	<span class="token opcode property">JSR</span> SetAreaPageAddr_Bank<span class="token decimalnumber string">6</span>
 
-	<span class="token opcode property">JSR</span> sub_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>E<span class="token decimalnumber string">8</span>F
-
-	<span class="token opcode property">TYA</span>
+	<span class="token opcode property">JSR</span> CreateObject_WhaleRow
+&nbsp;</code></pre><aside><p>Check to see if we're at the fixed row above the water.</p>
+&nbsp;</aside><pre><a name="l2403" href="#l2403" title="Link to line 2403">#</a><code>	<span class="token opcode property">TYA</span>
 	<span class="token opcode property">AND</span> <span class="token hexnumber string">#$F0</span>
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$B0</span>
-	<span class="token opcode property">BNE</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>F<span class="token decimalnumber string">01</span>
-
-	<span class="token opcode property">JSR</span> IncrementAreaXOffset
-
+	<span class="token opcode property">BNE</span> CreateObject_Whale_NotTail
+&nbsp;</code></pre><aside><p>Draw the whale tail two tiles away.</p>
+&nbsp;</aside><pre><a name="l2409" href="#l2409" title="Link to line 2409">#</a><code>	<span class="token opcode property">JSR</span> IncrementAreaXOffset
 	<span class="token opcode property">JSR</span> IncrementAreaXOffset
 
 	<span class="token opcode property">LDA</span> #BackgroundTile_WhaleTail
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">INC</span> byte_RAM_<span class="token decimalnumber string">50</span>E
-	<span class="token opcode property">JMP</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>ED<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">JMP</span> CreateObject_Whale_Loop
 
-&nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l2286" href="#l2286" title="Link to line 2286">#</a><code>loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>F<span class="token decimalnumber string">01</span>:
+CreateObject_Whale_NotTail:
 	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">50</span>E
-	<span class="token opcode property">CMP</span> #$E
-	<span class="token opcode property">BNE</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>ED<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$0E</span>
+	<span class="token opcode property">BNE</span> CreateObject_Whale_Loop
 
 	<span class="token opcode property">JSR</span> IncrementAreaXOffset
-
-loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>F<span class="token decimalnumber string">0</span>B:
 	<span class="token opcode property">JSR</span> IncrementAreaXOffset
 
 	<span class="token opcode property">LDA</span> #BackgroundTile_WaterWhaleTail
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">RTS</span>
 
-FrozenRockTiles:
+&nbsp;</code></pre><aside><p>Lookup table for frozen rocks over water tiles.</p>
+&nbsp;</aside><pre><a name="l2433" href="#l2433" title="Link to line 2433">#</a><code>FrozenRockTiles:
 	<span class="token directive keyword">.db</span> BackgroundTile_WaterWhale
 	<span class="token directive keyword">.db</span> BackgroundTile_FrozenRock
+
 
 CreateObject_FrozenRocks:
 	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$01</span>
@@ -2215,7 +2272,7 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">RTS</span>
 
 &nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l2333" href="#l2333" title="Link to line 2333">#</a><code>loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>F<span class="token decimalnumber string">3</span><span class="token register variable">A</span>:
+&nbsp;</aside><pre><a name="l2466" href="#l2466" title="Link to line 2466">#</a><code>loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>F<span class="token decimalnumber string">3</span><span class="token register variable">A</span>:
 	<span class="token opcode property">LDA</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">CLC</span>
 	<span class="token opcode property">ADC</span> <span class="token hexnumber string">#$10</span>
@@ -2227,9 +2284,10 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>F<span class="token decimalnumber string">45</span>:
 	<span class="token opcode property">STA</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">JMP</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>F<span class="token decimalnumber string">19</span>
-&nbsp;</code></pre><aside><p>Unlike HorizontalPlatform(Left/Middle/Right)Tiles, these support overlap with
-the red tree background</p>
-&nbsp;</aside><pre><a name="l2349" href="#l2349" title="Link to line 2349">#</a><code>HorizontalPlatformWithOverlapLeftTiles:
+&nbsp;</code></pre><aside><p>Horizontal platform lookup tables for World 5.</p>
+<p>Unlike HorizontalPlatform(Left/Middle/Right)Tiles, these support overlap with
+the red tree background.</p>
+&nbsp;</aside><pre><a name="l2486" href="#l2486" title="Link to line 2486">#</a><code>HorizontalPlatformWithOverlapLeftTiles:
 	<span class="token directive keyword">.db</span> BackgroundTile_LogLeft
 	<span class="token directive keyword">.db</span> BackgroundTile_CloudLeft
 	<span class="token directive keyword">.db</span> BackgroundTile_LogMiddle
@@ -2240,8 +2298,12 @@ HorizontalPlatformWithOverlapRightTiles:
 	<span class="token directive keyword">.db</span> BackgroundTile_LogRight
 	<span class="token directive keyword">.db</span> BackgroundTile_CloudRight
 	<span class="token directive keyword">.db</span> BackgroundTile_LogRightTree
-
-CreateObject_HorizontalPlatform_World<span class="token decimalnumber string">5</span>:
+&nbsp;</code></pre><aside><p>Creates a horizontal platform with special tiles for the endcaps.</p>
+<p>The endcaps use alternate tiles when they overlap a non-sky tile, which is how
+the game achieves the effect of a tree with branches in World 5.</p>
+<p>Amusingly, since cloud platforms also use this subroutine, their endcaps will
+turn into logs if they overlap another object.</p>
+&nbsp;</aside><pre><a name="l2507" href="#l2507" title="Link to line 2507">#</a><code>CreateObject_HorizontalPlatform_World<span class="token decimalnumber string">5</span>:
 	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">50</span>E
 	<span class="token opcode property">SEC</span>
@@ -2271,65 +2333,70 @@ CreateObject_HorizontalPlatform_World<span class="token decimalnumber string">5<
 	<span class="token opcode property">LDA</span> HorizontalPlatformWithOverlapRightTiles, <span class="token register variable">X</span>
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">RTS</span>
+
 &nbsp;</code></pre><aside><p>Check if the next platform tile overlaps the background</p>
 <p>Output
 X = table offset for (2 if there is an overlap)</p>
-&nbsp;</aside><pre><a name="l2398" href="#l2398" title="Link to line 2398">#</a><code>CreateObject_HorizontalPlatform_World<span class="token decimalnumber string">5</span>CheckOverlap:
+&nbsp;</aside><pre><a name="l2545" href="#l2545" title="Link to line 2545">#</a><code>CreateObject_HorizontalPlatform_World<span class="token decimalnumber string">5</span>CheckOverlap:
 	<span class="token opcode property">STX</span> byte_RAM_<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">CMP</span> #BackgroundTile_Sky
 	<span class="token opcode property">BEQ</span> CreateObject_HorizontalPlatform_World<span class="token decimalnumber string">5</span>CheckOverlap_Exit
 &nbsp;</code></pre><aside><p>otherwise, the platform is overlapping the background, so we need a special tile</p>
-&nbsp;</aside><pre><a name="l2405" href="#l2405" title="Link to line 2405">#</a><code>	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$02</span>
+&nbsp;</aside><pre><a name="l2552" href="#l2552" title="Link to line 2552">#</a><code>	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$02</span>
 
 CreateObject_HorizontalPlatform_World<span class="token decimalnumber string">5</span>CheckOverlap_Exit:
 	<span class="token opcode property">RTS</span>
 
-
-TreeBackgroundTiles:
+&nbsp;</code></pre><aside><p>Lookup table for tree background tiles</p>
+&nbsp;</aside><pre><a name="l2561" href="#l2561" title="Link to line 2561">#</a><code>TreeBackgroundTiles:
 	<span class="token directive keyword">.db</span> BackgroundTile_TreeBackgroundRight
 	<span class="token directive keyword">.db</span> BackgroundTile_TreeBackgroundMiddleLeft
 	<span class="token directive keyword">.db</span> BackgroundTile_TreeBackgroundLeft
 
-CreateObject_TreeBackground:
-	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$04</span>
+&nbsp;</code></pre><aside><p>Creates a tree background</p>
+<p>Input
+byte_RAM_E7 = target tile placement offset
+byte_RAM_E8 = area page</p>
+&nbsp;</aside><pre><a name="l2574" href="#l2574" title="Link to line 2574">#</a><code>CreateObject_TreeBackground:&nbsp;</code></pre><aside><p>width of the middle of the tree (0 = two tiles, 4 = ten tiles)</p>
+&nbsp;</aside><pre><a name="l2576" href="#l2576" title="Link to line 2576">#</a><code>	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$04</span>
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">LDX</span> byte_RAM_E<span class="token decimalnumber string">8</span>
 	<span class="token opcode property">JSR</span> SetAreaPageAddr_Bank<span class="token decimalnumber string">6</span>
 
 	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$02</span>
-	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
+&nbsp;</code></pre><aside><p>Stop when it touches the ground</p>
+&nbsp;</aside><pre><a name="l2585" href="#l2585" title="Link to line 2585">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">CMP</span> #BackgroundTile_Sky
-	<span class="token opcode property">BNE</span> locret_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>FC<span class="token decimalnumber string">1</span>
+	<span class="token opcode property">BNE</span> CreateObject_TreeBackground_Exit
 
-loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>FA<span class="token decimalnumber string">4</span>:
-	<span class="token opcode property">LDA</span> TreeBackgroundTiles, <span class="token register variable">X</span>
+CreateObject_TreeBackground_Loop:&nbsp;</code></pre><aside><p>Draw the left side of the tree</p>
+&nbsp;</aside><pre><a name="l2591" href="#l2591" title="Link to line 2591">#</a><code>	<span class="token opcode property">LDA</span> TreeBackgroundTiles, <span class="token register variable">X</span>
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">JSR</span> IncrementAreaXOffset
-&nbsp;</code></pre><aside><p>using two alternating tiles for the middle of the tree</p>
-&nbsp;</aside><pre><a name="l2434" href="#l2434" title="Link to line 2434">#</a><code>	<span class="token opcode property">DEX</span>
+&nbsp;</code></pre><aside><p>Draw the middle of the tree</p>
+&nbsp;</aside><pre><a name="l2596" href="#l2596" title="Link to line 2596">#</a><code>	<span class="token opcode property">DEX</span>
 	<span class="token opcode property">CPX</span> <span class="token hexnumber string">#$01</span>
-	<span class="token opcode property">BNE</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>FB<span class="token decimalnumber string">4</span>
+	<span class="token opcode property">BNE</span> CreateObject_TreeBackground_Right
 
-	<span class="token opcode property">JSR</span> sub_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>FC<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">JSR</span> CreateObject_TreeBackground_MiddleLoop
 
-loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>FB<span class="token decimalnumber string">4</span>:
-	<span class="token opcode property">DEX</span>
-	<span class="token opcode property">BPL</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>FA<span class="token decimalnumber string">4</span>
-
-	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
+CreateObject_TreeBackground_Right:&nbsp;</code></pre><aside><p>Draw the right side of the tree</p>
+&nbsp;</aside><pre><a name="l2604" href="#l2604" title="Link to line 2604">#</a><code>	<span class="token opcode property">DEX</span>
+	<span class="token opcode property">BPL</span> CreateObject_TreeBackground_Loop
+&nbsp;</code></pre><aside><p>Try to draw the next row</p>
+&nbsp;</aside><pre><a name="l2608" href="#l2608" title="Link to line 2608">#</a><code>	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">JSR</span> IncrementAreaYOffset
 
 	<span class="token opcode property">STY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">JMP</span> CreateObject_TreeBackground
 
-&nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l2451" href="#l2451" title="Link to line 2451">#</a><code>locret_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>FC<span class="token decimalnumber string">1</span>:
+CreateObject_TreeBackground_Exit:
 	<span class="token opcode property">RTS</span>
 
-&nbsp;</code></pre><aside><p>=============== S U B R O U T I N E =======================================</p>
-&nbsp;</aside><pre><a name="l2456" href="#l2456" title="Link to line 2456">#</a><code>sub_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>FC<span class="token decimalnumber string">2</span>:
+&nbsp;</code></pre><aside><p>Loops through and creates n+1 pairs of tiles for the middle of the tree.</p>
+&nbsp;</aside><pre><a name="l2621" href="#l2621" title="Link to line 2621">#</a><code>CreateObject_TreeBackground_MiddleLoop:
 	<span class="token opcode property">LDA</span> #BackgroundTile_TreeBackgroundMiddleLeft
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">JSR</span> IncrementAreaXOffset
@@ -2339,13 +2406,12 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">JSR</span> IncrementAreaXOffset
 
 	<span class="token opcode property">DEC</span> byte_RAM_<span class="token decimalnumber string">7</span>
-	<span class="token opcode property">BPL</span> sub_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">8</span>FC<span class="token decimalnumber string">2</span>
+	<span class="token opcode property">BPL</span> CreateObject_TreeBackground_MiddleLoop
 
 	<span class="token opcode property">RTS</span>
-&nbsp;</code></pre><aside><p>End of function sub_BANK6_8FC2</p>
-&nbsp;</aside><pre><a name="l2472" href="#l2472" title="Link to line 2472">#</a><code>&nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l2474" href="#l2474" title="Link to line 2474">#</a><code>&nbsp;</code></pre><aside><p>Unreferenced?</p>
-&nbsp;</aside><pre><a name="l2476" href="#l2476" title="Link to line 2476">#</a><code>SomeUnusedTilesTop:
+
+&nbsp;</code></pre><aside><p>Unreferenced?</p>
+&nbsp;</aside><pre><a name="l2637" href="#l2637" title="Link to line 2637">#</a><code>SomeUnusedTilesTop:
 	<span class="token directive keyword">.db</span> BackgroundTile_LightDoor
 	<span class="token directive keyword">.db</span> BackgroundTile_CactusTop
 	<span class="token directive keyword">.db</span> BackgroundTile_PalmTreeTop
@@ -2353,8 +2419,9 @@ SomeUnusedTilesBottom:
 	<span class="token directive keyword">.db</span> BackgroundTile_LightDoor
 	<span class="token directive keyword">.db</span> BackgroundTile_CactusMiddle
 	<span class="token directive keyword">.db</span> BackgroundTile_PalmTreeTrunk
+
 &nbsp;</code></pre><aside><p>This 3x9 tile entrance is used in 6-3</p>
-&nbsp;</aside><pre><a name="l2486" href="#l2486" title="Link to line 2486">#</a><code>RockWallEntranceTiles:
+&nbsp;</aside><pre><a name="l2650" href="#l2650" title="Link to line 2650">#</a><code>RockWallEntranceTiles:
 	<span class="token directive keyword">.db</span> BackgroundTile_RockWallAngle
 	<span class="token directive keyword">.db</span> BackgroundTile_RockWall
 	<span class="token directive keyword">.db</span> BackgroundTile_RockWall
@@ -2391,7 +2458,10 @@ SomeUnusedTilesBottom:
 	<span class="token directive keyword">.db</span> BackgroundTile_DarkDoor
 	<span class="token directive keyword">.db</span> BackgroundTile_RockWall
 
-CreateObject_RockWallEntrance:
+&nbsp;</code></pre><aside><p>Creates the rock wall face entrance for 6-3.</p>
+<p>If you ask me, this is a lot of trouble for a one-off, especially since they
+didn't correctly align the "eyes" and "teeth" tiles with the wall pattern!</p>
+&nbsp;</aside><pre><a name="l2694" href="#l2694" title="Link to line 2694">#</a><code>CreateObject_RockWallEntrance:
 	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$00</span>
 
 CreateObject_RockWallEntrance_Loop:
@@ -2417,8 +2487,8 @@ CreateObject_RockWallEntrance_InnerLoop:
 
 	<span class="token opcode property">RTS</span>
 
-
-DoorTopTiles:
+&nbsp;</code></pre><aside><p>Door tile lookup tables</p>
+&nbsp;</aside><pre><a name="l2724" href="#l2724" title="Link to line 2724">#</a><code>DoorTopTiles:
 	<span class="token directive keyword">.db</span> BackgroundTile_DoorTop
 	<span class="token directive keyword">.db</span> BackgroundTile_DoorTop
 	<span class="token directive keyword">.db</span> BackgroundTile_DarkDoor
@@ -2432,19 +2502,23 @@ DoorBottomTiles:
 	<span class="token directive keyword">.db</span> BackgroundTile_DarkDoor
 	<span class="token directive keyword">.db</span> BackgroundTile_DarkDoor
 
-CreateObject_Door:
+&nbsp;</code></pre><aside><p>Creates a door object.</p>
+<p>Input
+byte_RAM_E7 = target tile placement offset
+byte_RAM_50E = type of object to create</p>
+&nbsp;</aside><pre><a name="l2746" href="#l2746" title="Link to line 2746">#</a><code>CreateObject_Door:
 	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">50</span>E
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$09</span>
-	<span class="token opcode property">BNE</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9034</span>
-
-	<span class="token opcode property">LDA</span> KeyUsed
-	<span class="token opcode property">BEQ</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9034</span>
-
+	<span class="token opcode property">BNE</span> CreateObject_Door_Unlocked
+&nbsp;</code></pre><aside><p>If we've already used the key, create an unlocked door</p>
+&nbsp;</aside><pre><a name="l2753" href="#l2753" title="Link to line 2753">#</a><code>	<span class="token opcode property">LDA</span> KeyUsed
+	<span class="token opcode property">BEQ</span> CreateObject_Door_Unlocked
+&nbsp;</code></pre><aside><p>Use the door two slots after the locked door for the unlocked version</p>
+&nbsp;</aside><pre><a name="l2757" href="#l2757" title="Link to line 2757">#</a><code>	<span class="token opcode property">INC</span> byte_RAM_<span class="token decimalnumber string">50</span>E
 	<span class="token opcode property">INC</span> byte_RAM_<span class="token decimalnumber string">50</span>E
-	<span class="token opcode property">INC</span> byte_RAM_<span class="token decimalnumber string">50</span>E
 
-loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9034</span>:
+CreateObject_Door_Unlocked:
 	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">50</span>E
 	<span class="token opcode property">SEC</span>
 	<span class="token opcode property">SBC</span> <span class="token hexnumber string">#$09</span>
@@ -2455,8 +2529,21 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 
 	<span class="token opcode property">LDA</span> DoorBottomTiles, <span class="token register variable">X</span>
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
-IFNDEF DISABLE_DOOR_POINTERS
-	<span class="token opcode property">LDA</span> CurrentWorld
+
+IFNDEF DISABLE_DOOR_POINTERS&nbsp;</code></pre><aside><p>For Worlds 1-5, the object after a door is used as an area pointer.</p>
+<p>This seems to be primarily a way to save space, as this method costs 1 byte
+less than using a normal area pointer object.</p>
+<p><strong>But wait! Why not also use this space-saving trick for Worlds 6 and 7?</strong></p>
+<p>Regular level objects use the first nybble of the first byte for the Y
+offset relative to the previous object. As it turns out, door pointer are
+still "regular objects," at least insofar as their Y offset factors in when
+rendering the level.</p>
+<p>For an area pointer, the first byte is the level offset. The first nybble of
+that byte is $0 for levels 1-1 through 6-1, so there is no Y offset.
+Door pointers starting in 6-2 would introduce a Y offset because that is
+level offset is $10. Having everything after a door shift down by 1 row was
+probably a nuisance when programming the levels.</p>
+&nbsp;</aside><pre><a name="l2792" href="#l2792" title="Link to line 2792">#</a><code>	<span class="token opcode property">LDA</span> CurrentWorld
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$05</span>
 	<span class="token opcode property">BEQ</span> CreateObject_Door_Exit
 
@@ -2464,15 +2551,17 @@ IFNDEF DISABLE_DOOR_POINTERS
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$06</span>
 	<span class="token opcode property">BEQ</span> CreateObject_Door_Exit
 
-loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9056</span>:
 	<span class="token opcode property">JSR</span> LevelParser_EatDoorPointer
 ENDIF
 
 CreateObject_Door_Exit:
 	<span class="token opcode property">RTS</span>
 
-
-MushroomHouseLeftTiles:
+&nbsp;</code></pre><aside><p>Lookup table for World 7 mushroom house tiles.</p>
+<p>Interestingly, there are entries for black background tiles and jumpthrough
+cloud platforms in this table as well, although they are never used. Perhaps
+these houses would have included their own base at some point.</p>
+&nbsp;</aside><pre><a name="l2814" href="#l2814" title="Link to line 2814">#</a><code>MushroomHouseLeftTiles:
 	<span class="token directive keyword">.db</span> BackgroundTile_Black
 	<span class="token directive keyword">.db</span> BackgroundTile_CloudLeft
 	<span class="token directive keyword">.db</span> BackgroundTile_MushroomTopLeft
@@ -2490,8 +2579,12 @@ MushroomHouseRightTiles:
 	<span class="token directive keyword">.db</span> BackgroundTile_MushroomTopRight
 	<span class="token directive keyword">.db</span> BackgroundTile_HouseRight
 
-&nbsp;</code></pre><aside><p>=============== S U B R O U T I N E =======================================</p>
-&nbsp;</aside><pre><a name="l2623" href="#l2623" title="Link to line 2623">#</a><code>sub_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9066</span>:
+&nbsp;</code></pre><aside><p>Draws a row of the mushroom house</p>
+<p>Input
+byte_RAM_E7 = target tile placement offset
+byte_RAM_50D = width of house
+byte_RAM_50E = offset in the tile lookup table plus $0A, for some reason</p>
+&nbsp;</aside><pre><a name="l2841" href="#l2841" title="Link to line 2841">#</a><code>CreateObject_MushroomHouseRow:
 	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">50</span>E
 	<span class="token opcode property">SEC</span>
@@ -2500,33 +2593,32 @@ MushroomHouseRightTiles:
 	<span class="token opcode property">LDA</span> MushroomHouseLeftTiles, <span class="token register variable">X</span>
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">DEC</span> byte_RAM_<span class="token decimalnumber string">50</span>D
-	<span class="token opcode property">BEQ</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9086</span>
+	<span class="token opcode property">BEQ</span> CreateObject_MushroomHouseRow_Right
 
-loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9079</span>:
+CreateObject_MushroomHouseRow_Loop:
 	<span class="token opcode property">JSR</span> IncrementAreaXOffset
 
 	<span class="token opcode property">LDA</span> MushroomHouseMiddleTiles, <span class="token register variable">X</span>
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">DEC</span> byte_RAM_<span class="token decimalnumber string">50</span>D
-	<span class="token opcode property">BNE</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9079</span>
+	<span class="token opcode property">BNE</span> CreateObject_MushroomHouseRow_Loop
 
-loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9086</span>:
+CreateObject_MushroomHouseRow_Right:
 	<span class="token opcode property">JSR</span> IncrementAreaXOffset
 
 	<span class="token opcode property">LDA</span> MushroomHouseRightTiles, <span class="token register variable">X</span>
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">RTS</span>
-&nbsp;</code></pre><aside><p>End of function sub_BANK6_9066</p>
-&nbsp;</aside><pre><a name="l2651" href="#l2651" title="Link to line 2651">#</a><code>&nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l2653" href="#l2653" title="Link to line 2653">#</a><code>&nbsp;</code></pre><aside><p>Jump-through mushroom platforms, used in World 7</p>
-&nbsp;</aside><pre><a name="l2655" href="#l2655" title="Link to line 2655">#</a><code>CreateObject_MushroomJumpthroughPlatform:
+
+&nbsp;</code></pre><aside><p>Draws the jump-through mushroom house platforms used in World 7</p>
+&nbsp;</aside><pre><a name="l2871" href="#l2871" title="Link to line 2871">#</a><code>CreateObject_MushroomJumpthroughPlatform:
 	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">50</span>D
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$0C</span>
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">50</span>E&nbsp;</code></pre><aside><p>Draw roof of mushroom house</p>
-&nbsp;</aside><pre><a name="l2661" href="#l2661" title="Link to line 2661">#</a><code>	<span class="token opcode property">JSR</span> sub_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9066</span>
+&nbsp;</aside><pre><a name="l2877" href="#l2877" title="Link to line 2877">#</a><code>	<span class="token opcode property">JSR</span> CreateObject_MushroomHouseRow
 
-loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">909</span>C:
+CreateObject_MushroomJumpthroughPlatform_Loop:
 	<span class="token opcode property">LDA</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">CLC</span>
 	<span class="token opcode property">ADC</span> <span class="token hexnumber string">#$10</span>
@@ -2542,21 +2634,19 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">CMP</span> #BackgroundTile_Sky
-	<span class="token opcode property">BNE</span> locret_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">90</span>C<span class="token decimalnumber string">4</span>
+	<span class="token opcode property">BNE</span> CreateObject_MushroomJumpthroughPlatform_Exit
 &nbsp;</code></pre><aside><p>Draw body of mushroom house</p>
-&nbsp;</aside><pre><a name="l2682" href="#l2682" title="Link to line 2682">#</a><code>	<span class="token opcode property">JSR</span> sub_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9066</span>
+&nbsp;</aside><pre><a name="l2898" href="#l2898" title="Link to line 2898">#</a><code>	<span class="token opcode property">JSR</span> CreateObject_MushroomHouseRow
 
 	<span class="token opcode property">LDA</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$E0</span>
+	<span class="token opcode property">BCC</span> CreateObject_MushroomJumpthroughPlatform_Loop
 
-loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">90</span>C<span class="token decimalnumber string">2</span>:
-	<span class="token opcode property">BCC</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">909</span>C
-
-locret_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">90</span>C<span class="token decimalnumber string">4</span>:
+CreateObject_MushroomJumpthroughPlatform_Exit:
 	<span class="token opcode property">RTS</span>
 
-&nbsp;</code></pre><aside><p>Pillar tiles, arranged by world</p>
-&nbsp;</aside><pre><a name="l2695" href="#l2695" title="Link to line 2695">#</a><code>PillarTopTiles:
+&nbsp;</code></pre><aside><p>Lookup table for pillar tiles, arranged by world</p>
+&nbsp;</aside><pre><a name="l2911" href="#l2911" title="Link to line 2911">#</a><code>PillarTopTiles:
 	<span class="token directive keyword">.db</span> BackgroundTile_LogPillarTop<span class="token decimalnumber string">1</span>
 	<span class="token directive keyword">.db</span> BackgroundTile_CactusTop
 	<span class="token directive keyword">.db</span> BackgroundTile_LogPillarTop<span class="token decimalnumber string">1</span>
@@ -2574,7 +2664,10 @@ PillarBottomTiles:
 	<span class="token directive keyword">.db</span> BackgroundTile_CactusMiddle
 	<span class="token directive keyword">.db</span> BackgroundTile_ColumnPillarMiddle<span class="token decimalnumber string">2</span>
 
-CreateObject_Pillar:
+&nbsp;</code></pre><aside><p>Draws a pillar that extends to the ground</p>
+<p>Input
+byte_RAM_E7 = target tile placement offset</p>
+&nbsp;</aside><pre><a name="l2936" href="#l2936" title="Link to line 2936">#</a><code>CreateObject_Pillar:
 	<span class="token opcode property">LDX</span> CurrentWorldTileset
 	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">LDA</span> PillarTopTiles, <span class="token register variable">X</span>
@@ -2590,19 +2683,24 @@ CreateObject_Pillar_Loop:
 	<span class="token opcode property">LDX</span> CurrentWorldTileset
 	<span class="token opcode property">LDA</span> PillarBottomTiles, <span class="token register variable">X</span>
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
-
-	<span class="token opcode property">LDA</span> CurrentWorldTileset
+&nbsp;</code></pre><aside><p>Normally the pillars extend until they hit another tile, wrapping around to
+the top of the next page, if necessary.</p>
+<p>This World 5 check prevents logs from coming down from the sky in the last
+area before ClawGrip's boss room.</p>
+&nbsp;</aside><pre><a name="l2960" href="#l2960" title="Link to line 2960">#</a><code>	<span class="token opcode property">LDA</span> CurrentWorldTileset
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$04</span>
 	<span class="token opcode property">BNE</span> CreateObject_Pillar_Loop
-&nbsp;</code></pre><aside><p>some kind of special behavior for world 5?</p>
-&nbsp;</aside><pre><a name="l2735" href="#l2735" title="Link to line 2735">#</a><code>	<span class="token opcode property">CPY</span> <span class="token hexnumber string">#$E0</span>
+&nbsp;</code></pre><aside><p>Prevent the pillar from looping around to the next page</p>
+&nbsp;</aside><pre><a name="l2965" href="#l2965" title="Link to line 2965">#</a><code>	<span class="token opcode property">CPY</span> <span class="token hexnumber string">#$E0</span>
 	<span class="token opcode property">BCC</span> CreateObject_Pillar_Loop
 
 CreateObject_Pillar_Exit:
 	<span class="token opcode property">RTS</span>
 
-
-CreateObject_Horn:
+&nbsp;</code></pre><aside><p>Draws one horn of Wart's vegetable thrower</p>
+<p>Input
+byte_RAM_E7 = target tile placement offset</p>
+&nbsp;</aside><pre><a name="l2978" href="#l2978" title="Link to line 2978">#</a><code>CreateObject_Horn:
 	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">LDA</span> #BackgroundTile_HornTopLeft
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
@@ -2620,8 +2718,10 @@ CreateObject_Horn:
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">RTS</span>
 
-
-CreateObject_DrawBridgeChain:
+&nbsp;</code></pre><aside><p>Draws the drawbridge chain</p>
+<p>Input
+byte_RAM_E7 = target tile placement offset</p>
+&nbsp;</aside><pre><a name="l3003" href="#l3003" title="Link to line 3003">#</a><code>CreateObject_DrawBridgeChain:
 	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 
 CreateObject_DrawBridgeChain_Loop:
@@ -2638,7 +2738,7 @@ CreateObject_DrawBridgeChain_Loop:
 
 
 IFNDEF EXPAND_TABLES&nbsp;</code></pre><aside><p>Unused space in the original ($9126 - $91FF)</p>
-&nbsp;</aside><pre><a name="l2779" href="#l2779" title="Link to line 2779">#</a><code>unusedSpace <span class="token hexnumber string">$9200</span>, <span class="token hexnumber string">$FF</span>
+&nbsp;</aside><pre><a name="l3021" href="#l3021" title="Link to line 3021">#</a><code>unusedSpace <span class="token hexnumber string">$9200</span>, <span class="token hexnumber string">$FF</span>
 ENDIF
 
 &nbsp;</code></pre><aside><h1>Horizontal ground set data</h1>
@@ -2650,7 +2750,7 @@ here's an example of how they apply:</p>
 01 - secondary platform (eg. sand)
 10 - primary platform (eg. grass)
 11 - secondary background (eg. black background in 3-2)</p>
-&nbsp;</aside><pre><a name="l2799" href="#l2799" title="Link to line 2799">#</a><code>HorizontalGroundSetData:
+&nbsp;</aside><pre><a name="l3041" href="#l3041" title="Link to line 3041">#</a><code>HorizontalGroundSetData:
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$24</span> <span class="token comment">; $00</span>
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$02</span>,<span class="token hexnumber string">$54</span> <span class="token comment">; $01</span>
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$02</span>,<span class="token hexnumber string">$55</span>,<span class="token hexnumber string">$54</span> <span class="token comment">; $02</span>
@@ -2683,7 +2783,7 @@ here's an example of how they apply:</p>
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$24</span> <span class="token comment">; $1D</span>
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$24</span> <span class="token comment">; $1E</span>&nbsp;</code></pre><aside><p>Based on the level header parsing code, $1F seems like it may have been reserved for some
 special behavior at some point, but it doesn't appear to be implemented.</p>
-&nbsp;</aside><pre><a name="l2833" href="#l2833" title="Link to line 2833">#</a><code>IFDEF EXPAND_TABLES
+&nbsp;</aside><pre><a name="l3075" href="#l3075" title="Link to line 3075">#</a><code>IFDEF EXPAND_TABLES
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$24</span> <span class="token comment">; $1F</span>
 ENDIF
 &nbsp;</code></pre><aside><h1>Vertical ground set data</h1>
@@ -2694,7 +2794,7 @@ here's an example of how they apply:</p>
 01 - secondary platform (eg. bombable wall, sand)
 10 - primary platform
 11 - secondary background</p>
-&nbsp;</aside><pre><a name="l2851" href="#l2851" title="Link to line 2851">#</a><code>VerticalGroundSetData:
+&nbsp;</aside><pre><a name="l3093" href="#l3093" title="Link to line 3093">#</a><code>VerticalGroundSetData:
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$AA</span>,<span class="token hexnumber string">$AA</span>,<span class="token hexnumber string">$AA</span>,<span class="token hexnumber string">$AA</span> <span class="token comment">; $00</span>
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$80</span>,<span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$02</span> <span class="token comment">; $01</span>
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$AA</span>,<span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$AA</span> <span class="token comment">; $02</span>
@@ -2727,11 +2827,12 @@ here's an example of how they apply:</p>
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$A0</span>,<span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$00</span> <span class="token comment">; $1D</span>
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$0A</span> <span class="token comment">; $1E</span>&nbsp;</code></pre><aside><p>Based on the level header parsing code, $1F seems like it may have been reserved for some
 special behavior at some point, but it doesn't appear to be implemented.</p>
-&nbsp;</aside><pre><a name="l2885" href="#l2885" title="Link to line 2885">#</a><code>IFDEF EXPAND_TABLES
+&nbsp;</aside><pre><a name="l3127" href="#l3127" title="Link to line 3127">#</a><code>IFDEF EXPAND_TABLES
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$00</span>,<span class="token hexnumber string">$0A</span> <span class="token comment">; $1F</span>
 ENDIF
 
-DecodedLevelPageStartLo_Bank<span class="token decimalnumber string">6</span>:
+&nbsp;</code></pre><aside><p>Lookup tables for decoded level data by page</p>
+&nbsp;</aside><pre><a name="l3135" href="#l3135" title="Link to line 3135">#</a><code>DecodedLevelPageStartLo_Bank<span class="token decimalnumber string">6</span>:
 	<span class="token directive keyword">.db</span> &#x3C;DecodedLevelData
 	<span class="token directive keyword">.db</span> &#x3C;(DecodedLevelData+<span class="token hexnumber string">$00F0</span>)
 	<span class="token directive keyword">.db</span> &#x3C;(DecodedLevelData+<span class="token hexnumber string">$01E0</span>)
@@ -2757,7 +2858,14 @@ DecodedLevelPageStartHi_Bank<span class="token decimalnumber string">6</span>:
 	<span class="token directive keyword">.db</span> >(DecodedLevelData+<span class="token hexnumber string">$0870</span>)
 	<span class="token directive keyword">.db</span> >(SubAreaTileLayout)
 
-SubspaceTilesSearch:
+&nbsp;</code></pre><aside><h1>Subspace tile remapping</h1>
+<p>The horizontal order of tiles is reversed in subspace. Tiles with an obvious
+left/right direction (eg. the corners of green platforms) appear backwards
+until they're swapped with the corresponding right/left version.</p>
+<p>This is handled in two tables corresponding tables. If a tile is found in the
+first table, it will be replaced with the tile at the corresponding offset in
+the second table.</p>
+&nbsp;</aside><pre><a name="l3174" href="#l3174" title="Link to line 3174">#</a><code>SubspaceTilesSearch:
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$75</span> <span class="token comment">; $00</span>
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$77</span> <span class="token comment">; $01</span>
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$CA</span> <span class="token comment">; $02</span>
@@ -2816,7 +2924,7 @@ ENDIF
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$09</span> <span class="token comment">; $15</span>
 
 &nbsp;</code></pre><aside><p>Resets level data and PPU scrolling</p>
-&nbsp;</aside><pre><a name="l2977" href="#l2977" title="Link to line 2977">#</a><code>ResetLevelData:
+&nbsp;</aside><pre><a name="l3236" href="#l3236" title="Link to line 3236">#</a><code>ResetLevelData:
 	<span class="token opcode property">LDA</span> #&#x3C;DecodedLevelData
 	<span class="token opcode property">STA</span> byte_RAM_A
 	<span class="token opcode property">LDY</span> #>(DecodedLevelData+<span class="token hexnumber string">$0900</span>)
@@ -2853,17 +2961,17 @@ ResetLevelData_Loop:
 X = color index
 Output
 A = background palette color</p>
-&nbsp;</aside><pre><a name="l3018" href="#l3018" title="Link to line 3018">#</a><code>ReadWorldBackgroundColor:&nbsp;</code></pre><aside><p>stash X and Y registers</p>
-&nbsp;</aside><pre><a name="l3020" href="#l3020" title="Link to line 3020">#</a><code>	<span class="token opcode property">STY</span> byte_RAM_E
+&nbsp;</aside><pre><a name="l3277" href="#l3277" title="Link to line 3277">#</a><code>ReadWorldBackgroundColor:&nbsp;</code></pre><aside><p>stash X and Y registers</p>
+&nbsp;</aside><pre><a name="l3279" href="#l3279" title="Link to line 3279">#</a><code>	<span class="token opcode property">STY</span> byte_RAM_E
 	<span class="token opcode property">STX</span> byte_RAM_D&nbsp;</code></pre><aside><p>look up the address of the current world's palette</p>
-&nbsp;</aside><pre><a name="l3023" href="#l3023" title="Link to line 3023">#</a><code>	<span class="token opcode property">LDY</span> CurrentWorldTileset
+&nbsp;</aside><pre><a name="l3282" href="#l3282" title="Link to line 3282">#</a><code>	<span class="token opcode property">LDY</span> CurrentWorldTileset
 	<span class="token opcode property">LDA</span> WorldBackgroundPalettePointersLo, <span class="token register variable">Y</span>
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">LDA</span> WorldBackgroundPalettePointersHi, <span class="token register variable">Y</span>
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">8</span>&nbsp;</code></pre><aside><p>load the color</p>
-&nbsp;</aside><pre><a name="l3029" href="#l3029" title="Link to line 3029">#</a><code>	<span class="token opcode property">LDY</span> byte_RAM_D
+&nbsp;</aside><pre><a name="l3288" href="#l3288" title="Link to line 3288">#</a><code>	<span class="token opcode property">LDY</span> byte_RAM_D
 	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">7</span>), <span class="token register variable">Y</span>&nbsp;</code></pre><aside><p>restore prior X and Y registers</p>
-&nbsp;</aside><pre><a name="l3032" href="#l3032" title="Link to line 3032">#</a><code>	<span class="token opcode property">LDY</span> byte_RAM_E
+&nbsp;</aside><pre><a name="l3291" href="#l3291" title="Link to line 3291">#</a><code>	<span class="token opcode property">LDY</span> byte_RAM_E
 	<span class="token opcode property">LDX</span> byte_RAM_D
 	<span class="token opcode property">RTS</span>
 &nbsp;</code></pre><aside><p>Reads a color from the world's sprite palette</p>
@@ -2871,49 +2979,49 @@ A = background palette color</p>
 X = color index
 Output
 A = background palette color</p>
-&nbsp;</aside><pre><a name="l3044" href="#l3044" title="Link to line 3044">#</a><code>ReadWorldSpriteColor:&nbsp;</code></pre><aside><p>stash X and Y registers</p>
-&nbsp;</aside><pre><a name="l3046" href="#l3046" title="Link to line 3046">#</a><code>	<span class="token opcode property">STY</span> byte_RAM_E
+&nbsp;</aside><pre><a name="l3303" href="#l3303" title="Link to line 3303">#</a><code>ReadWorldSpriteColor:&nbsp;</code></pre><aside><p>stash X and Y registers</p>
+&nbsp;</aside><pre><a name="l3305" href="#l3305" title="Link to line 3305">#</a><code>	<span class="token opcode property">STY</span> byte_RAM_E
 	<span class="token opcode property">STX</span> byte_RAM_D&nbsp;</code></pre><aside><p>look up the address of the current world's palette</p>
-&nbsp;</aside><pre><a name="l3049" href="#l3049" title="Link to line 3049">#</a><code>	<span class="token opcode property">LDY</span> CurrentWorldTileset
+&nbsp;</aside><pre><a name="l3308" href="#l3308" title="Link to line 3308">#</a><code>	<span class="token opcode property">LDY</span> CurrentWorldTileset
 	<span class="token opcode property">LDA</span> WorldSpritePalettePointersLo, <span class="token register variable">Y</span>
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">LDA</span> WorldSpritePalettePointersHi, <span class="token register variable">Y</span>
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">8</span>&nbsp;</code></pre><aside><p>load the color</p>
-&nbsp;</aside><pre><a name="l3055" href="#l3055" title="Link to line 3055">#</a><code>	<span class="token opcode property">LDY</span> byte_RAM_D
+&nbsp;</aside><pre><a name="l3314" href="#l3314" title="Link to line 3314">#</a><code>	<span class="token opcode property">LDY</span> byte_RAM_D
 	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">7</span>), <span class="token register variable">Y</span>&nbsp;</code></pre><aside><p>restore prior X and Y registers</p>
-&nbsp;</aside><pre><a name="l3058" href="#l3058" title="Link to line 3058">#</a><code>	<span class="token opcode property">LDY</span> byte_RAM_E
+&nbsp;</aside><pre><a name="l3317" href="#l3317" title="Link to line 3317">#</a><code>	<span class="token opcode property">LDY</span> byte_RAM_E
 	<span class="token opcode property">LDX</span> byte_RAM_D
 	<span class="token opcode property">RTS</span>
 &nbsp;</code></pre><aside><p>Loads the current area or jar palette</p>
-&nbsp;</aside><pre><a name="l3065" href="#l3065" title="Link to line 3065">#</a><code>LoadCurrentPalette:
+&nbsp;</aside><pre><a name="l3324" href="#l3324" title="Link to line 3324">#</a><code>LoadCurrentPalette:
 	<span class="token opcode property">LDA</span> InSubspaceOrJar
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$01</span>
 	<span class="token opcode property">BNE</span> LoadCurrentPalette_NotJar
 &nbsp;</code></pre><aside><p>This function call will overwrite the
 normal level loading area with $7A00</p>
-&nbsp;</aside><pre><a name="l3072" href="#l3072" title="Link to line 3072">#</a><code>	<span class="token opcode property">JSR</span> HijackLevelDataCopyAddressWithJar
+&nbsp;</aside><pre><a name="l3331" href="#l3331" title="Link to line 3331">#</a><code>	<span class="token opcode property">JSR</span> HijackLevelDataCopyAddressWithJar
 
 	<span class="token opcode property">JMP</span> LoadCurrentPalette_AreaOffset
 
 &nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l3077" href="#l3077" title="Link to line 3077">#</a><code>LoadCurrentPalette_NotJar:
+&nbsp;</aside><pre><a name="l3336" href="#l3336" title="Link to line 3336">#</a><code>LoadCurrentPalette_NotJar:
 	<span class="token opcode property">JSR</span> RestoreLevelDataCopyAddress
 &nbsp;</code></pre><aside><p>Read the palette offset from the area header</p>
-&nbsp;</aside><pre><a name="l3082" href="#l3082" title="Link to line 3082">#</a><code>LoadCurrentPalette_AreaOffset:
+&nbsp;</aside><pre><a name="l3341" href="#l3341" title="Link to line 3341">#</a><code>LoadCurrentPalette_AreaOffset:
 	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$00</span>
 	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
 &nbsp;</code></pre><aside><p>End of function LoadCurrentPalette</p>
-&nbsp;</aside><pre><a name="l3087" href="#l3087" title="Link to line 3087">#</a><code>&nbsp;</code></pre><aside><p>Loads a world palette to RAM</p>
+&nbsp;</aside><pre><a name="l3346" href="#l3346" title="Link to line 3346">#</a><code>&nbsp;</code></pre><aside><p>Loads a world palette to RAM</p>
 <p>Input
 A = background palette header byte</p>
-&nbsp;</aside><pre><a name="l3094" href="#l3094" title="Link to line 3094">#</a><code>ApplyPalette:&nbsp;</code></pre><aside><p>Read background palette index from area header byte</p>
-&nbsp;</aside><pre><a name="l3096" href="#l3096" title="Link to line 3096">#</a><code>	<span class="token opcode property">STA</span> byte_RAM_F
+&nbsp;</aside><pre><a name="l3353" href="#l3353" title="Link to line 3353">#</a><code>ApplyPalette:&nbsp;</code></pre><aside><p>Read background palette index from area header byte</p>
+&nbsp;</aside><pre><a name="l3355" href="#l3355" title="Link to line 3355">#</a><code>	<span class="token opcode property">STA</span> byte_RAM_F
 	<span class="token opcode property">AND</span> <span class="token binarynumber string">#%00111000</span>
 	<span class="token opcode property">ASL</span> <span class="token register variable">A</span>
 	<span class="token opcode property">TAX</span>
 	<span class="token opcode property">JSR</span> ReadWorldBackgroundColor
 &nbsp;</code></pre><aside><p>Something PPU-related. If it's not right, the colors are very wrong.</p>
-&nbsp;</aside><pre><a name="l3103" href="#l3103" title="Link to line 3103">#</a><code>	<span class="token opcode property">STA</span> SkyColor
+&nbsp;</aside><pre><a name="l3362" href="#l3362" title="Link to line 3362">#</a><code>	<span class="token opcode property">STA</span> SkyColor
 	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$3F</span>
 	<span class="token opcode property">STA</span> PPUBuffer_<span class="token decimalnumber string">301</span>
 	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$00</span>
@@ -2930,7 +3038,7 @@ ApplyPalette_BackgroundLoop:
 	<span class="token opcode property">CPY</span> <span class="token hexnumber string">#$10</span>
 	<span class="token opcode property">BCC</span> ApplyPalette_BackgroundLoop
 &nbsp;</code></pre><aside><p>Read sprite palette index from area header byte</p>
-&nbsp;</aside><pre><a name="l3121" href="#l3121" title="Link to line 3121">#</a><code>	<span class="token opcode property">LDA</span> byte_RAM_F
+&nbsp;</aside><pre><a name="l3380" href="#l3380" title="Link to line 3380">#</a><code>	<span class="token opcode property">LDA</span> byte_RAM_F
 	<span class="token opcode property">AND</span> <span class="token hexnumber string">#$03</span>
 	<span class="token opcode property">ASL</span> <span class="token register variable">A</span>
 	<span class="token opcode property">STA</span> byte_RAM_F
@@ -3044,7 +3152,7 @@ GenerateSubspaceArea_TileRemapLoop:
 A = input tile
 Output
 A = output tile</p>
-&nbsp;</aside><pre><a name="l3240" href="#l3240" title="Link to line 3240">#</a><code>DoSubspaceTileRemap:
+&nbsp;</aside><pre><a name="l3499" href="#l3499" title="Link to line 3499">#</a><code>DoSubspaceTileRemap:
 	<span class="token opcode property">STY</span> byte_RAM_<span class="token decimalnumber string">8</span>
 	<span class="token opcode property">STX</span> byte_RAM_<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">LDX</span> #(SubspaceTilesReplace-SubspaceTilesSearch-<span class="token decimalnumber string">1</span>)
@@ -3087,7 +3195,7 @@ DoSubspaceTileRemap_Exit:
 	<span class="token opcode property">RTS</span>
 
 &nbsp;</code></pre><aside><p>Clears the sub-area tile layout when the player goes into a jar</p>
-&nbsp;</aside><pre><a name="l3286" href="#l3286" title="Link to line 3286">#</a><code>ClearSubAreaTileLayout:
+&nbsp;</aside><pre><a name="l3545" href="#l3545" title="Link to line 3545">#</a><code>ClearSubAreaTileLayout:
 	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$00</span>
 	<span class="token opcode property">STX</span> IsHorizontalLevel
 
@@ -3116,7 +3224,7 @@ ClearSubAreaTileLayout_Loop:
 	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$04</span>
 	<span class="token opcode property">JSR</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">972</span>D
 &nbsp;</code></pre><aside><p>object type</p>
-&nbsp;</aside><pre><a name="l3316" href="#l3316" title="Link to line 3316">#</a><code>	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$02</span>
+&nbsp;</aside><pre><a name="l3575" href="#l3575" title="Link to line 3575">#</a><code>	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$02</span>
 	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">AND</span> <span class="token binarynumber string">#%00000011</span>
 	<span class="token opcode property">STA</span> ObjectType<span class="token decimalnumber string">3</span>Xthru<span class="token decimalnumber string">9</span><span class="token register variable">X</span>
@@ -3141,7 +3249,7 @@ ClearSubAreaTileLayout_Loop:
 	<span class="token opcode property">RTS</span>
 &nbsp;</code></pre><aside><p>Set the current background music to the current area's music as defined in the header</p>
 <p>This stops the current music unless the player is currently invincible</p>
-&nbsp;</aside><pre><a name="l3345" href="#l3345" title="Link to line 3345">#</a><code>LoadAreaMusic:
+&nbsp;</aside><pre><a name="l3604" href="#l3604" title="Link to line 3604">#</a><code>LoadAreaMusic:
 	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$03</span>
 	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">AND</span> <span class="token binarynumber string">#%00000011</span>
@@ -3161,7 +3269,7 @@ LoadAreaMusic_Exit:
 
 &nbsp;</code></pre><aside><p>Unreferenced? A similar routine exists in Bank F, so it seems like this may
 be leftover code from a previous version.</p>
-&nbsp;</aside><pre><a name="l3368" href="#l3368" title="Link to line 3368">#</a><code>Unused_LevelMusicIndexes:
+&nbsp;</aside><pre><a name="l3627" href="#l3627" title="Link to line 3627">#</a><code>Unused_LevelMusicIndexes:
 	<span class="token directive keyword">.db</span> Music<span class="token decimalnumber string">1</span>_Overworld
 	<span class="token directive keyword">.db</span> Music<span class="token decimalnumber string">1</span>_Inside
 	<span class="token directive keyword">.db</span> Music<span class="token decimalnumber string">1</span>_Boss
@@ -3185,7 +3293,7 @@ Unused_ChangeAreaMusic:
 Unused_ChangeAreaMusic_Exit:
 	<span class="token opcode property">RTS</span>
 &nbsp;</code></pre><aside><p>Unreferenced?</p>
-&nbsp;</aside><pre><a name="l3393" href="#l3393" title="Link to line 3393">#</a><code>	<span class="token opcode property">LDA</span> CurrentLevelPage
+&nbsp;</aside><pre><a name="l3652" href="#l3652" title="Link to line 3652">#</a><code>	<span class="token opcode property">LDA</span> CurrentLevelPage
 	<span class="token opcode property">ASL</span> <span class="token register variable">A</span>
 	<span class="token opcode property">TAY</span>
 	<span class="token opcode property">LDA</span> AreaPointersByPage, <span class="token register variable">Y</span>
@@ -3203,7 +3311,7 @@ Unused_ChangeAreaMusic_Exit:
 	<span class="token opcode property">RTS</span>
 
 &nbsp;</code></pre><aside><p>Resets the level data, loads the current area's level data, and queues any music changes</p>
-&nbsp;</aside><pre><a name="l3414" href="#l3414" title="Link to line 3414">#</a><code>LoadCurrentArea:
+&nbsp;</aside><pre><a name="l3673" href="#l3673" title="Link to line 3673">#</a><code>LoadCurrentArea:
 	<span class="token opcode property">JSR</span> ResetLevelData
 
 	<span class="token opcode property">JSR</span> sub_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">98</span>DC
@@ -3212,41 +3320,40 @@ Unused_ChangeAreaMusic_Exit:
 
 	<span class="token opcode property">JSR</span> LoadAreaMusic
 &nbsp;</code></pre><aside><p>read the level header</p>
-&nbsp;</aside><pre><a name="l3424" href="#l3424" title="Link to line 3424">#</a><code>&nbsp;</code></pre><aside><p>ground type</p>
-&nbsp;</aside><pre><a name="l3426" href="#l3426" title="Link to line 3426">#</a><code>	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$03</span>
+&nbsp;</aside><pre><a name="l3683" href="#l3683" title="Link to line 3683">#</a><code>&nbsp;</code></pre><aside><p>ground type</p>
+&nbsp;</aside><pre><a name="l3685" href="#l3685" title="Link to line 3685">#</a><code>	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$03</span>
 	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
 IFNDEF LEVEL_ENGINE_UPGRADES
 	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
 	<span class="token opcode property">AND</span> <span class="token binarynumber string">#%00011100</span>
-ENDIF
-IFDEF LEVEL_ENGINE_UPGRADES&nbsp;</code></pre><aside><p>double available ground types</p>
-&nbsp;</aside><pre><a name="l3434" href="#l3434" title="Link to line 3434">#</a><code>	<span class="token opcode property">AND</span> <span class="token binarynumber string">#%11110000</span>
+ELSE&nbsp;</code></pre><aside><p>double available ground types</p>
+&nbsp;</aside><pre><a name="l3692" href="#l3692" title="Link to line 3692">#</a><code>	<span class="token opcode property">AND</span> <span class="token binarynumber string">#%11110000</span>
 	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
 	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
 ENDIF
 &nbsp;</code></pre><aside><p>store ground type</p>
-&nbsp;</aside><pre><a name="l3440" href="#l3440" title="Link to line 3440">#</a><code>	<span class="token opcode property">STA</span> GroundType
+&nbsp;</aside><pre><a name="l3698" href="#l3698" title="Link to line 3698">#</a><code>	<span class="token opcode property">STA</span> GroundType
 	<span class="token opcode property">JSR</span> RestoreLevelDataCopyAddress
 
 IFDEF ENABLE_LEVEL_OBJECT_MODE&nbsp;</code></pre><aside><p>level object mode</p>
-&nbsp;</aside><pre><a name="l3445" href="#l3445" title="Link to line 3445">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
+&nbsp;</aside><pre><a name="l3703" href="#l3703" title="Link to line 3703">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
 	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
 	<span class="token opcode property">AND</span> <span class="token binarynumber string">#%00000011</span>
 	<span class="token opcode property">STA</span> LevelObjectMode
 ENDIF
 &nbsp;</code></pre><aside><p>horizontal or vertical level</p>
-&nbsp;</aside><pre><a name="l3453" href="#l3453" title="Link to line 3453">#</a><code>	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$00</span>
+&nbsp;</aside><pre><a name="l3711" href="#l3711" title="Link to line 3711">#</a><code>	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$00</span>
 	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">ASL</span> <span class="token register variable">A</span>
 	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$00</span>
 	<span class="token opcode property">ROL</span> <span class="token register variable">A</span>
 	<span class="token opcode property">STA</span> IsHorizontalLevel
 &nbsp;</code></pre><aside><p>reset the screen position?</p>
-&nbsp;</aside><pre><a name="l3461" href="#l3461" title="Link to line 3461">#</a><code>	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$00</span>
+&nbsp;</aside><pre><a name="l3719" href="#l3719" title="Link to line 3719">#</a><code>	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$00</span>
 	<span class="token opcode property">STA</span> byte_RAM_E<span class="token decimalnumber string">8</span>
 &nbsp;</code></pre><aside><p>level length (pages)</p>
-&nbsp;</aside><pre><a name="l3465" href="#l3465" title="Link to line 3465">#</a><code>	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$02</span>
+&nbsp;</aside><pre><a name="l3723" href="#l3723" title="Link to line 3723">#</a><code>	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$02</span>
 	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
 	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
@@ -3254,7 +3361,7 @@ ENDIF
 	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
 	<span class="token opcode property">STA</span> CurrentLevelPages
 &nbsp;</code></pre><aside><p>object type</p>
-&nbsp;</aside><pre><a name="l3474" href="#l3474" title="Link to line 3474">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
+&nbsp;</aside><pre><a name="l3732" href="#l3732" title="Link to line 3732">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">AND</span> <span class="token binarynumber string">#%00000011</span>
 	<span class="token opcode property">STA</span> ObjectType<span class="token decimalnumber string">3</span>Xthru<span class="token decimalnumber string">9</span><span class="token register variable">X</span>
 	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
@@ -3265,7 +3372,7 @@ ENDIF
 	<span class="token opcode property">DEY</span>
 
 IFDEF AREA_HEADER_TILESET&nbsp;</code></pre><aside><p>tileset</p>
-&nbsp;</aside><pre><a name="l3486" href="#l3486" title="Link to line 3486">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
+&nbsp;</aside><pre><a name="l3744" href="#l3744" title="Link to line 3744">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">ROL</span> <span class="token register variable">A</span>
 	<span class="token opcode property">ROL</span> <span class="token register variable">A</span>
 	<span class="token opcode property">ROL</span> <span class="token register variable">A</span>
@@ -3278,14 +3385,14 @@ LoadCurrentArea_IsValid:
 	<span class="token opcode property">STA</span> CurrentWorldTileset
 ENDIF
 &nbsp;</code></pre><aside><p>ground setting</p>
-&nbsp;</aside><pre><a name="l3500" href="#l3500" title="Link to line 3500">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
+&nbsp;</aside><pre><a name="l3758" href="#l3758" title="Link to line 3758">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">AND</span> <span class="token binarynumber string">#%00011111</span>&nbsp;</code></pre><aside><p>ground setting of $1F would skip the next part, but no areas do this...?</p>
-&nbsp;</aside><pre><a name="l3503" href="#l3503" title="Link to line 3503">#</a><code>	<span class="token opcode property">CMP</span> <span class="token binarynumber string">#%00011111</span>
+&nbsp;</aside><pre><a name="l3761" href="#l3761" title="Link to line 3761">#</a><code>	<span class="token opcode property">CMP</span> <span class="token binarynumber string">#%00011111</span>
 	<span class="token opcode property">BEQ</span> LoadCurrentArea_StartLevelData
 &nbsp;</code></pre><aside><p>store ground setting</p>
-&nbsp;</aside><pre><a name="l3507" href="#l3507" title="Link to line 3507">#</a><code>	<span class="token opcode property">STA</span> GroundSetting
+&nbsp;</aside><pre><a name="l3765" href="#l3765" title="Link to line 3765">#</a><code>	<span class="token opcode property">STA</span> GroundSetting
 &nbsp;</code></pre><aside><p>read first object</p>
-&nbsp;</aside><pre><a name="l3510" href="#l3510" title="Link to line 3510">#</a><code>	<span class="token opcode property">INY</span>
+&nbsp;</aside><pre><a name="l3768" href="#l3768" title="Link to line 3768">#</a><code>	<span class="token opcode property">INY</span>
 	<span class="token opcode property">INY</span>
 	<span class="token opcode property">INY</span>
 	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$00</span>
@@ -3296,7 +3403,7 @@ ENDIF
 LoadCurrentArea_StartLevelData:
 	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$00</span>
 	<span class="token opcode property">STA</span> byte_RAM_E<span class="token decimalnumber string">6</span>&nbsp;</code></pre><aside><p>byte_RAM_4 is the offset of the byte before the next level data byte</p>
-&nbsp;</aside><pre><a name="l3522" href="#l3522" title="Link to line 3522">#</a><code>	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$03</span>
+&nbsp;</aside><pre><a name="l3780" href="#l3780" title="Link to line 3780">#</a><code>	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$03</span>
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">4</span>
 	<span class="token opcode property">JSR</span> ReadLevelData
 
@@ -3306,7 +3413,7 @@ LoadCurrentArea_StartLevelData:
 	<span class="token opcode property">RTS</span>
 
 &nbsp;</code></pre><aside><p>Use level data</p>
-&nbsp;</aside><pre><a name="l3535" href="#l3535" title="Link to line 3535">#</a><code>RestoreLevelDataCopyAddress:
+&nbsp;</aside><pre><a name="l3793" href="#l3793" title="Link to line 3793">#</a><code>RestoreLevelDataCopyAddress:
 	<span class="token opcode property">LDA</span> #>RawLevelData
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">6</span>
 	<span class="token opcode property">LDA</span> #&#x3C;RawLevelData
@@ -3314,7 +3421,7 @@ LoadCurrentArea_StartLevelData:
 	<span class="token opcode property">RTS</span>
 
 &nbsp;</code></pre><aside><p>Use jar data</p>
-&nbsp;</aside><pre><a name="l3546" href="#l3546" title="Link to line 3546">#</a><code>HijackLevelDataCopyAddressWithJar:
+&nbsp;</aside><pre><a name="l3804" href="#l3804" title="Link to line 3804">#</a><code>HijackLevelDataCopyAddressWithJar:
 	<span class="token opcode property">LDA</span> #>RawJarData
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">6</span>
 	<span class="token opcode property">LDA</span> #&#x3C;RawJarData
@@ -3322,11 +3429,11 @@ LoadCurrentArea_StartLevelData:
 	<span class="token opcode property">RTS</span>
 
 &nbsp;</code></pre><aside><p>Reads level data from the beginning</p>
-&nbsp;</aside><pre><a name="l3557" href="#l3557" title="Link to line 3557">#</a><code>ReadLevelData:
-	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$00</span>
+&nbsp;</aside><pre><a name="l3815" href="#l3815" title="Link to line 3815">#</a><code>ReadLevelData:&nbsp;</code></pre><aside><p>start at area page 0</p>
+&nbsp;</aside><pre><a name="l3817" href="#l3817" title="Link to line 3817">#</a><code>	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$00</span>
 	<span class="token opcode property">STA</span> byte_RAM_E<span class="token decimalnumber string">8</span>
 &nbsp;</code></pre><aside><p>weird? the next lines do nothing</p>
-&nbsp;</aside><pre><a name="l3562" href="#l3562" title="Link to line 3562">#</a><code>	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$00</span>
+&nbsp;</aside><pre><a name="l3821" href="#l3821" title="Link to line 3821">#</a><code>	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$00</span>
 	<span class="token opcode property">JMP</span> ReadLevelData_NextByteObject
 
 ReadLevelData_NextByteObject:
@@ -3337,13 +3444,15 @@ ReadLevelData_NextByte:
 	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$FF</span>
 	<span class="token opcode property">BNE</span> ReadLevelData_ProcessObject&nbsp;</code></pre><aside><p>encountering $FF indicates the end of the level data</p>
-&nbsp;</aside><pre><a name="l3574" href="#l3574" title="Link to line 3574">#</a><code>	<span class="token opcode property">RTS</span>
+&nbsp;</aside><pre><a name="l3833" href="#l3833" title="Link to line 3833">#</a><code>	<span class="token opcode property">RTS</span>
 
-ReadLevelData_ProcessObject:
-	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
+ReadLevelData_ProcessObject:&nbsp;</code></pre><aside><p>Stash the lower nybble of the first byte.
+For a special object, this will be the special object type.
+For a regular object, this will be the X position.</p>
+&nbsp;</aside><pre><a name="l3839" href="#l3839" title="Link to line 3839">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">AND</span> <span class="token hexnumber string">#$0F</span>
-	<span class="token opcode property">STA</span> byte_RAM_E<span class="token decimalnumber string">5</span>
-	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> byte_RAM_E<span class="token decimalnumber string">5</span>&nbsp;</code></pre><aside><p>If the upper nybble of the first byte is $F, this is a special object.</p>
+&nbsp;</aside><pre><a name="l3843" href="#l3843" title="Link to line 3843">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">AND</span> <span class="token hexnumber string">#$F0</span>
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$F0</span>
 	<span class="token opcode property">BNE</span> ReadLevelData_RegularObject
@@ -3359,8 +3468,8 @@ ReadLevelData_SpecialObject:
 ReadLevelData_RegularObject:
 	<span class="token opcode property">JSR</span> UpdateAreaYOffset
 &nbsp;</code></pre><aside><p>check object type</p>
-&nbsp;</aside><pre><a name="l3597" href="#l3597" title="Link to line 3597">#</a><code>	<span class="token opcode property">INY</span>&nbsp;</code></pre><aside><p>upper nybble</p>
-&nbsp;</aside><pre><a name="l3599" href="#l3599" title="Link to line 3599">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
+&nbsp;</aside><pre><a name="l3860" href="#l3860" title="Link to line 3860">#</a><code>	<span class="token opcode property">INY</span>&nbsp;</code></pre><aside><p>upper nybble</p>
+&nbsp;</aside><pre><a name="l3862" href="#l3862" title="Link to line 3862">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
 	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
 	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
@@ -3431,7 +3540,7 @@ ReadLevelData_RegularObjectNoSize_<span class="token decimalnumber string">00</s
 &nbsp;</code></pre><aside><p>Updates the area Y offset for object placement</p>
 <p>Input
 A = vertical offset</p>
-&nbsp;</aside><pre><a name="l3674" href="#l3674" title="Link to line 3674">#</a><code>UpdateAreaYOffset:
+&nbsp;</aside><pre><a name="l3937" href="#l3937" title="Link to line 3937">#</a><code>UpdateAreaYOffset:
 	<span class="token opcode property">CLC</span>
 	<span class="token opcode property">ADC</span> byte_RAM_E<span class="token decimalnumber string">6</span>
 	<span class="token opcode property">BCC</span> UpdateAreaYOffset_SamePage
@@ -3452,8 +3561,8 @@ UpdateAreaYOffset_Exit:
 	<span class="token opcode property">STA</span> byte_RAM_E<span class="token decimalnumber string">6</span>
 	<span class="token opcode property">RTS</span>
 
-
-ProcessSpecialObjectA:
+&nbsp;</code></pre><aside><p>First pass of processing consumes bytes</p>
+&nbsp;</aside><pre><a name="l3962" href="#l3962" title="Link to line 3962">#</a><code>ProcessSpecialObjectA:
 	<span class="token opcode property">JSR</span> JumpToTableAfterJump
 
 	<span class="token directive keyword">.dw</span> EatLevelObject<span class="token decimalnumber string">1</span>Byte <span class="token comment">; Ground setting 0-8</span>
@@ -3473,8 +3582,8 @@ ProcessSpecialObjectB:
 
 	<span class="token directive keyword">.dw</span> SetGroundSettingA <span class="token comment">; Ground setting 0-7</span>
 	<span class="token directive keyword">.dw</span> SetGroundSettingB <span class="token comment">; Ground setting 8-15</span>
-	<span class="token directive keyword">.dw</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">96</span>BE <span class="token comment">; Skip forward 1 page</span>
-	<span class="token directive keyword">.dw</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">96</span>BB <span class="token comment">; Skip forward 2 pages</span>
+	<span class="token directive keyword">.dw</span> SkipForwardPage<span class="token decimalnumber string">1</span>B <span class="token comment">; Skip forward 1 page</span>
+	<span class="token directive keyword">.dw</span> SkipForwardPage<span class="token decimalnumber string">2</span>B <span class="token comment">; Skip forward 2 pages</span>
 	<span class="token directive keyword">.dw</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9712</span> <span class="token comment">; New object layer</span>
 	<span class="token directive keyword">.dw</span> SetAreaPointerNoOp <span class="token comment">; Area pointer</span>
 	<span class="token directive keyword">.dw</span> SetGroundType <span class="token comment">; Ground appearance</span>
@@ -3482,37 +3591,49 @@ IFDEF LEVEL_ENGINE_UPGRADES
 	<span class="token directive keyword">.dw</span> CreateRawTilesNoOp
 ENDIF
 
-
-SkipForwardPage<span class="token decimalnumber string">2</span>:
+&nbsp;</code></pre><aside><p>Moves the tile placement cursor forward to the beginning of the page after next.</p>
+<p>Output
+byte_RAM_E8 = area page
+byte_RAM_E6 = tile placement offset</p>
+&nbsp;</aside><pre><a name="l3999" href="#l3999" title="Link to line 3999">#</a><code>SkipForwardPage<span class="token decimalnumber string">2</span>:
 	<span class="token opcode property">INC</span> byte_RAM_E<span class="token decimalnumber string">8</span>
-
-SkipForwardPage<span class="token decimalnumber string">1</span>:
+&nbsp;</code></pre><aside><p>Moves the tile placement cursor forward to the beginning of the next page.</p>
+&nbsp;</aside><pre><a name="l4003" href="#l4003" title="Link to line 4003">#</a><code>SkipForwardPage<span class="token decimalnumber string">1</span>:
 	<span class="token opcode property">INC</span> byte_RAM_E<span class="token decimalnumber string">8</span>
 	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$00</span>
 	<span class="token opcode property">STA</span> byte_RAM_E<span class="token decimalnumber string">6</span>
 	<span class="token opcode property">RTS</span>
 
-
-loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">96</span>BB:
+&nbsp;</code></pre><aside><p>Advances the last page pointer by two pages.</p>
+<p>Output
+byte_RAM_540 = last page?
+byte_RAM_E = ???
+byte_RAM_9 = ???</p>
+&nbsp;</aside><pre><a name="l4018" href="#l4018" title="Link to line 4018">#</a><code>SkipForwardPage<span class="token decimalnumber string">2</span>B:
 	<span class="token opcode property">INC</span> byte_RAM_<span class="token decimalnumber string">540</span>
-
-loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">96</span>BE:
+&nbsp;</code></pre><aside><p>Advances the last page pointer by one pages.</p>
+&nbsp;</aside><pre><a name="l4022" href="#l4022" title="Link to line 4022">#</a><code>SkipForwardPage<span class="token decimalnumber string">1</span>B:
 	<span class="token opcode property">INC</span> byte_RAM_<span class="token decimalnumber string">540</span>
 	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$00</span>
 	<span class="token opcode property">STA</span> byte_RAM_E
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">9</span>
 	<span class="token opcode property">RTS</span>
-
-&nbsp;</code></pre><aside><p>Unreferenced?</p>
-&nbsp;</aside><pre><a name="l3748" href="#l3748" title="Link to line 3748">#</a><code>EatLevelObject<span class="token decimalnumber string">2</span>Bytes:
+&nbsp;</code></pre><aside><p>Advances two bytes in the level data.</p>
+<p>Unreferenced?</p>
+&nbsp;</aside><pre><a name="l4034" href="#l4034" title="Link to line 4034">#</a><code>EatLevelObject<span class="token decimalnumber string">2</span>Bytes:
 	<span class="token opcode property">INC</span> byte_RAM_F
-
-EatLevelObject<span class="token decimalnumber string">1</span>Byte:
+&nbsp;</code></pre><aside><p>Advances one byte in the level data.</p>
+&nbsp;</aside><pre><a name="l4040" href="#l4040" title="Link to line 4040">#</a><code>EatLevelObject<span class="token decimalnumber string">1</span>Byte:
 	<span class="token opcode property">INC</span> byte_RAM_F
 	<span class="token opcode property">RTS</span>
 
-
-SetAreaPointer:
+&nbsp;</code></pre><aside><p>Sets the area pointer for this page.</p>
+<p>Input
+byte_RAM_F = level data byte offset
+byte_RAM_E8 = area page</p>
+<p>Output
+byte_RAM_F = level data byte offset</p>
+&nbsp;</aside><pre><a name="l4055" href="#l4055" title="Link to line 4055">#</a><code>SetAreaPointer:
 	<span class="token opcode property">LDY</span> byte_RAM_F
 	<span class="token opcode property">INY</span>
 	<span class="token opcode property">LDA</span> byte_RAM_E<span class="token decimalnumber string">8</span>
@@ -3527,6 +3648,7 @@ SetAreaPointer:
 	<span class="token opcode property">STY</span> byte_RAM_F
 	<span class="token opcode property">RTS</span>
 
+
 IFDEF LEVEL_ENGINE_UPGRADES&nbsp;</code></pre><aside><h1>Special Object $F7</h1>
 <p>Creates a run of 1-16 arbitrary tiles</p>
 <p>Usage: $F7 $YX $WL ...
@@ -3534,52 +3656,52 @@ Y - relative Y offset on page
 X - X position on page
 W - wrap width (eg. 0 for no wrap, 2 for 2-tiles wide, etc.)
 L - run length, L+1 subsequent bytes are the raw tiles</p>
-&nbsp;</aside><pre><a name="l3784" href="#l3784" title="Link to line 3784">#</a><code>CreateRawTiles:
+&nbsp;</aside><pre><a name="l4084" href="#l4084" title="Link to line 4084">#</a><code>CreateRawTiles:
 	<span class="token opcode property">LDY</span> byte_RAM_F
 &nbsp;</code></pre><aside><p>setting the page address allows this to be the first object of an area</p>
-&nbsp;</aside><pre><a name="l3788" href="#l3788" title="Link to line 3788">#</a><code>	<span class="token opcode property">LDX</span> byte_RAM_E<span class="token decimalnumber string">8</span>
+&nbsp;</aside><pre><a name="l4088" href="#l4088" title="Link to line 4088">#</a><code>	<span class="token opcode property">LDX</span> byte_RAM_E<span class="token decimalnumber string">8</span>
 	<span class="token opcode property">JSR</span> SetAreaPageAddr_Bank<span class="token decimalnumber string">6</span>
 
 	<span class="token opcode property">INY</span>&nbsp;</code></pre><aside><p>read tile placement offset</p>
-&nbsp;</aside><pre><a name="l3793" href="#l3793" title="Link to line 3793">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
+&nbsp;</aside><pre><a name="l4093" href="#l4093" title="Link to line 4093">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">CLC</span>
 	<span class="token opcode property">ADC</span> byte_RAM_E<span class="token decimalnumber string">6</span> <span class="token comment">; add current offset</span>
 	<span class="token opcode property">STA</span> byte_RAM_E<span class="token decimalnumber string">7</span> <span class="token comment">; target tile placement offset</span>
 &nbsp;</code></pre><aside><p>apply page Y offset</p>
-&nbsp;</aside><pre><a name="l3799" href="#l3799" title="Link to line 3799">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
+&nbsp;</aside><pre><a name="l4099" href="#l4099" title="Link to line 4099">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">AND</span> <span class="token hexnumber string">#$F0</span>
 	<span class="token opcode property">JSR</span> UpdateAreaYOffset
 
 	<span class="token opcode property">INY</span>&nbsp;</code></pre><aside><p>read run length</p>
-&nbsp;</aside><pre><a name="l3805" href="#l3805" title="Link to line 3805">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
+&nbsp;</aside><pre><a name="l4105" href="#l4105" title="Link to line 4105">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">AND</span> <span class="token hexnumber string">#$0F</span>
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">50</span>D
 &nbsp;</code></pre><aside><p>read wrap length</p>
-&nbsp;</aside><pre><a name="l3810" href="#l3810" title="Link to line 3810">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
+&nbsp;</aside><pre><a name="l4110" href="#l4110" title="Link to line 4110">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
 	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
 	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
 	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">50</span>E
 &nbsp;</code></pre><aside><p>start counting from 0</p>
-&nbsp;</aside><pre><a name="l3818" href="#l3818" title="Link to line 3818">#</a><code>	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$00</span>
+&nbsp;</aside><pre><a name="l4118" href="#l4118" title="Link to line 4118">#</a><code>	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$00</span>
 &nbsp;</code></pre><aside><p>everything afterwards is raw data</p>
-&nbsp;</aside><pre><a name="l3821" href="#l3821" title="Link to line 3821">#</a><code>CreateRawTiles_Loop:&nbsp;</code></pre><aside><p>increment and stash Y</p>
-&nbsp;</aside><pre><a name="l3823" href="#l3823" title="Link to line 3823">#</a><code>	<span class="token opcode property">INY</span>
+&nbsp;</aside><pre><a name="l4121" href="#l4121" title="Link to line 4121">#</a><code>CreateRawTiles_Loop:&nbsp;</code></pre><aside><p>increment and stash Y</p>
+&nbsp;</aside><pre><a name="l4123" href="#l4123" title="Link to line 4123">#</a><code>	<span class="token opcode property">INY</span>
 	<span class="token opcode property">TYA</span>
 	<span class="token opcode property">PHA</span>
 &nbsp;</code></pre><aside><p>write the next tile</p>
-&nbsp;</aside><pre><a name="l3828" href="#l3828" title="Link to line 3828">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
+&nbsp;</aside><pre><a name="l4128" href="#l4128" title="Link to line 4128">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">LDY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 &nbsp;</code></pre><aside><p>increment x-position (crossing page as necessary)</p>
-&nbsp;</aside><pre><a name="l3833" href="#l3833" title="Link to line 3833">#</a><code>	<span class="token opcode property">JSR</span> IncrementAreaXOffset
+&nbsp;</aside><pre><a name="l4133" href="#l4133" title="Link to line 4133">#</a><code>	<span class="token opcode property">JSR</span> IncrementAreaXOffset
 	<span class="token opcode property">STY</span> byte_RAM_E<span class="token decimalnumber string">7</span>
 &nbsp;</code></pre><aside><p>are we wrapping this run of tiles?</p>
-&nbsp;</aside><pre><a name="l3837" href="#l3837" title="Link to line 3837">#</a><code>	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">50</span>E
+&nbsp;</aside><pre><a name="l4137" href="#l4137" title="Link to line 4137">#</a><code>	<span class="token opcode property">LDA</span> byte_RAM_<span class="token decimalnumber string">50</span>E
 	<span class="token opcode property">BEQ</span> CreateRawTiles_NoWrap
 &nbsp;</code></pre><aside><p>increment y-position if we hit the wrap point</p>
-&nbsp;</aside><pre><a name="l3841" href="#l3841" title="Link to line 3841">#</a><code>	<span class="token opcode property">TXA</span>
+&nbsp;</aside><pre><a name="l4141" href="#l4141" title="Link to line 4141">#</a><code>	<span class="token opcode property">TXA</span>
 	<span class="token opcode property">CLC</span>
 	<span class="token opcode property">ADC</span> <span class="token hexnumber string">#$01</span>
 CreateRawTiles_CheckWrap:
@@ -3600,14 +3722,14 @@ CreateRawTiles_Wrap:
 	<span class="token opcode property">TAX</span>
 
 CreateRawTiles_NoWrap:&nbsp;</code></pre><aside><p>restore Y and iterate</p>
-&nbsp;</aside><pre><a name="l3863" href="#l3863" title="Link to line 3863">#</a><code>	<span class="token opcode property">PLA</span>
+&nbsp;</aside><pre><a name="l4163" href="#l4163" title="Link to line 4163">#</a><code>	<span class="token opcode property">PLA</span>
 	<span class="token opcode property">TAY</span>
 
 	<span class="token opcode property">CPX</span> byte_RAM_<span class="token decimalnumber string">50</span>D
 	<span class="token opcode property">INX</span>
 	<span class="token opcode property">BCC</span> CreateRawTiles_Loop
 &nbsp;</code></pre><aside><p>update level data offset</p>
-&nbsp;</aside><pre><a name="l3871" href="#l3871" title="Link to line 3871">#</a><code>	<span class="token opcode property">STY</span> byte_RAM_F
+&nbsp;</aside><pre><a name="l4171" href="#l4171" title="Link to line 4171">#</a><code>	<span class="token opcode property">STY</span> byte_RAM_F
 
 CreateRawTilesNoOp:
 	<span class="token opcode property">RTS</span>
@@ -3616,7 +3738,7 @@ ENDIF
 &nbsp;</code></pre><aside><p>Use top 3 bits for the X offset of a ground setting object</p>
 <p>Output
 A = 0-7</p>
-&nbsp;</aside><pre><a name="l3884" href="#l3884" title="Link to line 3884">#</a><code>ReadGroundSettingOffset:
+&nbsp;</aside><pre><a name="l4184" href="#l4184" title="Link to line 4184">#</a><code>ReadGroundSettingOffset:
 	<span class="token opcode property">LDY</span> byte_RAM_F
 	<span class="token opcode property">INY</span>
 	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
@@ -3628,11 +3750,11 @@ A = 0-7</p>
 	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
 	<span class="token opcode property">RTS</span>
 &nbsp;</code></pre><aside><p>Ground setting for X=0 through X=7</p>
-&nbsp;</aside><pre><a name="l3897" href="#l3897" title="Link to line 3897">#</a><code>SetGroundSettingA:
+&nbsp;</aside><pre><a name="l4197" href="#l4197" title="Link to line 4197">#</a><code>SetGroundSettingA:
 	<span class="token opcode property">JSR</span> ReadGroundSettingOffset
 	<span class="token opcode property">JMP</span> SetGroundSetting
 &nbsp;</code></pre><aside><p>Ground setting for X=8 through X=15</p>
-&nbsp;</aside><pre><a name="l3902" href="#l3902" title="Link to line 3902">#</a><code>SetGroundSettingB:
+&nbsp;</aside><pre><a name="l4202" href="#l4202" title="Link to line 4202">#</a><code>SetGroundSettingB:
 	<span class="token opcode property">JSR</span> ReadGroundSettingOffset
 	<span class="token opcode property">CLC</span>
 	<span class="token opcode property">ADC</span> <span class="token hexnumber string">#$08</span>
@@ -3652,11 +3774,11 @@ SetGroundSetting:
 SetGroundSetting_Exit:
 	<span class="token opcode property">RTS</span>
 
-
-ResetPageAndOffset:
+&nbsp;</code></pre><aside><p>Moves the tile placement cursor to the beginning of the first page.</p>
+&nbsp;</aside><pre><a name="l4226" href="#l4226" title="Link to line 4226">#</a><code>ResetPageAndOffset:
 	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$00</span>
-	<span class="token opcode property">STA</span> byte_RAM_E<span class="token decimalnumber string">8</span>
-	<span class="token opcode property">STA</span> byte_RAM_E<span class="token decimalnumber string">6</span>
+	<span class="token opcode property">STA</span> byte_RAM_E<span class="token decimalnumber string">8</span> <span class="token comment">; area page</span>
+	<span class="token opcode property">STA</span> byte_RAM_E<span class="token decimalnumber string">6</span> <span class="token comment">; tile placement offset</span>
 	<span class="token opcode property">RTS</span>
 
 
@@ -3681,8 +3803,8 @@ SetGroundType:
 	<span class="token opcode property">STA</span> GroundType
 	<span class="token opcode property">RTS</span>
 &nbsp;</code></pre><aside><p>=============== S U B R O U T I N E =======================================</p>
-&nbsp;</aside><pre><a name="l3952" href="#l3952" title="Link to line 3952">#</a><code>&nbsp;</code></pre><aside><p>used for the first object of a level?</p>
-&nbsp;</aside><pre><a name="l3954" href="#l3954" title="Link to line 3954">#</a><code>sub_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9728</span>:
+&nbsp;</aside><pre><a name="l4255" href="#l4255" title="Link to line 4255">#</a><code>&nbsp;</code></pre><aside><p>used for the first object of a level?</p>
+&nbsp;</aside><pre><a name="l4257" href="#l4257" title="Link to line 4257">#</a><code>sub_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9728</span>:
 	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$00</span>
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">540</span>
 
@@ -3695,7 +3817,7 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$FF</span>
 	<span class="token opcode property">BNE</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9746</span>
 &nbsp;</code></pre><aside><p>end of level data</p>
-&nbsp;</aside><pre><a name="l3968" href="#l3968" title="Link to line 3968">#</a><code>	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$0A</span>
+&nbsp;</aside><pre><a name="l4271" href="#l4271" title="Link to line 4271">#</a><code>	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$0A</span>
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">540</span>
 	<span class="token opcode property">INC</span> byte_RAM_<span class="token decimalnumber string">540</span>
 	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$00</span>
@@ -3703,7 +3825,7 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">JMP</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">978</span>C
 
 &nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l3976" href="#l3976" title="Link to line 3976">#</a><code>loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9746</span>:
+&nbsp;</aside><pre><a name="l4279" href="#l4279" title="Link to line 4279">#</a><code>loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9746</span>:
 	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">AND</span> <span class="token hexnumber string">#$F0</span>
 	<span class="token opcode property">BEQ</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">976</span>F
@@ -3711,7 +3833,7 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$F0</span>
 	<span class="token opcode property">BNE</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9774</span>
 &nbsp;</code></pre><aside><p>a special object</p>
-&nbsp;</aside><pre><a name="l3986" href="#l3986" title="Link to line 3986">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
+&nbsp;</aside><pre><a name="l4289" href="#l4289" title="Link to line 4289">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">AND</span> <span class="token hexnumber string">#$0F</span>
 	<span class="token opcode property">STY</span> byte_RAM_F
 	<span class="token opcode property">JSR</span> ProcessSpecialObjectB
@@ -3729,7 +3851,7 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">JMP</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">976</span>F
 
 &nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l4004" href="#l4004" title="Link to line 4004">#</a><code>loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">976</span>B:
+&nbsp;</aside><pre><a name="l4307" href="#l4307" title="Link to line 4307">#</a><code>loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">976</span>B:
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$06</span>
 	<span class="token opcode property">BNE</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9770</span>
 
@@ -3740,8 +3862,8 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">INY</span>
 	<span class="token opcode property">JMP</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9731</span>
 &nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l4017" href="#l4017" title="Link to line 4017">#</a><code>&nbsp;</code></pre><aside><p>not a special object</p>
-&nbsp;</aside><pre><a name="l4019" href="#l4019" title="Link to line 4019">#</a><code>loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9774</span>:
+&nbsp;</aside><pre><a name="l4320" href="#l4320" title="Link to line 4320">#</a><code>&nbsp;</code></pre><aside><p>not a special object</p>
+&nbsp;</aside><pre><a name="l4322" href="#l4322" title="Link to line 4322">#</a><code>loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9774</span>:
 	<span class="token opcode property">CLC</span>
 	<span class="token opcode property">ADC</span> byte_RAM_<span class="token decimalnumber string">9</span>
 	<span class="token opcode property">BCC</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">977</span>E
@@ -3750,7 +3872,7 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">JMP</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9784</span>
 
 &nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l4028" href="#l4028" title="Link to line 4028">#</a><code>loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">977</span>E:
+&nbsp;</aside><pre><a name="l4331" href="#l4331" title="Link to line 4331">#</a><code>loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">977</span>E:
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$F0</span>
 	<span class="token opcode property">BNE</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9787</span>
 
@@ -3764,7 +3886,7 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">JMP</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">976</span>F
 
 &nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l4043" href="#l4043" title="Link to line 4043">#</a><code>loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">978</span>C:
+&nbsp;</aside><pre><a name="l4346" href="#l4346" title="Link to line 4346">#</a><code>loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">978</span>C:
 	<span class="token opcode property">JSR</span> SetTileOffsetAndAreaPageAddr_Bank<span class="token decimalnumber string">6</span>
 
 	<span class="token opcode property">JSR</span> LoadGroundSetData
@@ -3783,7 +3905,7 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">JMP</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">97</span>AC
 
 &nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l4063" href="#l4063" title="Link to line 4063">#</a><code>loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">97</span><span class="token register variable">A</span><span class="token decimalnumber string">7</span>:
+&nbsp;</aside><pre><a name="l4366" href="#l4366" title="Link to line 4366">#</a><code>loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">97</span><span class="token register variable">A</span><span class="token decimalnumber string">7</span>:
 	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$10</span>
 	<span class="token opcode property">JSR</span> UpdateAreaYOffset
 
@@ -3817,10 +3939,10 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">STA</span> GroundSetting
 	<span class="token opcode property">JMP</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">9770</span>
 &nbsp;</code></pre><aside><p>End of function sub_BANK6_9728</p>
-&nbsp;</aside><pre><a name="l4099" href="#l4099" title="Link to line 4099">#</a><code>&nbsp;</code></pre><aside><p>=============== S U B R O U T I N E =======================================</p>
-&nbsp;</aside><pre><a name="l4101" href="#l4101" title="Link to line 4101">#</a><code>&nbsp;</code></pre><aside><p>Input
+&nbsp;</aside><pre><a name="l4402" href="#l4402" title="Link to line 4402">#</a><code>&nbsp;</code></pre><aside><p>=============== S U B R O U T I N E =======================================</p>
+&nbsp;</aside><pre><a name="l4404" href="#l4404" title="Link to line 4404">#</a><code>&nbsp;</code></pre><aside><p>Input
 X = Ground set offset</p>
-&nbsp;</aside><pre><a name="l4104" href="#l4104" title="Link to line 4104">#</a><code>ReadGroundSetByte:
+&nbsp;</aside><pre><a name="l4407" href="#l4407" title="Link to line 4407">#</a><code>ReadGroundSetByte:
 	<span class="token opcode property">LDA</span> IsHorizontalLevel
 	<span class="token opcode property">BNE</span> ReadGroundSetByte_Vertical
 
@@ -3833,9 +3955,9 @@ ReadGroundSetByte_Vertical:
 ReadGroundSetByte_Exit:
 	<span class="token opcode property">RTS</span>
 &nbsp;</code></pre><aside><p>End of function ReadGroundSetByte</p>
-&nbsp;</aside><pre><a name="l4118" href="#l4118" title="Link to line 4118">#</a><code>
+&nbsp;</aside><pre><a name="l4421" href="#l4421" title="Link to line 4421">#</a><code>
 &nbsp;</code></pre><aside><p>=============== S U B R O U T I N E =======================================</p>
-&nbsp;</aside><pre><a name="l4120" href="#l4120" title="Link to line 4120">#</a><code>LoadGroundSetData:
+&nbsp;</aside><pre><a name="l4423" href="#l4423" title="Link to line 4423">#</a><code>LoadGroundSetData:
 	<span class="token opcode property">STY</span> byte_RAM_<span class="token decimalnumber string">4</span>
 	<span class="token opcode property">LDA</span> GroundSetting
 	<span class="token opcode property">ASL</span> <span class="token register variable">A</span>
@@ -3878,7 +4000,7 @@ LoadGroundSetData_Exit:
 	<span class="token opcode property">LDY</span> byte_RAM_<span class="token decimalnumber string">4</span>
 	<span class="token opcode property">RTS</span>
 &nbsp;</code></pre><aside><p>Draws current ground set tiles</p>
-&nbsp;</aside><pre><a name="l4167" href="#l4167" title="Link to line 4167">#</a><code>WriteGroundSetTiles:
+&nbsp;</aside><pre><a name="l4470" href="#l4470" title="Link to line 4470">#</a><code>WriteGroundSetTiles:
 WriteGroundSetTiles<span class="token decimalnumber string">1</span>:
 	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
 	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
@@ -3894,7 +4016,7 @@ WriteGroundSetTiles<span class="token decimalnumber string">3</span>:
 WriteGroundSetTiles<span class="token decimalnumber string">4</span>:
 	<span class="token opcode property">AND</span> <span class="token hexnumber string">#$03</span>
 	<span class="token opcode property">STX</span> byte_RAM_<span class="token decimalnumber string">3</span>&nbsp;</code></pre><aside><p>This BEQ is what effectively ignores the first index of the groundset tiles lookup tables.</p>
-&nbsp;</aside><pre><a name="l4184" href="#l4184" title="Link to line 4184">#</a><code>	<span class="token opcode property">BEQ</span> WriteGroundSetTiles_AfterWriteTile
+&nbsp;</aside><pre><a name="l4487" href="#l4487" title="Link to line 4487">#</a><code>	<span class="token opcode property">BEQ</span> WriteGroundSetTiles_AfterWriteTile
 
 	<span class="token opcode property">CLC</span>
 	<span class="token opcode property">ADC</span> GroundType
@@ -3966,7 +4088,7 @@ Output
 RAM_1 = low byte of decoded level data RAM
 RAM_2 = low byte of decoded level data RAM
 byte_RAM_E7 = target tile placement offset</p>
-&nbsp;</aside><pre><a name="l4260" href="#l4260" title="Link to line 4260">#</a><code>SetTileOffsetAndAreaPageAddr_Bank<span class="token decimalnumber string">6</span>:
+&nbsp;</aside><pre><a name="l4563" href="#l4563" title="Link to line 4563">#</a><code>SetTileOffsetAndAreaPageAddr_Bank<span class="token decimalnumber string">6</span>:
 	<span class="token opcode property">LDX</span> byte_RAM_E<span class="token decimalnumber string">8</span>
 	<span class="token opcode property">JSR</span> SetAreaPageAddr_Bank<span class="token decimalnumber string">6</span>
 
@@ -3981,7 +4103,7 @@ X = area page
 Output
 byte_RAM_1 = low byte of decoded level data RAM
 byte_RAM_2 = low byte of decoded level data RAM</p>
-&nbsp;</aside><pre><a name="l4279" href="#l4279" title="Link to line 4279">#</a><code>SetAreaPageAddr_Bank<span class="token decimalnumber string">6</span>:
+&nbsp;</aside><pre><a name="l4582" href="#l4582" title="Link to line 4582">#</a><code>SetAreaPageAddr_Bank<span class="token decimalnumber string">6</span>:
 	<span class="token opcode property">LDA</span> DecodedLevelPageStartLo_Bank<span class="token decimalnumber string">6</span>, <span class="token register variable">X</span>
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">1</span>
 	<span class="token opcode property">LDA</span> DecodedLevelPageStartHi_Bank<span class="token decimalnumber string">6</span>, <span class="token register variable">X</span>
@@ -4010,7 +4132,7 @@ IncrementAreaXOffset_Exit:
 	<span class="token opcode property">RTS</span>
 
 &nbsp;</code></pre><aside><p>Moves one row down and increments the page, if necessary</p>
-&nbsp;</aside><pre><a name="l4309" href="#l4309" title="Link to line 4309">#</a><code>IncrementAreaYOffset:
+&nbsp;</aside><pre><a name="l4612" href="#l4612" title="Link to line 4612">#</a><code>IncrementAreaYOffset:
 	<span class="token opcode property">TYA</span>
 	<span class="token opcode property">CLC</span>
 	<span class="token opcode property">ADC</span> <span class="token hexnumber string">#$10</span>
@@ -4018,7 +4140,7 @@ IncrementAreaXOffset_Exit:
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$F0</span>
 	<span class="token opcode property">BCC</span> IncrementAreaYOffset_Exit
 &nbsp;</code></pre><aside><p>increment the area page</p>
-&nbsp;</aside><pre><a name="l4318" href="#l4318" title="Link to line 4318">#</a><code>	<span class="token opcode property">LDX</span> byte_RAM_E<span class="token decimalnumber string">8</span>
+&nbsp;</aside><pre><a name="l4621" href="#l4621" title="Link to line 4621">#</a><code>	<span class="token opcode property">LDX</span> byte_RAM_E<span class="token decimalnumber string">8</span>
 	<span class="token opcode property">INX</span>
 	<span class="token opcode property">JSR</span> SetAreaPageAddr_Bank<span class="token decimalnumber string">6</span>
 
@@ -4029,8 +4151,9 @@ IncrementAreaXOffset_Exit:
 IncrementAreaYOffset_Exit:
 	<span class="token opcode property">RTS</span>
 
-IFNDEF DISABLE_DOOR_POINTERS
-LevelParser_EatDoorPointer:
+IFNDEF DISABLE_DOOR_POINTERS&nbsp;</code></pre><aside><p>Consume the object as an area pointer. This overwrites any existing area
+pointer for this page.</p>
+&nbsp;</aside><pre><a name="l4637" href="#l4637" title="Link to line 4637">#</a><code>LevelParser_EatDoorPointer:
 	<span class="token opcode property">LDY</span> byte_RAM_<span class="token decimalnumber string">4</span>
 	<span class="token opcode property">INY</span>
 	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
@@ -4050,11 +4173,11 @@ LevelParser_EatDoorPointer:
 	<span class="token opcode property">RTS</span>
 ENDIF
 &nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l4351" href="#l4351" title="Link to line 4351">#</a><code>unk_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">98</span>DA:
+&nbsp;</aside><pre><a name="l4658" href="#l4658" title="Link to line 4658">#</a><code>unk_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">98</span>DA:
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$28</span>
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$24</span>
 &nbsp;</code></pre><aside><p>=============== S U B R O U T I N E =======================================</p>
-&nbsp;</aside><pre><a name="l4355" href="#l4355" title="Link to line 4355">#</a><code>sub_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">98</span>DC:
+&nbsp;</aside><pre><a name="l4662" href="#l4662" title="Link to line 4662">#</a><code>sub_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">98</span>DC:
 	<span class="token opcode property">LSR</span> <span class="token register variable">A</span>
 	<span class="token opcode property">BCS</span> loc_BANK<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">98</span>EA
 
@@ -4075,9 +4198,9 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">506</span>
 	<span class="token opcode property">RTS</span>
 &nbsp;</code></pre><aside><p>End of function sub_BANK6_98DC</p>
-&nbsp;</aside><pre><a name="l4378" href="#l4378" title="Link to line 4378">#</a><code>
+&nbsp;</aside><pre><a name="l4685" href="#l4685" title="Link to line 4685">#</a><code>
 &nbsp;</code></pre><aside><p>=============== S U B R O U T I N E =======================================</p>
-&nbsp;</aside><pre><a name="l4380" href="#l4380" title="Link to line 4380">#</a><code>CreateMushroomObject:
+&nbsp;</aside><pre><a name="l4687" href="#l4687" title="Link to line 4687">#</a><code>CreateMushroomObject:
 	<span class="token opcode property">TXA</span>
 	<span class="token opcode property">PHA</span>
 	<span class="token opcode property">AND</span> <span class="token hexnumber string">#$F0</span>
@@ -4125,4 +4248,4 @@ loc_BANK<span class="token decimalnumber string">6</span>_<span class="token dec
 	<span class="token opcode property">PLA</span>
 	<span class="token opcode property">TAX</span>
 	<span class="token opcode property">RTS</span>
-&nbsp;</code></pre></section></article></main><footer class="Footer-xbtfn2-0 kvnzNL"><p>All product names, logos, and brands are property of their respective owners.</p><p>Annotated disassembly site generator © <!-- -->2019<!-- --> <!-- -->Keith McKnight</p><ul><li><a href="https://github.com/XKeeper0/smb2">GitHub</a></li><li><a href="https://discord.gg/TsWMMeV">Discord</a></li></ul></footer></div></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/src/prg-6-7.asm";window.webpackCompilationHash="0a0d43c2c0dda6221466";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-caeaaca84425fcb8fada.js"],"component---src-templates-asm-source-jsx":["/component---src-templates-asm-source-jsx-01cd7319362b643a9863.js"],"component---src-templates-asm-directory-jsx":["/component---src-templates-asm-directory-jsx-99cfe395a82c27d3aeb9.js"],"component---src-pages-404-jsx":["/component---src-pages-404-jsx-cc5d31acb9d9c591cc78.js"],"component---src-pages-index-jsx":["/component---src-pages-index-jsx-cab01fe6ec86f8921fbe.js"]};/*]]>*/</script><script src="/smb2/component---src-templates-asm-source-jsx-01cd7319362b643a9863.js" async=""></script><script src="/smb2/commons-ed99ba16edc92f5f584d.js" async=""></script><script src="/smb2/app-caeaaca84425fcb8fada.js" async=""></script><script src="/smb2/webpack-runtime-1d141d49dfe2e87693c4.js" async=""></script></body></html>
+&nbsp;</code></pre></section></article></main><footer class="Footer-xbtfn2-0 kvnzNL"><p>All product names, logos, and brands are property of their respective owners.</p><p>Annotated disassembly site generator © <!-- -->2019<!-- --> <!-- -->Keith McKnight</p><ul><li><a href="https://github.com/XKeeper0/smb2">GitHub</a></li><li><a href="https://discord.gg/TsWMMeV">Discord</a></li></ul></footer></div></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/src/prg-6-7.asm";window.webpackCompilationHash="6067a643bcd1fafeea40";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-caeaaca84425fcb8fada.js"],"component---src-templates-asm-source-jsx":["/component---src-templates-asm-source-jsx-e658357d8ad4566d46d3.js"],"component---src-templates-asm-directory-jsx":["/component---src-templates-asm-directory-jsx-99cfe395a82c27d3aeb9.js"],"component---src-pages-404-jsx":["/component---src-pages-404-jsx-cc5d31acb9d9c591cc78.js"],"component---src-pages-index-jsx":["/component---src-pages-index-jsx-cab01fe6ec86f8921fbe.js"]};/*]]>*/</script><script src="/smb2/component---src-templates-asm-source-jsx-e658357d8ad4566d46d3.js" async=""></script><script src="/smb2/commons-ed99ba16edc92f5f584d.js" async=""></script><script src="/smb2/app-caeaaca84425fcb8fada.js" async=""></script><script src="/smb2/webpack-runtime-9aaafdd3739959e4e4d9.js" async=""></script></body></html>
