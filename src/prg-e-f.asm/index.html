@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 2.15.28"/><title data-react-helmet="true">/src/prg-e-f.asm | Super Mario Bros 2. Discombobulated</title><meta data-react-helmet="true" name="description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:title" content="/src/prg-e-f.asm"/><meta data-react-helmet="true" property="og:description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:creator" content="Keith McKnight"/><meta data-react-helmet="true" name="twitter:title" content="/src/prg-e-f.asm"/><meta data-react-helmet="true" name="twitter:description" content="The annotated disassembly of SMB2 (USA) for NES."/><style data-styled="kVlzQS cARMVe  jZQtxI eRqCXL kvnzNL" data-styled-version="4.4.0">
-/* sc-component-id: sc-global-2942123777 */
-@import url('https://fonts.googleapis.com/css?family=Asap:400,600|Fira+Code:400&display=swap'); html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,main,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;} article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section{display:block;} *[hidden]{display:none;} body{line-height:1;} ol,ul{list-style:none;} blockquote,q{quotes:none;} blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;} table{border-collapse:collapse;border-spacing:0;} *,*::before,*::after{box-sizing:border-box;} html{font-size:16px;} body{font-family:'Asap',sans-serif;font-weight:400;font-size:0.9rem;line-height:1.2;background-color:#fcfcfc;color:#000000;} *::selection{background-color:#f53a1b;color:#fcfcfc;} a{color:#0923f8;} a:hover{color:#0f5ef4;} a:active{color:#f53a1b;} strong,b{font-weight:600;} em,i{font-style:italic;} pre,code{font-family:'Fira Code',monospace;font-weight:400;} h1,h2,h3,h4,h5,h5{font-family:'Asap',sans-serif;font-weight:600;margin-top:0.2rem;margin-bottom:0.4rem;} p,figure,pre{margin-bottom:0.2rem;} h1{font-size:2rem;} h2{font-size:1.6rem;} h3{font-size:1.3rem;} h4{font-size:1rem;} h5{font-size:0.8rem;} h6{font-size:0.6rem;} ul{list-style:square;} ul li{margin-left:1.5em;} hr{border:0;border-top:1px solid #bcbcbc;}
+/* sc-component-id: sc-global-3029663097 */
+@import url('https://fonts.googleapis.com/css?family=Asap:400,600|Fira+Code:400&display=swap'); html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,main,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;} article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section{display:block;} *[hidden]{display:none;} body{line-height:1;} ol,ul{list-style:none;} blockquote,q{quotes:none;} blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;} table{border-collapse:collapse;border-spacing:0;} *,*::before,*::after{box-sizing:border-box;} html{font-size:16px;} body{font-family:'Asap',sans-serif;font-weight:400;font-size:0.9rem;line-height:1.2;background-color:#fcfcfc;color:#000000;} *::selection{background-color:#f53a1b;color:#fcfcfc;} a{color:#0923f8;} a:hover{color:#0f5ef4;} a:active{color:#f53a1b;} strong,b{font-weight:600;} em,i{font-style:italic;} pre,code{font-family:'Fira Code',monospace;font-weight:400;} h1,h2,h3,h4,h5,h5{font-family:'Asap',sans-serif;font-weight:600;margin-bottom:0.6rem;} h1:not(:first-child),h2:not(:first-child),h3:not(:first-child),h4:not(:first-child),h5:not(:first-child),h5:not(:first-child){margin-top:0.4rem;} ul,ol,pre,blockquote{margin-bottom:0.6rem;} ul:not(:first-child),ol:not(:first-child),pre:not(:first-child),blockquote:not(:first-child){margin-top:0.4rem;} li{margin-bottom:0.2rem;} p,figure,pre{margin-bottom:0.4rem;} h1{font-size:2rem;} h2{font-size:1.6rem;} h3{font-size:1.3rem;} h4{font-size:1rem;} h5{font-size:0.8rem;} h6{font-size:0.6rem;} ul{list-style:square;} ul li{margin-left:1.5em;} blockquote{border-left:2px solid #bcbcbc;padding-left:0.4rem;} hr{border:0;border-top:1px solid #bcbcbc;} aside code{margin-left:0.1rem;margin-right:0.1rem;padding-left:0.2rem;padding-right:0.2rem;border-radius:0.2rem;border:1px solid #bcbcbc;background-color:#fcfcfc;color:#0923f8;font-size:0.9em;} aside > pre > code:only-child{display:block;margin:inherit;padding:0.4rem;font-size:0.9em;} aside h1 code,aside h2 code,aside h3 code,aside h4 code,aside h5 code,aside h6 code{margin:0;padding:0;border-radius:0;border:0;background-color:inherit;color:inherit;font-weight:inherit;font-size:inherit;}
 /* sc-component-id: GithubCorner-sc-112dcqw-0 */
 body *:focus > .eRqCXL .octocat-arm,.eRqCXL:focus .octocat-arm,.eRqCXL:hover .octocat-arm{-webkit-animation:octocat-wave 560ms ease-in-out;animation:octocat-wave 560ms ease-in-out;} @-webkit-keyframes octocat-wave{0%,100%{-webkit-transform:rotate(0);-ms-transform:rotate(0);transform:rotate(0);}20%,60%{-webkit-transform:rotate(-25deg);-ms-transform:rotate(-25deg);transform:rotate(-25deg);}40%,80%{-webkit-transform:rotate(10deg);-ms-transform:rotate(10deg);transform:rotate(10deg);}} @keyframes octocat-wave{0%,100%{-webkit-transform:rotate(0);-ms-transform:rotate(0);transform:rotate(0);}20%,60%{-webkit-transform:rotate(-25deg);-ms-transform:rotate(-25deg);transform:rotate(-25deg);}40%,80%{-webkit-transform:rotate(10deg);-ms-transform:rotate(10deg);transform:rotate(10deg);}} @media (max-width:500px){.eRqCXL .octocat-arm{-webkit-animation:octocat-wave 560ms ease-in-out;animation:octocat-wave 560ms ease-in-out;}.eRqCXL:hover .octocat-arm{-webkit-animation:none;animation:none;}}
 /* sc-component-id: Header-mdepkv-0 */
@@ -10,7 +10,7 @@ body *:focus > .eRqCXL .octocat-arm,.eRqCXL:focus .octocat-arm,.eRqCXL:hover .oc
 /* sc-component-id: Layout-sc-11e418k-0 */
 .cARMVe{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;min-height:100vh;} .cARMVe > main{-webkit-box-flex:1;-webkit-flex-grow:1;-ms-flex-positive:1;flex-grow:1;}
 /* sc-component-id: AsmSource-h73kpj-0 */
-.kVlzQS > header{padding:1rem 4rem;background-color:#fbdfab;color:#e25c22;} .kVlzQS > header h3{font-family:'Fira Code',monospace;font-weight:400;} .kVlzQS > section{display:grid;grid-template-columns:[code-comment] minmax(min-content,50%) [code-content] minmax(50%,max-content);line-height:1.3;} .kVlzQS > section > aside,.kVlzQS > section > pre{position:relative;margin:0;padding:0;border:1px solid transparent;border-radius:0;box-sizing:border-box;} .kVlzQS > section > aside:nth-child(1),.kVlzQS > section > pre:nth-child(2){padding-top:1rem;} .kVlzQS > section > aside{grid-column:code-comment;padding-left:4rem;padding-right:1rem;background-color:#f8f8f8;color:#000000;word-break:break-word;} .kVlzQS > section > pre{grid-column:code-content;padding-left:1rem;padding-right:1rem;overflow:visible;white-space:pre-wrap;word-break:break-word;tab-size:4;} .kVlzQS > section > pre > a[name][href^="#"]{position:absolute;top:0;right:1rem;-webkit-text-decoration:none;text-decoration:none;color:#f65b98;-webkit-transition:opacity 0.1s linear;transition:opacity 0.1s linear;opacity:0;} .kVlzQS > section > pre > a[name][href^="#"]:focus,.kVlzQS > section > pre > a[name][href^="#"]:hover{opacity:1;} .kVlzQS > section > pre:hover > a[name][href^="#"]{opacity:1;} @media (max-width:800px){.kVlzQS > header{padding-left:2rem;padding-right:2rem;}.kVlzQS > section{display:block;}.kVlzQS > section > aside,.kVlzQS > section > pre{padding-top:1rem;padding-bottom:1rem;}.kVlzQS > section > aside{max-width:none;padding-left:2rem;padding-right:2rem;color:#7c7c7c;}.kVlzQS > section > aside:before{content:'';position:absolute;top:0;bottom:0;left:0;pointer-events:none;width:4px;background-color:#bcbcbc;}} .kVlzQS .token{color:#4f2f04;} .kVlzQS .keyword{color:#d61eca;} .kVlzQS .variable{color:#f7b72a;} .kVlzQS .opcode{color:#f53a1b;} .kVlzQS .string{color:#17a61a;} .kVlzQS .decimalnumber{color:#4430b9;} .kVlzQS .hexnumber{color:#0923f8;} .kVlzQS .binarynumber{color:#034057;} .kVlzQS .register{color:#f65b98;} .kVlzQS .directive{color:#fa9f4e;} .kVlzQS .comment{color:#7c7c7c;}</style><link rel="shortcut icon" href="/smb2/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="manifest" href="/smb2/manifest.webmanifest"/><meta name="theme-color" content="#663399"/><link rel="apple-touch-icon" sizes="48x48" href="/smb2/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="72x72" href="/smb2/icons/icon-72x72.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="96x96" href="/smb2/icons/icon-96x96.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="144x144" href="/smb2/icons/icon-144x144.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="192x192" href="/smb2/icons/icon-192x192.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="256x256" href="/smb2/icons/icon-256x256.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="384x384" href="/smb2/icons/icon-384x384.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="512x512" href="/smb2/icons/icon-512x512.png?v=008654519ce705ac7bc44303a9014606"/><link as="script" rel="preload" href="/smb2/webpack-runtime-9aaafdd3739959e4e4d9.js"/><link as="script" rel="preload" href="/smb2/app-caeaaca84425fcb8fada.js"/><link as="script" rel="preload" href="/smb2/commons-ed99ba16edc92f5f584d.js"/><link as="script" rel="preload" href="/smb2/component---src-templates-asm-source-jsx-e658357d8ad4566d46d3.js"/><link as="fetch" rel="preload" href="/smb2/page-data/src/prg-e-f.asm/page-data.json" crossorigin="anonymous"/></head><body><noscript id="gatsby-noscript">This app works best with JavaScript enabled.</noscript><div id="___gatsby"><div style="outline:none" tabindex="-1" role="group" id="gatsby-focus-wrapper"><div class="Layout-sc-11e418k-0 cARMVe"><header class="Header-mdepkv-0 jZQtxI"><a href="https://github.com/XKeeper0/smb2"><svg class="GithubCorner-sc-112dcqw-0 eRqCXL" fill="#fcfcfc" height="80" viewBox="0 0 250 250" width="80" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l115 115h15l12 27 108 108V0z"></path><g class="octocat" fill="#f65b98"><path class="octocat-arm" d="M128 109c-15-9-9-19-9-19 3-7 2-11 2-11-1-7 3-2 3-2 4 5 2 11 2 11-3 10 5 15 9 16" style="transform-origin:130px 106px"></path><path class="octocat-body" d="M115 115s4 2 5 0l14-14c3-2 6-3 8-3-8-11-15-24 2-41 5-5 10-7 16-7 1-2 3-7 12-11 0 0 5 3 7 16 4 2 8 5 12 9s7 8 9 12c14 3 17 7 17 7-4 8-9 11-11 11 0 6-2 11-7 16-16 16-30 10-41 2 0 3-1 7-5 11l-12 11c-1 1 1 5 1 5z"></path></g></svg></a><h1><a href="/smb2/">Super Mario Bros 2. Discombobulated</a></h1><p>The annotated disassembly of SMB2 (USA) for NES.</p></header><main><article class="AsmSource-h73kpj-0 kVlzQS"><header><h3>/src/prg-e-f.asm</h3></header><section><aside><h1>Bank E &#x26; Bank F</h1>
+.kVlzQS > header{padding:1rem 4rem;background-color:#fbdfab;color:#e25c22;} .kVlzQS > header h3{font-family:'Fira Code',monospace;font-weight:400;} .kVlzQS > section{display:grid;grid-template-columns:[code-comment] minmax(min-content,50%) [code-content] minmax(50%,max-content);line-height:1.3;} .kVlzQS > section > aside,.kVlzQS > section > pre{position:relative;margin:0;padding:0;border:1px solid transparent;border-radius:0;box-sizing:border-box;} .kVlzQS > section > aside:nth-child(1),.kVlzQS > section > pre:nth-child(2){padding-top:1rem;} .kVlzQS > section > aside{grid-column:code-comment;padding-left:4rem;padding-right:1rem;background-color:#f8f8f8;color:#000000;word-break:break-word;} .kVlzQS > section > pre{grid-column:code-content;padding-left:1rem;padding-right:1rem;overflow:visible;white-space:pre-wrap;word-break:break-word;tab-size:4;} .kVlzQS > section > pre > a[name][href^="#"]{position:absolute;top:0;right:1rem;-webkit-text-decoration:none;text-decoration:none;color:#f65b98;-webkit-transition:opacity 0.1s linear;transition:opacity 0.1s linear;opacity:0;} .kVlzQS > section > pre > a[name][href^="#"]:focus,.kVlzQS > section > pre > a[name][href^="#"]:hover{opacity:1;} .kVlzQS > section > pre:hover > a[name][href^="#"]{opacity:1;} @media (max-width:800px){.kVlzQS > header{padding-left:2rem;padding-right:2rem;}.kVlzQS > section{display:block;}.kVlzQS > section > aside,.kVlzQS > section > pre{padding-top:1rem;padding-bottom:1rem;}.kVlzQS > section > aside{max-width:none;padding-left:2rem;padding-right:2rem;color:#7c7c7c;}.kVlzQS > section > aside:before{content:'';position:absolute;top:0;bottom:0;left:0;pointer-events:none;width:4px;background-color:#bcbcbc;}} .kVlzQS .token{color:#4f2f04;} .kVlzQS .keyword{color:#d61eca;} .kVlzQS .variable{color:#f7b72a;} .kVlzQS .opcode{color:#f53a1b;} .kVlzQS .string{color:#17a61a;} .kVlzQS .decimalnumber{color:#4430b9;} .kVlzQS .hexnumber{color:#0923f8;} .kVlzQS .binarynumber{color:#034057;} .kVlzQS .register{color:#f65b98;} .kVlzQS .directive{color:#fa9f4e;} .kVlzQS .comment{color:#7c7c7c;}</style><link rel="shortcut icon" href="/smb2/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="manifest" href="/smb2/manifest.webmanifest"/><meta name="theme-color" content="#663399"/><link rel="apple-touch-icon" sizes="48x48" href="/smb2/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="72x72" href="/smb2/icons/icon-72x72.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="96x96" href="/smb2/icons/icon-96x96.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="144x144" href="/smb2/icons/icon-144x144.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="192x192" href="/smb2/icons/icon-192x192.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="256x256" href="/smb2/icons/icon-256x256.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="384x384" href="/smb2/icons/icon-384x384.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="512x512" href="/smb2/icons/icon-512x512.png?v=008654519ce705ac7bc44303a9014606"/><link as="script" rel="preload" href="/smb2/webpack-runtime-e27abee7082aa8f18f3b.js"/><link as="script" rel="preload" href="/smb2/app-73183e4eb413cfdc340b.js"/><link as="script" rel="preload" href="/smb2/commons-a9b9bc07b970d3a1ecc3.js"/><link as="script" rel="preload" href="/smb2/component---src-templates-asm-source-jsx-3bb2cbd0a842989d029d.js"/><link as="fetch" rel="preload" href="/smb2/page-data/src/prg-e-f.asm/page-data.json" crossorigin="anonymous"/></head><body><noscript id="gatsby-noscript">This app works best with JavaScript enabled.</noscript><div id="___gatsby"><div style="outline:none" tabindex="-1" role="group" id="gatsby-focus-wrapper"><div class="Layout-sc-11e418k-0 cARMVe"><header class="Header-mdepkv-0 jZQtxI"><a href="https://github.com/XKeeper0/smb2"><svg class="GithubCorner-sc-112dcqw-0 eRqCXL" fill="#fcfcfc" height="80" viewBox="0 0 250 250" width="80" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l115 115h15l12 27 108 108V0z"></path><g class="octocat" fill="#f65b98"><path class="octocat-arm" d="M128 109c-15-9-9-19-9-19 3-7 2-11 2-11-1-7 3-2 3-2 4 5 2 11 2 11-3 10 5 15 9 16" style="transform-origin:130px 106px"></path><path class="octocat-body" d="M115 115s4 2 5 0l14-14c3-2 6-3 8-3-8-11-15-24 2-41 5-5 10-7 16-7 1-2 3-7 12-11 0 0 5 3 7 16 4 2 8 5 12 9s7 8 9 12c14 3 17 7 17 7-4 8-9 11-11 11 0 6-2 11-7 16-16 16-30 10-41 2 0 3-1 7-5 11l-12 11c-1 1 1 5 1 5z"></path></g></svg></a><h1><a href="/smb2/">Super Mario Bros 2. Discombobulated</a></h1><p>The annotated disassembly of SMB2 (USA) for NES.</p></header><main><article class="AsmSource-h73kpj-0 kVlzQS"><header><h3>/src/prg-e-f.asm</h3></header><section><aside><h1>Bank E &#x26; Bank F</h1>
 <p>What's inside: Lots of game logic.</p>
 <ul>
 <li>DPCM data</li>
@@ -367,8 +367,8 @@ SetScrollXYTo<span class="token decimalnumber string">0</span>:
 	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$00</span>
 	<span class="token opcode property">STA</span> PPUScrollYMirror
 	<span class="token opcode property">STA</span> PPUScrollXMirror
-	<span class="token opcode property">STA</span> byte_RAM_C<span class="token decimalnumber string">8</span>
-	<span class="token opcode property">STA</span> byte_RAM_C<span class="token decimalnumber string">9</span>
+	<span class="token opcode property">STA</span> PPUScrollYHiMirror
+	<span class="token opcode property">STA</span> PPUScrollXHiMirror
 	<span class="token opcode property">RTS</span>
 
 &nbsp;</code></pre><aside><p>Clears the screen and resets the scroll position for the title card</p>
@@ -409,9 +409,11 @@ changes of its own.</p>
 	<span class="token opcode property">JMP</span> WaitForNMI
 
 &nbsp;</code></pre><aside><p>Draws world info for the title card and pause screens</p>
-<p>Input
-X = CurrentWorld
-Y = CurrentLevel (not actually used)</p>
+<h5>Input</h5>
+<ul>
+<li><code>X</code>: CurrentWorld</li>
+<li><code>Y</code>: CurrentLevel (not actually used)</li>
+</ul>
 &nbsp;</aside><pre><a name="l424" href="#l424" title="Link to line 424">#</a><code>DisplayLevelTitleCardText:&nbsp;</code></pre><aside><p>Level number (unused)
 In Doki Doki Panic, this was displayed as a page number, keeping with
 the storybook motif.</p>
@@ -846,12 +848,12 @@ StartLevel:
 	<span class="token opcode property">JSR</span> WaitForNMI_TurnOffPPU
 
 	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$B0</span>
-	<span class="token opcode property">ORA</span> byte_RAM_C<span class="token decimalnumber string">9</span>
+	<span class="token opcode property">ORA</span> PPUScrollXHiMirror
 	<span class="token opcode property">LDY</span> IsHorizontalLevel
 	<span class="token opcode property">BNE</span> StartLevel_SetPPUCtrlMirror
 
 	<span class="token opcode property">AND</span> <span class="token hexnumber string">#$FE</span>
-	<span class="token opcode property">ORA</span> byte_RAM_C<span class="token decimalnumber string">8</span>
+	<span class="token opcode property">ORA</span> PPUScrollYHiMirror
 
 StartLevel_SetPPUCtrlMirror:
 	<span class="token opcode property">STA</span> PPUCtrlMirror
@@ -861,7 +863,7 @@ StartLevel_SetPPUCtrlMirror:
 	<span class="token opcode property">LDA</span> #PRGBank_<span class="token decimalnumber string">8</span>_<span class="token decimalnumber string">9</span>
 	<span class="token opcode property">JSR</span> ChangeMappedPRGBank
 
-	<span class="token opcode property">JSR</span> GetLevelPointers
+	<span class="token opcode property">JSR</span> CopyLevelDataToMemory
 
 	<span class="token opcode property">LDA</span> #PRGBank_<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">JSR</span> ChangeMappedPRGBank
@@ -1119,9 +1121,9 @@ HidePauseScreen_Horizontal_Loop:
 	<span class="token opcode property">LDA</span> #PRGBank_<span class="token decimalnumber string">8</span>_<span class="token decimalnumber string">9</span>
 	<span class="token opcode property">JSR</span> ChangeMappedPRGBank
 
-	<span class="token opcode property">JSR</span> GetJarPointers
+	<span class="token opcode property">JSR</span> CopyJarDataToMemory
 
-	<span class="token opcode property">JSR</span> GetEnemyPointers
+	<span class="token opcode property">JSR</span> CopyEnemyDataToMemory
 
 	<span class="token opcode property">LDA</span> #PRGBank_<span class="token decimalnumber string">6</span>_<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">JSR</span> ChangeMappedPRGBank
@@ -1917,14 +1919,18 @@ SetBonusChancePalette:
 	<span class="token opcode property">JSR</span> EnableNMI
 
 	<span class="token opcode property">JMP</span> WaitForNMI
+
 &nbsp;</code></pre><aside><p>End of function sub_BANKF_EA68</p>
-&nbsp;</aside><pre><a name="l2014" href="#l2014" title="Link to line 2014">#</a><code>&nbsp;</code></pre><aside><p>=============== S U B R O U T I N E =======================================</p>
-&nbsp;</aside><pre><a name="l2016" href="#l2016" title="Link to line 2016">#</a><code>&nbsp;</code></pre><aside><p>Converts a number to numerical tiles with space for 2 digits</p>
-<p>Input
-A = number to display
-Output
-A = second digit of the number (ones)
-Y = first digit of the number (tens)</p>
+&nbsp;</aside><pre><a name="l2014" href="#l2014" title="Link to line 2014">#</a><code>&nbsp;</code></pre><aside><p>Converts a number to numerical tiles with space for 2 digits</p>
+<h5>Input</h5>
+<ul>
+<li><code>A</code> = number to display</li>
+</ul>
+<h5>Output</h5>
+<ul>
+<li><code>A</code>: second digit of the number (ones)</li>
+<li><code>Y</code>: first digit of the number (tens)</li>
+</ul>
 &nbsp;</aside><pre><a name="l2026" href="#l2026" title="Link to line 2026">#</a><code>GetTwoDigitNumberTiles:
 	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$D0</span> <span class="token comment">; zero</span>
 
@@ -2228,12 +2234,12 @@ loc_BANKF_EC<span class="token decimalnumber string">1</span>F:
 	<span class="token opcode property">JSR</span> sub_BANKF_EC<span class="token decimalnumber string">68</span>
 
 	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$B0</span>
-	<span class="token opcode property">ORA</span> byte_RAM_C<span class="token decimalnumber string">9</span>
+	<span class="token opcode property">ORA</span> PPUScrollXHiMirror
 	<span class="token opcode property">LDY</span> IsHorizontalLevel
 	<span class="token opcode property">BNE</span> loc_BANKF_EC<span class="token decimalnumber string">31</span>
 
 	<span class="token opcode property">AND</span> <span class="token hexnumber string">#$FE</span>
-	<span class="token opcode property">ORA</span> byte_RAM_C<span class="token decimalnumber string">8</span>
+	<span class="token opcode property">ORA</span> PPUScrollYHiMirror
 
 loc_BANKF_EC<span class="token decimalnumber string">31</span>:
 	<span class="token opcode property">STA</span> PPUCTRL
@@ -3028,7 +3034,7 @@ ENDIF
 	<span class="token opcode property">LDA</span> #PRGBank_<span class="token decimalnumber string">8</span>_<span class="token decimalnumber string">9</span>
 	<span class="token opcode property">JSR</span> ChangeMappedPRGBank
 
-	<span class="token opcode property">JMP</span> GetEnemyPointers
+	<span class="token opcode property">JMP</span> CopyEnemyDataToMemory
 
 &nbsp;</code></pre><aside><hr>
 &nbsp;</aside><pre><a name="l3219" href="#l3219" title="Link to line 3219">#</a><code>locret_BANKF_F<span class="token decimalnumber string">297</span>:
@@ -4597,13 +4603,17 @@ the expansion port???</p>
 &nbsp;</code></pre><aside><p>End of function sub_BANKF_F6A1</p>
 &nbsp;</aside><pre><a name="l4837" href="#l4837" title="Link to line 4837">#</a><code>&nbsp;</code></pre><aside><p>Checks that we're playing the correct music and switches if necessary, unless
 we're playing the invincibility music.</p>
-<p>Input
-CompareMusicIndex = music we should be playing
-CurrentMusicIndex = music we're actually playing
-StarInvincibilityTimer = whether the player is invincible</p>
-<p>Output
-CurrentMusicIndex = music we should be plathing
-MusicQueue1 = song to play if we need to change the music</p>
+<h5>Input</h5>
+<ul>
+<li><code>CompareMusicIndex</code>: music we should be playing</li>
+<li><code>CurrentMusicIndex</code>: music we're actually playing</li>
+<li><code>StarInvincibilityTimer</code>: whether the player is invincible</li>
+</ul>
+<h5>Output</h5>
+<ul>
+<li><code>CurrentMusicIndex</code>: music we should be plathing</li>
+<li><code>MusicQueue1</code>: song to play if we need to change the music</li>
+</ul>
 &nbsp;</aside><pre><a name="l4852" href="#l4852" title="Link to line 4852">#</a><code>EnsureCorrectMusic:
 	<span class="token opcode property">LDA</span> CompareMusicIndex
 	<span class="token opcode property">CMP</span> CurrentMusicIndex
@@ -4659,7 +4669,7 @@ DoAreaReset_EnemyLoopEnd:
 &nbsp;</aside><pre><a name="l4905" href="#l4905" title="Link to line 4905">#</a><code>
 &nbsp;</code></pre><aside><p>=============== S U B R O U T I N E =======================================</p>
 &nbsp;</aside><pre><a name="l4907" href="#l4907" title="Link to line 4907">#</a><code>AreaResetEnemyDestroy:&nbsp;</code></pre><aside><p>load raw enemy data offset so we can allow the level object to respawn</p>
-&nbsp;</aside><pre><a name="l4910" href="#l4910" title="Link to line 4910">#</a><code>	<span class="token opcode property">LDY</span> unk_RAM_<span class="token decimalnumber string">441</span>, <span class="token register variable">X</span>&nbsp;</code></pre><aside><p>nothing to reset if offset is invalid</p>
+&nbsp;</aside><pre><a name="l4910" href="#l4910" title="Link to line 4910">#</a><code>	<span class="token opcode property">LDY</span> EnemyRawDataOffset, <span class="token register variable">X</span>&nbsp;</code></pre><aside><p>nothing to reset if offset is invalid</p>
 &nbsp;</aside><pre><a name="l4912" href="#l4912" title="Link to line 4912">#</a><code>	<span class="token opcode property">BMI</span> AreaResetEnemyDestroy_AfterAllowRespawn
 &nbsp;</code></pre><aside><p>disabling bit 7 allows the object to respawn</p>
 &nbsp;</aside><pre><a name="l4915" href="#l4915" title="Link to line 4915">#</a><code>	<span class="token opcode property">LDA</span> (RawEnemyData), <span class="token register variable">Y</span>
@@ -4709,39 +4719,39 @@ loc_BANKF_F<span class="token decimalnumber string">749</span>:&nbsp;</code></pr
 &nbsp;</aside><pre><a name="l4964" href="#l4964" title="Link to line 4964">#</a><code>	<span class="token opcode property">LDA</span> #DPCM_PlayerDeath
 	<span class="token opcode property">STA</span> DPCMQueue
 	<span class="token opcode property">RTS</span>
-&nbsp;</code></pre><aside><p>End of function KillPlayer</p>
-&nbsp;</aside><pre><a name="l4969" href="#l4969" title="Link to line 4969">#</a><code>&nbsp;</code></pre><aside><p>=============== S U B R O U T I N E =======================================</p>
-&nbsp;</aside><pre><a name="l4971" href="#l4971" title="Link to line 4971">#</a><code>
-&nbsp;</code></pre><aside><p>Something to do with loading levels here</p>
-&nbsp;</aside><pre><a name="l4973" href="#l4973" title="Link to line 4973">#</a><code>GetLevelPointers:
-	<span class="token opcode property">LDY</span> CurrentLevel
+
+&nbsp;</code></pre><aside><p>Copies the raw level data to memory.</p>
+&nbsp;</aside><pre><a name="l4972" href="#l4972" title="Link to line 4972">#</a><code>CopyLevelDataToMemory:&nbsp;</code></pre><aside><p>Determine the global area index from the current level and area.</p>
+&nbsp;</aside><pre><a name="l4974" href="#l4974" title="Link to line 4974">#</a><code>	<span class="token opcode property">LDY</span> CurrentLevel
 	<span class="token opcode property">LDA</span> LevelAreaStartIndexes, <span class="token register variable">Y</span>
 	<span class="token opcode property">CLC</span>
 	<span class="token opcode property">ADC</span> CurrentLevelArea
-	<span class="token opcode property">TAY</span> <span class="token comment">; Y now contains the current area or something</span>
-	<span class="token opcode property">LDA</span> LevelDataPointersLo, <span class="token register variable">Y</span>
-	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">5</span> <span class="token comment">; $0005/$0006 are pointers to the level data</span>
+	<span class="token opcode property">TAY</span>
+&nbsp;</code></pre><aside><p>Calculate the pointer for the start of the level data.</p>
+&nbsp;</aside><pre><a name="l4981" href="#l4981" title="Link to line 4981">#</a><code>	<span class="token opcode property">LDA</span> LevelDataPointersLo, <span class="token register variable">Y</span>
+	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">5</span>
 	<span class="token opcode property">LDA</span> LevelDataPointersHi, <span class="token register variable">Y</span>
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">6</span>
-	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$FF</span> <span class="token comment">; Set to load level data into $7800 in RAM</span>
-	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$78</span>
+&nbsp;</code></pre><aside><p>Blindly copy 255 bytes of data, which is presumed to contain the full area.</p>
+&nbsp;</aside><pre><a name="l4987" href="#l4987" title="Link to line 4987">#</a><code>	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$FF</span>
+&nbsp;</code></pre><aside><p>Set the destination address in RAM for copying level data.</p>
+&nbsp;</aside><pre><a name="l4990" href="#l4990" title="Link to line 4990">#</a><code>	<span class="token opcode property">LDA</span> #>RawLevelData
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">2</span>
-	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$00</span>
+	<span class="token opcode property">LDY</span> #&#x3C;RawLevelData
 	<span class="token opcode property">STY</span> byte_RAM_<span class="token decimalnumber string">1</span>
-
-CopyLevelDataToMemory:
+&nbsp;</code></pre><aside><p><code>Y = $00</code></p>
+&nbsp;</aside><pre><a name="l4996" href="#l4996" title="Link to line 4996">#</a><code>CopyLevelDataToMemory_Loop:
 	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">INY</span>
 	<span class="token opcode property">DEX</span>
-	<span class="token opcode property">BNE</span> CopyLevelDataToMemory
+	<span class="token opcode property">BNE</span> CopyLevelDataToMemory_Loop
+&nbsp;</code></pre><aside><p>We end up copying the first byte twice!</p>
+&nbsp;</aside><pre><a name="l5004" href="#l5004" title="Link to line 5004">#</a><code>	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 
-	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
-&nbsp;</code></pre><aside><p>End of function GetLevelPointers</p>
-&nbsp;</aside><pre><a name="l5000" href="#l5000" title="Link to line 5000">#</a><code>
-&nbsp;</code></pre><aside><p>=============== S U B R O U T I N E =======================================</p>
-&nbsp;</aside><pre><a name="l5002" href="#l5002" title="Link to line 5002">#</a><code>GetEnemyPointers:
-	<span class="token opcode property">LDY</span> CurrentLevel
+&nbsp;</code></pre><aside><p>Copies the raw enemy data to memory.</p>
+&nbsp;</aside><pre><a name="l5010" href="#l5010" title="Link to line 5010">#</a><code>CopyEnemyDataToMemory:&nbsp;</code></pre><aside><p>Determine the address of the level's enemy pointer tables.</p>
+&nbsp;</aside><pre><a name="l5012" href="#l5012" title="Link to line 5012">#</a><code>	<span class="token opcode property">LDY</span> CurrentLevel
 	<span class="token opcode property">LDA</span> EnemyPointersByLevel_HiHi, <span class="token register variable">Y</span>
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">1</span>
 	<span class="token opcode property">LDA</span> EnemyPointersByLevel_HiLo, <span class="token register variable">Y</span>
@@ -4750,71 +4760,81 @@ CopyLevelDataToMemory:
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">3</span>
 	<span class="token opcode property">LDA</span> EnemyPointersByLevel_LoLo, <span class="token register variable">Y</span>
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">2</span>
-	<span class="token opcode property">LDA</span> InSubspaceOrJar <span class="token comment">; Are we in a jar?</span>
+&nbsp;</code></pre><aside><p>Determine whether we want the enemy data for the area or for the jar.</p>
+&nbsp;</aside><pre><a name="l5023" href="#l5023" title="Link to line 5023">#</a><code>	<span class="token opcode property">LDA</span> InSubspaceOrJar
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$01</span>
-	<span class="token opcode property">BNE</span> loc_BANKF_F<span class="token decimalnumber string">7</span><span class="token register variable">A</span><span class="token decimalnumber string">0</span> <span class="token comment">; No, load the area as usual</span>
+	<span class="token opcode property">BNE</span> CopyEnemyDataToMemory_Area
 
+CopyEnemyDataToMemory_Jar:
 	<span class="token opcode property">LDY</span> #AreaIndex_Jar
-	<span class="token opcode property">JMP</span> loc_BANKF_F<span class="token decimalnumber string">7</span><span class="token register variable">A</span><span class="token decimalnumber string">3</span>
+	<span class="token opcode property">JMP</span> CopyEnemyDataToMemory_SetAddress
 
-&nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l5021" href="#l5021" title="Link to line 5021">#</a><code>loc_BANKF_F<span class="token decimalnumber string">7</span><span class="token register variable">A</span><span class="token decimalnumber string">0</span>:
+CopyEnemyDataToMemory_Area:
 	<span class="token opcode property">LDY</span> CurrentLevelArea
 
-loc_BANKF_F<span class="token decimalnumber string">7</span><span class="token register variable">A</span><span class="token decimalnumber string">3</span>:
-	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">0</span>), <span class="token register variable">Y</span>
+CopyEnemyDataToMemory_SetAddress:&nbsp;</code></pre><aside><p>Calculate the pointer for the start of the enemy data.</p>
+&nbsp;</aside><pre><a name="l5036" href="#l5036" title="Link to line 5036">#</a><code>	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">0</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">1</span>
 	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">2</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">0</span>
-	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$FF</span>
-	<span class="token opcode property">LDA</span> #>RawEnemyDataAddr
+&nbsp;</code></pre><aside><p>Blindly copy 255 bytes of data, which is presumed to contain the full area.</p>
+&nbsp;</aside><pre><a name="l5042" href="#l5042" title="Link to line 5042">#</a><code>	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$FF</span>
+&nbsp;</code></pre><aside><p>Set the destination address in RAM for copying level data.</p>
+&nbsp;</aside><pre><a name="l5045" href="#l5045" title="Link to line 5045">#</a><code>	<span class="token opcode property">LDA</span> #>RawEnemyDataAddr
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">3</span>
 	<span class="token opcode property">LDY</span> #&#x3C;RawEnemyDataAddr
 	<span class="token opcode property">STY</span> byte_RAM_<span class="token decimalnumber string">2</span>
-
-CopyEnemyDataToMemory:
+&nbsp;</code></pre><aside><p><code>Y = $00</code></p>
+&nbsp;</aside><pre><a name="l5051" href="#l5051" title="Link to line 5051">#</a><code>CopyEnemyDataToMemory_Loop:
 	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">0</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">2</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">INY</span>
 	<span class="token opcode property">DEX</span>
-	<span class="token opcode property">BNE</span> CopyEnemyDataToMemory
+	<span class="token opcode property">BNE</span> CopyEnemyDataToMemory_Loop
 
 	<span class="token opcode property">RTS</span>
-&nbsp;</code></pre><aside><p>End of function GetEnemyPointers</p>
-&nbsp;</aside><pre><a name="l5046" href="#l5046" title="Link to line 5046">#</a><code>
-&nbsp;</code></pre><aside><p>=============== S U B R O U T I N E =======================================</p>
-&nbsp;</aside><pre><a name="l5048" href="#l5048" title="Link to line 5048">#</a><code>GetJarPointers:
-	<span class="token opcode property">LDY</span> CurrentLevel <span class="token comment">; Get the area starting index for the current level</span>
+
+&nbsp;</code></pre><aside><p>Copies the raw level data for a jar to memory.</p>
+&nbsp;</aside><pre><a name="l5064" href="#l5064" title="Link to line 5064">#</a><code>CopyJarDataToMemory:&nbsp;</code></pre><aside><p>Determine the global area index from the current level and area.</p>
+&nbsp;</aside><pre><a name="l5066" href="#l5066" title="Link to line 5066">#</a><code>	<span class="token opcode property">LDY</span> CurrentLevel
 	<span class="token opcode property">LDA</span> LevelAreaStartIndexes, <span class="token register variable">Y</span>
 	<span class="token opcode property">CLC</span>
 	<span class="token opcode property">ADC</span> #AreaIndex_Jar
 	<span class="token opcode property">TAY</span>
-	<span class="token opcode property">LDA</span> LevelDataPointersLo, <span class="token register variable">Y</span>
+&nbsp;</code></pre><aside><p>Calculate the pointer for the start of the level data.</p>
+&nbsp;</aside><pre><a name="l5073" href="#l5073" title="Link to line 5073">#</a><code>	<span class="token opcode property">LDA</span> LevelDataPointersLo, <span class="token register variable">Y</span>
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">5</span>
 	<span class="token opcode property">LDA</span> LevelDataPointersHi, <span class="token register variable">Y</span>
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">6</span>
-	<span class="token opcode property">LDA</span> #>RawJarData
+&nbsp;</code></pre><aside><p>Set the destination address in RAM for copying level data.</p>
+&nbsp;</aside><pre><a name="l5079" href="#l5079" title="Link to line 5079">#</a><code>	<span class="token opcode property">LDA</span> #>RawJarData
 	<span class="token opcode property">STA</span> byte_RAM_<span class="token decimalnumber string">2</span>
 	<span class="token opcode property">LDY</span> #&#x3C;RawJarData
 	<span class="token opcode property">STY</span> byte_RAM_<span class="token decimalnumber string">1</span>
-
-CopyJarDataToMemory:
-	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>
-	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$FF</span> <span class="token comment">; This one actually terminates on any $FF read! Welp.</span>
-	<span class="token opcode property">BEQ</span> CopyJarDataToMemoryFinished
+&nbsp;</code></pre><aside><p><code>Y = $00</code></p>
+&nbsp;</aside><pre><a name="l5085" href="#l5085" title="Link to line 5085">#</a><code>CopyJarDataToMemory_Loop:
+	<span class="token opcode property">LDA</span> (byte_RAM_<span class="token decimalnumber string">5</span>), <span class="token register variable">Y</span>&nbsp;</code></pre><aside><p>Unlike <code>CopyLevelDataToMemory</code>, which always copies 255 bytes, this stops on any <code>$FF</code> read!</p>
+<p>This isn't technically "correct", but in practice it's not the most devastating limitation.
+Just don't expect to use a waterfall object that is exactly 16 tiles wide inside a jar.</p>
+<p>Fun fact: The largest possible waterfall objects are only used in two areas of World 5!</p>
+&nbsp;</aside><pre><a name="l5093" href="#l5093" title="Link to line 5093">#</a><code>	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$FF</span> <span class="token comment">; This one actually terminates on any $FF read! Welp.</span>
+	<span class="token opcode property">BEQ</span> CopyJarDataToMemory_Exit
 
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">INY</span>
-	<span class="token opcode property">JMP</span> CopyJarDataToMemory
+	<span class="token opcode property">JMP</span> CopyJarDataToMemory_Loop
 
-&nbsp;</code></pre><aside><hr>
-&nbsp;</aside><pre><a name="l5074" href="#l5074" title="Link to line 5074">#</a><code>CopyJarDataToMemoryFinished:
+CopyJarDataToMemory_Exit:
 	<span class="token opcode property">STA</span> (byte_RAM_<span class="token decimalnumber string">1</span>), <span class="token register variable">Y</span>
 	<span class="token opcode property">RTS</span>
 
-
-&nbsp;</code></pre><aside><p>End of function GetJarPointers</p>
-&nbsp;</aside><pre><a name="l5080" href="#l5080" title="Link to line 5080">#</a><code>TileQuadPointersLo:
+&nbsp;</code></pre><aside><h2>Tile Quads</h2>
+<p>Map tiles are made of 4 pattern table tiles arranged in a 2x2 block.</p>
+<p>These map tiles are broken up into four tables (<code>$00-$3F</code>, <code>$40-$7F</code>, <code>$80-$BF</code>, <code>$C0-$FF</code>) for
+addressability (the tile index is multiplied by 4 to get the first byte). Each table
+coincidentally corresponds to a background subpalette as well.</p>
+&nbsp;</aside><pre><a name="l5114" href="#l5114" title="Link to line 5114">#</a><code>&nbsp;</code></pre><aside><h4>Tile quad pointers</h4>
+&nbsp;</aside><pre><a name="l5118" href="#l5118" title="Link to line 5118">#</a><code>TileQuadPointersLo:
 	<span class="token directive keyword">.db</span> &#x3C;TileQuads<span class="token decimalnumber string">1</span>
 	<span class="token directive keyword">.db</span> &#x3C;TileQuads<span class="token decimalnumber string">2</span>
 	<span class="token directive keyword">.db</span> &#x3C;TileQuads<span class="token decimalnumber string">3</span>
@@ -4825,8 +4845,10 @@ TileQuadPointersHi:
 	<span class="token directive keyword">.db</span> >TileQuads<span class="token decimalnumber string">2</span>
 	<span class="token directive keyword">.db</span> >TileQuads<span class="token decimalnumber string">3</span>
 	<span class="token directive keyword">.db</span> >TileQuads<span class="token decimalnumber string">4</span>
-
-TileQuads<span class="token decimalnumber string">1</span>:
+&nbsp;</code></pre><aside><h4>Tile quad pattern table values</h4>
+<p>Each subtable corresponds to <code>$40</code> tiles so that a single byte offset can be used to address each
+map tile within the table.</p>
+&nbsp;</aside><pre><a name="l5136" href="#l5136" title="Link to line 5136">#</a><code>TileQuads<span class="token decimalnumber string">1</span>:
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$FE</span>,<span class="token hexnumber string">$FE</span>,<span class="token hexnumber string">$FE</span>,<span class="token hexnumber string">$FE</span> <span class="token comment">; $00</span>
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$B4</span>,<span class="token hexnumber string">$B6</span>,<span class="token hexnumber string">$B5</span>,<span class="token hexnumber string">$B7</span> <span class="token comment">; $04</span>
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$B8</span>,<span class="token hexnumber string">$FA</span>,<span class="token hexnumber string">$B9</span>,<span class="token hexnumber string">$FA</span> <span class="token comment">; $08</span>
@@ -5068,7 +5090,7 @@ BackgroundCHRAnimationSpeedByWorld:
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$0B</span> <span class="token comment">; Default</span>
 
 &nbsp;</code></pre><aside><p>Increments the frame of the CHR animation using the world/area speed</p>
-&nbsp;</aside><pre><a name="l5339" href="#l5339" title="Link to line 5339">#</a><code>AnimateCHRRoutine:
+&nbsp;</aside><pre><a name="l5381" href="#l5381" title="Link to line 5381">#</a><code>AnimateCHRRoutine:
 	<span class="token opcode property">DEC</span> BackgroundCHR<span class="token decimalnumber string">2</span>Timer
 	<span class="token opcode property">BPL</span> AnimateCHRRoutine_Exit
 
@@ -5076,7 +5098,7 @@ BackgroundCHRAnimationSpeedByWorld:
 &nbsp;</code></pre><aside><p>Certain level/area combinations use a fixed animation speed.
 It seems to be used in areas that prominently feature cloud platforms.
 This loop performs the lookup to see if that should happen.</p>
-&nbsp;</aside><pre><a name="l5348" href="#l5348" title="Link to line 5348">#</a><code>	<span class="token opcode property">LDY</span> #(DefaultCHRAnimationSpeed_Area - DefaultCHRAnimationSpeed_Level - <span class="token decimalnumber string">1</span>)
+&nbsp;</aside><pre><a name="l5390" href="#l5390" title="Link to line 5390">#</a><code>	<span class="token opcode property">LDY</span> #(DefaultCHRAnimationSpeed_Area - DefaultCHRAnimationSpeed_Level - <span class="token decimalnumber string">1</span>)
 AnimateCHRRoutine_DefaultSpeedLoop:
 	<span class="token opcode property">LDA</span> CurrentLevel_Init
 	<span class="token opcode property">CMP</span> DefaultCHRAnimationSpeed_Level, <span class="token register variable">Y</span>
@@ -5105,7 +5127,7 @@ IFDEF FIX_CHR_CYCLE
 ELSE&nbsp;</code></pre><aside><p>Bug: This is in the original game
 The last frame of the animation is effectively skipped because
 we immediately reset to the first frame when we hit it.</p>
-&nbsp;</aside><pre><a name="l5378" href="#l5378" title="Link to line 5378">#</a><code>	<span class="token opcode property">CPY</span> #CHRBank_Animated<span class="token decimalnumber string">8</span>
+&nbsp;</aside><pre><a name="l5420" href="#l5420" title="Link to line 5420">#</a><code>	<span class="token opcode property">CPY</span> #CHRBank_Animated<span class="token decimalnumber string">8</span>
 ENDIF
 
 	<span class="token opcode property">BCC</span> AnimateCHRRoutine_SetCHR
@@ -5119,12 +5141,16 @@ AnimateCHRRoutine_Exit:
 	<span class="token opcode property">RTS</span>
 
 &nbsp;</code></pre><aside><p>Looks for an unused sprite slot</p>
-<p>Input
-X = enemy slot
-Output
-X = byte_RAM_12
-Y = sprite slot</p>
-&nbsp;</aside><pre><a name="l5401" href="#l5401" title="Link to line 5401">#</a><code>FindSpriteSlot:
+<h5>Input</h5>
+<ul>
+<li><code>X</code>: enemy slot</li>
+</ul>
+<h5>Output</h5>
+<ul>
+<li><code>X</code>: byte_RAM_12</li>
+<li><code>Y</code>: sprite slot</li>
+</ul>
+&nbsp;</aside><pre><a name="l5444" href="#l5444" title="Link to line 5444">#</a><code>FindSpriteSlot:
 	<span class="token opcode property">LDX</span> <span class="token hexnumber string">#$08</span>
 
 FindSpriteSlot_Loop:
@@ -5136,7 +5162,7 @@ FindSpriteSlot_LoopNext:
 	<span class="token opcode property">BPL</span> FindSpriteSlot_Loop
 
 FindSpriteSlot_Default:&nbsp;</code></pre><aside><p>Check that both halves of the default sprite slot are unused</p>
-&nbsp;</aside><pre><a name="l5414" href="#l5414" title="Link to line 5414">#</a><code>	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$00</span>
+&nbsp;</aside><pre><a name="l5457" href="#l5457" title="Link to line 5457">#</a><code>	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$00</span>
 	<span class="token opcode property">LDA</span> SpriteDMAArea, <span class="token register variable">Y</span>
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$F8</span>
 	<span class="token opcode property">BNE</span> FindSpriteSlot_FallbackExit
@@ -5146,21 +5172,21 @@ FindSpriteSlot_Default:&nbsp;</code></pre><aside><p>Check that both halves of th
 	<span class="token opcode property">BEQ</span> FindSpriteSlot_Exit
 
 FindSpriteSlot_FallbackExit:&nbsp;</code></pre><aside><p>If all else fails, here's $10</p>
-&nbsp;</aside><pre><a name="l5425" href="#l5425" title="Link to line 5425">#</a><code>	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$10</span>
+&nbsp;</aside><pre><a name="l5468" href="#l5468" title="Link to line 5468">#</a><code>	<span class="token opcode property">LDY</span> <span class="token hexnumber string">#$10</span>
 
 FindSpriteSlot_Exit:
 	<span class="token opcode property">LDX</span> byte_RAM_<span class="token decimalnumber string">12</span>
 	<span class="token opcode property">RTS</span>
 &nbsp;</code></pre><aside><p>The object slot is inactive, so check that something else hasn't claimed the
 corresponding sprite slot.</p>
-&nbsp;</aside><pre><a name="l5433" href="#l5433" title="Link to line 5433">#</a><code>FindSpriteSlot_CheckInactiveSlot:&nbsp;</code></pre><aside><p>Calculate the sprite slot using the flicker offset</p>
-&nbsp;</aside><pre><a name="l5435" href="#l5435" title="Link to line 5435">#</a><code>	<span class="token opcode property">TXA</span>
+&nbsp;</aside><pre><a name="l5476" href="#l5476" title="Link to line 5476">#</a><code>FindSpriteSlot_CheckInactiveSlot:&nbsp;</code></pre><aside><p>Calculate the sprite slot using the flicker offset</p>
+&nbsp;</aside><pre><a name="l5478" href="#l5478" title="Link to line 5478">#</a><code>	<span class="token opcode property">TXA</span>
 	<span class="token opcode property">CLC</span>
 	<span class="token opcode property">ADC</span> SpriteFlickerSlot
 	<span class="token opcode property">TAY</span>
 	<span class="token opcode property">LDA</span> SpriteFlickerDMAOffset, <span class="token register variable">Y</span>
 &nbsp;</code></pre><aside><p>Check that both halves of the object's sprite slot are unused</p>
-&nbsp;</aside><pre><a name="l5442" href="#l5442" title="Link to line 5442">#</a><code>	<span class="token opcode property">TAY</span>
+&nbsp;</aside><pre><a name="l5485" href="#l5485" title="Link to line 5485">#</a><code>	<span class="token opcode property">TAY</span>
 	<span class="token opcode property">LDA</span> SpriteDMAArea, <span class="token register variable">Y</span>
 	<span class="token opcode property">CMP</span> <span class="token hexnumber string">#$F8</span>
 	<span class="token opcode property">BNE</span> FindSpriteSlot_LoopNext
@@ -5170,7 +5196,7 @@ corresponding sprite slot.</p>
 	<span class="token opcode property">BEQ</span> FindSpriteSlot_Exit
 
 &nbsp;</code></pre><aside><p>Unused space in the original ($FB36 - $FDFF)</p>
-&nbsp;</aside><pre><a name="l5453" href="#l5453" title="Link to line 5453">#</a><code>unusedSpace <span class="token hexnumber string">$FE00</span>, <span class="token hexnumber string">$FF</span>
+&nbsp;</aside><pre><a name="l5496" href="#l5496" title="Link to line 5496">#</a><code>unusedSpace <span class="token hexnumber string">$FE00</span>, <span class="token hexnumber string">$FF</span>
 
 IFDEF RESET_CHR_LATCH
 CHRBank_Boss:
@@ -5333,11 +5359,11 @@ LoadMarioSleepingCHRBanks:
 	<span class="token opcode property">RTS</span>
 
 &nbsp;</code></pre><aside><p>Unused space in the original ($FE97 - $FF4F)</p>
-&nbsp;</aside><pre><a name="l5617" href="#l5617" title="Link to line 5617">#</a><code>unusedSpace <span class="token hexnumber string">$FF50</span>, <span class="token hexnumber string">$FF</span>
+&nbsp;</aside><pre><a name="l5660" href="#l5660" title="Link to line 5660">#</a><code>unusedSpace <span class="token hexnumber string">$FF50</span>, <span class="token hexnumber string">$FF</span>
 
 &nbsp;</code></pre><aside><p>public RESET
 This code is called when the NES is reset</p>
-&nbsp;</aside><pre><a name="l5622" href="#l5622" title="Link to line 5622">#</a><code>RESET:
+&nbsp;</aside><pre><a name="l5665" href="#l5665" title="Link to line 5665">#</a><code>RESET:
 	<span class="token opcode property">SEI</span>
 	<span class="token opcode property">CLD</span>
 	<span class="token opcode property">LDA</span> #PPUCtrl_Base<span class="token decimalnumber string">2000</span> | PPUCtrl_WriteHorizontal | PPUCtrl_Sprite<span class="token decimalnumber string">0000</span> | PPUCtrl_Background<span class="token decimalnumber string">0000</span> | PPUCtrl_SpriteSize<span class="token decimalnumber string">8</span><span class="token register variable">x</span><span class="token decimalnumber string">8</span> | PPUCtrl_NMIDisabled
@@ -5346,12 +5372,12 @@ This code is called when the NES is reset</p>
 	<span class="token opcode property">TXS</span>
 
 RESET_VBlankLoop:&nbsp;</code></pre><aside><p>Wait for first VBlank</p>
-&nbsp;</aside><pre><a name="l5632" href="#l5632" title="Link to line 5632">#</a><code>	<span class="token opcode property">LDA</span> PPUSTATUS
+&nbsp;</aside><pre><a name="l5675" href="#l5675" title="Link to line 5675">#</a><code>	<span class="token opcode property">LDA</span> PPUSTATUS
 	<span class="token opcode property">AND</span> #PPUStatus_VBlankHit
 	<span class="token opcode property">BEQ</span> RESET_VBlankLoop
 
 RESET_VBlank<span class="token decimalnumber string">2</span>Loop:&nbsp;</code></pre><aside><p>Wait for second VBlank</p>
-&nbsp;</aside><pre><a name="l5638" href="#l5638" title="Link to line 5638">#</a><code>	<span class="token opcode property">LDA</span> PPUSTATUS
+&nbsp;</aside><pre><a name="l5681" href="#l5681" title="Link to line 5681">#</a><code>	<span class="token opcode property">LDA</span> PPUSTATUS
 	<span class="token opcode property">BPL</span> RESET_VBlank<span class="token decimalnumber string">2</span>Loop
 
 IFDEF DEBUG
@@ -5373,17 +5399,17 @@ ENDIF
 	<span class="token opcode property">JMP</span> StartGame
 
 &nbsp;</code></pre><aside><p>Switches the current CHR banks</p>
-&nbsp;</aside><pre><a name="l5663" href="#l5663" title="Link to line 5663">#</a><code>IF INES_MAPPER == MAPPER_FME<span class="token decimalnumber string">7</span>
+&nbsp;</aside><pre><a name="l5706" href="#l5706" title="Link to line 5706">#</a><code>IF INES_MAPPER == MAPPER_FME<span class="token decimalnumber string">7</span>
 ChangeCHRBanks:
 	<span class="token opcode property">JMP</span> ChangeCHRBanks_FME<span class="token decimalnumber string">7</span>
 &nbsp;</code></pre><aside><p>Maintain location of the next subroutine</p>
-&nbsp;</aside><pre><a name="l5668" href="#l5668" title="Link to line 5668">#</a><code>	unusedSpace <span class="token hexnumber string">$FF85</span>, <span class="token hexnumber string">$FF</span>
+&nbsp;</aside><pre><a name="l5711" href="#l5711" title="Link to line 5711">#</a><code>	unusedSpace <span class="token hexnumber string">$FF85</span>, <span class="token hexnumber string">$FF</span>
 
 ELSEIF INES_MAPPER == MAPPER_MMC<span class="token decimalnumber string">5</span>
 ChangeCHRBanks:
 	<span class="token opcode property">JMP</span> ChangeCHRBanks_MMC<span class="token decimalnumber string">5</span>
 &nbsp;</code></pre><aside><p>Maintain location of the next subroutine</p>
-&nbsp;</aside><pre><a name="l5675" href="#l5675" title="Link to line 5675">#</a><code>	unusedSpace <span class="token hexnumber string">$FF85</span>, <span class="token hexnumber string">$FF</span>
+&nbsp;</aside><pre><a name="l5718" href="#l5718" title="Link to line 5718">#</a><code>	unusedSpace <span class="token hexnumber string">$FF85</span>, <span class="token hexnumber string">$FF</span>
 
 ELSE <span class="token comment">; INES_MAPPER == MAPPER_MMC3</span>
 ChangeCHRBanks:
@@ -5403,17 +5429,23 @@ ENDIF
 &nbsp;</code></pre><aside><p>Calling this one will save the changed bank
 to RAM, so if something uses the below version
 the original bank set with this can be restored.</p>
-&nbsp;</aside><pre><a name="l5698" href="#l5698" title="Link to line 5698">#</a><code>ChangeMappedPRGBank:
+&nbsp;</aside><pre><a name="l5741" href="#l5741" title="Link to line 5741">#</a><code>ChangeMappedPRGBank:
 	<span class="token opcode property">STA</span> MMC<span class="token decimalnumber string">3</span>PRGBankTemp <span class="token comment">; See below comment.</span>
-&nbsp;</code></pre><aside><p>Any call to this sub switches the lower two banks together, eg:
-LDA 0 JSR Change... = Bank 0/1
-LDA 1 JSR Change... = Bank 2/3
-etc.</p>
+&nbsp;</code></pre><aside><p>Any call to this subroutine switches the lower two banks together.</p>
+<p>For example, loading Bank 0/1:</p>
+<pre><code>LDA #$00
+JSR ChangeMappedPRGBank
+</code></pre>
+<p>Loading Bank 2/3:</p>
+<pre><code>LDA #$01
+JSR ChangeMappedPRGBank
+</code></pre>
+<p>Etc.</p>
 <p>This version changes the bank numbers without
 saving the change to RAM, so the previous bank
 can be recalled later (mostly for temporary switches,
 like music handling and such)</p>
-&nbsp;</aside><pre><a name="l5712" href="#l5712" title="Link to line 5712">#</a><code>ChangeMappedPRGBankWithoutSaving:
+&nbsp;</aside><pre><a name="l5768" href="#l5768" title="Link to line 5768">#</a><code>ChangeMappedPRGBankWithoutSaving:
 	<span class="token opcode property">ASL</span> <span class="token register variable">A</span>
 
 IF INES_MAPPER == MAPPER_FME<span class="token decimalnumber string">7</span>
@@ -5438,7 +5470,7 @@ ELSEIF INES_MAPPER == MAPPER_MMC<span class="token decimalnumber string">5</span
 	<span class="token opcode property">STA</span> <span class="token hexnumber string">$5115</span>
 	<span class="token opcode property">RTS</span>
 &nbsp;</code></pre><aside><p>Maintain location of the next subroutine</p>
-&nbsp;</aside><pre><a name="l5738" href="#l5738" title="Link to line 5738">#</a><code>	unusedSpace <span class="token hexnumber string">$FFA0</span>, <span class="token hexnumber string">$FF</span>
+&nbsp;</aside><pre><a name="l5794" href="#l5794" title="Link to line 5794">#</a><code>	unusedSpace <span class="token hexnumber string">$FFA0</span>, <span class="token hexnumber string">$FF</span>
 
 ELSE <span class="token comment">; INES_MAPPER == MAPPER_MMC3</span>
 	<span class="token opcode property">PHA</span>
@@ -5456,10 +5488,12 @@ ELSE <span class="token comment">; INES_MAPPER == MAPPER_MMC3</span>
 
 ENDIF
 
-&nbsp;</code></pre><aside><p>Writing to $A000 sets mirroring.
-A = $00 for vertical
-A = $01 for horizontal</p>
-&nbsp;</aside><pre><a name="l5762" href="#l5762" title="Link to line 5762">#</a><code>ChangeNametableMirroring:
+&nbsp;</code></pre><aside><p>Sets the nametable mirroring by writing <code>$A000</code>.</p>
+<h5>Input</h5>
+<ul>
+<li><code>A</code>: <code>$00</code> =  vertical, <code>$01</code> = horizontal</li>
+</ul>
+&nbsp;</aside><pre><a name="l5819" href="#l5819" title="Link to line 5819">#</a><code>ChangeNametableMirroring:
 IF INES_MAPPER == MAPPER_FME<span class="token decimalnumber string">7</span>
 	<span class="token opcode property">PHA</span>
 	<span class="token opcode property">LDA</span> <span class="token hexnumber string">#$0C</span>
@@ -5471,16 +5505,16 @@ ELSE
 ENDIF
 	<span class="token opcode property">RTS</span>
 &nbsp;</code></pre><aside><p>Unused space in the original ($FFA4 - $FFEA)</p>
-&nbsp;</aside><pre><a name="l5775" href="#l5775" title="Link to line 5775">#</a><code>unusedSpace <span class="token hexnumber string">$FFEB</span>, <span class="token hexnumber string">$FF</span>
+&nbsp;</aside><pre><a name="l5832" href="#l5832" title="Link to line 5832">#</a><code>unusedSpace <span class="token hexnumber string">$FFEB</span>, <span class="token hexnumber string">$FF</span>
 &nbsp;</code></pre><aside><p>Technically you can delete the stuff from here to the vector table as well,
 but because it looks slightly less like unused space it isn't being removed.</p>
-&nbsp;</aside><pre><a name="l5779" href="#l5779" title="Link to line 5779">#</a><code>&nbsp;</code></pre><aside><p>Not used; leftover part of FamicomBox cart title?</p>
-&nbsp;</aside><pre><a name="l5781" href="#l5781" title="Link to line 5781">#</a><code>UnusedTextZELDA:
+&nbsp;</aside><pre><a name="l5836" href="#l5836" title="Link to line 5836">#</a><code>&nbsp;</code></pre><aside><p>Not used; leftover part of FamicomBox cart title?</p>
+&nbsp;</aside><pre><a name="l5838" href="#l5838" title="Link to line 5838">#</a><code>UnusedTextZELDA:
 	<span class="token directive keyword">.db</span> <span class="token string">'ZELDA'</span>
 &nbsp;</code></pre><aside><p>Note that this is NOT CODE.
 If the NES actually hits a BRK, the game will probably just explode.
 If you wanted, you could write  some sort of crash handler though.</p>
-&nbsp;</aside><pre><a name="l5787" href="#l5787" title="Link to line 5787">#</a><code>IRQ:
+&nbsp;</aside><pre><a name="l5844" href="#l5844" title="Link to line 5844">#</a><code>IRQ:
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$DF</span>
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$E6</span>
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$00</span>
@@ -5492,13 +5526,13 @@ If you wanted, you could write  some sort of crash handler though.</p>
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$01</span>
 	<span class="token directive keyword">.db</span> <span class="token hexnumber string">$BE</span>
 &nbsp;</code></pre><aside><p>Ensure our vectors are always here</p>
-&nbsp;</aside><pre><a name="l5800" href="#l5800" title="Link to line 5800">#</a><code>	<span class="token directive keyword">.pad</span> <span class="token hexnumber string">$FFFA</span>, <span class="token hexnumber string">$FF</span>
+&nbsp;</aside><pre><a name="l5857" href="#l5857" title="Link to line 5857">#</a><code>	<span class="token directive keyword">.pad</span> <span class="token hexnumber string">$FFFA</span>, <span class="token hexnumber string">$FF</span>
 &nbsp;</code></pre><aside><p>Vectors for the NES CPU. These should ALWAYS be at $FFFA!
 Add a .pad or .base before here if you change code above.
 NMI = VBlank
 RESET = ...well, reset.
 IRQ is not used, but you could if you wanted.</p>
-&nbsp;</aside><pre><a name="l5807" href="#l5807" title="Link to line 5807">#</a><code>NESVectorTables:
+&nbsp;</aside><pre><a name="l5864" href="#l5864" title="Link to line 5864">#</a><code>NESVectorTables:
 	<span class="token directive keyword">.dw</span> NMI
 IF INES_MAPPER == MAPPER_FME<span class="token decimalnumber string">7</span>
 	<span class="token directive keyword">.dw</span> RESET_FME<span class="token decimalnumber string">7</span>
@@ -5508,4 +5542,4 @@ ELSE <span class="token comment">; INES_MAPPER == MAPPER_MMC3</span>
 	<span class="token directive keyword">.dw</span> RESET
 ENDIF
 	<span class="token directive keyword">.dw</span> IRQ
-&nbsp;</code></pre></section></article></main><footer class="Footer-xbtfn2-0 kvnzNL"><p>All product names, logos, and brands are property of their respective owners.</p><p>Annotated disassembly site generator © <!-- -->2019<!-- --> <!-- -->Keith McKnight</p><ul><li><a href="https://github.com/XKeeper0/smb2">GitHub</a></li><li><a href="https://discord.gg/TsWMMeV">Discord</a></li></ul></footer></div></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/src/prg-e-f.asm";window.webpackCompilationHash="6067a643bcd1fafeea40";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-caeaaca84425fcb8fada.js"],"component---src-templates-asm-source-jsx":["/component---src-templates-asm-source-jsx-e658357d8ad4566d46d3.js"],"component---src-templates-asm-directory-jsx":["/component---src-templates-asm-directory-jsx-99cfe395a82c27d3aeb9.js"],"component---src-pages-404-jsx":["/component---src-pages-404-jsx-cc5d31acb9d9c591cc78.js"],"component---src-pages-index-jsx":["/component---src-pages-index-jsx-cab01fe6ec86f8921fbe.js"]};/*]]>*/</script><script src="/smb2/component---src-templates-asm-source-jsx-e658357d8ad4566d46d3.js" async=""></script><script src="/smb2/commons-ed99ba16edc92f5f584d.js" async=""></script><script src="/smb2/app-caeaaca84425fcb8fada.js" async=""></script><script src="/smb2/webpack-runtime-9aaafdd3739959e4e4d9.js" async=""></script></body></html>
+&nbsp;</code></pre></section></article></main><footer class="Footer-xbtfn2-0 kvnzNL"><p>All product names, logos, and brands are property of their respective owners.</p><p>Annotated disassembly site generator © <!-- -->2019<!-- --> <!-- -->Keith McKnight</p><ul><li><a href="https://github.com/XKeeper0/smb2">GitHub</a></li><li><a href="https://discord.gg/TsWMMeV">Discord</a></li></ul></footer></div></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/src/prg-e-f.asm";window.webpackCompilationHash="597ab6d0eddc3471edff";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-73183e4eb413cfdc340b.js"],"component---src-templates-asm-source-jsx":["/component---src-templates-asm-source-jsx-3bb2cbd0a842989d029d.js"],"component---src-templates-asm-directory-jsx":["/component---src-templates-asm-directory-jsx-99cfe395a82c27d3aeb9.js"],"component---src-pages-404-jsx":["/component---src-pages-404-jsx-cc5d31acb9d9c591cc78.js"],"component---src-pages-index-jsx":["/component---src-pages-index-jsx-cab01fe6ec86f8921fbe.js"]};/*]]>*/</script><script src="/smb2/component---src-templates-asm-source-jsx-3bb2cbd0a842989d029d.js" async=""></script><script src="/smb2/commons-a9b9bc07b970d3a1ecc3.js" async=""></script><script src="/smb2/app-73183e4eb413cfdc340b.js" async=""></script><script src="/smb2/webpack-runtime-e27abee7082aa8f18f3b.js" async=""></script></body></html>

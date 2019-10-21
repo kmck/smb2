@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 2.15.28"/><title data-react-helmet="true">/src/ram.asm | Super Mario Bros 2. Discombobulated</title><meta data-react-helmet="true" name="description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:title" content="/src/ram.asm"/><meta data-react-helmet="true" property="og:description" content="The annotated disassembly of SMB2 (USA) for NES."/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:creator" content="Keith McKnight"/><meta data-react-helmet="true" name="twitter:title" content="/src/ram.asm"/><meta data-react-helmet="true" name="twitter:description" content="The annotated disassembly of SMB2 (USA) for NES."/><style data-styled="kVlzQS cARMVe  jZQtxI eRqCXL kvnzNL" data-styled-version="4.4.0">
-/* sc-component-id: sc-global-2942123777 */
-@import url('https://fonts.googleapis.com/css?family=Asap:400,600|Fira+Code:400&display=swap'); html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,main,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;} article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section{display:block;} *[hidden]{display:none;} body{line-height:1;} ol,ul{list-style:none;} blockquote,q{quotes:none;} blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;} table{border-collapse:collapse;border-spacing:0;} *,*::before,*::after{box-sizing:border-box;} html{font-size:16px;} body{font-family:'Asap',sans-serif;font-weight:400;font-size:0.9rem;line-height:1.2;background-color:#fcfcfc;color:#000000;} *::selection{background-color:#f53a1b;color:#fcfcfc;} a{color:#0923f8;} a:hover{color:#0f5ef4;} a:active{color:#f53a1b;} strong,b{font-weight:600;} em,i{font-style:italic;} pre,code{font-family:'Fira Code',monospace;font-weight:400;} h1,h2,h3,h4,h5,h5{font-family:'Asap',sans-serif;font-weight:600;margin-top:0.2rem;margin-bottom:0.4rem;} p,figure,pre{margin-bottom:0.2rem;} h1{font-size:2rem;} h2{font-size:1.6rem;} h3{font-size:1.3rem;} h4{font-size:1rem;} h5{font-size:0.8rem;} h6{font-size:0.6rem;} ul{list-style:square;} ul li{margin-left:1.5em;} hr{border:0;border-top:1px solid #bcbcbc;}
+/* sc-component-id: sc-global-3029663097 */
+@import url('https://fonts.googleapis.com/css?family=Asap:400,600|Fira+Code:400&display=swap'); html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,main,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;} article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section{display:block;} *[hidden]{display:none;} body{line-height:1;} ol,ul{list-style:none;} blockquote,q{quotes:none;} blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;} table{border-collapse:collapse;border-spacing:0;} *,*::before,*::after{box-sizing:border-box;} html{font-size:16px;} body{font-family:'Asap',sans-serif;font-weight:400;font-size:0.9rem;line-height:1.2;background-color:#fcfcfc;color:#000000;} *::selection{background-color:#f53a1b;color:#fcfcfc;} a{color:#0923f8;} a:hover{color:#0f5ef4;} a:active{color:#f53a1b;} strong,b{font-weight:600;} em,i{font-style:italic;} pre,code{font-family:'Fira Code',monospace;font-weight:400;} h1,h2,h3,h4,h5,h5{font-family:'Asap',sans-serif;font-weight:600;margin-bottom:0.6rem;} h1:not(:first-child),h2:not(:first-child),h3:not(:first-child),h4:not(:first-child),h5:not(:first-child),h5:not(:first-child){margin-top:0.4rem;} ul,ol,pre,blockquote{margin-bottom:0.6rem;} ul:not(:first-child),ol:not(:first-child),pre:not(:first-child),blockquote:not(:first-child){margin-top:0.4rem;} li{margin-bottom:0.2rem;} p,figure,pre{margin-bottom:0.4rem;} h1{font-size:2rem;} h2{font-size:1.6rem;} h3{font-size:1.3rem;} h4{font-size:1rem;} h5{font-size:0.8rem;} h6{font-size:0.6rem;} ul{list-style:square;} ul li{margin-left:1.5em;} blockquote{border-left:2px solid #bcbcbc;padding-left:0.4rem;} hr{border:0;border-top:1px solid #bcbcbc;} aside code{margin-left:0.1rem;margin-right:0.1rem;padding-left:0.2rem;padding-right:0.2rem;border-radius:0.2rem;border:1px solid #bcbcbc;background-color:#fcfcfc;color:#0923f8;font-size:0.9em;} aside > pre > code:only-child{display:block;margin:inherit;padding:0.4rem;font-size:0.9em;} aside h1 code,aside h2 code,aside h3 code,aside h4 code,aside h5 code,aside h6 code{margin:0;padding:0;border-radius:0;border:0;background-color:inherit;color:inherit;font-weight:inherit;font-size:inherit;}
 /* sc-component-id: GithubCorner-sc-112dcqw-0 */
 body *:focus > .eRqCXL .octocat-arm,.eRqCXL:focus .octocat-arm,.eRqCXL:hover .octocat-arm{-webkit-animation:octocat-wave 560ms ease-in-out;animation:octocat-wave 560ms ease-in-out;} @-webkit-keyframes octocat-wave{0%,100%{-webkit-transform:rotate(0);-ms-transform:rotate(0);transform:rotate(0);}20%,60%{-webkit-transform:rotate(-25deg);-ms-transform:rotate(-25deg);transform:rotate(-25deg);}40%,80%{-webkit-transform:rotate(10deg);-ms-transform:rotate(10deg);transform:rotate(10deg);}} @keyframes octocat-wave{0%,100%{-webkit-transform:rotate(0);-ms-transform:rotate(0);transform:rotate(0);}20%,60%{-webkit-transform:rotate(-25deg);-ms-transform:rotate(-25deg);transform:rotate(-25deg);}40%,80%{-webkit-transform:rotate(10deg);-ms-transform:rotate(10deg);transform:rotate(10deg);}} @media (max-width:500px){.eRqCXL .octocat-arm{-webkit-animation:octocat-wave 560ms ease-in-out;animation:octocat-wave 560ms ease-in-out;}.eRqCXL:hover .octocat-arm{-webkit-animation:none;animation:none;}}
 /* sc-component-id: Header-mdepkv-0 */
@@ -10,7 +10,7 @@ body *:focus > .eRqCXL .octocat-arm,.eRqCXL:focus .octocat-arm,.eRqCXL:hover .oc
 /* sc-component-id: Layout-sc-11e418k-0 */
 .cARMVe{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;min-height:100vh;} .cARMVe > main{-webkit-box-flex:1;-webkit-flex-grow:1;-ms-flex-positive:1;flex-grow:1;}
 /* sc-component-id: AsmSource-h73kpj-0 */
-.kVlzQS > header{padding:1rem 4rem;background-color:#fbdfab;color:#e25c22;} .kVlzQS > header h3{font-family:'Fira Code',monospace;font-weight:400;} .kVlzQS > section{display:grid;grid-template-columns:[code-comment] minmax(min-content,50%) [code-content] minmax(50%,max-content);line-height:1.3;} .kVlzQS > section > aside,.kVlzQS > section > pre{position:relative;margin:0;padding:0;border:1px solid transparent;border-radius:0;box-sizing:border-box;} .kVlzQS > section > aside:nth-child(1),.kVlzQS > section > pre:nth-child(2){padding-top:1rem;} .kVlzQS > section > aside{grid-column:code-comment;padding-left:4rem;padding-right:1rem;background-color:#f8f8f8;color:#000000;word-break:break-word;} .kVlzQS > section > pre{grid-column:code-content;padding-left:1rem;padding-right:1rem;overflow:visible;white-space:pre-wrap;word-break:break-word;tab-size:4;} .kVlzQS > section > pre > a[name][href^="#"]{position:absolute;top:0;right:1rem;-webkit-text-decoration:none;text-decoration:none;color:#f65b98;-webkit-transition:opacity 0.1s linear;transition:opacity 0.1s linear;opacity:0;} .kVlzQS > section > pre > a[name][href^="#"]:focus,.kVlzQS > section > pre > a[name][href^="#"]:hover{opacity:1;} .kVlzQS > section > pre:hover > a[name][href^="#"]{opacity:1;} @media (max-width:800px){.kVlzQS > header{padding-left:2rem;padding-right:2rem;}.kVlzQS > section{display:block;}.kVlzQS > section > aside,.kVlzQS > section > pre{padding-top:1rem;padding-bottom:1rem;}.kVlzQS > section > aside{max-width:none;padding-left:2rem;padding-right:2rem;color:#7c7c7c;}.kVlzQS > section > aside:before{content:'';position:absolute;top:0;bottom:0;left:0;pointer-events:none;width:4px;background-color:#bcbcbc;}} .kVlzQS .token{color:#4f2f04;} .kVlzQS .keyword{color:#d61eca;} .kVlzQS .variable{color:#f7b72a;} .kVlzQS .opcode{color:#f53a1b;} .kVlzQS .string{color:#17a61a;} .kVlzQS .decimalnumber{color:#4430b9;} .kVlzQS .hexnumber{color:#0923f8;} .kVlzQS .binarynumber{color:#034057;} .kVlzQS .register{color:#f65b98;} .kVlzQS .directive{color:#fa9f4e;} .kVlzQS .comment{color:#7c7c7c;}</style><link rel="shortcut icon" href="/smb2/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="manifest" href="/smb2/manifest.webmanifest"/><meta name="theme-color" content="#663399"/><link rel="apple-touch-icon" sizes="48x48" href="/smb2/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="72x72" href="/smb2/icons/icon-72x72.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="96x96" href="/smb2/icons/icon-96x96.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="144x144" href="/smb2/icons/icon-144x144.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="192x192" href="/smb2/icons/icon-192x192.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="256x256" href="/smb2/icons/icon-256x256.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="384x384" href="/smb2/icons/icon-384x384.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="512x512" href="/smb2/icons/icon-512x512.png?v=008654519ce705ac7bc44303a9014606"/><link as="script" rel="preload" href="/smb2/webpack-runtime-9aaafdd3739959e4e4d9.js"/><link as="script" rel="preload" href="/smb2/app-caeaaca84425fcb8fada.js"/><link as="script" rel="preload" href="/smb2/commons-ed99ba16edc92f5f584d.js"/><link as="script" rel="preload" href="/smb2/component---src-templates-asm-source-jsx-e658357d8ad4566d46d3.js"/><link as="fetch" rel="preload" href="/smb2/page-data/src/ram.asm/page-data.json" crossorigin="anonymous"/></head><body><noscript id="gatsby-noscript">This app works best with JavaScript enabled.</noscript><div id="___gatsby"><div style="outline:none" tabindex="-1" role="group" id="gatsby-focus-wrapper"><div class="Layout-sc-11e418k-0 cARMVe"><header class="Header-mdepkv-0 jZQtxI"><a href="https://github.com/XKeeper0/smb2"><svg class="GithubCorner-sc-112dcqw-0 eRqCXL" fill="#fcfcfc" height="80" viewBox="0 0 250 250" width="80" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l115 115h15l12 27 108 108V0z"></path><g class="octocat" fill="#f65b98"><path class="octocat-arm" d="M128 109c-15-9-9-19-9-19 3-7 2-11 2-11-1-7 3-2 3-2 4 5 2 11 2 11-3 10 5 15 9 16" style="transform-origin:130px 106px"></path><path class="octocat-body" d="M115 115s4 2 5 0l14-14c3-2 6-3 8-3-8-11-15-24 2-41 5-5 10-7 16-7 1-2 3-7 12-11 0 0 5 3 7 16 4 2 8 5 12 9s7 8 9 12c14 3 17 7 17 7-4 8-9 11-11 11 0 6-2 11-7 16-16 16-30 10-41 2 0 3-1 7-5 11l-12 11c-1 1 1 5 1 5z"></path></g></svg></a><h1><a href="/smb2/">Super Mario Bros 2. Discombobulated</a></h1><p>The annotated disassembly of SMB2 (USA) for NES.</p></header><main><article class="AsmSource-h73kpj-0 kVlzQS"><header><h3>/src/ram.asm</h3></header><section><aside><h1>NES and cart RAM</h1>
+.kVlzQS > header{padding:1rem 4rem;background-color:#fbdfab;color:#e25c22;} .kVlzQS > header h3{font-family:'Fira Code',monospace;font-weight:400;} .kVlzQS > section{display:grid;grid-template-columns:[code-comment] minmax(min-content,50%) [code-content] minmax(50%,max-content);line-height:1.3;} .kVlzQS > section > aside,.kVlzQS > section > pre{position:relative;margin:0;padding:0;border:1px solid transparent;border-radius:0;box-sizing:border-box;} .kVlzQS > section > aside:nth-child(1),.kVlzQS > section > pre:nth-child(2){padding-top:1rem;} .kVlzQS > section > aside{grid-column:code-comment;padding-left:4rem;padding-right:1rem;background-color:#f8f8f8;color:#000000;word-break:break-word;} .kVlzQS > section > pre{grid-column:code-content;padding-left:1rem;padding-right:1rem;overflow:visible;white-space:pre-wrap;word-break:break-word;tab-size:4;} .kVlzQS > section > pre > a[name][href^="#"]{position:absolute;top:0;right:1rem;-webkit-text-decoration:none;text-decoration:none;color:#f65b98;-webkit-transition:opacity 0.1s linear;transition:opacity 0.1s linear;opacity:0;} .kVlzQS > section > pre > a[name][href^="#"]:focus,.kVlzQS > section > pre > a[name][href^="#"]:hover{opacity:1;} .kVlzQS > section > pre:hover > a[name][href^="#"]{opacity:1;} @media (max-width:800px){.kVlzQS > header{padding-left:2rem;padding-right:2rem;}.kVlzQS > section{display:block;}.kVlzQS > section > aside,.kVlzQS > section > pre{padding-top:1rem;padding-bottom:1rem;}.kVlzQS > section > aside{max-width:none;padding-left:2rem;padding-right:2rem;color:#7c7c7c;}.kVlzQS > section > aside:before{content:'';position:absolute;top:0;bottom:0;left:0;pointer-events:none;width:4px;background-color:#bcbcbc;}} .kVlzQS .token{color:#4f2f04;} .kVlzQS .keyword{color:#d61eca;} .kVlzQS .variable{color:#f7b72a;} .kVlzQS .opcode{color:#f53a1b;} .kVlzQS .string{color:#17a61a;} .kVlzQS .decimalnumber{color:#4430b9;} .kVlzQS .hexnumber{color:#0923f8;} .kVlzQS .binarynumber{color:#034057;} .kVlzQS .register{color:#f65b98;} .kVlzQS .directive{color:#fa9f4e;} .kVlzQS .comment{color:#7c7c7c;}</style><link rel="shortcut icon" href="/smb2/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="manifest" href="/smb2/manifest.webmanifest"/><meta name="theme-color" content="#663399"/><link rel="apple-touch-icon" sizes="48x48" href="/smb2/icons/icon-48x48.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="72x72" href="/smb2/icons/icon-72x72.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="96x96" href="/smb2/icons/icon-96x96.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="144x144" href="/smb2/icons/icon-144x144.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="192x192" href="/smb2/icons/icon-192x192.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="256x256" href="/smb2/icons/icon-256x256.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="384x384" href="/smb2/icons/icon-384x384.png?v=008654519ce705ac7bc44303a9014606"/><link rel="apple-touch-icon" sizes="512x512" href="/smb2/icons/icon-512x512.png?v=008654519ce705ac7bc44303a9014606"/><link as="script" rel="preload" href="/smb2/webpack-runtime-e27abee7082aa8f18f3b.js"/><link as="script" rel="preload" href="/smb2/app-73183e4eb413cfdc340b.js"/><link as="script" rel="preload" href="/smb2/commons-a9b9bc07b970d3a1ecc3.js"/><link as="script" rel="preload" href="/smb2/component---src-templates-asm-source-jsx-3bb2cbd0a842989d029d.js"/><link as="fetch" rel="preload" href="/smb2/page-data/src/ram.asm/page-data.json" crossorigin="anonymous"/></head><body><noscript id="gatsby-noscript">This app works best with JavaScript enabled.</noscript><div id="___gatsby"><div style="outline:none" tabindex="-1" role="group" id="gatsby-focus-wrapper"><div class="Layout-sc-11e418k-0 cARMVe"><header class="Header-mdepkv-0 jZQtxI"><a href="https://github.com/XKeeper0/smb2"><svg class="GithubCorner-sc-112dcqw-0 eRqCXL" fill="#fcfcfc" height="80" viewBox="0 0 250 250" width="80" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l115 115h15l12 27 108 108V0z"></path><g class="octocat" fill="#f65b98"><path class="octocat-arm" d="M128 109c-15-9-9-19-9-19 3-7 2-11 2-11-1-7 3-2 3-2 4 5 2 11 2 11-3 10 5 15 9 16" style="transform-origin:130px 106px"></path><path class="octocat-body" d="M115 115s4 2 5 0l14-14c3-2 6-3 8-3-8-11-15-24 2-41 5-5 10-7 16-7 1-2 3-7 12-11 0 0 5 3 7 16 4 2 8 5 12 9s7 8 9 12c14 3 17 7 17 7-4 8-9 11-11 11 0 6-2 11-7 16-16 16-30 10-41 2 0 3-1 7-5 11l-12 11c-1 1 1 5 1 5z"></path></g></svg></a><h1><a href="/smb2/">Super Mario Bros 2. Discombobulated</a></h1><p>The annotated disassembly of SMB2 (USA) for NES.</p></header><main><article class="AsmSource-h73kpj-0 kVlzQS"><header><h3>/src/ram.asm</h3></header><section><aside><h1>NES and cart RAM</h1>
 <p>What's inside: some bits, some bytes. @todo: describe more</p>
 <ul>
 <li>
@@ -368,14 +368,14 @@ SoundEffectTimer<span class="token decimalnumber string">2</span>:
 &nbsp;</aside><pre><a name="l353" href="#l353" title="Link to line 353">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $00c5</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
 &nbsp;</aside><pre><a name="l355" href="#l355" title="Link to line 355">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $00c6</span>
 PlayerAnimationFrame:
-	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $00c7</span>&nbsp;</code></pre><aside><p>related to y-mirroring</p>
-&nbsp;</aside><pre><a name="l359" href="#l359" title="Link to line 359">#</a><code>byte_RAM_C<span class="token decimalnumber string">8</span>:
-	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $00c8</span>&nbsp;</code></pre><aside><p>related to x-mirroring</p>
-&nbsp;</aside><pre><a name="l362" href="#l362" title="Link to line 362">#</a><code>byte_RAM_C<span class="token decimalnumber string">9</span>:
+	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $00c7</span>
+PPUScrollYHiMirror:
+	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $00c8</span>
+PPUScrollXHiMirror:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $00c9</span>&nbsp;</code></pre><aside><p>Not sure about this, but seems to be that way</p>
-&nbsp;</aside><pre><a name="l365" href="#l365" title="Link to line 365">#</a><code>ScreenYHi:
+&nbsp;</aside><pre><a name="l363" href="#l363" title="Link to line 363">#</a><code>ScreenYHi:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $00ca</span>&nbsp;</code></pre><aside><p>Not sure about this either</p>
-&nbsp;</aside><pre><a name="l368" href="#l368" title="Link to line 368">#</a><code>ScreenYLo:
+&nbsp;</aside><pre><a name="l366" href="#l366" title="Link to line 366">#</a><code>ScreenYLo:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $00cb</span>
 
 RawEnemyData:
@@ -404,7 +404,7 @@ byte_RAM_D<span class="token decimalnumber string">7</span>:
 &nbsp;</code></pre><aside><p>@TODO understand better
 $01 = scroll up, $02 = scroll down
 (vertical areas only..?)</p>
-&nbsp;</aside><pre><a name="l398" href="#l398" title="Link to line 398">#</a><code>NeedVerticalScroll:
+&nbsp;</aside><pre><a name="l396" href="#l396" title="Link to line 396">#</a><code>NeedVerticalScroll:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $00d8</span>
 EnemyArray_D<span class="token decimalnumber string">9</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $00d9</span>
@@ -448,7 +448,7 @@ byte_RAM_EF:
 to the screen (somehow).</p>
 <p>Common value of $0301, which is where minor
 PPU updates are stored in memory.</p>
-&nbsp;</aside><pre><a name="l444" href="#l444" title="Link to line 444">#</a><code>RAM_PPUDataBufferPointer:
+&nbsp;</aside><pre><a name="l442" href="#l442" title="Link to line 442">#</a><code>RAM_PPUDataBufferPointer:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">2</span> <span class="token comment">; $00f0</span>
 byte_RAM_F<span class="token decimalnumber string">2</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $00f2</span>
@@ -753,15 +753,15 @@ unk_RAM_<span class="token decimalnumber string">3</span>BE:
 SpriteFlickerSlot:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0400</span>
 &nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l750" href="#l750" title="Link to line 750">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0401</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l752" href="#l752" title="Link to line 752">#</a><code>BossTileset:
+&nbsp;</aside><pre><a name="l748" href="#l748" title="Link to line 748">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0401</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
+&nbsp;</aside><pre><a name="l750" href="#l750" title="Link to line 750">#</a><code>BossTileset:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0402</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l755" href="#l755" title="Link to line 755">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0403</span>&nbsp;</code></pre><aside><p>unused? written but never read</p>
-&nbsp;</aside><pre><a name="l757" href="#l757" title="Link to line 757">#</a><code>PreviousCharacter:
+&nbsp;</aside><pre><a name="l753" href="#l753" title="Link to line 753">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0403</span>&nbsp;</code></pre><aside><p>unused? written but never read</p>
+&nbsp;</aside><pre><a name="l755" href="#l755" title="Link to line 755">#</a><code>PreviousCharacter:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0404</span>&nbsp;</code></pre><aside><p>unused? written but never read</p>
-&nbsp;</aside><pre><a name="l760" href="#l760" title="Link to line 760">#</a><code>PreviousWorld:
+&nbsp;</aside><pre><a name="l758" href="#l758" title="Link to line 758">#</a><code>PreviousWorld:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0405</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l763" href="#l763" title="Link to line 763">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0406</span>
+&nbsp;</aside><pre><a name="l761" href="#l761" title="Link to line 761">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0406</span>
 
 PlayerXSubpixel:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0407</span>
@@ -802,7 +802,7 @@ ObjectLock:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0423</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0424</span>
 &nbsp;</code></pre><aside><p>$00 = none, $01 = up, $02 = down</p>
-&nbsp;</aside><pre><a name="l805" href="#l805" title="Link to line 805">#</a><code>VerticalScrollDirection:
+&nbsp;</aside><pre><a name="l803" href="#l803" title="Link to line 803">#</a><code>VerticalScrollDirection:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0425</span>
 byte_RAM_<span class="token decimalnumber string">426</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0426</span>
@@ -821,8 +821,8 @@ SpriteTempScreenY:
 ObjectBeingCarriedIndex:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $042d</span>
 &nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l825" href="#l825" title="Link to line 825">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $042e</span>&nbsp;</code></pre><aside><p>stun timer?</p>
-&nbsp;</aside><pre><a name="l827" href="#l827" title="Link to line 827">#</a><code>EnemyArray_<span class="token decimalnumber string">42</span>F:
+&nbsp;</aside><pre><a name="l823" href="#l823" title="Link to line 823">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $042e</span>&nbsp;</code></pre><aside><p>stun timer?</p>
+&nbsp;</aside><pre><a name="l825" href="#l825" title="Link to line 825">#</a><code>EnemyArray_<span class="token decimalnumber string">42</span>F:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $042f</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0430</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0431</span>
@@ -832,7 +832,7 @@ ObjectBeingCarriedIndex:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0435</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0436</span>
 &nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l838" href="#l838" title="Link to line 838">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0437</span>
+&nbsp;</aside><pre><a name="l836" href="#l836" title="Link to line 836">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0437</span>
 EnemyArray_<span class="token decimalnumber string">438</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0438</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0439</span>
@@ -843,8 +843,9 @@ EnemyArray_<span class="token decimalnumber string">438</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $043e</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $043f</span>
 &nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l850" href="#l850" title="Link to line 850">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0440</span>&nbsp;</code></pre><aside><p>Despawn offset</p>
-&nbsp;</aside><pre><a name="l852" href="#l852" title="Link to line 852">#</a><code>unk_RAM_<span class="token decimalnumber string">441</span>:
+&nbsp;</aside><pre><a name="l848" href="#l848" title="Link to line 848">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0440</span>&nbsp;</code></pre><aside><p>Raw enemy data offset used to prevent enemy from spawning multiple times.
+A value of <code>$FF</code> indicates that the enemy is not linked to any particular level data.</p>
+&nbsp;</aside><pre><a name="l851" href="#l851" title="Link to line 851">#</a><code>EnemyRawDataOffset:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0441</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0442</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0443</span>
@@ -854,7 +855,7 @@ EnemyArray_<span class="token decimalnumber string">438</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0447</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0448</span>
 &nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l863" href="#l863" title="Link to line 863">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0449</span>
+&nbsp;</aside><pre><a name="l862" href="#l862" title="Link to line 862">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0449</span>
 ObjectShakeTimer:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $044a</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $044b</span>
@@ -865,7 +866,7 @@ ObjectShakeTimer:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0450</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0451</span>
 &nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l875" href="#l875" title="Link to line 875">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0452</span>
+&nbsp;</aside><pre><a name="l874" href="#l874" title="Link to line 874">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0452</span>
 EnemyArray_<span class="token decimalnumber string">453</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0453</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0454</span>
@@ -876,8 +877,8 @@ EnemyArray_<span class="token decimalnumber string">453</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0459</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $045a</span>
 &nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l887" href="#l887" title="Link to line 887">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $045b</span>&nbsp;</code></pre><aside><p>Flashing timer</p>
-&nbsp;</aside><pre><a name="l889" href="#l889" title="Link to line 889">#</a><code>EnemyArray_<span class="token decimalnumber string">45</span>C:
+&nbsp;</aside><pre><a name="l886" href="#l886" title="Link to line 886">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $045b</span>&nbsp;</code></pre><aside><p>Flashing timer</p>
+&nbsp;</aside><pre><a name="l888" href="#l888" title="Link to line 888">#</a><code>EnemyArray_<span class="token decimalnumber string">45</span>C:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $045c</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $045d</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $045e</span>
@@ -887,7 +888,7 @@ EnemyArray_<span class="token decimalnumber string">453</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0462</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0463</span>
 &nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l900" href="#l900" title="Link to line 900">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0464</span>
+&nbsp;</aside><pre><a name="l899" href="#l899" title="Link to line 899">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0464</span>
 EnemyHP:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $00 ; $0465</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $01 ; $0466</span>
@@ -910,7 +911,7 @@ EnemyArray_<span class="token decimalnumber string">46</span>E:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0474</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0475</span>
 &nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l924" href="#l924" title="Link to line 924">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0476</span>
+&nbsp;</aside><pre><a name="l923" href="#l923" title="Link to line 923">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0476</span>
 EnemyArray_<span class="token decimalnumber string">477</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0477</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0478</span>
@@ -921,7 +922,7 @@ EnemyArray_<span class="token decimalnumber string">477</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $047d</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $047e</span>
 &nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l936" href="#l936" title="Link to line 936">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $047f</span>
+&nbsp;</aside><pre><a name="l935" href="#l935" title="Link to line 935">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $047f</span>
 EnemyArray_<span class="token decimalnumber string">480</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0480</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0481</span>
@@ -932,7 +933,7 @@ EnemyArray_<span class="token decimalnumber string">480</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0486</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0487</span>
 &nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l948" href="#l948" title="Link to line 948">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0488</span>
+&nbsp;</aside><pre><a name="l947" href="#l947" title="Link to line 947">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0488</span>
 EnemyArray_<span class="token decimalnumber string">489</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0489</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $048a</span>
@@ -955,7 +956,7 @@ EnemyArray_<span class="token decimalnumber string">492</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0498</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0499</span>
 &nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l972" href="#l972" title="Link to line 972">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $049a</span>
+&nbsp;</aside><pre><a name="l971" href="#l971" title="Link to line 971">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $049a</span>
 EnemyArray_SpawnsDoor:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $049b</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $049c</span>
@@ -966,7 +967,7 @@ EnemyArray_SpawnsDoor:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04a1</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04a2</span>
 &nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l984" href="#l984" title="Link to line 984">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04a3</span>
+&nbsp;</aside><pre><a name="l983" href="#l983" title="Link to line 983">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04a3</span>
 unk_RAM_<span class="token decimalnumber string">4</span><span class="token register variable">A</span><span class="token decimalnumber string">4</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04a4</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04a5</span>
@@ -977,7 +978,7 @@ unk_RAM_<span class="token decimalnumber string">4</span><span class="token regi
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04aa</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04ab</span>
 &nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l996" href="#l996" title="Link to line 996">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04ac</span>
+&nbsp;</aside><pre><a name="l995" href="#l995" title="Link to line 995">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04ac</span>
 EnemiesKilledForHeart:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04ad</span>
 AreaInitialized:
@@ -986,16 +987,16 @@ ObjectCarriedOver:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04af</span>
 KeyUsed:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04b0</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1006" href="#l1006" title="Link to line 1006">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04b1</span>
+&nbsp;</aside><pre><a name="l1005" href="#l1005" title="Link to line 1005">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04b1</span>
 PlayerRidingCarpet:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04b2</span>
 SubspaceDoorTimer:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04b3</span>&nbsp;</code></pre><aside><p>Probably set to 1 when Hawkmouth eats the player and starts closing</p>
-&nbsp;</aside><pre><a name="l1012" href="#l1012" title="Link to line 1012">#</a><code>HawkmouthClosing:
+&nbsp;</aside><pre><a name="l1011" href="#l1011" title="Link to line 1011">#</a><code>HawkmouthClosing:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04b4</span>&nbsp;</code></pre><aside><p>Set to 01 on crystal get, Hawkmouth opens to 30</p>
-&nbsp;</aside><pre><a name="l1015" href="#l1015" title="Link to line 1015">#</a><code>CrystalAndHawkmouthOpenSize:
+&nbsp;</aside><pre><a name="l1014" href="#l1014" title="Link to line 1014">#</a><code>CrystalAndHawkmouthOpenSize:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04b5</span>&nbsp;</code></pre><aside><p>Hawkmouth won't start opening until this hits 0</p>
-&nbsp;</aside><pre><a name="l1018" href="#l1018" title="Link to line 1018">#</a><code>HawkmouthOpenTimer:
+&nbsp;</aside><pre><a name="l1017" href="#l1017" title="Link to line 1017">#</a><code>HawkmouthOpenTimer:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04b6</span>
 SubspaceTimer:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04b7</span>
@@ -1003,8 +1004,8 @@ BossBeaten:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04b8</span>
 SwarmType:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04b9</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1027" href="#l1027" title="Link to line 1027">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04ba</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1029" href="#l1029" title="Link to line 1029">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04bb</span>
+&nbsp;</aside><pre><a name="l1026" href="#l1026" title="Link to line 1026">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04ba</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
+&nbsp;</aside><pre><a name="l1028" href="#l1028" title="Link to line 1028">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04bb</span>
 SkyColor:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04bc</span>
 DoorAnimationTimer:
@@ -1017,11 +1018,11 @@ ScreenBoundaryLeftLo:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04c0</span>
 ScreenBoundaryRightLo:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04c1</span>&nbsp;</code></pre><aside><p>xF: Hearts - 1 ($0F=1HP, $1F=2HP, etc)</p>
-&nbsp;</aside><pre><a name="l1043" href="#l1043" title="Link to line 1043">#</a><code>PlayerHealth:
+&nbsp;</aside><pre><a name="l1042" href="#l1042" title="Link to line 1042">#</a><code>PlayerHealth:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04c2</span>&nbsp;</code></pre><aside><p>$00: Max 2
 $01: Max 3
 $02: Max 4</p>
-&nbsp;</aside><pre><a name="l1048" href="#l1048" title="Link to line 1048">#</a><code>PlayerMaxHealth:
+&nbsp;</aside><pre><a name="l1047" href="#l1047" title="Link to line 1047">#</a><code>PlayerMaxHealth:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04c3</span>
 POWQuakeTimer:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04c4</span>
@@ -1049,7 +1050,7 @@ ObjectXAcceleration:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04d2</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04d3</span>
 &nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1077" href="#l1077" title="Link to line 1077">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04d4</span>
+&nbsp;</aside><pre><a name="l1076" href="#l1076" title="Link to line 1076">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04d4</span>
 PlayerYAcceleration:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04d5</span>
 ObjectYAcceleration:
@@ -1062,7 +1063,7 @@ ObjectYAcceleration:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04dc</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04dd</span>
 &nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1091" href="#l1091" title="Link to line 1091">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04de</span>
+&nbsp;</aside><pre><a name="l1090" href="#l1090" title="Link to line 1090">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04de</span>
 QuicksandDepth:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04df</span>
 StarInvincibilityTimer:
@@ -1087,19 +1088,19 @@ CurrentLevelEntryPage_Init:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04e9</span>
 TransitionType_Init:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04ea</span>&nbsp;</code></pre><aside><p>something to do with sinking in quicksand</p>
-&nbsp;</aside><pre><a name="l1117" href="#l1117" title="Link to line 1117">#</a><code>byte_RAM_<span class="token decimalnumber string">4</span>EB:
+&nbsp;</aside><pre><a name="l1116" href="#l1116" title="Link to line 1116">#</a><code>byte_RAM_<span class="token decimalnumber string">4</span>EB:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04eb</span>&nbsp;</code></pre><aside><p>$00: In game
 $01: Level title card
 $02: Game over
 $03: Bonus chance
 $04+: Warp</p>
-&nbsp;</aside><pre><a name="l1124" href="#l1124" title="Link to line 1124">#</a><code>GameMode:
+&nbsp;</aside><pre><a name="l1123" href="#l1123" title="Link to line 1123">#</a><code>GameMode:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04ec</span>
 ExtraLives:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04ed</span>&nbsp;</code></pre><aside><p>$00: None
 $01: Default jar
 $02: Pointer jar</p>
-&nbsp;</aside><pre><a name="l1131" href="#l1131" title="Link to line 1131">#</a><code>InJarType:
+&nbsp;</aside><pre><a name="l1130" href="#l1130" title="Link to line 1130">#</a><code>InJarType:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04ee</span>
 unk_RAM_<span class="token decimalnumber string">4</span>EF:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04ef</span>
@@ -1123,14 +1124,14 @@ Mushroom<span class="token decimalnumber string">2</span>Pulled:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04fc</span>
 PokeyTempScreenX:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04fd</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1156" href="#l1156" title="Link to line 1156">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04fe</span>
+&nbsp;</aside><pre><a name="l1155" href="#l1155" title="Link to line 1155">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04fe</span>
 StopwatchTimer:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $04ff</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1160" href="#l1160" title="Link to line 1160">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0500</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1162" href="#l1162" title="Link to line 1162">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0501</span>
+&nbsp;</aside><pre><a name="l1159" href="#l1159" title="Link to line 1159">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0500</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
+&nbsp;</aside><pre><a name="l1161" href="#l1161" title="Link to line 1161">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0501</span>
 byte_RAM_<span class="token decimalnumber string">502</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0502</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1166" href="#l1166" title="Link to line 1166">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0503</span>
+&nbsp;</aside><pre><a name="l1165" href="#l1165" title="Link to line 1165">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0503</span>
 CameraScrollTiles:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0504</span>
 byte_RAM_<span class="token decimalnumber string">505</span>:
@@ -1139,14 +1140,14 @@ byte_RAM_<span class="token decimalnumber string">506</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0506</span>
 byte_RAM_<span class="token decimalnumber string">507</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0507</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1176" href="#l1176" title="Link to line 1176">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0508</span>
+&nbsp;</aside><pre><a name="l1175" href="#l1175" title="Link to line 1175">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0508</span>
 PPUScrollYMirror_Backup:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0509</span>
 PPUScrollXMirror_Backup:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $050a</span>
-byte_RAM_<span class="token decimalnumber string">50</span>B:
+PPUScrollYHiMirror_Backup:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $050b</span>
-byte_RAM_<span class="token decimalnumber string">50</span>C:
+PPUScrollXHiMirror_Backup:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $050c</span>
 byte_RAM_<span class="token decimalnumber string">50</span>D:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $050d</span>
@@ -1166,13 +1167,13 @@ ScreenBoundaryLeftHi_Backup:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0514</span>
 ScreenYLo_Backup:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0515</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1204" href="#l1204" title="Link to line 1204">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0516</span>
+&nbsp;</aside><pre><a name="l1203" href="#l1203" title="Link to line 1203">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0516</span>
 byte_RAM_<span class="token decimalnumber string">517</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0517</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1208" href="#l1208" title="Link to line 1208">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0518</span>
+&nbsp;</aside><pre><a name="l1207" href="#l1207" title="Link to line 1207">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0518</span>
 CurrentLevelAreaCopy:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0519</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1212" href="#l1212" title="Link to line 1212">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $051a</span>
+&nbsp;</aside><pre><a name="l1211" href="#l1211" title="Link to line 1211">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $051a</span>
 byte_RAM_<span class="token decimalnumber string">51</span>B:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $051b</span>
 byte_RAM_<span class="token decimalnumber string">51</span>C:
@@ -1210,7 +1211,7 @@ $00 = ? (Start of level?)
 $01 = Door
 $02 = Jar
 $03 = Vine</p>
-&nbsp;</aside><pre><a name="l1251" href="#l1251" title="Link to line 1251">#</a><code>CurrentLevelPage:
+&nbsp;</aside><pre><a name="l1250" href="#l1250" title="Link to line 1250">#</a><code>CurrentLevelPage:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0535</span>
 CurrentLevelPageX:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0536</span>
@@ -1234,9 +1235,9 @@ byte_RAM_<span class="token decimalnumber string">540</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0540</span>
 GroundSetting:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0541</span>&nbsp;</code></pre><aside><p>area object type xxOO</p>
-&nbsp;</aside><pre><a name="l1276" href="#l1276" title="Link to line 1276">#</a><code>ObjectType<span class="token decimalnumber string">3</span>Xthru<span class="token decimalnumber string">9</span><span class="token register variable">X</span>:
+&nbsp;</aside><pre><a name="l1275" href="#l1275" title="Link to line 1275">#</a><code>ObjectType<span class="token decimalnumber string">3</span>Xthru<span class="token decimalnumber string">9</span><span class="token register variable">X</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0542</span>&nbsp;</code></pre><aside><p>area object type OOxx</p>
-&nbsp;</aside><pre><a name="l1279" href="#l1279" title="Link to line 1279">#</a><code>ObjectTypeAXthruFX:
+&nbsp;</aside><pre><a name="l1278" href="#l1278" title="Link to line 1278">#</a><code>ObjectTypeAXthruFX:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0543</span>
 CompareMusicIndex:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0544</span>
@@ -1285,7 +1286,7 @@ RunSpeedLeftCarrying:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $055b</span>
 RunSpeedLeftQuicksand:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $055c</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1329" href="#l1329" title="Link to line 1329">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $055d</span>
+&nbsp;</aside><pre><a name="l1328" href="#l1328" title="Link to line 1328">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $055d</span>
 GroundType:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $055e</span>
 PPUBuffer_<span class="token decimalnumber string">55</span>F:
@@ -1386,9 +1387,9 @@ PseudoRNGValues:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $05b7</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $05b8</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $05b9</span>&nbsp;</code></pre><aside><p>initialized but never used?</p>
-&nbsp;</aside><pre><a name="l1431" href="#l1431" title="Link to line 1431">#</a><code>byte_RAM_<span class="token decimalnumber string">5</span>BA:
+&nbsp;</aside><pre><a name="l1430" href="#l1430" title="Link to line 1430">#</a><code>byte_RAM_<span class="token decimalnumber string">5</span>BA:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $05ba</span>&nbsp;</code></pre><aside><p>set to $10 if a subspace door is ever created, but never used?</p>
-&nbsp;</aside><pre><a name="l1434" href="#l1434" title="Link to line 1434">#</a><code>byte_RAM_<span class="token decimalnumber string">5</span>BB:
+&nbsp;</aside><pre><a name="l1433" href="#l1433" title="Link to line 1433">#</a><code>byte_RAM_<span class="token decimalnumber string">5</span>BB:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $05bb</span>
 PhantoActivateTimer:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $05bc</span>
@@ -1408,7 +1409,7 @@ ContributorTimer:
 Continues:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $05c5</span>
 &nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1455" href="#l1455" title="Link to line 1455">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $05c6</span>
+&nbsp;</aside><pre><a name="l1454" href="#l1454" title="Link to line 1454">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $05c6</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $05c7</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $05c8</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $05c9</span>
@@ -1467,7 +1468,7 @@ NextOctave:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $05f4</span>
 CurrentMusicNoiseStartOffset:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $05f5</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1515" href="#l1515" title="Link to line 1515">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $05f6</span>
+&nbsp;</aside><pre><a name="l1514" href="#l1514" title="Link to line 1514">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $05f6</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $05f7</span>
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $05f8</span>
 MusicSquare<span class="token decimalnumber string">1</span>Lo:
@@ -1493,7 +1494,7 @@ CurrentMusicDPCMOffset:
 #20 Subspace
 #40 Wart
 #80 Title</p>
-&nbsp;</aside><pre><a name="l1542" href="#l1542" title="Link to line 1542">#</a><code>MusicQueue<span class="token decimalnumber string">1</span>:
+&nbsp;</aside><pre><a name="l1541" href="#l1541" title="Link to line 1541">#</a><code>MusicQueue<span class="token decimalnumber string">1</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0600</span>
 &nbsp;</code></pre><aside><p>$01 Item pull A
 $02 Drum sample A
@@ -1503,7 +1504,7 @@ $10 Enemy scream A
 $20 Drum sample B
 $40 Enemy scream B
 $80 Enemy scream C</p>
-&nbsp;</aside><pre><a name="l1553" href="#l1553" title="Link to line 1553">#</a><code>DPCMQueue:
+&nbsp;</aside><pre><a name="l1552" href="#l1552" title="Link to line 1552">#</a><code>DPCMQueue:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0601</span>
 &nbsp;</code></pre><aside><p>$01 Birdo/etc shoot noise
 $02 Potion door creation
@@ -1513,7 +1514,7 @@ $10 1-up
 $20 Enemy hit/killed
 $40 Stopwatch tick
 $80 Wart spit</p>
-&nbsp;</aside><pre><a name="l1564" href="#l1564" title="Link to line 1564">#</a><code>SoundEffectQueue<span class="token decimalnumber string">1</span>:
+&nbsp;</aside><pre><a name="l1563" href="#l1563" title="Link to line 1563">#</a><code>SoundEffectQueue<span class="token decimalnumber string">1</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0602</span>
 &nbsp;</code></pre><aside><p>$01 Warp fanfare, slot entry jingle
 $02 Boss clear fanfare
@@ -1523,7 +1524,7 @@ $10 Game over
 $20 Mini-fanfare (slot win, crystal get)
 $40 Same as $01
 $80 Silence (stops music)</p>
-&nbsp;</aside><pre><a name="l1575" href="#l1575" title="Link to line 1575">#</a><code>MusicQueue<span class="token decimalnumber string">2</span>:
+&nbsp;</aside><pre><a name="l1574" href="#l1574" title="Link to line 1574">#</a><code>MusicQueue<span class="token decimalnumber string">2</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0603</span>
 &nbsp;</code></pre><aside><p>$01 Jump
 $02 Climbing
@@ -1533,7 +1534,7 @@ $10 Intro "falling" sound
 $20 Growing
 $40 -N/A-
 $80 -N/A-</p>
-&nbsp;</aside><pre><a name="l1586" href="#l1586" title="Link to line 1586">#</a><code>SoundEffectQueue<span class="token decimalnumber string">2</span>:
+&nbsp;</aside><pre><a name="l1585" href="#l1585" title="Link to line 1585">#</a><code>SoundEffectQueue<span class="token decimalnumber string">2</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0604</span>
 &nbsp;</code></pre><aside><p>$01 Short noise
 $02 Rumbling sound
@@ -1543,7 +1544,7 @@ $10 -N/A-
 $20 -N/A-
 $40 -N/A-
 $80 -N/A-</p>
-&nbsp;</aside><pre><a name="l1597" href="#l1597" title="Link to line 1597">#</a><code>SoundEffectQueue<span class="token decimalnumber string">3</span>:
+&nbsp;</aside><pre><a name="l1596" href="#l1596" title="Link to line 1596">#</a><code>SoundEffectQueue<span class="token decimalnumber string">3</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0605</span>
 
 MusicPlaying<span class="token decimalnumber string">2</span>:
@@ -1556,7 +1557,7 @@ MusicPlaying<span class="token decimalnumber string">1</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0609</span>
 DPCMTimer:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $060a</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1611" href="#l1611" title="Link to line 1611">#</a><code>MusicSquare<span class="token decimalnumber string">1</span>NoteBend:
+&nbsp;</aside><pre><a name="l1610" href="#l1610" title="Link to line 1610">#</a><code>MusicSquare<span class="token decimalnumber string">1</span>NoteBend:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $060b</span>
 MusicSquare<span class="token decimalnumber string">1</span>NoteSweep:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $060c</span>
@@ -1566,7 +1567,7 @@ SoundEffectPlaying<span class="token decimalnumber string">3</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $060e</span>
 MusicSquare<span class="token decimalnumber string">2</span>NoteBend:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $060f</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1622" href="#l1622" title="Link to line 1622">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0610</span>
+&nbsp;</aside><pre><a name="l1621" href="#l1621" title="Link to line 1621">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0610</span>
 SoundEffectTimer<span class="token decimalnumber string">3</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0611</span>
 MusicTempoSetting:
@@ -1607,8 +1608,8 @@ SwarmCounter:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0623</span>
 GroundSlipperiness:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0624</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1664" href="#l1664" title="Link to line 1664">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0625</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1666" href="#l1666" title="Link to line 1666">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0626</span>
+&nbsp;</aside><pre><a name="l1663" href="#l1663" title="Link to line 1663">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0625</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
+&nbsp;</aside><pre><a name="l1665" href="#l1665" title="Link to line 1665">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0626</span>
 DoAreaTransition:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0627</span>
 InSubspaceOrJar:
@@ -1628,8 +1629,8 @@ CharacterLevelsCompleted:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0630</span>
 MaxLevelsCompleted:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0631</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1687" href="#l1687" title="Link to line 1687">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0632</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1689" href="#l1689" title="Link to line 1689">#</a><code>LevelObjectMode:
+&nbsp;</aside><pre><a name="l1686" href="#l1686" title="Link to line 1686">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0632</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
+&nbsp;</aside><pre><a name="l1688" href="#l1688" title="Link to line 1688">#</a><code>LevelObjectMode:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0633</span>
 
 IFDEF AREA_HEADER_TILESET
@@ -1640,13 +1641,13 @@ CurrentWorld:
 ENDIF
 
 IFNDEF AREA_HEADER_TILESET&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1701" href="#l1701" title="Link to line 1701">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0634</span>
+&nbsp;</aside><pre><a name="l1700" href="#l1700" title="Link to line 1700">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0634</span>
 CurrentWorld:
 CurrentWorldTileset:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0635</span>
 ENDIF
 &nbsp;</code></pre><aside><p>gets set to $A5 in DoCharacterSelectMenu to skip the bank switch</p>
-&nbsp;</aside><pre><a name="l1708" href="#l1708" title="Link to line 1708">#</a><code>CharacterSelectBankSwitch:
+&nbsp;</aside><pre><a name="l1707" href="#l1707" title="Link to line 1707">#</a><code>CharacterSelectBankSwitch:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0636</span>
 RestorePlayerPalette<span class="token decimalnumber string">0</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $0637</span>
@@ -1862,7 +1863,7 @@ $00 = Title screen
 $01 = Gameplay
 $02 = Contributors
 $03 = Mario sleeping</p>
-&nbsp;</aside><pre><a name="l1925" href="#l1925" title="Link to line 1925">#</a><code>GameMilestoneCounter:
+&nbsp;</aside><pre><a name="l1924" href="#l1924" title="Link to line 1924">#</a><code>GameMilestoneCounter:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $06f3</span>
 
 Player<span class="token decimalnumber string">1</span>JoypadUnk:
@@ -1885,19 +1886,19 @@ SpriteCHR<span class="token decimalnumber string">4</span>:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $06fc</span>
 BackgroundCHR<span class="token decimalnumber string">2</span>Timer:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $06fd</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1949" href="#l1949" title="Link to line 1949">#</a><code>ResetCHRLatch:
+&nbsp;</aside><pre><a name="l1948" href="#l1948" title="Link to line 1948">#</a><code>ResetCHRLatch:
 	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $06fe</span>&nbsp;</code></pre><aside><p>FOR RENT</p>
-&nbsp;</aside><pre><a name="l1952" href="#l1952" title="Link to line 1952">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $06ff</span>
+&nbsp;</aside><pre><a name="l1951" href="#l1951" title="Link to line 1951">#</a><code>	<span class="token directive keyword">.dsb</span> <span class="token decimalnumber string">1</span> <span class="token comment">; $06ff</span>
 &nbsp;</code></pre><aside><p>When moving into subspace,  this area is turned into a tile represenation
 of the current screen as it will be shown (e.g. reversed, like in-game)
 Not sure if anything else uses this area yet</p>
-&nbsp;</aside><pre><a name="l1957" href="#l1957" title="Link to line 1957">#</a><code>SubAreaTileLayout:
+&nbsp;</aside><pre><a name="l1956" href="#l1956" title="Link to line 1956">#</a><code>SubAreaTileLayout:
 	<span class="token directive keyword">.dsb</span> <span class="token hexnumber string">$100</span>   <span class="token comment">; $0700-$07FF</span>
 
 
 &nbsp;</code></pre><aside><p>PPU registers
 $2000-$2007</p>
-&nbsp;</aside><pre><a name="l1965" href="#l1965" title="Link to line 1965">#</a><code>PPUCTRL = <span class="token hexnumber string">$2000</span>
+&nbsp;</aside><pre><a name="l1964" href="#l1964" title="Link to line 1964">#</a><code>PPUCTRL = <span class="token hexnumber string">$2000</span>
 PPUMASK = <span class="token hexnumber string">$2001</span>
 PPUSTATUS = <span class="token hexnumber string">$2002</span>
 OAMADDR = <span class="token hexnumber string">$2003</span>
@@ -1908,7 +1909,7 @@ PPUDATA = <span class="token hexnumber string">$2007</span>
 
 &nbsp;</code></pre><aside><p>APU registers and joypad registers
 $4000-$4015         $4016-$4017</p>
-&nbsp;</aside><pre><a name="l1979" href="#l1979" title="Link to line 1979">#</a><code>SQ<span class="token decimalnumber string">1</span>_VOL = <span class="token hexnumber string">$4000</span>
+&nbsp;</aside><pre><a name="l1978" href="#l1978" title="Link to line 1978">#</a><code>SQ<span class="token decimalnumber string">1</span>_VOL = <span class="token hexnumber string">$4000</span>
 SQ<span class="token decimalnumber string">1</span>_SWEEP = <span class="token hexnumber string">$4001</span>
 SQ<span class="token decimalnumber string">1</span>_LO = <span class="token hexnumber string">$4002</span>
 SQ<span class="token decimalnumber string">1</span>_HI = <span class="token hexnumber string">$4003</span>
@@ -1941,12 +1942,12 @@ JOY<span class="token decimalnumber string">1</span> = <span class="token hexnum
 JOY<span class="token decimalnumber string">2</span> = <span class="token hexnumber string">$4017</span>
 &nbsp;</code></pre><aside><p>Leftover code in prg-e-f references this
 (otherwise unused, since, well, not FDS)</p>
-&nbsp;</aside><pre><a name="l2014" href="#l2014" title="Link to line 2014">#</a><code>FDS_WAVETABLE_VOL = <span class="token hexnumber string">$4080</span>
+&nbsp;</aside><pre><a name="l2013" href="#l2013" title="Link to line 2013">#</a><code>FDS_WAVETABLE_VOL = <span class="token hexnumber string">$4080</span>
 
 
 &nbsp;</code></pre><aside><p>Expansion chip stuff for MMC5 support
 $5000-$5015</p>
-&nbsp;</aside><pre><a name="l2021" href="#l2021" title="Link to line 2021">#</a><code>MMC<span class="token decimalnumber string">5</span>_PULSE<span class="token decimalnumber string">1</span>_VOL = <span class="token hexnumber string">$5000</span>
+&nbsp;</aside><pre><a name="l2020" href="#l2020" title="Link to line 2020">#</a><code>MMC<span class="token decimalnumber string">5</span>_PULSE<span class="token decimalnumber string">1</span>_VOL = <span class="token hexnumber string">$5000</span>
 MMC<span class="token decimalnumber string">5</span>_PULSE<span class="token decimalnumber string">1</span>_SWEEP = <span class="token hexnumber string">$5001</span>
 MMC<span class="token decimalnumber string">5</span>_PULSE<span class="token decimalnumber string">1</span>_LO = <span class="token hexnumber string">$5002</span>
 MMC<span class="token decimalnumber string">5</span>_PULSE<span class="token decimalnumber string">1</span>_HI = <span class="token hexnumber string">$5003</span>
@@ -1966,24 +1967,24 @@ MMC<span class="token decimalnumber string">5</span>_SND_CHN = <span class="toke
 Decoded level data is stored in memory here,
 as well as some other junk
 $6000-$7FFF</p>
-&nbsp;</aside><pre><a name="l2044" href="#l2044" title="Link to line 2044">#</a><code>DecodedLevelData = <span class="token hexnumber string">$6000</span>
+&nbsp;</aside><pre><a name="l2043" href="#l2043" title="Link to line 2043">#</a><code>DecodedLevelData = <span class="token hexnumber string">$6000</span>
 &nbsp;</code></pre><aside><p>collision y data?
 byte_BANKF_F099 copied to RAM
 these various addrs are used(?) around prg-2-3</p>
-&nbsp;</aside><pre><a name="l2050" href="#l2050" title="Link to line 2050">#</a><code>unk_RAM_<span class="token decimalnumber string">7100</span> = <span class="token hexnumber string">$7100</span>
+&nbsp;</aside><pre><a name="l2049" href="#l2049" title="Link to line 2049">#</a><code>unk_RAM_<span class="token decimalnumber string">7100</span> = <span class="token hexnumber string">$7100</span>
 &nbsp;</code></pre><aside><p>something to do with hawkmouth</p>
-&nbsp;</aside><pre><a name="l2053" href="#l2053" title="Link to line 2053">#</a><code>byte_RAM_<span class="token decimalnumber string">710</span>B = <span class="token hexnumber string">$710b</span>
+&nbsp;</aside><pre><a name="l2052" href="#l2052" title="Link to line 2052">#</a><code>byte_RAM_<span class="token decimalnumber string">710</span>B = <span class="token hexnumber string">$710b</span>
 
 unk_RAM_<span class="token decimalnumber string">7114</span> = <span class="token hexnumber string">$7114</span>
 &nbsp;</code></pre><aside><p>something to do with hawkmouth</p>
-&nbsp;</aside><pre><a name="l2058" href="#l2058" title="Link to line 2058">#</a><code>byte_RAM_<span class="token decimalnumber string">711</span>F = <span class="token hexnumber string">$711f</span>
+&nbsp;</aside><pre><a name="l2057" href="#l2057" title="Link to line 2057">#</a><code>byte_RAM_<span class="token decimalnumber string">711</span>F = <span class="token hexnumber string">$711f</span>
 &nbsp;</code></pre><aside><p>collision x data?</p>
-&nbsp;</aside><pre><a name="l2061" href="#l2061" title="Link to line 2061">#</a><code>unk_RAM_<span class="token decimalnumber string">7128</span> = <span class="token hexnumber string">$7128</span>
+&nbsp;</aside><pre><a name="l2060" href="#l2060" title="Link to line 2060">#</a><code>unk_RAM_<span class="token decimalnumber string">7128</span> = <span class="token hexnumber string">$7128</span>
 
 unk_RAM_<span class="token decimalnumber string">713</span>C = <span class="token hexnumber string">$713c</span>
 &nbsp;</code></pre><aside><p>MysteryData14439 copied to RAM
 Does anything read this???</p>
-&nbsp;</aside><pre><a name="l2067" href="#l2067" title="Link to line 2067">#</a><code>unk_RAM_<span class="token decimalnumber string">7150</span> = <span class="token hexnumber string">$7150</span>
+&nbsp;</aside><pre><a name="l2066" href="#l2066" title="Link to line 2066">#</a><code>unk_RAM_<span class="token decimalnumber string">7150</span> = <span class="token hexnumber string">$7150</span>
 
 PPUBuffer_<span class="token decimalnumber string">7168</span> = <span class="token hexnumber string">$7168</span>
 unk_RAM_<span class="token decimalnumber string">716</span>B = <span class="token hexnumber string">$716b</span>
@@ -2001,9 +2002,9 @@ PPUBuffer_<span class="token decimalnumber string">71</span><span class="token r
 byte_RAM_<span class="token decimalnumber string">71</span>AB = <span class="token hexnumber string">$71ab</span>
 byte_RAM_<span class="token decimalnumber string">71</span>AF = <span class="token hexnumber string">$71af</span>
 &nbsp;</code></pre><aside><p>byte_BANKA_84E1 copied to RAM</p>
-&nbsp;</aside><pre><a name="l2086" href="#l2086" title="Link to line 2086">#</a><code>byte_RAM_<span class="token decimalnumber string">71</span>CC = <span class="token hexnumber string">$71cc</span>
+&nbsp;</aside><pre><a name="l2085" href="#l2085" title="Link to line 2085">#</a><code>byte_RAM_<span class="token decimalnumber string">71</span>CC = <span class="token hexnumber string">$71cc</span>
 &nbsp;</code></pre><aside><p>byte_BANKF_F607 copied to RAM</p>
-&nbsp;</aside><pre><a name="l2089" href="#l2089" title="Link to line 2089">#</a><code>unk_RAM_<span class="token decimalnumber string">71</span>D<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$71d1</span>
+&nbsp;</aside><pre><a name="l2088" href="#l2088" title="Link to line 2088">#</a><code>unk_RAM_<span class="token decimalnumber string">71</span>D<span class="token decimalnumber string">1</span> = <span class="token hexnumber string">$71d1</span>
 
 byte_RAM_<span class="token decimalnumber string">71</span>FE = <span class="token hexnumber string">$71fe</span>
 
@@ -2036,7 +2037,7 @@ RawJarData = <span class="token hexnumber string">$7a00</span>
 RawEnemyDataAddr = <span class="token hexnumber string">$7b00</span>
 &nbsp;</code></pre><aside><p>Extra enhancement support for 2P debug mode controls
 Spread around to some 'for rent' addresses</p>
-&nbsp;</aside><pre><a name="l2125" href="#l2125" title="Link to line 2125">#</a><code>IFDEF CONTROLLER_<span class="token decimalnumber string">2</span>_DEBUG
+&nbsp;</aside><pre><a name="l2124" href="#l2124" title="Link to line 2124">#</a><code>IFDEF CONTROLLER_<span class="token decimalnumber string">2</span>_DEBUG
 	UpdateJoypadsTemp = <span class="token hexnumber string">$00c6</span>
 	CarryYOffsetsRAM = <span class="token hexnumber string">$7e00</span>
 	StatOffsetsRAM = <span class="token hexnumber string">$7e10</span>
@@ -2047,4 +2048,4 @@ Spread around to some 'for rent' addresses</p>
 ENDIF
 
 ItemCarryYOffsetsRAM = <span class="token hexnumber string">$7f00</span>
-&nbsp;</code></pre></section></article></main><footer class="Footer-xbtfn2-0 kvnzNL"><p>All product names, logos, and brands are property of their respective owners.</p><p>Annotated disassembly site generator © <!-- -->2019<!-- --> <!-- -->Keith McKnight</p><ul><li><a href="https://github.com/XKeeper0/smb2">GitHub</a></li><li><a href="https://discord.gg/TsWMMeV">Discord</a></li></ul></footer></div></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/src/ram.asm";window.webpackCompilationHash="6067a643bcd1fafeea40";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-caeaaca84425fcb8fada.js"],"component---src-templates-asm-source-jsx":["/component---src-templates-asm-source-jsx-e658357d8ad4566d46d3.js"],"component---src-templates-asm-directory-jsx":["/component---src-templates-asm-directory-jsx-99cfe395a82c27d3aeb9.js"],"component---src-pages-404-jsx":["/component---src-pages-404-jsx-cc5d31acb9d9c591cc78.js"],"component---src-pages-index-jsx":["/component---src-pages-index-jsx-cab01fe6ec86f8921fbe.js"]};/*]]>*/</script><script src="/smb2/component---src-templates-asm-source-jsx-e658357d8ad4566d46d3.js" async=""></script><script src="/smb2/commons-ed99ba16edc92f5f584d.js" async=""></script><script src="/smb2/app-caeaaca84425fcb8fada.js" async=""></script><script src="/smb2/webpack-runtime-9aaafdd3739959e4e4d9.js" async=""></script></body></html>
+&nbsp;</code></pre></section></article></main><footer class="Footer-xbtfn2-0 kvnzNL"><p>All product names, logos, and brands are property of their respective owners.</p><p>Annotated disassembly site generator © <!-- -->2019<!-- --> <!-- -->Keith McKnight</p><ul><li><a href="https://github.com/XKeeper0/smb2">GitHub</a></li><li><a href="https://discord.gg/TsWMMeV">Discord</a></li></ul></footer></div></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/src/ram.asm";window.webpackCompilationHash="597ab6d0eddc3471edff";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-73183e4eb413cfdc340b.js"],"component---src-templates-asm-source-jsx":["/component---src-templates-asm-source-jsx-3bb2cbd0a842989d029d.js"],"component---src-templates-asm-directory-jsx":["/component---src-templates-asm-directory-jsx-99cfe395a82c27d3aeb9.js"],"component---src-pages-404-jsx":["/component---src-pages-404-jsx-cc5d31acb9d9c591cc78.js"],"component---src-pages-index-jsx":["/component---src-pages-index-jsx-cab01fe6ec86f8921fbe.js"]};/*]]>*/</script><script src="/smb2/component---src-templates-asm-source-jsx-3bb2cbd0a842989d029d.js" async=""></script><script src="/smb2/commons-a9b9bc07b970d3a1ecc3.js" async=""></script><script src="/smb2/app-73183e4eb413cfdc340b.js" async=""></script><script src="/smb2/webpack-runtime-e27abee7082aa8f18f3b.js" async=""></script></body></html>
