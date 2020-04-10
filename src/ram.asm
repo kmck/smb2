@@ -341,6 +341,10 @@ NextFrequencyHi:
 ; Seems like they were intended to be either instrument start offets or
 ; duty/volume/envelope for the square channels, but it's not totally clear
 ; from the code, and doesn't actually function as written?
+;
+; In Doki Doki Panic, they were used as the address of a volume table used for
+; FDS audio register $4080, but it looks like they had a different purpose in
+; some iteration of the music engine.
 MusicSquareInstrumentStartOffset: ; (unused; read but never initialized)
 	.dsb 1 ; $00bf
 MusicSquareEnvelope: ; (unused; always overwritten)
