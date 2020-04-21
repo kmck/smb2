@@ -1,17 +1,48 @@
 loc_D100:
+FDSNoteFrequencyData:
+.db $00, $A2
+.db $00, $AC
+.db $00, $F3
+.db $03, $96
+.db $04, $07
+.db $04, $44
+.db $04, $85
+.db $04, $CA
+.db $05, $13
+.db $05, $60
+.db $05, $B2
+.db $06, $08
+.db $06, $64
+.db $07, $2D
+.db $08, $0E
+.db $09, $0A
+.db $09, $95
+.db $0A, $C0
+.db $0C, $11
+.db $0C, $C9
+.db $0E, $5A
 .db $00
-loc_D101:
-.db $A2, $00, $AC, $00, $F3, $03, $96, $04
-.db $07, $04, $44, $04, $85, $04, $CA, $05
-.db $13, $05, $60, $05, $B2, $06, $08, $06
-.db $64, $07, $2D, $08, $0E, $09, $0A, $09
-.db $95, $0A, $C0, $0C, $11, $0C, $C9, $0E
-.db $5A, $00
 loc_D12B:
-.db $00
+.db $00 ; $00
 loc_D12C:
-.db $40, $30, $10, $23, $51, $2D, $46, $20
-.db $34, $3A, $30, $40, $43, $2D, $16, $30
+.db $40 ; $01
+.db $30 ; $02
+.db $10 ; $03
+.db $23 ; $04
+.db $51 ; $05
+.db $2D ; $06
+.db $46 ; $07
+.db $20 ; $08
+
+.db $34 ; $09
+.db $3A ; $0A
+.db $30 ; $0B
+.db $40 ; $0C
+.db $43 ; $0D
+.db $2D ; $0E
+.db $16 ; $0F
+.db $30 ; $10
+
 .db $87, $1A, $80, $22, $24, $00, $87, $16
 .db $2A, $2A, $0E, $12, $2A, $2A, $06, $00
 .db $85, $14, $00, $80, $1C, $1E, $20, $22
@@ -20,18 +51,32 @@ loc_D12C:
 .db $04, $00, $80, $02, $2A, $88, $04, $00
 .db $82, $10, $00, $80, $08, $00, $87, $08
 .db $0A, $80, $0C, $87, $16, $14, $80, $12
-.db $00, $83, $0E, $00, $80, $02, $80, $00
-.db $00, $60, $90, $01, $43, $08, $A0, $10
-.db $1F, $18, $A0, $01, $43, $08, $01, $04
+.db $00, $83, $0E, $00
+
+loc_D180:
+ModEnvelope_D180:
+.db $80, $02, $80, $00
+.db $00, $60
+
+loc_D186:
+VolumeEnvelope_D186:
+.db $90, $01, $43, $08, $A0, $10
+.db $1F, $18
+
+loc_D18E:
+ModEnvelope_D18E:
+.db $A0, $01, $43, $08, $01, $04
 .db $3F, $40, $00, $18
 loc_D198:
 .db $03, $06, $0C, $18, $08, $12, $24, $04
 .db $80, $04, $09, $12, $24, $48, $1B, $36
 .db $06, $06, $0C, $18, $30, $60, $24, $48
 .db $08
+
 ;----------------
 ;--------sub start--------
 StartProcessingSoundQueue:
+  JSR SoundInitialize
 sub_D1B1:
   LDA $0100
   CMP #$41
@@ -78,7 +123,7 @@ loc_D1FF:
   LDY #$BC
 loc_D207:
   JSR sub_DE5A
-  BNE loc_D258 ;;;
+  BNE loc_D258
 ;----------------
 ;--------sub_D20C()--------
 sub_D20C:
@@ -203,7 +248,8 @@ loc_D2EB:
   CMP #$02
   BNE loc_D2F7
   LDA #$00
-  STA $4080
+  ; STA $4080 ;;;
+  JSR SetVolumeEnvelope
 loc_D2F7:
   DEC $05F1
   BNE loc_D367
@@ -215,7 +261,8 @@ loc_D2F7:
   BNE loc_D319
 loc_D30B:
   LDA #$80
-  STA $4080
+  ; STA $4080 ;;;
+  JSR SetVolumeEnvelope
   LDA #$00
   STA $0607
   STA $060E
@@ -232,7 +279,8 @@ loc_D328:
   TAY
   BNE loc_D335
   LDX #$80
-  STX $4080
+  ; STX $4080 ;;;
+  JSR SetVolumeEnvelopeX
   BNE loc_D33B
 loc_D335:
   JSR sub_D43E
@@ -243,9 +291,11 @@ loc_D33B:
   STY $05F9
   STY $05FB
   LDA ($BF),Y
-  STA $4080
+  ; STA $4080 ;;;
+  JSR SetVolumeEnvelope
   LDA ($C1),Y
-  STA $4084
+  ; STA $4084 ;;;
+  JSR SetModEnvelope
   INY
   LDA ($BF),Y
   STA $05F8
@@ -266,10 +316,12 @@ loc_D374:
   LDY $05F9
   LDA ($BF),Y
   BPL loc_D383
-  STA $4080
+  ; STA $4080 ;;;
+  JSR SetVolumeEnvelope
   BNE loc_D374
 loc_D383:
-  STA $4080
+  ; STA $4080 ;;;
+  JSR SetVolumeEnvelope
   INY
   LDA ($BF),Y
   STA $05F8
@@ -280,13 +332,16 @@ loc_D38F:
   INC $05FB
   LDY $05FB
   LDA ($C1),Y
-  STA $4084
+  ; STA $4084 ;;;
+  JSR SetModEnvelope
   INY
   LDA ($C1),Y
-  STA $4086
+  ; STA $4086 ;;;
+  JSR SetModFrequencyLo
   INY
   LDA ($C1),Y
-  STA $4087
+  ; STA $4087 ;;;
+  JSR SetModFrequencyHi
   INY
   LDA ($C1),Y
   STA $05FA
@@ -307,50 +362,68 @@ loc_D3B5:
 sub_D3E5:
   LDY $C5
   BEQ loc_D3B4
-  LDA loc_DE9C,Y
+  LDA ExpansionSFXOffset-1,Y
+  ; LDA loc_DE9C,Y
   TAY
-  LDA loc_DE9D,Y
+
+  LDA ExpansionSFX-16,Y
+  ; LDA loc_DE9D,Y
   STA $BD
-  LDA loc_DE9E,Y
+  LDA ExpansionSFX-15,Y
+  ; LDA loc_DE9E,Y
   STA $BE
-  LDA loc_DE9F,Y
+  LDA ExpansionSFX-14,Y
+  ; LDA loc_DE9F,Y
   STA $05F7
-  LDA loc_DEA0,Y
+  LDA ExpansionSFX-13,Y
+  ; LDA loc_DEA0,Y
   STA $BF
-  LDA loc_DEA1,Y
+  LDA ExpansionSFX-12,Y
+  ; LDA loc_DEA1,Y
   STA $C0
-  LDA loc_DEA2,Y
+  LDA ExpansionSFX-11,Y
+  ; LDA loc_DEA2,Y
   STA $C1
-  LDA loc_DEA3,Y
+  LDA ExpansionSFX-10,Y
+  ; LDA loc_DEA3,Y
   STA $C2
-  LDA loc_DEA4,Y
+  LDA ExpansionSFX-09,Y
+  ; LDA loc_DEA4,Y
   STA $05FC
-  LDA loc_DEA5,Y
+  LDA ExpansionSFX-08,Y
+  ; LDA loc_DEA5,Y
   STA $05FD
   LDA #$80
-  STA $4089
+  ; STA $4089 ;;;
+  JSR SetWaveWrite
   ASL A
-  STA $4040
+  ; STA $4040 ;;;
+  JSR SetWavetableRAM
   TAY
   LDX #$3F
 loc_D429:
   LDA ($BD),Y
-  STA $4041,Y
+  ; STA $4041,Y ;;;
+  JSR SetWavetableRAMOffsetY
   INY
   CPY #$20
   BEQ loc_D439
-  STA $4040,X
+  ; STA $4040,X ;;;
+  JSR SetWavetableRAMOffsetX
   DEX
   BNE loc_D429
 loc_D439:
   LDA #$00
-  STA $4089
+  ; STA $4089 ;;;
+  JSR SetWaveWrite
 ;--------sub_D43E()--------
 sub_D43E:
   LDA #$80
-  STA $4087
+  ; STA $4087 ;;;
+  JSR SetModFrequencyHi
   LDA $05FC
-  STA $4085
+  ; STA $4085 ;;;
+  JSR SetModCounter
   LDX #$20
   LDY $05FD
   STY $C6
@@ -366,7 +439,8 @@ loc_D450:
   LSR A
 loc_D45D:
   AND #$0F
-  STA $4088
+  ; STA $4088 ;;;
+  JSR SetModTableWrite
   INC $C6
   DEX
   BNE loc_D450
@@ -656,7 +730,7 @@ loc_D689:
 .db $96, $96, $96, $96, $97, $97, $97, $97
 .db $68, $DE, $AE, $F4, $05, $30, $01, $60
 .db $09, $D0, $60, $09, $D0
-; @TODO: These are probably like...jump tables
+; @TODO: These are probably like...jump tables?
 loc_D6BE: ; song pointers
 .db $60 ; $00
 loc_D6BF: ; channel offsets relative to this address
@@ -687,19 +761,8 @@ loc_D6BF: ; channel offsets relative to this address
 .db (loc_D70C - loc_D6BF) ; $17 (from loc_D6BF)
 .db (loc_D71A - loc_D6BF) ; $18 (from loc_D6BF)
 
-; .db $19 ; $0f
-; .db $1C ; $10
-; .db $23 ; $11
-; .db $2A ; $12
-; .db $3F ; $13
-; .db $46 ; $14
-; .db $4D ; $15
-; .db $54 ; $16
-; .db $4D ; $17
-; .db $5B ; $18
 loc_D6D8:
 .db $09, <loc_D78E, >loc_D78E ; $19
-; .db $00, $59, $D7 ;;;
 loc_D6DB:
 .db $00, <loc_D759, >loc_D759, $52, $36, $87, $80 ; $1c
 loc_D6E2:
@@ -953,72 +1016,214 @@ sub_DE86:
   LDX #$08
   BNE loc_DE66
 sub_DE8A:
+  ; reset waveform
   LDX #$80
-  STX $4083
+  ; STX $4083 ;;;
+  JSR SetFrequencyHiX
+  ; set frequency
   TAY
-  LDA loc_D100,Y
-  STA $4083
-  LDA loc_D101,Y
-  STA $4082
+  ;;;
+  JSR SetToneWithOffsetY
+  ;;;
+  ; LDA FDSNoteFrequencyData,Y
+  ; STA $4083 ;;;
+  ; JSR SetFrequencyHi
+  ; LDA FDSNoteFrequencyData+1,Y
+  ; STA $4082 ;;;
+  ; JSR SetFrequencyLo
+  ;;;
 loc_DE9C:
   RTS
 ;----------------
 ;--------loc_DE9D--------
+; @TODO: Are these pointer tables or what?
+; 9 values
+ExpansionSFXOffset:
 loc_DE9D:
-.db $46
+.db $46 ; spit
 loc_DE9E:
-.db $2B
+.db $2B ; door
 loc_DE9F:
-.db $2B
+.db $2B ; cherry
 loc_DEA0:
-.db $2B
+.db $2B ; throw
 loc_DEA1:
-.db $22
+.db $22 ; birdo death
 loc_DEA2:
-.db $4F
+.db $4F ; birdo hit
 loc_DEA3:
-.db $46
+.db $46 ; enemy hit
 loc_DEA4:
-.db $34
+.db $34 ; player death
 loc_DEA5:
-.db $10, $19, $10, $10, $3D, $46, $2B, $46
-.db $55, $DF, $18, $03, $DF, $07, $DF, $00
-.db $30, $55, $DF, $FF, $F5, $DE, $F9, $DE
-.db $00, $40, $55, $DF, $50, $0D, $DF, $11
-.db $DF, $20, $20, $75, $DF, $60, $F5, $DE
-.db $80, $D1, $00, $00, $35, $DF, $60, $95
-.db $DF, $A0, $DF, $20, $40, $A6, $DF, $30
-.db $1F, $DF, $25, $DF, $20, $40, $A6, $DF
-.db $30, $86, $D1, $8E, $D1, $20, $20, $55
-.db $DF, $30, $2F, $DF, $C6, $DF, $20, $40
-.db $A0, $03, $3F, $FF, $A0, $01, $A0, $40
-.db $00, $21, $3A, $30, $00, $FF, $A0, $01
-.db $0B, $20, $A0, $01, $0A, $0A, $00, $18
-.db $A0, $1D, $03, $40, $88, $01, $46, $35
+.db $10 ; bomb
+.db $19 ; rocket
+.db $10 ; alternate bomb?
+.db $10 ; lift
+.db $3D ; player hit
+.db $46 ; alternate spit?
+.db $2B ; stopwatch
+.db $46 ; mask/wart
+
+; 2 bytes for wavetable data
+; 1 byte for $05F7 ?
+; 2 bytes for volume envelope
+; 2 bytes for mod envelope
+; 1 byte for mod counter
+; 1 byte for some mod table lookup yyyyyyyc
+;   y = offset in $D3B5 table
+;   c = 0 for upper nybble, 1 for lower nybble
+loc_DEAD:
+ExpansionSFX:
+; $10
+.dw WavetableData_DF55
+.db $18
+.dw VolumeEnvelope_DF03
+.dw ModEnvelope_DF07
+.db $00
+.db $30
+
+; $19
+.dw WavetableData_DF55
+.db $FF
+.dw VolumeEnvelope_DEF5
+.dw ModEnvelope_DEF9
+.db $00
+.db $40
+
+; $22
+.dw WavetableData_DF55
+.db $50
+.dw VolumeEnvelope_DF0D
+.dw ModEnvelope_DF11
+.db $20
+.db $20
+
+; $2B
+.dw WavetableData_DF75
+.db $60
+.dw VolumeEnvelope_DEF5
+.dw ModEnvelope_D180
+.db $00
+.db $00
+
+; $34
+.dw WavetableData_DF35
+.db $60
+.dw VolumeEnvelope_DF95
+.dw ModEnvelope_DFA0
+.db $20
+.db $40
+
+; $3D
+.dw WavetableData_DFA6
+.db $30
+.dw VolumeEnvelope_DF1F
+.dw ModEnvelope_DF25
+.db $20
+.db $40
+
+; $46
+.dw WavetableData_DFA6
+.db $30
+.dw VolumeEnvelope_D186
+.dw ModEnvelope_D18E
+.db $20
+.db $20
+
+; $4F
+.dw WavetableData_DF55
+.db $30
+.dw VolumeEnvelope_DF2F
+.dw ModEnvelope_DFC6
+.db $20
+.db $40
+
+
+; .db $55, $DF, $18, $03, $DF, $07, $DF, $00, $30 ; $10
+; .db $55, $DF, $FF, $F5, $DE, $F9, $DE, $00, $40 ; $19
+; .db $55, $DF, $50, $0D, $DF, $11, $DF, $20, $20 ; $22
+; .db $75, $DF, $60, $F5, $DE, $80, $D1, $00, $00 ; $2B
+; .db $35, $DF, $60, $95, $DF, $A0, $DF, $20, $40 ; $34
+; .db $A6, $DF, $30, $1F, $DF, $25, $DF, $20, $40 ; $3D
+; .db $A6, $DF, $30, $86, $D1, $8E, $D1, $20, $20 ; $46
+; .db $55, $DF, $30, $2F, $DF, $C6, $DF, $20, $40 ; $4F
+
+loc_DEF5:
+VolumeEnvelope_DEF5:
+.db $A0, $03, $3F, $FF
+
+loc_DEF9:
+ModEnvelope_DEF9:
+.db $A0, $01, $A0, $40
+.db $00, $21, $3A, $30, $00, $FF
+
+loc_DF03:
+VolumeEnvelope_DF03:
+.db $A0, $01, $0B, $20
+
+loc_DF07:
+ModEnvelope_DF07:
+.db $A0, $01, $0A, $0A, $00, $18
+
+loc_DF0D:
+VolumeEnvelope_DF0D:
+.db $A0, $1D, $03, $40
+
+loc_DF11:
+ModEnvelope_DF11:
+.db $88, $01, $46, $35
 .db $0F, $0C, $1F, $40, $01, $05, $18, $80
-.db $00, $18, $A0, $01, $5A, $06, $1F, $2C
+loc_DF1D: ;;;
+.db $00, $18
+
+loc_DF1F:
+VolumeEnvelope_DF1F:
+.db $A0, $01, $5A, $06, $1F, $2C
+
+loc_DF25:
+ModEnvelope_DF25:
 .db $A0, $01, $03, $35, $0F, $0E, $1F, $30
-.db $03, $30, $90, $03, $43, $16, $0B, $40
-.db $00, $01, $02, $03, $04, $05, $07, $09
-.db $0B, $0D, $10, $13, $16, $19, $1C, $1F
-.db $22, $25, $28, $2B, $2E, $31, $33, $35
-.db $37, $39, $3A, $3B, $3C, $3D, $3E, $3E
-.db $10, $1F, $3A, $3A, $2B, $2E, $3D, $3C
-.db $3C, $3D, $3E, $2E, $25, $33, $37, $28
-.db $10, $13, $28, $22, $05, $03, $3E, $16
-.db $09, $00, $00, $0B, $0B, $00, $00, $02
-.db $10, $2C, $2E, $27, $29, $2B, $2A, $28
-.db $25, $29, $2F, $2D, $2C, $2A, $22, $24
-.db $34, $3F, $31, $2D, $3A, $3B, $27, $12
-.db $0A, $1F, $2C, $27, $23, $28, $22, $1E
-.db $A0, $06, $1F, $0E, $4A, $08, $0A, $08
-.db $4A, $04, $0A, $82, $02, $52, $05, $00
-.db $60, $00, $0C, $15, $1B, $24, $2D, $33
-.db $38, $3C, $3D, $3B, $39, $37, $37, $38
-.db $34, $34, $32, $31, $30, $2F, $34, $2F
-.db $2D, $2D, $2B, $29, $26, $24, $20, $19
-.db $19, $96, $04, $44, $35, $0F, $08, $0F
+.db $03, $30
+
+loc_DF2F:
+VolumeEnvelope_DF2F:
+.db $90, $03, $43, $16, $0B, $40
+
+loc_DF35:
+WavetableData_DF35:
+.db $00, $01, $02, $03, $04, $05, $07, $09, $0B, $0D, $10, $13, $16, $19, $1C, $1F
+.db $22, $25, $28, $2B, $2E, $31, $33, $35, $37, $39, $3A, $3B, $3C, $3D, $3E, $3E
+
+loc_DF55:
+WavetableData_DF55:
+.db $10, $1F, $3A, $3A, $2B, $2E, $3D, $3C, $3C, $3D, $3E, $2E, $25, $33, $37, $28
+.db $10, $13, $28, $22, $05, $03, $3E, $16, $09, $00, $00, $0B, $0B, $00, $00, $02
+
+loc_DF75:
+WavetableData_DF75:
+.db $10, $2C, $2E, $27, $29, $2B, $2A, $28, $25, $29, $2F, $2D, $2C, $2A, $22, $24
+.db $34, $3F, $31, $2D, $3A, $3B, $27, $12, $0A, $1F, $2C, $27, $23, $28, $22, $1E
+
+loc_DF95:
+VolumeEnvelope_DF95:
+.db $A0, $06, $1F, $0E, $4A, $08, $0A, $08, $4A, $04, $0A
+
+loc_DFA0:
+ModEnvelope_DFA0:
+.db $82, $02, $52, $05, $00
+.db $60 ; RTS?
+
+loc_DFA6:
+WavetableData_DFA6:
+.db $00, $0C, $15, $1B, $24, $2D, $33, $38, $3C, $3D, $3B, $39, $37, $37, $38, $34
+.db $34, $32, $31, $30, $2F, $34, $2F, $2D, $2D, $2B, $29, $26, $24, $20, $19, $19
+
+loc_DFC6:
+ModEnvelope_DFC6:
+.db $96, $04, $44, $35, $0F, $08, $0F
 .db $20, $00, $40
+
 loc_DFD0:
 .db $10, $1E, $1F, $16
 loc_DFD4:
@@ -1044,51 +1249,366 @@ sub_DFE2:
   RTS
 ;----------------
 ;--------sub_DFED--------
-sub_DFED:
-.db $29, $0F, $A8, $B9, $98, $D1, $60, $1C
-.db $00, $5D, $7F, $42, $7F, $79, $7E, $25
-.db $75, $41, $7F
-;----------------
-;--------unidentified block--------
-.db $00, $38, $4C, $C6, $C6, $C6, $64, $38
-.db $00, $18, $38, $18, $18, $18, $18, $7E
-.db $00, $7C, $C6, $0E, $3C, $78, $E0, $FE
-.db $00, $7E, $0C, $18, $3C, $06, $C6, $7C
-.db $00, $1C, $3C, $6C, $CC, $FE, $0C, $0C
-.db $00, $FC, $C0, $FC, $06, $06, $C6, $7C
-.db $00, $3C, $60, $C0, $FC, $C6, $C6, $7C
-.db $00, $FE, $C6, $0C, $18, $30, $30, $30
-.db $00, $7C, $C6, $C6, $7C, $C6, $C6, $7C
-.db $00, $7C, $C6, $C6, $7E, $06, $0C, $78
-.db $00, $38, $6C, $C6, $C6, $FE, $C6, $C6
-.db $00, $FC, $C6, $C6, $FC, $C6, $C6, $FC
-.db $00, $3C, $66, $C0, $C0, $C0, $66, $3C
-.db $00, $F8, $CC, $C6, $C6, $C6, $CC, $F8
-.db $00, $FE, $C0, $C0, $FC, $C0, $C0, $FE
-.db $00, $FE, $C0, $C0, $FC, $C0, $C0, $C0
-.db $00, $3E, $60, $C0, $DE, $C6, $66, $7E
-.db $00, $C6, $C6, $C6, $FE, $C6, $C6, $C6
-.db $00, $7E, $18, $18, $18, $18, $18, $7E
-.db $00, $1E, $06, $06, $06, $C6, $C6, $7C
-.db $00, $C6, $CC, $D8, $F0, $F8, $DC, $CE
-.db $00, $60, $60, $60, $60, $60, $60, $7E
-.db $00, $C6, $EE, $FE, $FE, $D6, $C6, $C6
-.db $00, $C6, $E6, $F6, $FE, $DE, $CE, $C6
-.db $00, $7C, $C6, $C6, $C6, $C6, $C6, $7C
-.db $00, $FC, $C6, $C6, $C6, $FC, $C0, $C0
-.db $00, $7C, $C6, $C6, $C6, $DE, $CC, $7A
-.db $00, $FC, $C6, $C6, $CE, $F8, $DC, $CE
-.db $00, $78, $CC, $C0, $7C, $06, $C6, $7C
-.db $00, $7E, $18, $18, $18, $18, $18, $18
-.db $00, $C6, $C6, $C6, $C6, $C6, $C6, $7C
-.db $00, $C6, $C6, $C6, $EE, $7C, $38, $10
-.db $00, $C6, $C6, $D6, $FE, $FE, $EE, $C6
-.db $00, $C6, $EE, $7C, $38, $7C, $EE, $C6
-.db $00, $66, $66, $66, $3C, $18, $18, $18
-.db $00, $FE, $0E, $1C, $38, $70, $E0, $FE
-.db $00, $00, $00, $00, $00, $00, $00, $00
-.db $00, $00, $00, $00, $00, $30, $30, $20
-.db $00, $00, $00, $00, $00, $30, $30, $00
-.db $00, $00, $00, $00, $00, $6C, $6C, $08
-.db $00, $38, $44, $BA, $AA, $B2, $AA, $44
-.db $38
+sub_DFED: ;;;
+  AND #$0F
+  TAY
+  LDA loc_D198,Y
+  RTS
+
+loc_DFF4:
+.db $1C, $00
+
+; FDS NMI vectors
+; loc_DFF6:
+; .db $5D, $7F, $42, $7F, $79, $7E, $25, $75, $41, $7F
+
+; ;;; FDS AUDIO
+; SoundInitialize:
+;   LDA $70CF
+;   BNE +
+;   LDA #$00
+;   STA $4023
+;   LDA #$02
+;   STA $4023
+;   INC $70CF
+;   + RTS
+
+; SetToneWithOffsetY:
+;   LDA FDSNoteFrequencyData,Y
+;   STA $4083
+;   JSR SetFrequencyHi
+;   LDA FDSNoteFrequencyData+1,Y
+;   STA $4082
+;   JSR SetFrequencyLo
+;   RTS
+
+; SetWavetableRAM:
+;   STA $4040
+;   RTS
+
+; SetWavetableRAMOffsetX:
+;   STA $4040,X
+;   RTS
+
+; SetWavetableRAMOffsetY:
+;   STA $4041,Y
+;   RTS
+
+; SetVolumeEnvelope:
+;   STA $4080
+;   RTS
+
+; SetVolumeEnvelopeX:
+;   STX $4080
+;   RTS
+
+; SetFrequencyLo:
+;   STA $4082
+;   RTS
+
+; SetFrequencyHi:
+;   STA $4083
+;   RTS
+
+; SetFrequencyHiX:
+;   STX $4083
+;   RTS
+
+; SetModEnvelope:
+;   STA $4084
+;   RTS
+
+; SetModCounter:
+;   STA $4085
+;   RTS
+
+; SetModFrequencyLo:
+;   STA $4086
+;   RTS
+
+; SetModFrequencyHi:
+;   STA $4087
+;   RTS
+
+; SetModTableWrite:
+;   STA $4088
+;   RTS
+
+; SetWaveWrite:
+;   STA $4089
+;   RTS
+
+
+;;; 5B AUDIO
+SunsoftNotePeriodData:
+.db $01, $59 ; $00
+.db $01, $45 ; $02
+.db $00, $e6 ; $04
+.db $00, $3d ; $06
+.db $00, $36 ; $08
+.db $00, $33 ; $0a
+.db $00, $30 ; $0c
+.db $00, $2e ; $0e
+.db $00, $2b ; $10
+.db $00, $29 ; $12
+.db $00, $26 ; $14
+.db $00, $24 ; $16
+.db $00, $22 ; $18
+.db $00, $1e ; $1a
+.db $00, $1b ; $1c
+.db $00, $18 ; $1e
+.db $00, $17 ; $20
+.db $00, $14 ; $22
+.db $00, $12 ; $24
+.db $00, $11 ; $26
+.db $00, $0f ; $28
+.db $00
+
+SoundInitialize:
+  LDA $05D0
+  BNE +
+  LDA #$00
+  STA $4023
+  LDA #$02
+  STA $4023
+  INC $05D0
+
+  ; Enable 5B channels
+  LDA #$07
+  STA $C000
+  ; LDA #%00111110 ; Channel A only
+  LDA #%00111000 ;;;
+  STA $E000
+
+  + RTS
+
+SetToneWithOffsetY:
+  LDA FDSNoteFrequencyData,Y
+  STA $4083
+  LDA (FDSNoteFrequencyData + 1),Y
+  STA $4082
+  ;;;
+
+  LDA #$07
+  STA $C000
+  LDA #%00111110 ; Channel A only
+  STA $E000
+
+  LDA #$01
+  STA $C000
+  LDA SunsoftNotePeriodData,Y
+  STA $E000
+
+  LDA #$00
+  STA $C000
+  LDA SunsoftNotePeriodData+1,Y
+  STA $E000
+
+  ;;;
+  LDA #$03
+  STA $C000
+  LDA SunsoftNotePeriodData,Y
+  STA $E000
+
+  LDA #$02
+  STA $C000
+  LDA SunsoftNotePeriodData+1,Y
+  STA $E000
+
+  LDA #$05
+  STA $C000
+  LDA SunsoftNotePeriodData,Y
+  STA $E000
+
+  LDA #$04
+  STA $C000
+  LDA SunsoftNotePeriodData+1,Y
+  STA $E000
+
+  RTS
+
+SetWavetableRAM:
+  STA $4040 ;;;
+
+  ; PHA
+  ; LDA #$00
+  ; STA $C000
+  ; PLA
+  ; STA $E000
+  RTS
+
+SetWavetableRAMOffsetX:
+  STA $4040,X ;;;
+
+  RTS
+
+SetWavetableRAMOffsetY:
+  STA $4041,Y ;;;
+
+  RTS
+
+SetVolumeEnvelope:
+  ; FDS behavior:
+  ; 7  bit  0  (write; read through $4090)
+  ; ---- ----
+  ; MDVV VVVV
+  ; |||| ||||
+  ; ||++-++++- (M=0) Volume envelope speed
+  ; ||         (M=1) Volume gain and envelope speed.
+  ; |+-------- Volume change direction (0: decrease; 1: increase)
+  ; +--------- Volume envelope mode (0: on; 1: off)
+  STA $4080 ;;;
+
+  BMI +
+  ; (M=0) Volume envelope speed
+  PHA
+  LDA #$08
+  STA $C000
+  LDA $05D3
+  ORA #%00010000
+  BNE ++
+
+  +
+  ; (M=1) Volume gain and envelope speed
+  PHA
+  LDA #$08
+  STA $C000
+  PLA
+  PHA
+  AND #%00111111
+  CMP #$20
+  BCC +
+  ; Clamp to $1F
+  LDA #%00011111
+  +
+  ; too dang loud
+  CMP #$06
+  BCC +
+  SEC
+  SBC #$06
+  +
+  LSR A
+  AND #%00001111
+
+  ++
+  STA $05D3 ; stash volume so we can maintain it when toggling envelope
+  STA $E000
+
+  PLA
+  RTS
+
+SetVolumeEnvelopeX:
+  STX $4080 ;;;
+
+  PHA
+  TXA
+  JSR SetVolumeEnvelope
+  PLA
+  RTS
+
+SetFrequencyLo:
+  ; 7  bit  0  (write)
+  ; ---- ----
+  ; FFFF FFFF
+  ; |||| ||||
+  ; ++++-++++- Bits 0-7 of frequency
+  STA $4082 ;;;
+
+  PHA
+  LDA #$00
+  STA $C000
+  PLA
+  STA $E000
+
+  RTS
+
+SetFrequencyHi:
+  ; 7  bit  0  (write)
+  ; ---- ----
+  ; MExx FFFF
+  ; ||   ||||
+  ; ||   ++++- Bits 8-11 of frequency
+  ; |+-------- Disable volume and sweep envelopes (but not modulation)
+  ; +--------- When enabled, envelopes run 4x faster. Also stops the mod table accumulator.
+  STA $4083 ;;;
+
+  BPL +
+  PHA
+  LDA #$07
+  STA $C000
+  LDA #%00111111 ; Mute all
+  STA $E000
+  PLA
+  RTS
+
+  +
+  PHA
+
+  LDA #$07
+  STA $C000
+  LDA #%00111110 ; Channel A only
+  STA $E000
+
+  LDA #$01
+  STA $C000
+  PLA
+  PHA
+  AND #%00001111
+  STA $E000
+
+  PLA
+  RTS
+
+SetFrequencyHiX:
+  STX $4083 ;;;
+
+  PHA
+  TXA
+  JSR SetFrequencyHi
+  PLA
+  RTS
+
+SetModEnvelope:
+  STA $4084 ;;;
+
+  RTS
+
+SetModCounter:
+  STA $4085 ;;;
+
+  RTS
+
+SetModFrequencyLo:
+  STA $4086 ;;;
+
+  RTS
+
+SetModFrequencyHi:
+  STA $4087 ;;;
+
+  RTS
+
+SetModTableWrite:
+  STA $4088 ;;;
+
+  RTS
+
+SetWaveWrite:
+  STA $4089 ;;;
+
+  ; Master volume (0: full; 1: 2/3; 2: 2/4; 3: 2/5)
+  PHA
+  ; AND #%10000011
+  AND #%00000011
+  STA $05D1 ; master volume
+  PLA
+  PHA
+  ROL
+  ROL
+  AND #%00000001
+  STA $05D2 ; write enable and hold channel
+  PLA
+
+  ; @TODO: handle wavetable write flag
+  RTS
+
