@@ -22,6 +22,9 @@ Debug_StashX = $7FE3
 Debug_StashY = $7FE4
 Debug_StashP = $7FE5
 
+Debug_IRQType = $7FE6
+Debug_ShowStatusBar = $7FE7
+
 Debug_CursorTileOffset = $7FEB
 Debug_Temp = $7FEC
 Debug_PPUPointerOffset = $7FED
@@ -31,6 +34,9 @@ Debug_InMenu = $7FEF
 .ignorenl
 
 Debug_MenuOptionCount = $08
+
+Debug_StatusBarStart = $D8
+Debug_StatusBarEnd = $F0
 
 .endinl
 
@@ -1076,5 +1082,89 @@ DebugPPU_UpdateArea:
 DebugPPU_Version:
 	.db 3+$04+1
 	.db $23, $79, $04
-	.db $EF, $F6, $D0, $D2 ; V.02
+	.db $EF, $F6, $D0, $D3 ; V.03
 	.db $00
+
+
+
+DebugPPU_StatusBarUpdates:
+	.db $2F, $84, $04
+	.db $F4, $F4, $F4, $F4 ; X ----
+	.db $2F, $8C, $04
+	.db $F4, $F4, $F4, $F4 ; Y ----
+	.db $2F, $94, $02
+	.db $F4, $F4 ; D --
+	.db $2F, $9C, $02
+	.db $D0, $D0 ; C --
+DebugPPU_StatusBarUpdates_End:
+	.db $00
+
+
+;
+; ##### Input
+; - `A` = number to display
+;
+; ##### Output
+; - `A`: lower nybble
+; - `Y`: upper nybble
+;
+Debug_GetTwoDigitHexTiles:
+	PHA
+	LSR
+	LSR
+	LSR
+	LSR
+	ORA #$D0
+	TAY
+	PLA
+	AND #$0F
+	ORA #$D0
+	RTS
+
+
+Debug_DrawStatusBarUpdates:
+	LDX #(DebugPPU_StatusBarUpdates_End - DebugPPU_StatusBarUpdates + 1)
+Debug_DrawStatusBarUpdates_Loop:
+	LDA DebugPPU_StatusBarUpdates - 1, X
+	STA PPUBuffer_301 - 1, X
+	DEX
+	BNE Debug_DrawStatusBarUpdates_Loop
+
+	LDA PlayerXHi
+	JSR Debug_GetTwoDigitHexTiles
+	STA PPUBuffer_301 + 3
+
+	LDA PlayerXLo
+	JSR Debug_GetTwoDigitHexTiles
+	STY PPUBuffer_301 + 4
+	STA PPUBuffer_301 + 5
+
+	LDA PlayerXSubpixel
+	JSR Debug_GetTwoDigitHexTiles
+	STY PPUBuffer_301 + 6
+
+	LDA PlayerYHi
+	JSR Debug_GetTwoDigitHexTiles
+	STA PPUBuffer_301 + 10
+
+	LDA PlayerYLo
+	JSR Debug_GetTwoDigitHexTiles
+	STY PPUBuffer_301 + 11
+	STA PPUBuffer_301 + 12
+
+	LDA PlayerYSubpixel
+	JSR Debug_GetTwoDigitHexTiles
+	STY PPUBuffer_301 + 13
+
+	LDA CrouchJumpTimer
+	JSR Debug_GetTwoDigitHexTiles
+	STY PPUBuffer_301 + 17
+	STA PPUBuffer_301 + 18
+
+	LDA byte_RAM_10
+	JSR Debug_GetTwoDigitHexTiles
+	STY PPUBuffer_301 + 22
+	STA PPUBuffer_301 + 23
+
+	RTS
+

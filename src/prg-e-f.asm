@@ -2270,6 +2270,7 @@ NMI:
 	TYA
 	PHA
 
+NMI_CheckStackArea:
 	BIT StackArea
 	BPL NMI_PauseOrMenu ; branch if bit 7 was 0
 
@@ -2417,6 +2418,7 @@ NMI_Exit:
 	TAX
 	PLA
 	PLP
+
 	RTI
 
 ; End of function NMI
@@ -2769,6 +2771,8 @@ RESET_MMC5:
 
 
 ChangeCHRBanks_MMC5:
+	CLC
+
 	LDA SpriteCHR1
 	STA MMC5_CHRBankSwitch1
 
@@ -6027,7 +6031,14 @@ ENDIF
 ; RESET = ...well, reset.
 ; IRQ is not used, but you could if you wanted.
 NESVectorTables:
+IFNDEF DEBUG
 	.dw NMI
+ELSEIF INES_MAPPER == MAPPER_MMC5
+	.dw Debug_NMI
+ELSE
+	.dw NMI
+ENDIF
+
 IF INES_MAPPER == MAPPER_FME7
 	.dw RESET_FME7
 ELSEIF INES_MAPPER == MAPPER_MMC5
@@ -6035,4 +6046,11 @@ ELSEIF INES_MAPPER == MAPPER_MMC5
 ELSE ; INES_MAPPER == MAPPER_MMC3
 	.dw RESET
 ENDIF
+
+IFNDEF DEBUG
 	.dw IRQ
+ELSEIF INES_MAPPER == MAPPER_MMC5
+	.dw Debug_IRQ
+ELSE
+	.dw IRQ
+ENDIF

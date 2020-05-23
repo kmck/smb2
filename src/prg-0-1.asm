@@ -5528,7 +5528,11 @@ loc_BANK0_9C2A:
 	CPY #$F0
 	BCC loc_BANK0_9C2A
 
+IFNDEF DEBUG
 	JMP HideAllSprites
+ELSE
+	JMP Debug_TitleScreen_Exit
+ENDIF
 
 ; ---------------------------------------------------------------------------
 

@@ -1,4 +1,3 @@
-
 DebugHook_Exit:
 	JMP NMI_Exit
 
@@ -107,6 +106,10 @@ DebugHook_ExitToJumpAddress:
 	LDX Debug_StashX
 	LDY Debug_StashY
 	PLP
+
+IF INES_MAPPER == MAPPER_MMC5
+	CLI
+ENDIF
 
 	; Jump to the destination
 	JMP (Debug_JumpAddressLo)
@@ -231,3 +234,252 @@ DebugHook_RestoreRAM:
 	BCC -
 	RTS
 
+DebugPPU_StatusBar:
+	.db $FB, $FB
+	.db $F1, $CF, $F4, $F4, $F4, $F4 ; X ----
+	.db $FB, $FB
+	.db $F2, $CF, $F4, $F4, $F4, $F4 ; Y ----
+	.db $FB, $FB
+	.db $DD, $CF, $F4, $F4 ; D --
+	.db $FB, $FB
+	.db $FB, $FB
+	.db $DC, $CF, $F4, $F4 ; C ----
+	.db $FB, $FB
+
+DebugPPU_StatusBarAttributes:
+	.db $05, $05, $05, $05, $05, $05, $05, $05
+DebugPPU_StatusBarAttributes_End:
+
+
+Debug_DrawStatusBar:
+	LDY PPUSTATUS ; Reset PPU address latch
+	LDY #PPUCtrl_Base2000 | PPUCtrl_WriteHorizontal | PPUCtrl_Sprite0000 | PPUCtrl_Background1000 | PPUCtrl_SpriteSize8x16 | PPUCtrl_NMIDisabled
+	STY PPUCTRL ; Turn off NMI
+
+	; Tiles
+	LDA #$2F
+	LDY #$80
+	STA PPUADDR
+	STY PPUADDR
+
+	LDX #$00
+Debug_DrawStatusBar_TileLoop:
+	LDA DebugPPU_StatusBar, X
+	STA PPUDATA
+	INX
+	CPX #(DebugPPU_StatusBarAttributes - DebugPPU_StatusBar)
+	BCC Debug_DrawStatusBar_TileLoop
+
+	; Attributes
+	LDA #$2F
+	LDY #$F8
+	STA PPUADDR
+	STY PPUADDR
+
+Debug_DrawStatusBar_AttributesLoop:
+	LDA DebugPPU_StatusBar, X
+	STA PPUDATA
+	INX
+	CPX #(DebugPPU_StatusBarAttributes_End - DebugPPU_StatusBar)
+	BCC Debug_DrawStatusBar_AttributesLoop
+
+	RTS
+
+
+Debug_TitleScreen_Exit:
+IF INES_MAPPER == MAPPER_MMC5
+	; Enable status bar:
+	LDA #$01
+	STA Debug_ShowStatusBar
+
+	; Turn off PPU
+	LDA #$00
+	STA PPUMASK
+
+	; Erase nametable D
+	LDA #$2C
+	JSR ClearNametableChunk
+
+	; Set up the initial status bar
+	JSR Debug_DrawStatusBar
+
+	; Enable NMI and move on from the title screen
+	JSR EnableNMI
+
+	CLI
+ENDIF
+
+	JMP HideAllSprites
+
+
+Debug_RequestScanlineIRQ:
+	; Make sure we're in normal gameplay mode
+	LDX StackArea
+	CPX #Stack100_Gameplay
+	BNE Debug_NoScanlineIRQ
+
+	; Make sure we're not in the debug menu
+	LDX Debug_InMenu
+	BNE Debug_NoScanlineIRQ
+
+	STA MMC5_IRQScanlineCompare
+	LDA #$80
+	STA MMC5_IRQStatus
+
+	RTS
+
+Debug_NoScanlineIRQ:
+	LDA #$00
+	STA MMC5_IRQScanlineCompare
+	STA MMC5_IRQStatus
+
+	RTS
+
+Debug_SetStatusBar:
+	; Update scroll position
+	; See http://wiki.nesdev.com/w/index.php/PPU_scrolling#Split_X.2FY_scroll
+	; and also https://forums.nesdev.com/viewtopic.php?f=2&t=7784#post_content78593
+	LDA #%00001100
+	STA PPUADDR
+	LDA #$C0
+	LDA #(Debug_StatusBarStart & %11000000)
+	STA PPUSCROLL
+	LDA #$00
+	STA PPUSCROLL
+	LDA #$60
+	LDA #((Debug_StatusBarStart & %00111000) << 2)
+	STA PPUADDR
+
+	; Swap CHR Data
+	LDA #CHRBank_CharacterSelectSprites + 1
+	STA MMC5_CHRBankSwitch1
+	STA MMC5_CHRBankSwitch2
+	STA MMC5_CHRBankSwitch3
+	STA MMC5_CHRBankSwitch4
+	STA MMC5_CHRBankSwitch8
+	STA MMC5_CHRBankSwitch9
+	STA MMC5_CHRBankSwitch10
+	STA MMC5_CHRBankSwitch11
+
+	LDA #CHRBank_TitleScreenBG2 + 1
+	STA MMC5_CHRBankSwitch12
+
+	; Hide sprites
+	LDA #%00001010
+	STA PPUMASK
+
+	RTS
+
+
+Debug_SetAreaBackground:
+	LDA PPUCtrlMirror
+	STA PPUCTRL
+	LDA PPUScrollXMirror
+	STA PPUSCROLL
+	LDA PPUScrollYMirror
+	CLC
+	ADC BackgroundYOffset
+	STA PPUSCROLL
+	LDA PPUMaskMirror
+	STA PPUMASK
+
+	RTS
+
+
+Debug_NMI_PauseOrMenu:
+	JMP NMI_PauseOrMenu
+Debug_NMI_Transition:
+	JMP NMI_Transition
+
+Debug_NMI:
+	PHP
+	PHA
+	TXA
+	PHA
+	TYA
+	PHA
+
+	; Check if we want the status bar
+	LDA Debug_ShowStatusBar
+	BNE DebugNMI_CheckStackArea
+
+	JMP NMI_CheckStackArea
+
+DebugNMI_CheckStackArea:
+
+	LDA #Debug_StatusBarStart
+	JSR Debug_RequestScanlineIRQ
+
+	BIT StackArea
+	BPL Debug_NMI_PauseOrMenu ; branch if bit 7 was 0
+
+	BVC Debug_NMI_Transition ; branch if bit 6 was 0
+
+	LDA #$00
+	STA PPUMASK
+	STA OAMADDR
+	LDA #$02
+	STA OAM_DMA
+
+	; Make sure we don't have background tiles to draw
+	LDA HasScrollingPPUTilesUpdate
+	BNE Debug_NMI_ChangeCHRBanks
+
+	; Make sure we don't have background tiles to draw
+	LDA PPUBuffer_301
+	BNE Debug_NMI_ChangeCHRBanks
+
+	; Update the status bar
+	LDA #PRGBank_A_B
+	JSR ChangeMappedPRGBankWithoutSaving
+
+	JSR Debug_DrawStatusBarUpdates
+
+Debug_NMI_ChangeCHRBanks:
+	JSR ChangeCHRBanks
+
+	JMP NMI_CheckWaitFlag
+
+
+Debug_IRQ:
+	; Save all registers
+	PHP
+	PHA
+	TXA
+	PHA
+	TYA
+	PHA
+
+	; Disable interrupts
+	SEI
+
+	; Acknowledge interrupt
+	BIT MMC5_IRQStatus
+	BPL Debug_IRQ_Exit ; No scanline is pending
+
+	; LDA Debug_IRQType
+	; BEQ Debug_IRQ_Status
+
+; Debug_IRQ_AreaBackground:
+; 	JSR Debug_SetAreaBackground
+; 	DEC Debug_IRQType
+; 	BEQ Debug_IRQ_Exit
+
+Debug_IRQ_Status:
+	JSR Debug_SetStatusBar
+	; INC Debug_IRQType
+
+	LDA #Debug_StatusBarEnd
+	; JSR Debug_RequestScanlineIRQ
+	; CLI
+
+Debug_IRQ_Exit:
+	; Restore all registers
+	PLA
+	TAY
+	PLA
+	TAX
+	PLA
+	PLP
+
+	RTI
