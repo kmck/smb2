@@ -6,6 +6,11 @@ HMirror = %00000001
 MMC5_VMirror = %01000100
 MMC5_HMirror = %01010000
 
+IFDEF DEBUG
+  MMC5_VMirror = %10000100
+  MMC5_HMirror = %10010000
+ENDIF
+
 IF INES_MAPPER == MAPPER_MMC5
   VMirror = MMC5_VMirror
   HMirror = MMC5_HMirror
