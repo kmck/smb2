@@ -438,8 +438,22 @@ DebugNMI_CheckStackArea:
 Debug_NMI_ChangeCHRBanks:
 	JSR ChangeCHRBanks
 
+	LDA NMIWaitFlag
+	BNE Debug_NMI_Waiting
+
 	JMP NMI_CheckWaitFlag
 
+Debug_NMI_Waiting:
+	LDA PPUCtrlMirror
+	STA PPUCTRL
+	LDA PPUScrollXMirror
+	STA PPUSCROLL
+	LDA PPUScrollYMirror
+	CLC
+	ADC BackgroundYOffset
+	STA PPUSCROLL
+
+	JMP NMI_Waiting
 
 Debug_IRQ:
 	; Save all registers
