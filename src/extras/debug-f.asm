@@ -322,7 +322,9 @@ Debug_RequestScanlineIRQ:
 	LDX Debug_InMenu
 	BNE Debug_NoScanlineIRQ
 
+	; Set IRQ scanline
 	STA MMC5_IRQScanlineCompare
+	; Enable IRQ
 	LDA #$80
 	STA MMC5_IRQStatus
 
@@ -403,10 +405,13 @@ Debug_NMI:
 	LDA Debug_ShowStatusBar
 	BNE DebugNMI_CheckStackArea
 
+	; Disable IRQ
+	LDA #$00
+	STA MMC5_IRQStatus
+
 	JMP NMI_CheckStackArea
 
 DebugNMI_CheckStackArea:
-
 	LDA #Debug_StatusBarStart
 	JSR Debug_RequestScanlineIRQ
 
