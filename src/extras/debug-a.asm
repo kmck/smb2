@@ -22,8 +22,7 @@ Debug_StashX = $7FE3
 Debug_StashY = $7FE4
 Debug_StashP = $7FE5
 
-Debug_IRQType = $7FE6
-Debug_ShowStatusBar = $7FE7
+Debug_CurrentStatusBarOption = $7FE6
 
 Debug_CursorTileOffset = $7FEB
 Debug_Temp = $7FEC
@@ -33,10 +32,10 @@ Debug_InMenu = $7FEF
 
 .ignorenl
 
+Debug_StatusBarOptionCount = $02
 Debug_MenuOptionCount = $08
 
-Debug_StatusBarStart = $D8
-Debug_StatusBarEnd = $F0
+Debug_StatusBarStart = $D6
 
 .endinl
 
@@ -1086,16 +1085,79 @@ DebugPPU_Version:
 	.db $00
 
 
+DebugPPU_StatusBar:
+	; Reset to Entrance
+	.db $2C, $22, $11
+	.db $D0, $F4, $D0 ; 0-0
+	.db $FB
+	.db $DA, $EB, $DE, $DA, $FB, $D0 ; AREA 0
+	.db $FB
+	.db $E9, $DA, $E0, $DE, $FB, $D0 ; PAGE 0
+
+	.db $2C, $39, $05
+	.db $DD, $DE, $DB, $EE, $E0 ; DEBUG
+	.db $2C, $5A, $04
+	.db $EF, $F6, $D0, $D3 ; V.03
+
+	.db $2C, $42, $11
+	.db $EB, $DE, $EC, $DE, $ED ; RESET
+	.db $FB
+	.db $ED, $E8 ; TO
+	.db $FB
+	.db $DE, $E7, $ED, $EB, $DA, $E7, $DC, $DE ; ENTRANCE
+
+	.db $2F, $C0, $08
+	.db $05, $05, $05, $05, $05, $05, $55, $55
+
+	;	Player Info
+	.db $2C, $BA, $04
+	.db $F8, $CF, $F4, $F4 ; C -- (counter)
+
+	.db $2C, $A2, $15
+	.db $E9, $CF, $F4, $F4, $F4, $F4, $F7, $F4, $F4, $F4, $F4 ; P.----,----
+	.db $FB, $FB
+	.db $EF, $F1, $CF, $F4, $F4, $F7, $F4, $F4 ; V.--,--
+
+	.db $2C, $C2, $0C
+	.db $F8, $F4 ; # - (veggies)
+	.db $FB
+	.db $F8, $F4 ; # - (enemies)
+	.db $FB
+	.db $F8, $F4 ; # - (cherries)
+	.db $FB
+	.db $F8, $F4, $F4 ; # - (coins)
+	; Key used?
+	; Jump?
+	; Float?
+	; Subspace visits?
+
+	.db $2F, $C8, $08
+	.db $55, $55, $55, $55, $55, $55, $55, $55
+
+	.db $00
 
 DebugPPU_StatusBarUpdates:
-	.db $2F, $84, $04
-	.db $F4, $F4, $F4, $F4 ; X ----
-	.db $2F, $8C, $04
-	.db $F4, $F4, $F4, $F4 ; Y ----
-	.db $2F, $94, $02
-	.db $F4, $F4 ; D --
-	.db $2F, $9C, $02
-	.db $D0, $D0 ; C --
+	.db $2C, $BC, $02
+	.db $D0, $D0 ; counter
+
+	.db $2C, $A4, $04
+	.db $F4, $F4, $F4, $F4 ; x-position
+	.db $2C, $A9, $04
+	.db $F4, $F4, $F4, $F4 ; y-position
+
+	.db $2C, $B1, $02
+	.db $F4, $F4 ; x-velocity
+	.db $2C, $C3, $02
+	.db $F4, $F4 ; y-velocity
+
+	.db $2C, $C3, $01
+	.db $F4 ; veggies
+	.db $2C, $C6, $01
+	.db $F4 ; enemies
+	.db $2C, $C9, $01
+	.db $F4 ; cherries
+	.db $2C, $CC, $02
+	.db $F4, $F4 ; coins
 DebugPPU_StatusBarUpdates_End:
 	.db $00
 
@@ -1130,41 +1192,80 @@ Debug_DrawStatusBarUpdates_Loop:
 	DEX
 	BNE Debug_DrawStatusBarUpdates_Loop
 
+	; counter
+	LDA byte_RAM_10
+	JSR Debug_GetTwoDigitHexTiles
+	STY PPUBuffer_301 + 3
+	STA PPUBuffer_301 + 4
+
+	; x-position
 	LDA PlayerXHi
 	JSR Debug_GetTwoDigitHexTiles
-	STA PPUBuffer_301 + 3
+	STA PPUBuffer_301 + 8
 
 	LDA PlayerXLo
 	JSR Debug_GetTwoDigitHexTiles
-	STY PPUBuffer_301 + 4
-	STA PPUBuffer_301 + 5
+	STY PPUBuffer_301 + 9
+	STA PPUBuffer_301 + 10
 
 	LDA PlayerXSubpixel
 	JSR Debug_GetTwoDigitHexTiles
-	STY PPUBuffer_301 + 6
+	STY PPUBuffer_301 + 11
 
+	; y-position
 	LDA PlayerYHi
 	JSR Debug_GetTwoDigitHexTiles
-	STA PPUBuffer_301 + 10
+	STA PPUBuffer_301 + 15
 
 	LDA PlayerYLo
 	JSR Debug_GetTwoDigitHexTiles
-	STY PPUBuffer_301 + 11
-	STA PPUBuffer_301 + 12
+	STY PPUBuffer_301 + 16
+	STA PPUBuffer_301 + 17
 
 	LDA PlayerYSubpixel
 	JSR Debug_GetTwoDigitHexTiles
-	STY PPUBuffer_301 + 13
+	STY PPUBuffer_301 + 18
 
-	LDA CrouchJumpTimer
-	JSR Debug_GetTwoDigitHexTiles
-	STY PPUBuffer_301 + 17
-	STA PPUBuffer_301 + 18
-
-	LDA byte_RAM_10
+	; x-velocity
+	LDA PlayerXVelocity
 	JSR Debug_GetTwoDigitHexTiles
 	STY PPUBuffer_301 + 22
 	STA PPUBuffer_301 + 23
+
+	; y-velocity
+	LDA PlayerYVelocity
+	JSR Debug_GetTwoDigitHexTiles
+	STY PPUBuffer_301 + 27
+	STA PPUBuffer_301 + 28
+
+	; Miscellaneous counters
+	LDA BigVeggiesPulled
+	JSR Debug_GetTwoDigitHexTiles
+	STA PPUBuffer_301 + 32
+
+	LDA EnemiesKilledForHeart
+	JSR Debug_GetTwoDigitHexTiles
+	STA PPUBuffer_301 + 36
+
+	LDA CherryCount
+	JSR Debug_GetTwoDigitHexTiles
+	STA PPUBuffer_301 + 40
+
+	LDA SlotMachineCoins
+	JSR Debug_GetTwoDigitHexTiles
+	STY PPUBuffer_301 + 44
+	STA PPUBuffer_301 + 45
+
+	; LDA Mushroom1upPulled
+	; LDA SubspaceVisits
+	; JSR Debug_GetTwoDigitHexTiles
+	; STY PPUBuffer_301 + 32
+	; STA PPUBuffer_301 + 33
+
+	; LDA byte_RAM_10
+	; JSR Debug_GetTwoDigitHexTiles
+	; STY PPUBuffer_301 + 22
+	; STA PPUBuffer_301 + 23
 
 	RTS
 

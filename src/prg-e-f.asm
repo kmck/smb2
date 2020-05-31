@@ -948,7 +948,11 @@ HorizontalLevel_Loop:
 	JSR WaitForNMI_TurnOnPPU
 
 HorizontalLevel_CheckScroll:
+IFNDEF DEBUG
 	JSR WaitForNMI
+ELSE
+	JSR Debug_WaitForNMI_HandleSelect
+ENDIF
 
 	; Disable pause detection while scrolling
 	LDA NeedsScroll
@@ -959,7 +963,12 @@ HorizontalLevel_CheckScroll:
 	AND #ControllerInput_Start
 	BEQ HorizontalLevel_CheckSubArea
 
+IFNDEF DEBUG
 	JMP ShowPauseScreen
+ELSE
+Debug_ThenHandleStartButton:
+	JMP Debug_HandleStartButton
+ENDIF
 
 HorizontalLevel_CheckSubArea:
 	LDA InSubspaceOrJar
@@ -1008,7 +1017,11 @@ VerticalLevel_Loop:
 	JSR WaitForNMI_TurnOnPPU
 
 VerticalLevel_CheckScroll:
+IFNDEF DEBUG
 	JSR WaitForNMI
+ELSE
+	JSR Debug_WaitForNMI_HandleSelect
+ENDIF
 
 	; Disable pause detection while scrolling
 	; This is likely a work-around to avoid getting the PPU into a weird state
@@ -1020,7 +1033,12 @@ VerticalLevel_CheckScroll:
 
 	LDA Player1JoypadPress
 	AND #ControllerInput_Start
+IFNDEF DEBUG
 	BNE ShowPauseScreen
+ELSE
+	BNE Debug_ThenHandleStartButton
+ENDIF
+
 
 VerticalLevel_ProcessFrame:
 	JSR HideAllSprites
@@ -2443,11 +2461,11 @@ NMI_ResetScreenUpdateIndex:
 	DEC NMIWaitFlag
 
 NMI_DoSoundProcessing:
-IFNDEF DEBUG
+; IFNDEF DEBUG
 	JSR DoSoundProcessing
-ELSE
-	JMP DoSoundProcessingAndCheckDebug
-ENDIF
+; ELSE
+; 	JMP DoSoundProcessingAndCheckDebug
+; ENDIF
 
 NMI_Exit:
 	PLA

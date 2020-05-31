@@ -234,21 +234,46 @@ DebugHook_RestoreRAM:
 	BCC -
 	RTS
 
-DebugPPU_StatusBar:
-	.db $FB, $FB
-	.db $F1, $CF, $F4, $F4, $F4, $F4 ; X ----
-	.db $FB, $FB
-	.db $F2, $CF, $F4, $F4, $F4, $F4 ; Y ----
-	.db $FB, $FB
-	.db $DD, $CF, $F4, $F4 ; D --
-	.db $FB, $FB
-	.db $FB, $FB
-	.db $DC, $CF, $F4, $F4 ; C ----
-	.db $FB, $FB
 
-DebugPPU_StatusBarAttributes:
-	.db $05, $05, $05, $05, $05, $05, $05, $05
-DebugPPU_StatusBarAttributes_End:
+;
+; Hook in to toggle status bar on select button
+;
+Debug_WaitForNMI_HandleSelect:
+	JSR WaitForNMI
+
+	LDA Player1JoypadPress
+	AND #ControllerInput_Select
+	BEQ Debug_WaitForNMI_HandleSelect_Exit
+
+	DEC Debug_CurrentStatusBarOption
+	BPL Debug_WaitForNMI_HandleSelect_Exit
+
+	;	Wrap around
+	LDA #Debug_StatusBarOptionCount
+	STA Debug_CurrentStatusBarOption
+
+Debug_WaitForNMI_HandleSelect_Exit:
+	RTS
+
+Debug_HandleStartSelect:
+
+	LDA Player1JoypadPress
+	AND #ControllerInput_Start
+
+	RTS
+
+;
+; Execute based on the current status bar mode
+;
+Debug_HandleStartButton:
+	LDA Debug_CurrentStatusBarOption
+	JSR JumpToTableAfterJump
+
+	.dw ShowPauseScreen
+	.dw ShowPauseScreen
+	.dw ShowPauseScreen
+	.dw ShowPauseScreen
+	.dw ShowPauseScreen
 
 
 Debug_DrawStatusBar:
@@ -256,41 +281,43 @@ Debug_DrawStatusBar:
 	LDY #PPUCtrl_Base2000 | PPUCtrl_WriteHorizontal | PPUCtrl_Sprite0000 | PPUCtrl_Background1000 | PPUCtrl_SpriteSize8x16 | PPUCtrl_NMIDisabled
 	STY PPUCTRL ; Turn off NMI
 
-	; Tiles
-	LDA #$2F
-	LDY #$80
-	STA PPUADDR
-	STY PPUADDR
+	LDY #$00
+Debug_DrawStatusBar_CommandLoop:
+	; Anything to draw?
+	LDA DebugPPU_StatusBar, Y
+	BEQ Debug_DrawStatusBar_Exit
 
-	LDX #$00
+	; Set PPU address
+	STA PPUADDR
+	INY
+	LDA DebugPPU_StatusBar, Y
+	STA PPUADDR
+	INY
+
+	; Load the number of bytes
+	LDA DebugPPU_StatusBar, Y
+	TAX
+
+	INY
+
 Debug_DrawStatusBar_TileLoop:
-	LDA DebugPPU_StatusBar, X
+	LDA DebugPPU_StatusBar, Y
 	STA PPUDATA
-	INX
-	CPX #(DebugPPU_StatusBarAttributes - DebugPPU_StatusBar)
-	BCC Debug_DrawStatusBar_TileLoop
+	INY
+	DEX
+	BNE Debug_DrawStatusBar_TileLoop
 
-	; Attributes
-	LDA #$2F
-	LDY #$F8
-	STA PPUADDR
-	STY PPUADDR
+	BEQ Debug_DrawStatusBar_CommandLoop
 
-Debug_DrawStatusBar_AttributesLoop:
-	LDA DebugPPU_StatusBar, X
-	STA PPUDATA
-	INX
-	CPX #(DebugPPU_StatusBarAttributes_End - DebugPPU_StatusBar)
-	BCC Debug_DrawStatusBar_AttributesLoop
-
+Debug_DrawStatusBar_Exit:
 	RTS
 
 
 Debug_TitleScreen_Exit:
 IF INES_MAPPER == MAPPER_MMC5
 	; Enable status bar:
-	LDA #$01
-	STA Debug_ShowStatusBar
+	LDA #$00
+	STA Debug_CurrentStatusBarOption
 
 	; Turn off PPU
 	LDA #$00
@@ -299,6 +326,10 @@ IF INES_MAPPER == MAPPER_MMC5
 	; Erase nametable D
 	LDA #$2C
 	JSR ClearNametableChunk
+
+	; Swap to the debug/credits bank
+	LDA #PRGBank_A_B
+	JSR ChangeMappedPRGBankWithoutSaving
 
 	; Set up the initial status bar
 	JSR Debug_DrawStatusBar
@@ -337,19 +368,39 @@ Debug_NoScanlineIRQ:
 
 	RTS
 
+
+; Upper two bits of coarse V scroll
+Debug_StatusMenuScroll_11000000:
+	.db ($06 & %11000000)
+	.db ($26 & %11000000)
+	.db (Debug_StatusBarStart & %11000000)
+
+; Lower three bits of coarse V scroll
+Debug_StatusMenuScroll_00111000:
+	.db (($06 & %00111000) << 2)
+	.db (($26 & %00111000) << 2)
+	.db ((Debug_StatusBarStart & %00111000) << 2)
+
+; Lower three bits of fine V scroll
+Debug_StatusMenuScroll_00000111:
+	.db ($06 & %00000111)
+	.db ($26 & %00000111)
+	.db (Debug_StatusBarStart & %00000111)
+
+
 Debug_SetStatusBar:
 	; Update scroll position
+	LDY Debug_CurrentStatusBarOption
 	; See http://wiki.nesdev.com/w/index.php/PPU_scrolling#Split_X.2FY_scroll
 	; and also https://forums.nesdev.com/viewtopic.php?f=2&t=7784#post_content78593
 	LDA #%00001100
 	STA PPUADDR
-	LDA #$C0
-	LDA #(Debug_StatusBarStart & %11000000)
+	LDA Debug_StatusMenuScroll_11000000, Y
+	ORA Debug_StatusMenuScroll_00000111, Y
 	STA PPUSCROLL
 	LDA #$00
 	STA PPUSCROLL
-	LDA #$60
-	LDA #((Debug_StatusBarStart & %00111000) << 2)
+	LDA Debug_StatusMenuScroll_00111000, Y
 	STA PPUADDR
 
 	; Swap CHR Data
@@ -401,18 +452,15 @@ Debug_NMI:
 	TYA
 	PHA
 
-	; Check if we want the status bar
-	LDA Debug_ShowStatusBar
-	BNE DebugNMI_CheckStackArea
+	; ; Disable IRQ
+	; LDA #$00
+	; STA MMC5_IRQStatus
 
-	; Disable IRQ
-	LDA #$00
-	STA MMC5_IRQStatus
-
-	JMP NMI_CheckStackArea
+	; JMP NMI_CheckStackArea
 
 DebugNMI_CheckStackArea:
-	LDA #Debug_StatusBarStart
+	; @TODO: Load this from a table
+	LDA #(Debug_StatusBarStart - 1)
 	JSR Debug_RequestScanlineIRQ
 
 	BIT StackArea
@@ -476,21 +524,7 @@ Debug_IRQ:
 	BIT MMC5_IRQStatus
 	BPL Debug_IRQ_Exit ; No scanline is pending
 
-	; LDA Debug_IRQType
-	; BEQ Debug_IRQ_Status
-
-; Debug_IRQ_AreaBackground:
-; 	JSR Debug_SetAreaBackground
-; 	DEC Debug_IRQType
-; 	BEQ Debug_IRQ_Exit
-
-Debug_IRQ_Status:
 	JSR Debug_SetStatusBar
-	; INC Debug_IRQType
-
-	LDA #Debug_StatusBarEnd
-	; JSR Debug_RequestScanlineIRQ
-	; CLI
 
 Debug_IRQ_Exit:
 	; Restore all registers
