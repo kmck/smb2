@@ -406,8 +406,10 @@ ENDIF
 	.dsb 1 ; $00c3
 SoundEffectTimer2:
 	.dsb 1 ; $00c4
+Player2JoypadD3Press:
 ; FOR RENT
 	.dsb 1 ; $00c5
+Player2JoypadD4Press:
 ; FOR RENT
 	.dsb 1 ; $00c6
 PlayerAnimationFrame:
@@ -523,8 +525,13 @@ Player1JoypadHeld:
 	.dsb 1 ; $00f7
 Player2JoypadHeld:
 	.dsb 1 ; $00f8
+UpdateJoypadsTemp1:
+; FOR RENT
 	.dsb 1 ; $00f9
+UpdateJoypadsTemp2:
+; FOR RENT
 	.dsb 1 ; $00fa
+; FOR RENT
 	.dsb 1 ; $00fb
 PPUScrollYMirror:
 	.dsb 1 ; $00fc
@@ -2005,8 +2012,10 @@ MMC3PRGBankTemp:
 GameMilestoneCounter:
 	.dsb 1 ; $06f3
 
+Player2JoypadD3Press_Compare:
 Player1JoypadExpansionPress:
 	.dsb 1 ; $06f4
+Player2JoypadD4Press_Compare:
 Player2JoypadExpansionPress:
 	.dsb 1 ; $06f5
 PlayerCurrentSize:

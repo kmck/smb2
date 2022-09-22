@@ -2463,7 +2463,7 @@ NMI_CheckScreenUpdateIndex:
 NMI_ResetScreenUpdateIndex:
 	LDA #ScreenUpdateBuffer_RAM_301
 	STA ScreenUpdateIndex
-	JSR UpdateJoypads
+	JSR UpdateJoypads_PowerPad
 
 	DEC NMIWaitFlag
 
@@ -2874,6 +2874,149 @@ SlotMachineNoCoinsJingle:
 	STA MusicQueue2
 	RTS
 ENDIF
+
+;
+; Updates joypad press/held values
+;
+UpdateJoypads_PowerPad:
+	JSR ReadJoypads_PowerPad
+
+UpdateJoypads_PowerPad_DoubleCheck:
+	; Work around DPCM sample bug,
+	; where some spurious inputs are read
+	LDY Player2JoypadD3Press
+	STY Player2JoypadD3Press_Compare
+
+	LDY Player2JoypadD4Press
+	STY Player2JoypadD4Press_Compare
+
+	LDY Player1JoypadPress
+	JSR ReadJoypads_PowerPad
+
+	CPY Player1JoypadPress
+	BNE UpdateJoypads_PowerPad_DoubleCheck
+
+	LDY Player2JoypadD3Press_Compare
+	CPY Player2JoypadD3Press
+	BNE UpdateJoypads_PowerPad_DoubleCheck
+
+	LDY Player2JoypadD4Press_Compare
+	CPY Player2JoypadD4Press
+	BNE UpdateJoypads_PowerPad_DoubleCheck
+
+; Power Pad
+;
+; | ,-------------------------.
+; | |  SIDE B                 |
+; | |                         |
+; | |  (4: -) (8:  ) (12: +)  |
+; | |                         |
+; | |  (3: B) (7: ^) (11: A)  |
+; `-+                         |
+;   |  (2: <) (6:  ) (10: >)  |
+;   |                         |
+;   |  (1:  ) (5: v) (9:   )  |
+;   |                         |
+;   `-------------------------'
+;
+; D3: 02 01 05 09 06 10 11 07
+; D0 equivalent:
+;      <  .  v  .  .  >  A  ^
+;      0  1  2  3  4  5  6  7
+;
+; D4: 04 03 12 08
+; D0 equivalent:
+;      -  B  +
+;      0  1  2  3  4  5  6  7
+;
+; D0:
+;      A  B  -  +  ^  v  <  >
+;      0  1  2  3  4  5  6  7
+;
+
+	LDA Player2JoypadD4Press
+	ROL A ; Select
+	ROL Player2JoypadPress ; 0 0 0 0 0 0 0 -
+	ROL A ; B
+	ROL UpdateJoypadsTemp1 ; 0 0 0 0 0 0 0 B
+	ROL A ; Start
+	ROL Player2JoypadPress ; x x x x x x - +
+
+	LDA Player2JoypadD3Press
+	ROR A ; Up
+	ROL Player2JoypadPress ; x x x x x - + ^
+
+	ROR A ; A
+	ROL UpdateJoypadsTemp2 ; 0 0 0 0 0 0 0 A
+
+	ROR A ; Right
+	ROL UpdateJoypadsTemp1 ; 0 0 0 0 0 0 B >
+
+	ROR A ; (ignore button 6)
+	ROR A ; (ignore button 9)
+
+	ROR A ; Down
+	ROL Player2JoypadPress ; x x x x - + ^ v
+
+	ROR A ; (ignore button 1)
+
+	ROR A ; Left
+	ROL Player2JoypadPress ; x x x - + ^ v <
+
+	ROR UpdateJoypadsTemp1 ; Right
+	ROL Player2JoypadPress ; x x - + ^ v < >
+
+	ROL Player2JoypadPress ; x - + ^ v < > ?
+	ROL Player2JoypadPress ; - + ^ v < > ? ?
+
+	ROR UpdateJoypadsTemp1 ; B
+	ROR Player2JoypadPress ; B - + ^ v < > ?
+	ROR UpdateJoypadsTemp2 ; A
+	ROR Player2JoypadPress ; A B - + ^ v < >
+
+; Mux with Player 1 Joypad
+	LDA Player1JoypadPress
+	ORA Player2JoypadPress
+	STA Player1JoypadPress
+
+	JMP UpdateJoypads_Held
+
+;
+; Reads joypad pressed input
+;
+ReadJoypads_PowerPad:
+	LDX #$01
+	STX JOY1
+	DEX
+	STX JOY1
+
+	LDX #$08
+ReadJoypadLoop_PowerPad:
+	LDA JOY1
+	; Read D0 standard controller data
+	LSR A
+	ROL Player1JoypadPress
+	LSR A
+
+	LDA JOY2
+	; Read D0 standard controller data
+	LSR A
+	ROL Player2JoypadPress
+	; Skip D1, D2
+	LSR A
+	LSR A
+	; D3: Serial data from buttons 2, 1, 5, 9, 6, 10, 11, 7
+	LSR A
+	ROL Player2JoypadD3Press
+	; D4: Serial data from buttons 4, 3, 12, 8
+	LSR A
+	ROL Player2JoypadD4Press
+
+	DEX
+	BNE ReadJoypadLoop_PowerPad
+
+	RTS
+
 
 ; Unused space in the original ($ED4D - $EFFF)
 unusedSpace $F000, $FF
@@ -4986,6 +5129,7 @@ IFDEF CONTROLLER_2_DEBUG
 	BNE UpdateJoypads_DoubleCheck
 ENDIF
 
+UpdateJoypads_Held:
 	LDX #$01
 
 UpdateJoypads_Loop:
