@@ -3105,7 +3105,7 @@ SetHeartSprite:
 	AND #$20
 	EOR #$20
 	ASL A
-	ORA #$01
+	ORA #ObjAttrib_Palette1
 	STA SpriteDMAArea + 2, Y
 
 RenderSprite_Heart_Exit:
@@ -3626,7 +3626,7 @@ TurnIntoPuffOfSmoke_Exit:
 	RTS
 
 
-byte_BANK2_91C5:
+BirdoItemXVelocity:
 	.db $F8
 	.db $08
 
@@ -3667,14 +3667,17 @@ AttachObjectToBirdo_DoAttach:
 	LDA ObjectYLo, Y
 	ADC #$0E
 	STA ObjectYLo, X
-	JSR EnemyFindWhichSidePlayerIsOn
 
-	LDA byte_BANK2_91C5, Y
+	; Determine trajectory of object after Birdo is killed
+	JSR EnemyFindWhichSidePlayerIsOn
+	LDA BirdoItemXVelocity, Y
 	STA ObjectXVelocity, X
 	LDA #$E0
 	STA ObjectYVelocity, X
+
 	PLA
 	PLA
+
 	LDA #SpriteFlags46E_Damage | SpriteFlags46E_Unliftable | SpriteFlags46E_NoEnemyCollision
 	STA EnemyArray_46E, X
 	LDA #$30
@@ -3682,44 +3685,42 @@ AttachObjectToBirdo_DoAttach:
 	JMP RenderSprite
 
 
-
-byte_BANK2_9212:
-	.db $F0
-
-byte_BANK2_9213:
-	.db $FF
+AlbatossScreenBoundaryOffsetLo:
+	.db $F0 ; right
+AlbatossScreenBoundaryOffsetHi:
+	.db $FF ; left
 	.db $00
-; ---------------------------------------------------------------------------
+
 
 EnemyInit_AlbatossStartLeft:
 	JSR EnemyInit_Basic
 
 	LDA #$F0
-	BNE loc_BANK2_9221
+	BNE EnemyInit_Albatoss_SetXVelocity
 
 EnemyInit_AlbatossStartRight:
 	JSR EnemyInit_Basic
 
 	LDA #$10
 
-loc_BANK2_9221:
+EnemyInit_Albatoss_SetXVelocity:
 	STA ObjectXVelocity, X
 	INC EnemyArray_B1, X
+
 	LDA ObjectType, X
 	SEC
-
-loc_BANK2_9228:
-	SBC #$0B
+	SBC #Enemy_AlbatossStartRight
 	TAY
+
 	LDA ScreenBoundaryLeftLo
-	ADC byte_BANK2_9212, Y
+	ADC AlbatossScreenBoundaryOffsetLo, Y
 	STA ObjectXLo, X
 	LDA ScreenBoundaryLeftHi
-	ADC byte_BANK2_9213, Y
+	ADC AlbatossScreenBoundaryOffsetHi, Y
 	STA ObjectXHi, X
+
 	RTS
 
-; ---------------------------------------------------------------------------
 
 EnemyBehavior_Albatoss:
 	JSR RenderSprite_Albatoss
@@ -12436,7 +12437,7 @@ AreaSecondaryRoutine_HealthBar_Loop:
 	STA SpriteDMAArea + 1, Y
 	LDA #$10
 	STA SpriteDMAArea + 3, Y
-	LDA #$01
+	LDA #ObjAttrib_Palette1
 	STA SpriteDMAArea + 2, Y
 	LDA byte_RAM_0
 	STA SpriteDMAArea, Y

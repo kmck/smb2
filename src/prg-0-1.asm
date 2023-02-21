@@ -2104,11 +2104,11 @@ PlayerLiftFrames:
 	.db $08
 	.db $08
 
-byte_BANK0_8ACE:
+PlayerClimbHorizontalSpeed:
 	.db $00
 	.db $10
 	.db $F0
-; ---------------------------------------------------------------------------
+
 
 HandlePlayerState_Climbing:
 	LDA Player1JoypadHeld
@@ -2127,7 +2127,7 @@ loc_BANK0_8ADF:
 	LDA Player1JoypadHeld
 	AND #ControllerInput_Right | ControllerInput_Left
 	TAY
-	LDA byte_BANK0_8ACE, Y
+	LDA PlayerClimbHorizontalSpeed, Y
 	STA PlayerXVelocity
 	LDA PlayerXLo
 	CLC
@@ -3575,6 +3575,7 @@ loc_BANK0_90AE:
 	LDA PickUpToEnemyTypeTable, Y ; What sprite is spawned for you when lifting a bg object
 	STA ObjectType, X
 
+BombFuse:
 	LDY #$FF ; regular bomb fuse
 	CMP #Enemy_Bomb
 	BEQ loc_BANK0_90C1
@@ -3582,6 +3583,7 @@ loc_BANK0_90AE:
 	CMP #Enemy_BobOmb
 	BNE loc_BANK0_90C5
 
+BobOmbFuse:
 	LDY #$50 ; BobOmb fuse
 
 loc_BANK0_90C1:
