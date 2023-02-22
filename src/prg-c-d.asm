@@ -1562,13 +1562,13 @@ CastRoll_TheEndDelay:
 	BPL CastRoll_TheEndDelay_Exit
 
 	LDA #$00
-	STA MarioSnoringCounter5
-	STA MarioSnoringCounter6
-	STA MarioSnoringCounter7
+	STA TheEndScriptWordCopyIndex
+	STA TheEndScriptCounter
+	STA TheEndScriptWordTileIndex
 	LDA #$05
-	STA MarioSnoringTheEndFrameCounter
-	LDA #$14
-	STA MarioSnoringCounter9
+	STA TheEndScriptHoldFrameCounter
+	LDA #((TheEndScript_End - TheEndScript_The) / 8 - 1)
+	STA TheEndScriptWordFrameIndex
 
 	LDA #$3F
 	STA PPUBuffer_301
@@ -1587,93 +1587,92 @@ CastRoll_TheEndDelay_Exit:
 
 
 CastRoll_TheEndAnimation:
-	LDA MarioSnoringCounter6
+CastRoll_TheEndAnimation_The:
+	LDA TheEndScriptCounter
 	AND #$80
-	BNE CastRoll_TheEndAnimation_Exit
+	BNE CastRoll_TheEndAnimation_The_Exit
 
-	LDA MarioSnoringCounter6
-	BNE loc_BANKC_8ACD
+	LDA TheEndScriptCounter
+	BNE CastRoll_TheEndAnimation_End
 
-	DEC MarioSnoringTheEndFrameCounter
-	BPL CastRoll_TheEndAnimation_Exit
+	DEC TheEndScriptHoldFrameCounter
+	BPL CastRoll_TheEndAnimation_The_Exit
 
 	LDA #$05
-	STA MarioSnoringTheEndFrameCounter
-	LDA #$03
-	STA MarioSnoringCounter7
-	LDX #$00
-	LDY MarioSnoringCounter5
+	STA TheEndScriptHoldFrameCounter
 
-loc_BANKC_8A9C:
+	LDA #$03
+	STA TheEndScriptWordTileIndex
+	LDX #$00
+	LDY TheEndScriptWordCopyIndex
+CastRoll_TheEndAnimation_The_Loop:
 	LDA #$40
 	STA SpriteDMAArea, X
 	INX
-	LDA byte_BANKC_92FE, Y
+	LDA TheEndScript_The, Y
 	STA SpriteDMAArea, X
 	INY
 	INX
 	LDA #$00
 	STA SpriteDMAArea, X
 	INX
-	LDA byte_BANKC_92FE, Y
+	LDA TheEndScript_The, Y
 	STA SpriteDMAArea, X
 	INY
 	INX
-	DEC MarioSnoringCounter7
-	BPL loc_BANKC_8A9C
+	DEC TheEndScriptWordTileIndex
+	BPL CastRoll_TheEndAnimation_The_Loop
 
-	STY MarioSnoringCounter5
-	DEC MarioSnoringCounter9
-	BPL CastRoll_TheEndAnimation_Exit
+	STY TheEndScriptWordCopyIndex
+	DEC TheEndScriptWordFrameIndex
+	BPL CastRoll_TheEndAnimation_The_Exit
 
-	INC MarioSnoringCounter6
-	LDA #$12
-	STA MarioSnoringCounter9
+	INC TheEndScriptCounter
+	LDA #((TheEnd_RTS - TheEndScript_End) / 8 - 1)
+	STA TheEndScriptWordFrameIndex
 	LDA #$00
-	STA MarioSnoringCounter5
+	STA TheEndScriptWordCopyIndex
 
-CastRoll_TheEndAnimation_Exit:
+CastRoll_TheEndAnimation_The_Exit:
 	RTS
 
-; ---------------------------------------------------------------------------
 
-loc_BANKC_8ACD:
-	DEC MarioSnoringTheEndFrameCounter
-	BPL locret_BANKC_8B07
+CastRoll_TheEndAnimation_End:
+	DEC TheEndScriptHoldFrameCounter
+	BPL CastRoll_TheEndAnimation_End_Exit
 
 	LDA #$05
-	STA MarioSnoringTheEndFrameCounter
+	STA TheEndScriptHoldFrameCounter
 	LDA #$03
-	STA MarioSnoringCounter7
+	STA TheEndScriptWordTileIndex
 	LDX #$00
-	LDY MarioSnoringCounter5
-
-loc_BANKC_8ADD:
+	LDY TheEndScriptWordCopyIndex
+CastRoll_TheEndAnimation_End_Loop:
 	LDA #$40
 	STA SpriteDMAArea + $10, X
 	INX
-	LDA byte_BANKC_93A6, Y
+	LDA TheEndScript_End, Y
 	STA SpriteDMAArea + $10, X
 	INY
 	INX
 	LDA #$00
 	STA SpriteDMAArea + $10, X
 	INX
-	LDA byte_BANKC_93A6, Y
+	LDA TheEndScript_End, Y
 	STA SpriteDMAArea + $10, X
 	INY
 	INX
-	DEC MarioSnoringCounter7
-	BPL loc_BANKC_8ADD
+	DEC TheEndScriptWordTileIndex
+	BPL CastRoll_TheEndAnimation_End_Loop
 
-	STY MarioSnoringCounter5
-	DEC MarioSnoringCounter9
-	BPL locret_BANKC_8B07
+	STY TheEndScriptWordCopyIndex
+	DEC TheEndScriptWordFrameIndex
+	BPL CastRoll_TheEndAnimation_End_Exit
 
 	LDA #$FF
-	STA MarioSnoringCounter6
+	STA TheEndScriptCounter
 
-locret_BANKC_8B07:
+CastRoll_TheEndAnimation_End_Exit:
 	RTS
 
 
@@ -1884,17 +1883,15 @@ CastRoll_Porcupo:
 	.db $F9, $3E, $00, $30 ; $10
 	.db $F9, $30, $00, $38 ; $14
 	.db $F9, $32, $00, $40 ; $18
-	.db $F9 ; $1C
-byte_BANKC_8D5F:
-	.db $3E, $00, $48, $F9
-	.db $EE, $00, $24, $F9 ; 4
-	.db $EC, $00, $2C, $F9 ; 8
-	.db $F2, $00, $34, $F9 ; $C
-	.db $D4, $00, $3C, $F9 ; $10
-	.db $F8, $00, $44, $F9 ; $14
-	.db $EE, $00, $4C, $F9 ; $18
-	.db $EC, $00, $54, $F9 ; $1C
-	.db $3E, $00, $5C ; $20
+	.db $F9, $3E, $00, $48 ; $1C
+	.db $F9, $EE, $00, $24 ; $20
+	.db $F9, $EC, $00, $2C ; $24
+	.db $F9, $F2, $00, $34 ; $28
+	.db $F9, $D4, $00, $3C ; $2C
+	.db $F9, $F8, $00, $44 ; $30
+	.db $F9, $EE, $00, $4C ; $34
+	.db $F9, $EC, $00, $54 ; $38
+	.db $F9, $3E, $00, $5C ; $3C
 CastRoll_Tweeter:
 	.db $D0, $3E, $00, $30
 	.db $D0, $3E, $00, $38 ; 4
@@ -2268,327 +2265,51 @@ CastRoll_Wart:
 	.db $F9, $F6, $00, $44 ; $50
 	.db $F9, $C0, $00, $50 ; $54
 	.db $F9, $C0, $00, $58 ; $58
-byte_BANKC_92FE:
-	.db $10
-	.db $90
-	.db $7C
-	.db $98
-	.db $7C
-	.db $A0
-	.db $7C
-	.db $A8
-	.db $12
-	.db $90
-	.db $7C
-	.db $98
-	.db $7C
-	.db $A0
-	.db $7C
-	.db $A8
-	.db $14
-	.db $90
-	.db $7C
-	.db $98
-	.db $7C
-	.db $A0
-	.db $7C
-	.db $A8
-	.db $16
-	.db $90
-	.db $7C
-	.db $98
-	.db $7C
-	.db $A0
-	.db $7C
-	.db $A8
-	.db $16
-	.db $90
-	.db $18
-	.db $98
-	.db $7C
-	.db $A0
-	.db $7C
-	.db $A8
-	.db $16
-	.db $90
-	.db $1A
-	.db $98
-	.db $7C
-	.db $A0
-	.db $7C
-	.db $A8
-	.db $16
-	.db $90
-	.db $1C
-	.db $98
-	.db $7C
-	.db $A0
-	.db $7C
-	.db $A8
-	.db $16
-	.db $90
-	.db $1E
-	.db $98
-	.db $7C
-	.db $A0
-	.db $7C
-	.db $A8
-	.db $20
-	.db $90
-	.db $1E
-	.db $98
-	.db $7C
-	.db $A0
-	.db $7C
-	.db $A8
-	.db $24
-	.db $90
-	.db $1E
-	.db $98
-	.db $7C
-	.db $A0
-	.db $7C
-	.db $A8
-	.db $24
-	.db $90
-	.db $28
-	.db $98
-	.db $7C
-	.db $A0
-	.db $7C
-	.db $A8
-	.db $24
-	.db $90
-	.db $2A
-	.db $98
-	.db $7C
-	.db $A0
-	.db $7C
-	.db $A8
-	.db $24
-	.db $90
-	.db $2A
-	.db $98
-	.db $2C
-	.db $A0
-	.db $7C
-	.db $A8
-	.db $24
-	.db $90
-	.db $2A
-	.db $98
-	.db $2E
-	.db $A0
-	.db $7C
-	.db $A8
-	.db $24
-	.db $90
-	.db $30
-	.db $98
-	.db $32
-	.db $A0
-	.db $7C
-	.db $A8
-	.db $24
-	.db $90
-	.db $30
-	.db $98
-	.db $34
-	.db $A0
-	.db $7C
-	.db $A8
-	.db $24
-	.db $90
-	.db $30
-	.db $98
-	.db $36
-	.db $A0
-	.db $7C
-	.db $A8
-	.db $24
-	.db $90
-	.db $30
-	.db $98
-	.db $36
-	.db $A0
-	.db $38
-	.db $A8
-	.db $24
-	.db $90
-	.db $30
-	.db $98
-	.db $3A
-	.db $A0
-	.db $3C
-	.db $A8
-	.db $24
-	.db $90
-	.db $30
-	.db $98
-	.db $3E
-	.db $A0
-	.db $40
-	.db $A8
-	.db $24
-	.db $90
-	.db $30
-	.db $98
-	.db $3E
-	.db $A0
-	.db $42
-	.db $A8
-byte_BANKC_93A6:
-	.db $44
 
-	.db $B0
-	.db $46
-	.db $B8
-	.db $7C
-	.db $C0
-	.db $7C
-	.db $C8
-	.db $48
-	.db $B0
-	.db $4A
-	.db $B8
-	.db $7C
-	.db $C0
-	.db $7C
-	.db $C8
-	.db $4C
-	.db $B0
-	.db $4E
-	.db $B8
-	.db $7C
-	.db $C0
-	.db $7C
-	.db $C8
-	.db $50
-	.db $B0
-	.db $52
-	.db $B8
-	.db $7C
-	.db $C0
-	.db $7C
-	.db $C8
-	.db $54
-	.db $B0
-	.db $56
-	.db $B8
-	.db $7C
-	.db $C0
-	.db $7C
-	.db $C8
-	.db $58
-	.db $B0
-	.db $5A
-	.db $B8
-	.db $7C
-	.db $C0
-	.db $7C
-	.db $C8
-	.db $5C
-	.db $B0
-	.db $5E
-	.db $B8
-	.db $7C
-	.db $C0
-	.db $7C
-	.db $C8
-	.db $5C
-	.db $B0
-	.db $60
-	.db $B8
-	.db $7C
-	.db $C0
-	.db $7C
-	.db $C8
-	.db $5C
-	.db $B0
-	.db $62
-	.db $B8
-	.db $7C
-	.db $C0
-	.db $7C
-	.db $C8
-	.db $5C
-	.db $B0
-	.db $64
-	.db $B8
-	.db $66
-	.db $C0
-	.db $7C
-	.db $C8
-	.db $5C
-	.db $B0
-	.db $64
-	.db $B8
-	.db $68
-	.db $C0
-	.db $7C
-	.db $C8
-	.db $5C
-	.db $B0
-	.db $64
-	.db $B8
-	.db $6A
-	.db $C0
-	.db $7C
-	.db $C8
-	.db $5C
-	.db $B0
-	.db $64
-	.db $B8
-	.db $6C
-	.db $C0
-	.db $6E
-	.db $C8
-	.db $5C
-	.db $B0
-	.db $64
-	.db $B8
-	.db $6C
-	.db $C0
-	.db $70
-	.db $C8
-	.db $5C
-	.db $B0
-	.db $64
-	.db $B8
-	.db $6C
-	.db $C0
-	.db $72
-	.db $C8
-	.db $5C
-	.db $B0
-	.db $64
-	.db $B8
-	.db $6C
-	.db $C0
-	.db $74
-	.db $C8
-	.db $5C
-	.db $B0
-	.db $64
-	.db $B8
-	.db $6C
-	.db $C0
-	.db $76
-	.db $C8
-	.db $5C
-	.db $B0
-	.db $64
-	.db $B8
-	.db $6C
-	.db $C0
-	.db $78
-	.db $C8
-	.db $5C
-	.db $B0
-	.db $64
-	.db $B8
-	.db $6C
-	.db $C0
-	.db $7A
-	.db $C8
-	.db $60
+TheEndScript_The:
+	.db $10, $90, $7C, $98, $7C, $A0, $7C, $A8
+	.db $12, $90, $7C, $98, $7C, $A0, $7C, $A8
+	.db $14, $90, $7C, $98, $7C, $A0, $7C, $A8
+	.db $16, $90, $7C, $98, $7C, $A0, $7C, $A8
+	.db $16, $90, $18, $98, $7C, $A0, $7C, $A8
+	.db $16, $90, $1A, $98, $7C, $A0, $7C, $A8
+	.db $16, $90, $1C, $98, $7C, $A0, $7C, $A8
+	.db $16, $90, $1E, $98, $7C, $A0, $7C, $A8
+	.db $20, $90, $1E, $98, $7C, $A0, $7C, $A8
+	.db $24, $90, $1E, $98, $7C, $A0, $7C, $A8
+	.db $24, $90, $28, $98, $7C, $A0, $7C, $A8
+	.db $24, $90, $2A, $98, $7C, $A0, $7C, $A8
+	.db $24, $90, $2A, $98, $2C, $A0, $7C, $A8
+	.db $24, $90, $2A, $98, $2E, $A0, $7C, $A8
+	.db $24, $90, $30, $98, $32, $A0, $7C, $A8
+	.db $24, $90, $30, $98, $34, $A0, $7C, $A8
+	.db $24, $90, $30, $98, $36, $A0, $7C, $A8
+	.db $24, $90, $30, $98, $36, $A0, $38, $A8
+	.db $24, $90, $30, $98, $3A, $A0, $3C, $A8
+	.db $24, $90, $30, $98, $3E, $A0, $40, $A8
+	.db $24, $90, $30, $98, $3E, $A0, $42, $A8
+
+TheEndScript_End:
+	.db $44, $B0, $46, $B8, $7C, $C0, $7C, $C8
+	.db $48, $B0, $4A, $B8, $7C, $C0, $7C, $C8
+	.db $4C, $B0, $4E, $B8, $7C, $C0, $7C, $C8
+	.db $50, $B0, $52, $B8, $7C, $C0, $7C, $C8
+	.db $54, $B0, $56, $B8, $7C, $C0, $7C, $C8
+	.db $58, $B0, $5A, $B8, $7C, $C0, $7C, $C8
+	.db $5C, $B0, $5E, $B8, $7C, $C0, $7C, $C8
+	.db $5C, $B0, $60, $B8, $7C, $C0, $7C, $C8
+	.db $5C, $B0, $62, $B8, $7C, $C0, $7C, $C8
+	.db $5C, $B0, $64, $B8, $66, $C0, $7C, $C8
+	.db $5C, $B0, $64, $B8, $68, $C0, $7C, $C8
+	.db $5C, $B0, $64, $B8, $6A, $C0, $7C, $C8
+	.db $5C, $B0, $64, $B8, $6C, $C0, $6E, $C8
+	.db $5C, $B0, $64, $B8, $6C, $C0, $70, $C8
+	.db $5C, $B0, $64, $B8, $6C, $C0, $72, $C8
+	.db $5C, $B0, $64, $B8, $6C, $C0, $74, $C8
+	.db $5C, $B0, $64, $B8, $6C, $C0, $76, $C8
+	.db $5C, $B0, $64, $B8, $6C, $C0, $78, $C8
+	.db $5C, $B0, $64, $B8, $6C, $C0, $7A, $C8
+
+; Not actually used
+TheEnd_RTS:
+	RTS

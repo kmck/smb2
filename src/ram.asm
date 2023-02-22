@@ -84,17 +84,17 @@ TitleScreenStoryNeedsClear: ; set when the text area needs to be cleared for the
 MarioSnoringWaveFrameCounter: ; controls waving speed
 TitleScreenStoryTextIndex:
 	.dsb 1 ; 3                ; $0018
-MarioSnoringCounter5:
+TheEndScriptWordCopyIndex: ; index of the script tile/position data that gets copied
 TitleScreenStoryDone: ; RAM $0002 check will restart title screen when set
 	.dsb 1 ; 4                ; $0019
-MarioSnoringCounter6:
+TheEndScriptCounter: ; ???
 TitleScreenStoryTextLineTimer: ; used to pause between writing lines of text
 	.dsb 1 ; 5                ; $001a
-MarioSnoringCounter7:
+TheEndScriptWordTileIndex: ; each word is 4 tiles wide
 	.dsb 1 ; 6                ; $001b
-MarioSnoringTheEndFrameCounter: ; controls writing speed
+TheEndScriptHoldFrameCounter: ; controls writing speed
 	.dsb 1 ; 7                ; $001c
-MarioSnoringCounter9:
+TheEndScriptWordFrameIndex: ; used to count down number of frames per word
 	.dsb 1 ; 8                ; $001d
 
 PlayerYHi:
