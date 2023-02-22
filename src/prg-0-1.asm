@@ -866,7 +866,7 @@ CopyBackgroundAttributesToPPUBuffer_Vertical_Loop:
 
 CopyBackgroundAttributesToPPUBuffer_Vertical_HalfRow:
 	; Bottom row of PPU attributes has half-sized blocks
-  ; Shift background palettes down one quad
+	; Shift background palettes down one quad
 	LDA ScrollingPPUAttributeUpdateBuffer, X
 	LSR A
 	LSR A
@@ -3641,7 +3641,7 @@ loc_BANK0_90EA:
 
 TileBehavior_CheckJar:
 	LDY HoldingItem
-	BNE loc_BANK0_917C
+	BNE TileBehavior_CheckPickUp_DoNotLift
 
 	LDA PlayerDucking
 	BEQ TileBehavior_CheckPickUp
@@ -3656,7 +3656,7 @@ TileBehavior_CheckJar:
 	CMP #BackgroundTile_JarTopNonEnterable
 	BEQ TileBehavior_GoDownJar
 
-	BNE loc_BANK0_917C
+	BNE TileBehavior_CheckPickUp_DoNotLift
 
 TileBehavior_CheckJar_NotSubspace:
 	INY
@@ -3665,7 +3665,7 @@ TileBehavior_CheckJar_NotSubspace:
 	BEQ TileBehavior_GoDownJar
 
 	CMP #BackgroundTile_JarTopPointer
-	BNE loc_BANK0_917C
+	BNE TileBehavior_CheckPickUp_DoNotLift
 
 	INY
 	; Now Y = $02
@@ -3676,7 +3676,7 @@ TileBehavior_GoDownJar:
 	ADC #$04
 	AND #$0F
 	CMP #$08
-	BCS loc_BANK0_917C
+	BCS TileBehavior_CheckPickUp_DoNotLift
 
 	; Stop horiziontal movement
 	LDA #$00
@@ -3712,7 +3712,7 @@ SnapPlayerToTile_Exit:
 
 TileBehavior_CheckPickUp:
 	BIT Player1JoypadPress
-	BVC loc_BANK0_917C
+	BVC TileBehavior_CheckPickUp_DoNotLift
 
 	; B button pressed
 
@@ -3721,34 +3721,34 @@ TileBehavior_CheckPickUp:
 	ADC #$06
 	AND #$0F
 	CMP #$0C
-	BCS loc_BANK0_917C
+	BCS TileBehavior_CheckPickUp_DoNotLift
 
 	LDA byte_RAM_0
 	CMP #BackgroundTile_DiggableSand
-	BNE loc_BANK0_916E
+	BNE TileBehavior_CheckPickUp_ItemTile
 
+	; It's sand! Set the enemy pickup index
 	LDA #$0E
-	BNE loc_BANK0_9177
+	BNE TileBehavior_CheckPickUp_SetPickUpIndex
 
-; blocks that can be picked up
-loc_BANK0_916E:
+TileBehavior_CheckPickUp_ItemTile:
+	; blocks that can be picked up
 	CMP #BackgroundTile_Unused6D
-	BCS loc_BANK0_917C
+	BCS TileBehavior_CheckPickUp_DoNotLift
 
 	; convert to an index in PickUpToEnemyTypeTable
 	SEC
 	SBC #BackgroundTile_MushroomBlock
-	BCC loc_BANK0_917C
+	BCC TileBehavior_CheckPickUp_DoNotLift
 
-loc_BANK0_9177:
+TileBehavior_CheckPickUp_SetPickUpIndex:
 	STA byte_RAM_9
 	JMP loc_BANK0_9074
 
-; ---------------------------------------------------------------------------
 
-loc_BANK0_917C:
+TileBehavior_CheckPickUp_DoNotLift:
 	LDA PlayerDucking
-	BNE locret_BANK0_91CE
+	BNE TileBehavior_CheckDoorTiles_Exit
 
 	LDA byte_RAM_6
 	SEC
@@ -3761,9 +3761,9 @@ loc_BANK0_917C:
 	STA byte_RAM_1
 	LDA byte_RAM_3
 	STA byte_RAM_2
-	JSR sub_BANK0_92C1
+	JSR CheckOutOfBounds_Bank0
 
-	BCS locret_BANK0_91CE
+	BCS TileBehavior_CheckDoorTiles_Exit
 
 	JSR SetTileOffsetAndAreaPageAddr_Bank1
 
@@ -3775,36 +3775,35 @@ loc_BANK0_917C:
 	LDX ObjectBeingCarriedIndex
 	LDY ObjectType, X
 	CPY #Enemy_Key
-	BNE locret_BANK0_91CE
+	BNE TileBehavior_CheckDoorTiles_Exit
 
 loc_BANK0_91AE:
 	LDX InSubspaceOrJar
 	CPX #$02
 	BEQ loc_BANK0_91BF
 
+	; check to see if the tile matches one of the door tiles
 	LDY #$04
-
-; check to see if the tile matches one of the door tiles
-loc_BANK0_91B7:
+TileBehavior_CheckDoorTiles_Loop:
 	CMP DoorTiles, Y
-	BEQ loc_BANK0_91EB
+	BEQ TileBehavior_CheckDoorTiles_Index
 
 	DEY
-	BPL loc_BANK0_91B7
+	BPL TileBehavior_CheckDoorTiles_Loop
 
 loc_BANK0_91BF:
 	BIT Player1JoypadPress
-	BVC locret_BANK0_91CE
+	BVC TileBehavior_CheckDoorTiles_Exit
 
 	STA byte_RAM_0
 	CMP #BackgroundTile_GrassInactive
-	BCS locret_BANK0_91CE
+	BCS TileBehavior_CheckDoorTiles_Exit
 
 	SEC
 	SBC #BackgroundTile_GrassCoin
 	BCS loc_BANK0_91CF
 
-locret_BANK0_91CE:
+TileBehavior_CheckDoorTiles_Exit:
 	RTS
 
 ; ---------------------------------------------------------------------------
@@ -3830,17 +3829,16 @@ loc_BANK0_91E3:
 	STA byte_RAM_9
 	JMP loc_BANK0_9074
 
-; ---------------------------------------------------------------------------
 
 ;
 ; Checks to see if we're trying to go through the door
 ;
 ; Input
 ;   Y = tile index in DoorTiles
-loc_BANK0_91EB:
+TileBehavior_CheckDoorTiles_Index:
 	LDA Player1JoypadPress
 	AND #ControllerInput_Up
-	BEQ locret_BANK0_91CE
+	BEQ TileBehavior_CheckDoorTiles_Exit
 
 	; player is holding up and is trying to go through this door
 	LDA PlayerXLo
@@ -3848,19 +3846,18 @@ loc_BANK0_91EB:
 	ADC #$05
 	AND #$0F
 	CMP #$0A
-	BCS locret_BANK0_91CE
+	BCS TileBehavior_CheckDoorTiles_Exit
 
 	CPY #$04 ; index of BackgroundTile_LightDoorEndLevel
-	BNE loc_BANK0_9205
+	BNE TileBehavior_CheckDoorTiles_AreaTransition
 
 	; setting GameMode to $03 to go to Bonus Chance
 	DEY
 	STY GameMode
 	RTS
 
-; ---------------------------------------------------------------------------
 
-loc_BANK0_9205:
+TileBehavior_CheckDoorTiles_AreaTransition:
 	LDA #TransitionType_Door
 	STA TransitionType
 	TYA
@@ -3958,6 +3955,7 @@ loc_BANK0_925E:
 	ADC byte_RAM_0
 	STA byte_RAM_2
 	STA byte_RAM_3
+
 	LDA IsHorizontalLevel
 	BNE loc_BANK0_927D
 
@@ -3980,7 +3978,7 @@ loc_BANK0_9284:
 	ADC byte_RAM_1
 	STA byte_RAM_1
 	STA byte_RAM_4
-	JSR sub_BANK0_92C1
+	JSR CheckOutOfBounds_Bank0
 
 	BCC loc_BANK0_929E
 
@@ -4000,12 +3998,23 @@ loc_BANK0_92A5:
 	RTS
 
 
-; =============== S U B R O U T I N E =======================================
-
-sub_BANK0_92AA:
+;
+; Converts absolute vertical position to page-relative vertical position
+;
+; Since pages are $F0 pixels tall, this effectively adds $10 per page
+;
+; Input
+;   Y = y-position hi
+;   A = y-position lo
+;
+; Output
+;   Y = page
+;   A = y-position lo (on page)
+;
+AbsoluteToPageRelativeY_Bank0:
 	STA byte_RAM_F
 	TYA
-	BMI locret_BANK0_92C0
+	BMI AbsoluteToPageRelativeY_Exit_Bank0
 
 	ASL A
 	ASL A
@@ -4013,49 +4022,62 @@ sub_BANK0_92AA:
 	ASL A
 	CLC
 	ADC byte_RAM_F
-	BCS loc_BANK0_92BC
+	BCS AbsoluteToPageRelativeY_Overflow_Bank0
 
 	CMP #$F0
-	BCC locret_BANK0_92C0
+	BCC AbsoluteToPageRelativeY_Exit_Bank0
 
-loc_BANK0_92BC:
+AbsoluteToPageRelativeY_Overflow_Bank0:
 	CLC
 	ADC #$10
 	INY
 
-locret_BANK0_92C0:
+AbsoluteToPageRelativeY_Exit_Bank0:
 	RTS
-
-; End of function sub_BANK0_92AA
 
 
 ;
 ; NOTE: This is a copy of the "sub_BANK3_BC2E" routine in Bank 3
 ;
+; Checks if the position is out of bounds
 ;
-sub_BANK0_92C1:
+; Input
+;   byte_RAM_1 = y-position hi
+;   byte_RAM_E6 = y-position lo
+;   byte_RAM_2 = x-position hi
+;   byte_RAM_E5 = x-position lo
+;
+; Output
+;   byte_RAM_E8 = out-of-bounds page number
+;   C = whether the position is out of bounds
+;
+CheckOutOfBounds_Bank0:
 	LDY byte_RAM_1
 	LDA byte_RAM_E6
-	JSR sub_BANK0_92AA
-
+	JSR AbsoluteToPageRelativeY_Bank0
 	STY byte_RAM_1
 	STA byte_RAM_E6
+
 	LDY IsHorizontalLevel
 	LDA byte_RAM_1, Y
 	STA byte_RAM_E8
+
+	; Is X out of bounds?
 	LDA byte_RAM_2
-	CMP byte_BANK0_92E0 + 1, Y
-	BCS locret_BANK0_92DF
+	CMP OutOfBoundsPageX_Bank0, Y
+	BCS CheckOutOfBounds_Exit_Bank0
 
+	; X position is in bounds, what about Y?
 	LDA byte_RAM_1
-	CMP byte_BANK0_92E0, Y
+	CMP OutOfBoundsPageY_Bank0, Y
 
-locret_BANK0_92DF:
+CheckOutOfBounds_Exit_Bank0:
 	RTS
 
 
-byte_BANK0_92E0:
+OutOfBoundsPageY_Bank0:
 	.db $0A
+OutOfBoundsPageX_Bank0:
 	.db $01
 	.db $0B
 
@@ -4208,7 +4230,7 @@ ReplaceTile_StoreXHi_Bank0:
 	LDA ObjectYHi, X
 	ADC #$00
 	STA byte_RAM_1
-	JSR sub_BANK0_92C1
+	JSR CheckOutOfBounds_Bank0
 
 	PLA
 	BCS locret_BANK0_934E
@@ -4259,7 +4281,7 @@ loc_BANK0_937C:
 	INY
 
 loc_BANK0_93B9:
-	LDA byte_BANK0_940A, Y
+	LDA PPUNametableTargetHi, Y
 	CLC
 	ADC PPUBuffer_301, X
 	STA PPUBuffer_301, X
@@ -4306,11 +4328,11 @@ loc_BANK0_93B9:
 
 
 ; Another byte of PPU high addresses for horiz/vert levels
-byte_BANK0_940A:
-	.db $20
-	.db $28
-	.db $20
-	.db $24
+PPUNametableTargetHi:
+	.db $20 ; vertical
+	.db $28 ; vertical
+	.db $20 ; horizontal
+	.db $24 ; horizontal
 
 
 ;
@@ -6517,8 +6539,8 @@ EndingCelebrationPaletteFade3:
 
 EndingScreenUpdateIndex:
 	.db EndingUpdateBuffer_PaletteFade1
-	.db EndingUpdateBuffer_PaletteFade2 ; 1 ; @TODO This seems wrong, somehow
-	.db EndingUpdateBuffer_PaletteFade3 ; 2
+	.db EndingUpdateBuffer_PaletteFade2
+	.db EndingUpdateBuffer_PaletteFade3
 
 ContributorSpriteZeroOAMData:
 	.db $8C, $FC, $20, $94
@@ -6613,19 +6635,19 @@ loc_BANK1_AAD4:
 	INC byte_RAM_10
 	JSR ContributorTicker
 
-	JSR loc_BANK1_ABCC
+	JSR ContributorPhaseAnimation
 
 	LDA byte_RAM_E6
 	CMP #$03
-	BCS loc_BANK1_AB20
+	BCS ContributorScene_SubconCheer
 
-loc_BANK1_AAE7:
+ContributorScene_VBlankLoop:
 	BIT PPUSTATUS
-	BVS loc_BANK1_AAE7
+	BVS ContributorScene_VBlankLoop
 
-loc_BANK1_AAEC:
+ContributorScene_VBlank2Loop:
 	BIT PPUSTATUS
-	BVC loc_BANK1_AAEC
+	BVC ContributorScene_VBlank2Loop
 
 	LDX #$02
 
@@ -6660,9 +6682,8 @@ loc_BANK1_AAF5:
 loc_BANK1_AB1D:
 	JMP loc_BANK1_AAD4
 
-; ---------------------------------------------------------------------------
 
-loc_BANK1_AB20:
+ContributorScene_SubconCheer:
 	LDA #VMirror
 	JSR ChangeNametableMirroring
 
@@ -6684,29 +6705,27 @@ loc_BANK1_AB32:
 
 	JSR ContributorCharacterAnimation
 
-loc_BANK1_AB40:
+ContributorScene_SubconCheer_VBlankLoop:
 	BIT PPUSTATUS
-	BVS loc_BANK1_AB40
+	BVS ContributorScene_SubconCheer_VBlankLoop
 
-loc_BANK1_AB45:
+ContributorScene_SubconCheer_VBlank2Loop:
 	BIT PPUSTATUS
-	BVC loc_BANK1_AB45
+	BVC ContributorScene_SubconCheer_VBlank2Loop
 
+	;	Timing for the Subcons jumping scroll position
 	LDX #$02
-
 loc_BANK1_AB4C:
 	LDY #$00
-
 loc_BANK1_AB4E:
 	LDA byte_RAM_0
 	LDA byte_RAM_0
 	DEY
 	BNE loc_BANK1_AB4E
-
 	DEX
 	BNE loc_BANK1_AB4C
 
-	LDA #$B0
+	LDA #PPUCtrl_Base2000 | PPUCtrl_WriteHorizontal | PPUCtrl_Sprite0000 | PPUCtrl_Background1000 | PPUCtrl_SpriteSize8x16 | PPUCtrl_NMIEnabled
 	ORA byte_RAM_F2
 	STA PPUCtrlMirror
 	STA PPUCTRL
@@ -6764,9 +6783,7 @@ EndingSceneTransition_Exit:
 	RTS
 
 
-; ---------------------------------------------------------------------------
-
-loc_BANK1_ABA7:
+ContributorScene_FadeIn:
 	LDA byte_RAM_10
 	AND #$03
 	BNE EndingSceneTransition_Exit
@@ -6796,19 +6813,18 @@ DisableNMI_Bank1:
 	RTS
 
 
-
-loc_BANK1_ABCC:
+ContributorPhaseAnimation:
 	JSR ContributorCharacterAnimation
 
 	LDA byte_RAM_E6
 	JSR JumpToTableAfterJump
 
-	.dw loc_BANK1_ABA7
-	.dw loc_BANK1_AC0A
-	.dw loc_BANK1_AC87
+	.dw ContributorScene_FadeIn
+	.dw ContributorScene_CrowdSurfing
+	.dw ContributorScene_Zonk
 
 
-byte_BANK1_ABDA:
+ZonkXVelocity:
 	.db $C0
 	.db $C8
 	.db $B8
@@ -6816,7 +6832,7 @@ byte_BANK1_ABDA:
 	.db $C8
 	.db $C0
 
-byte_BANK1_ABE0:
+ZonkYVelocity:
 	.db $C0
 	.db $08
 	.db $E0
@@ -6838,7 +6854,7 @@ EndingWartTiles:
 	.db $25
 	.db $27
 
-byte_BANK1_ABF2:
+EndingWartTilesX:
 	.db $00
 	.db $08
 	.db $10
@@ -6852,7 +6868,7 @@ byte_BANK1_ABF2:
 	.db $20
 	.db $28
 
-byte_BANK1_ABFE:
+EndingWartTilesY:
 	.db $00
 	.db $00
 	.db $00
@@ -6867,87 +6883,84 @@ byte_BANK1_ABFE:
 	.db $10
 
 
-; ---------------------------------------------------------------------------
-
-loc_BANK1_AC0A:
+ContributorScene_CrowdSurfing:
 	JSR ApplyPlayerPhysicsX
 
 	LDA PlayerXHi
 	CMP #$01
-	BNE loc_BANK1_AC37
+	BNE ContributorScene_CrowdSurfing_PositionY
 
 	LDA PlayerXLo
 	CMP #$20
-	BCC loc_BANK1_AC37
+	BCC ContributorScene_CrowdSurfing_PositionY
 
+	; Advance to next phase
 	INC_abs byte_RAM_E6
 
 	LDA #$A0
 	STA byte_RAM_10
-	LDX #$05
 
-loc_BANK1_AC22:
+	LDX #$05
+ContributorScene_CrowdSurfing_ZonkVelocityLoop:
 	LDA #$20
 	STA ObjectXLo, X
 	LDA #$A8
-
-loc_BANK1_AC28:
 	STA ObjectYLo, X
-	LDA byte_BANK1_ABDA, X
+	LDA ZonkXVelocity, X
 	STA ObjectXVelocity, X
-	LDA byte_BANK1_ABE0, X
+	LDA ZonkYVelocity, X
 	STA ObjectYVelocity, X
 	DEX
-	BPL loc_BANK1_AC22
+	BPL ContributorScene_CrowdSurfing_ZonkVelocityLoop
 
-loc_BANK1_AC37:
+ContributorScene_CrowdSurfing_PositionY:
 	LDY #$A0
 	LDA byte_RAM_10
 	AND #$38
-	BNE loc_BANK1_AC40
+	BNE ContributorScene_CrowdSurfing_PositionY_Skip1
 
 	DEY
 
-loc_BANK1_AC40:
+ContributorScene_CrowdSurfing_PositionY_Skip1:
 	AND #$08
-	BNE loc_BANK1_AC45
+	BNE ContributorScene_CrowdSurfing_PositionY_Skip2
 
 	DEY
 
-loc_BANK1_AC45:
+ContributorScene_CrowdSurfing_PositionY_Skip2:
 	STY PlayerYLo
+
 	LDX #$0B
 	LDY #$70
-
-loc_BANK1_AC4B:
+ContributorScene_CrowdSurfing_DrarWart_Loop:
 	LDA PlayerYLo
 	CLC
-	ADC byte_BANK1_ABFE, X
+	ADC EndingWartTilesY, X
 	STA SpriteDMAArea, Y
 	LDA EndingWartTiles, X
 	STA SpriteDMAArea + 1, Y
 	LDA #$01
 	STA SpriteDMAArea + 2, Y
+
 	LDA PlayerXLo
 	CLC
-	ADC byte_BANK1_ABF2, X
+	ADC EndingWartTilesX, X
 	STA SpriteDMAArea + 3, Y
-	LDA PlayerXHi
 
-loc_BANK1_AC6A:
+	LDA PlayerXHi
 	ADC #$00
-	BEQ loc_BANK1_AC73
+	BEQ ContributorScene_CrowdSurfing_DrarWart_Next
 
 	LDA #$F0
 	STA SpriteDMAArea, Y
 
-loc_BANK1_AC73:
+ContributorScene_CrowdSurfing_DrarWart_Next:
 	INY
 	INY
 	INY
 	INY
 	DEX
-	BPL loc_BANK1_AC4B
+	BPL ContributorScene_CrowdSurfing_DrarWart_Loop
 
 	RTS
 
@@ -6960,7 +6973,7 @@ ZonkTiles:
 	.db $37
 	.db $39
 
-byte_BANK1_AC81:
+ZonkPositionReset:
 	.db $00
 	.db $06
 	.db $03
@@ -6969,11 +6982,10 @@ byte_BANK1_AC81:
 	.db $0C
 
 
-loc_BANK1_AC87:
+ContributorScene_Zonk:
 	LDA byte_RAM_10
 	BNE loc_BANK1_ACA4
 
-loc_BANK1_AC8B:
 	STA ObjectXSubpixel + 6
 	STA ObjectYSubpixel + 6
 	STA ObjectXLo + 6
@@ -6987,10 +6999,8 @@ loc_BANK1_AC8B:
 
 	INC_abs byte_RAM_E6
 
-
 loc_BANK1_ACA4:
 	LDX #$05
-
 loc_BANK1_ACA6:
 	STX byte_RAM_12
 	JSR ApplyObjectPhysicsX_Bank1
@@ -7002,7 +7012,7 @@ loc_BANK1_ACA6:
 	BEQ loc_BANK1_ACC1
 
 	AND #$0F
-	CMP byte_BANK1_AC81, X
+	CMP ZonkPositionReset, X
 	BNE loc_BANK1_ACC3
 
 	LDA #$20

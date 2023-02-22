@@ -7739,11 +7739,10 @@ RenderSprite_Mouser_Exit:
 	RTS
 
 
-; ---------------------------------------------------------------------------
-byte_BANK3_A652:
+OstroRiderOffsetX:
 	.db $FB
 	.db $05
-; ---------------------------------------------------------------------------
+
 
 RenderSprite_Ostro:
 	JSR RenderSprite_NotRocket
@@ -7761,7 +7760,7 @@ RenderSprite_Ostro:
 	LDY EnemyMovementDirection, X
 	LDA byte_RAM_1
 	CLC
-	ADC byte_BANK3_A652 - 1, Y
+	ADC OstroRiderOffsetX - 1, Y
 	STA byte_RAM_1
 	JSR FindSpriteSlot
 
@@ -11533,12 +11532,13 @@ DetermineCollisionFlags_Y:
 	CPX #$01
 	BCS loc_BANK3_BAD1
 
+	; The player can duck, so see if we need to account for that
 IFNDEF PLAYER_HITBOX
 	PHA
 	LDY PlayerDucking
 	PLA
 	SEC
-	SBC byte_BANK3_BB2F, Y
+	SBC PlayerHitBoxYOffset, Y
 ELSE
 	LDY PlayerHitbox
 	SEC
@@ -11615,11 +11615,10 @@ DetermineCollisionFlags_ExitY:
 	RTS
 
 
-byte_BANK3_BB2F:
-	.db $0B
-	.db $10
+PlayerHitBoxYOffset:
+	.db $0B ; standing
+	.db $10 ; ducking
 
-; =============== S U B R O U T I N E =======================================
 
 sub_BANK3_BB31:
 	LDY #$00
@@ -11758,6 +11757,7 @@ loc_BANK3_BB96:
 	ADC byte_RAM_0
 	STA byte_RAM_2
 	STA byte_RAM_3
+
 	LDA IsHorizontalLevel
 	BNE loc_BANK3_BBB5
 
@@ -11780,7 +11780,7 @@ loc_BANK3_BBBC:
 	ADC byte_RAM_1
 	STA byte_RAM_1
 	STA byte_RAM_4
-	JSR sub_BANK3_BC2E
+	JSR CheckOutOfBounds
 
 	BCC loc_BANK3_BBD6
 
@@ -11888,31 +11888,45 @@ SetPlayerStateLifting:
 
 
 ;
-; @TODO: Figure out what this does exactly
+; Checks if the position is out of bounds
 ;
-sub_BANK3_BC2E:
+; Duplicate of subroutine in bank 0
+;
+; Input
+;   byte_RAM_1 = y-position hi
+;   byte_RAM_E6 = y-position lo
+;   byte_RAM_2 = x-position hi
+;   byte_RAM_E5 = x-position lo
+;
+; Output
+;   byte_RAM_E8 = out-of-bounds page number
+;   C = whether the position is out of bounds
+;
+CheckOutOfBounds:
 	LDY byte_RAM_1
 	LDA byte_RAM_E6
-	JSR sub_BANK3_BD6B
-
+	JSR AbsoluteToPageRelativeY
 	STY byte_RAM_1
 	STA byte_RAM_E6
+
 	LDY IsHorizontalLevel
 	LDA byte_RAM_1, Y
 	STA byte_RAM_E8
+
 	LDA byte_RAM_2
-	CMP byte_BANK3_BC4D + 1, Y
-	BCS locret_BANK3_BC4C
+	CMP OutOfBoundsPageX, Y
+	BCS CheckOutOfBounds_Exit
 
 	LDA byte_RAM_1
-	CMP byte_BANK3_BC4D, Y
+	CMP OutOfBoundsPageY, Y
 
-locret_BANK3_BC4C:
+CheckOutOfBounds_Exit:
 	RTS
 
 
-byte_BANK3_BC4D:
+OutOfBoundsPageY:
 	.db $0A
+OutOfBoundsPageX:
 	.db $01
 	.db $0B
 
@@ -11952,7 +11966,7 @@ ReplaceTile_StoreXHi:
 	LDA ObjectYHi, X
 	ADC #$00
 	STA byte_RAM_1
-	JSR sub_BANK3_BC2E
+	JSR CheckOutOfBounds
 
 	PLA
 	BCS locret_BANK3_BC1E
@@ -12159,12 +12173,25 @@ SnapPlayerToTile_Exit_Bank3:
 	RTS
 
 
-; =============== S U B R O U T I N E =======================================
-
-sub_BANK3_BD6B:
+;
+; Converts absolute vertical position to page-relative vertical position
+;
+; Duplicate of subroutine in bank 0
+;
+; Since pages are $F0 pixels tall, this effectively adds $10 per page
+;
+; Input
+;   Y = y-position hi
+;   A = y-position lo
+;
+; Output
+;   Y = page
+;   A = y-position lo (on page)
+;
+AbsoluteToPageRelativeY:
 	STA byte_RAM_F
 	TYA
-	BMI locret_BANK3_BD81
+	BMI AbsoluteToPageRelativeY_Exit
 
 	ASL A
 	ASL A
@@ -12172,20 +12199,18 @@ sub_BANK3_BD6B:
 	ASL A
 	CLC
 	ADC byte_RAM_F
-	BCS loc_BANK3_BD7D
+	BCS AbsoluteToPageRelativeY_Overflow
 
 	CMP #$F0
-	BCC locret_BANK3_BD81
+	BCC AbsoluteToPageRelativeY_Exit
 
-loc_BANK3_BD7D:
+AbsoluteToPageRelativeY_Overflow:
 	CLC
 	ADC #$10
 	INY
 
-locret_BANK3_BD81:
+AbsoluteToPageRelativeY_Exit:
 	RTS
-
-; End of function sub_BANK3_BD6B
 
 
 ;
