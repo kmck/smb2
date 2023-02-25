@@ -8816,32 +8816,31 @@ RenderSprite_Rocket:
 	JMP loc_BANK2_9C53
 
 
-; ---------------------------------------------------------------------------
-byte_BANK3_AC25:
+FryGuyOffsetX_A:
 	.db $F0
-
-byte_BANK3_AC26:
+FryGuyOffsetX_B:
 	.db $00
 	.db $F0
 
 
-; =============== S U B R O U T I N E =======================================
-
 RenderSprite_Fryguy:
 	LDA #$00
 	STA byte_RAM_EE
+
 	LDA ObjectAnimationTimer, X
 	AND #$08
 	LSR A
 	LSR A
 	LSR A
 	STA byte_RAM_7
+
 	LDY byte_RAM_7
 	LDA SpriteTempScreenX
 	PHA
 	CLC
-	ADC byte_BANK3_AC25, Y
+	ADC FryGuyOffsetX_A, Y
 	STA SpriteTempScreenX
+
 	LDA #$80
 	LDY ObjectFlashTimer, X
 	BEQ loc_BANK3_AC4B
@@ -8857,7 +8856,7 @@ loc_BANK3_AC4B:
 	PLA
 	CLC
 	LDY byte_RAM_7
-	ADC byte_BANK3_AC26, Y
+	ADC FryGuyOffsetX_B, Y
 	STA SpriteTempScreenX
 	LDA #$84
 	LDY ObjectFlashTimer, X
@@ -9566,20 +9565,23 @@ EnemyInit_HawkmouthBoss:
 	STA EnemyHP, X
 	RTS
 
-; ---------------------------------------------------------------------------
-byte_BANK3_AFEC:
+
+HawkmouthBoss_AccelerationX:
 	.db $01
 	.db $FF
-byte_BANK3_AFEE:
+
+HawkmouthBoss_MaxVelocityX:
 	.db $28
 	.db $D8
-byte_BANK3_AFF0:
+
+HawkmouthBoss_AccelerationY:
 	.db $01
 	.db $FF
-byte_BANK3_AFF2:
+
+HawkmouthBoss_MaxVelocityY:
 	.db $10
 	.db $F0
-; ---------------------------------------------------------------------------
+
 
 EnemyBehavior_HawkmouthBoss:
 	JSR RenderSprite_HawkmouthBoss
@@ -9718,9 +9720,9 @@ loc_BANK3_B0BA:
 	TAY
 	LDA ObjectYVelocity, X
 	CLC
-	ADC byte_BANK3_AFF0, Y
+	ADC HawkmouthBoss_AccelerationY, Y
 	STA ObjectYVelocity, X
-	CMP byte_BANK3_AFF2, Y
+	CMP HawkmouthBoss_MaxVelocityY, Y
 	BNE loc_BANK3_B0D3
 
 	INC EnemyVariable, X
@@ -9729,22 +9731,21 @@ loc_BANK3_B0D3:
 	JSR EnemyFindWhichSidePlayerIsOn
 
 	LDA ObjectXVelocity, X
-	CMP byte_BANK3_AFEE, Y
+	CMP HawkmouthBoss_MaxVelocityX, Y
 	BEQ loc_BANK3_B0E3
 
 	CLC
-	ADC byte_BANK3_AFEC, Y
+	ADC HawkmouthBoss_AccelerationX, Y
 	STA ObjectXVelocity, X
 
 loc_BANK3_B0E3:
 	JMP ApplyObjectPhysics
 
-; ---------------------------------------------------------------------------
-byte_BANK3_B0E6:
+
+HawkmouthBoss_BackOffset:
 	.db $F8
 	.db $10
 
-; =============== S U B R O U T I N E =======================================
 
 RenderSprite_HawkmouthBoss:
 	LDA EnemyArray_480, X
@@ -9765,7 +9766,7 @@ RenderSprite_HawkmouthBoss:
 	LDX byte_RAM_2
 	LDA SpriteTempScreenX
 	CLC
-	ADC byte_BANK3_B0E6 - 1, X
+	ADC HawkmouthBoss_BackOffset - 1, X
 	PHA
 	PHP
 	DEX

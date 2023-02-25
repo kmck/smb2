@@ -489,8 +489,9 @@ DMCFreqTable:
 	.db $0F
 	.db $0F
 	.db $0F
-	.db $60 ; ???
 
+ProcessMusicQueue_Unused:
+	RTS
 
 ProcessMusicQueue_ThenReadNoteData:
 	JMP ProcessMusicQueue_ReadNoteData
@@ -683,11 +684,12 @@ ProcessMusicQueue_EndOfSegment:
 	BEQ ProcessMusicQueue_ThenSetNextPart
 
 IFNDEF EXPAND_MUSIC
-	AND #Music1_Overworld | Music1_Inside | Music1_Subspace
+	AND #Music2_MushroomGetJingle | Music2_EndingAndCast | Music2_CrystalGetFanfare
+	BEQ StopMusic
 ELSE
 	JSR CheckStopMusic
+	BCC StopMusic
 ENDIF
-	BEQ StopMusic
 
 	LDA MusicResume1
 	BNE ProcessMusicQueue_ResumeMusicQueue1
@@ -1374,19 +1376,16 @@ IFDEF EXPAND_MUSIC
 ;   A = MusicPlaying2
 ;
 CheckStopMusic:
-	CMP #Music1_Overworld
+	CMP #Music2_MushroomGetJingle
 	BEQ CheckStopMusic_Resume
-	CMP #Music1_Inside
+	CMP #Music2_EndingAndCast
 	BEQ CheckStopMusic_Resume
-	CMP #Music1_Subspace
+	CMP #Music2_CrystalGetFanfare
 	BEQ CheckStopMusic_Resume
 
 CheckStopMusic_Stop:
-	LDA #$00
-	RTS
-
+	CLC
 CheckStopMusic_Resume:
-	LDA #$01
 	RTS
 
 
