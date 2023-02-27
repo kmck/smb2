@@ -1575,18 +1575,18 @@ ENDIF
 
 	LDA #Music2_SlotWarpFanfare
 	STA MusicQueue2
+
 	LDA SlotMachineCoins
 	BNE loc_BANKF_E7F2
 
 	JMP NoCoinsForSlotMachine
 
-; ---------------------------------------------------------------------------
 
 loc_BANKF_E7F2:
 	LDA #$03
-	STA ObjectXLo + 3
-	STA ObjectXLo + 4
-	STA ObjectXLo + 5
+	STA SlotMachineReelTimer1
+	STA SlotMachineReelTimer2
+	STA SlotMachineReelTimer3
 	JSR WaitForNMI_TurnOnPPU
 
 loc_BANKF_E7FD:
@@ -1655,35 +1655,41 @@ StartSlotMachine:
 
 	JSR sub_BANKF_EA68
 
-	LDA #$01 ; Set all reel timers
-	STA ObjectXLo
-	STA ObjectXLo + 1
-	STA ObjectXLo + 2
-	LSR A ; Set all reels to the first position
-	STA ObjectXLo + 6
-	STA ObjectXLo + 7
-	STA ObjectXLo + 8
+	; Set all reels to active
+	LDA #$01
+	STA SlotMachineReelActive1
+	STA SlotMachineReelActive2
+	STA SlotMachineReelActive3
+
+	; Set initial reel position
+	LSR A
+	STA SlotMachineReelValue1
+	STA SlotMachineReelValue2
+	STA SlotMachineReelValue3
 
 DoSlotMachineSpinnyShit:
 	JSR WaitForNMI ; $2C-$2E: Reel change timer
 	; $2F-$31: Current reel icon
 
-	LDA #SoundEffect2_Climbing ; Play "reel sound" sound effect
+	; Play "reel sound" sound effect
+	LDA #SoundEffect2_Climbing
 	STA SoundEffectQueue2
-	JSR sub_BANKF_EAC2
 
-	JSR sub_BANKF_EADC
+	JSR SlotMachine_CheckJoypad
 
-	JSR sub_BANKF_EAF6
+	JSR SlotMachine_UpdateReel
+
+	JSR SlotMachine_DrawReels
 
 	JSR SlotMachineTextFlashIndex
 
 	LDA BonusChanceUpdateBuffer_PUSH_A_BUTTON, Y
 	STA ScreenUpdateIndex
 	INC byte_RAM_6
-	LDA ObjectXLo ; Reel 1 still active?
-	ORA ObjectXLo + 1 ; Reel 2 still active?
-	ORA ObjectXLo + 2 ; Reel 3 still active?
+
+	LDA SlotMachineReelActive1
+	ORA SlotMachineReelActive2
+	ORA SlotMachineReelActive3
 	BNE DoSlotMachineSpinnyShit ; If any are still active, go back to waiting
 
 	LDA #ScreenUpdateBuffer_RAM_ErasePushAButtonText
@@ -1691,14 +1697,14 @@ DoSlotMachineSpinnyShit:
 	JSR WaitForNMI
 
 	LDY #$00
-	LDX ObjectXLo + 6 ; Load reel 1
+	LDX SlotMachineReelValue1
 	LDA SlotMachineReelOrder1RAM, X
 	BNE CheckReel2Symbol ; Is this reel a cherry?
 
 	INY ; Yes; add one life
 
 CheckReel2Symbol:
-	LDX ObjectXLo + 7 ; Load reel 2
+	LDX SlotMachineReelValue2
 	CMP SlotMachineReelOrder2RAM, X
 	BNE AddSlotMachineExtraLives ; Does this match the previous symbol?
 
@@ -1708,7 +1714,7 @@ CheckReel2Symbol:
 	INY ; They are both cherries, add another life or something
 
 CheckReel3Symbol:
-	LDX ObjectXLo + 8 ; Load reel 3
+	LDX SlotMachineReelValue3
 	CMP SlotMachineReelOrder3RAM, X ; Does reel 3 match the previous two?
 	BNE AddSlotMachineExtraLives ; No, fuck you
 
@@ -2109,98 +2115,96 @@ WaitForNMILoop:
 	RTS ; If yes, go back to what we were doing
 
 
-; =============== S U B R O U T I N E =======================================
-
-sub_BANKF_EAC2:
+;
+; Stops the next spinning reel when the A button is pressed
+;
+SlotMachine_CheckJoypad:
 	LDA Player1JoypadPress
-	BPL locret_BANKF_EAD1
+	BPL SlotMachine_CheckJoypad_Exit
 
 	LDX #$00
-
-loc_BANKF_EAC8:
-	LDA ObjectXLo, X
-	BNE loc_BANKF_EAD2
+SlotMachine_CheckJoypad_Loop:
+	LDA SlotMachineReelActive1, X
+	BNE SlotMachine_CheckJoypad_StopReel
 
 	INX
 	CPX #$03
-	BCC loc_BANKF_EAC8
+	BCC SlotMachine_CheckJoypad_Loop
 
-locret_BANKF_EAD1:
+SlotMachine_CheckJoypad_Exit:
 	RTS
 
-; ---------------------------------------------------------------------------
 
-loc_BANKF_EAD2:
+SlotMachine_CheckJoypad_StopReel:
 	LDA #$00
-	STA ObjectXLo, X
+	STA SlotMachineReelActive1, X
 	LDA #SoundEffect1_CherryGet
 	STA SoundEffectQueue1
 	RTS
 
-; End of function sub_BANKF_EAC2
 
-; =============== S U B R O U T I N E =======================================
-
-sub_BANKF_EADC:
+;
+; Counts down reek timers and updates the current reel value
+;
+SlotMachine_UpdateReel:
 	LDX #$02
+SlotMachine_UpdateReel_Loop:
+	LDA SlotMachineReelActive1, X
+	BEQ SlotMachine_UpdateReel_Next
 
-loc_BANKF_EADE:
-	LDA ObjectXLo, X
-	BEQ loc_BANKF_EAF2
-
-	DEC ObjectXLo + 3, X
-	BNE loc_BANKF_EAF2
+	DEC SlotMachineReelTimer1, X
+	BNE SlotMachine_UpdateReel_Next
 
 	LDA #$04
-	STA ObjectXLo + 3, X
-	DEC ObjectXLo + 6, X
-	BPL loc_BANKF_EAF2
+	STA SlotMachineReelTimer1, X
+	DEC SlotMachineReelValue1, X
+	BPL SlotMachine_UpdateReel_Next
 
 	LDA #$07
-	STA ObjectXLo + 6, X
+	STA SlotMachineReelValue1, X
 
-loc_BANKF_EAF2:
+SlotMachine_UpdateReel_Next:
 	DEX
-	BPL loc_BANKF_EADE
+	BPL SlotMachine_UpdateReel_Loop
 
 	RTS
 
-; End of function sub_BANKF_EADC
 
-; =============== S U B R O U T I N E =======================================
-
-sub_BANKF_EAF6:
+;
+; Draws the reel sprites
+;
+SlotMachine_DrawReels:
 	LDA #$02
 	STA byte_RAM_0
-
-loc_BANKF_EAFA:
+SlotMachine_DrawReels_Loop:
 	LDA byte_RAM_0
 	TAY
 	ASL A
 	ASL A
 	ASL A
 	TAX
-	ADC ObjectXLo + 6, Y
+	ADC SlotMachineReelValue1, Y
 	TAY
 	LDA SlotMachineReelOrder1RAM, Y
 	TAY
+
+	; Copy OAM data for the current value of the reel
 	LDA #$07
 	STA byte_RAM_1
-
-loc_BANKF_EB0D:
+SlotMachine_DrawReels_DMALoop:
 	LDA BonusChanceCherrySprite, Y
 	STA SpriteDMAArea + $10, X
 	INX
 	INY
 	DEC byte_RAM_1
-	BPL loc_BANKF_EB0D
+	BPL SlotMachine_DrawReels_DMALoop
 
 	DEC byte_RAM_0
-	BPL loc_BANKF_EAFA
+	BPL SlotMachine_DrawReels_Loop
 
+	; All the sprites were drawn in the first slot, so move them to the correct place
 	LDX #$17
-
-loc_BANKF_EB1F:
+SlotMachine_DrawReels_PositionLoop:
 	TXA
 	AND #$18
 	ASL A
@@ -2211,11 +2215,10 @@ loc_BANKF_EB1F:
 	DEX
 	DEX
 	DEX
-	BPL loc_BANKF_EB1F
+	BPL SlotMachine_DrawReels_PositionLoop
 
 	RTS
 
-; End of function sub_BANKF_EAF6
 
 IFNDEF BONUS_CHANCE_RAM_CLEANUP
 ;

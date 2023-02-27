@@ -124,20 +124,29 @@ PlayerXLo:
 CastRollTimer:
 	.dsb 1 ; $0028
 ObjectXLo:
+SlotMachineReelActive1:
 CastRollSequenceIndex:
 	.dsb 1 ; $0029
+SlotMachineReelActive2:
 CastRollFadePaletteIndex:
 	.dsb 1 ; 1                ; $002a
+SlotMachineReelActive3:
 CastRollSpriteIndex:
 	.dsb 1 ; 2                ; $002b
+SlotMachineReelTimer1:
 	.dsb 1 ; 3                ; $002c
+SlotMachineReelTimer2:
 	.dsb 1 ; 4                ; $002d
+SlotMachineReelTimer3:
 CastRollThrottle:
 	.dsb 1 ; 5                ; $002e
+SlotMachineReelValue1:
 CastRollSpriteLo:
 	.dsb 1 ; 6                ; $002f
+SlotMachineReelValue2:
 CastRollSpriteHi:
 	.dsb 1 ; 7                ; $0030
+SlotMachineReelValue3:
 	.dsb 1 ; 8                ; $0031
 
 PlayerYLo:
