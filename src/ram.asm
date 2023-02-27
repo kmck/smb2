@@ -1620,14 +1620,14 @@ ENDIF
 CurrentMusicDPCMOffset:
 	.dsb 1 ; $05ff
 
-; #01 Overworld
-; #02 Character Select
-; #04 Inside
-; #08 Boss
-; #10 Invincible
-; #20 Subspace
-; #40 Wart
-; #80 Title
+; $01 Overworld
+; $02 Character Select
+; $04 Inside
+; $08 Boss
+; $10 Invincible
+; $20 Subspace
+; $40 Wart
+; $80 Title
 MusicQueue1:
 	.dsb 1 ; $0600
 

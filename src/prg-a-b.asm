@@ -183,7 +183,7 @@ loc_BANKA_8347:
 	ADC #$20
 	STA byte_RAM_1
 	LDA byte_RAM_0
-	ADC #0
+	ADC #$00
 	STA byte_RAM_0
 	JMP loc_BANKA_8338
 
@@ -226,10 +226,10 @@ loc_BANKA_8392:
 	STA byte_RAM_0
 	LDA #$C8
 	STA byte_RAM_1
-	LDY #0
+	LDY #$00
 
 loc_BANKA_839C:
-	LDX #$F
+	LDX #$0F
 	LDA PPUSTATUS
 	LDA byte_RAM_0
 	STA PPUADDR
@@ -250,7 +250,7 @@ loc_BANKA_83AB:
 	ADC #$20
 	STA byte_RAM_1
 	LDA byte_RAM_0
-	ADC #0
+	ADC #$00
 	STA byte_RAM_0
 	JMP loc_BANKA_839C
 

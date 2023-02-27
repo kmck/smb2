@@ -1844,7 +1844,7 @@ CopyAttributesToHorizontalBuffer_Loop:
 	INY
 	DEC byte_RAM_E
 	LDA byte_RAM_E
-	CMP #03
+	CMP #$03
 	BNE CopyAttributesToHorizontalBuffer_Loop
 
 	RTS
@@ -1856,7 +1856,7 @@ CopyAttributesToHorizontalBuffer_Loop:
 ;
 sub_BANK0_8925:
 	STY byte_RAM_F
-	LDA #01
+	LDA #$01
 	STA byte_RAM_4
 	LDY ReadLevelDataOffset
 	LDX PPUAttributeUpdateCounter
@@ -1997,7 +1997,7 @@ HandlePlayerState_Dying:
 	BNE locret_BANK0_8A86
 
 	LDA PlayerScreenYHi
-	CMP #02
+	CMP #$02
 	BEQ LoseALife
 
 	JSR ApplyPlayerPhysicsY
@@ -2016,7 +2016,7 @@ loc_BANK0_8A72:
 ; ---------------------------------------------------------------------------
 
 LoseALife:
-	LDA #02
+	LDA #$02
 	STA PlayerAnimationFrame
 	LDY #$01 ; Set game mode to title card
 	DEC ExtraLives
