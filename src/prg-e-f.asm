@@ -640,9 +640,12 @@ DoCharacterSelectMenu:
 
 	JSR ResetScreenForTitleCard
 
+	; This effectively does a redundant bank switch to A/B the first time we
+	; access the character select. There doesn't seem to be a clear reason why
+	; this would be necessary, so it's confusing!
 	LDA CharacterSelectBankSwitch
 	CMP #$A5
-	BEQ loc_BANKF_E2B2
+	BEQ DoCharacterSelectMenu_AfterBankSwitch
 
 	LDA #PRGBank_A_B
 	JSR ChangeMappedPRGBank
@@ -650,7 +653,7 @@ DoCharacterSelectMenu:
 	LDA #$A5
 	STA CharacterSelectBankSwitch
 
-loc_BANKF_E2B2:
+DoCharacterSelectMenu_AfterBankSwitch:
 	JSR EnableNMI_PauseTitleCard
 
 	JSR DisableNMI
@@ -663,11 +666,11 @@ loc_BANKF_E2B2:
 	STA PreviousWorld
 
 	LDY #$3F
-loc_BANKF_E2CA:
+CharacterSelect_CopySpritesLoop:
 	LDA PlayerSelectMarioSprites1, Y
 	STA SpriteDMAArea + $10, Y
 	DEY
-	BPL loc_BANKF_E2CA
+	BPL CharacterSelect_CopySpritesLoop
 
 	JSR EnableNMI
 
@@ -679,43 +682,41 @@ loc_BANKF_E2CA:
 
 	JSR WaitForNMI
 
-	JMP loc_BANKF_E311
+	JMP CharacterSelect_DrawArrow
 
-; ---------------------------------------------------------------------------
 
-loc_BANKF_E2E8:
+CharacterSelect_CheckChangeCharacter:
 	LDA Player1JoypadPress
 	AND #ControllerInput_Right | ControllerInput_Left
-	BNE CharacterSelect_ChangeCharacter
+	BNE CharacterSelect_CheckChangeCharacterRight
 
 	JMP CharacterSelectMenuLoop
 
-; ---------------------------------------------------------------------------
 
-CharacterSelect_ChangeCharacter:
+CharacterSelect_CheckChangeCharacterRight:
 	LDA Player1JoypadPress
 	AND #ControllerInput_Right
-	BEQ loc_BANKF_E2FE
+	BEQ CharacterSelect_CheckChangeCharacterLeft
 
 	DEC CurrentCharacter
 	LDA #SoundEffect1_CherryGet
 	STA SoundEffectQueue1
 
-loc_BANKF_E2FE:
+CharacterSelect_CheckChangeCharacterLeft:
 	LDA Player1JoypadPress
 	AND #ControllerInput_Left
-	BEQ loc_BANKF_E30B
+	BEQ CharacterSelect_SetCurrentCharacter
 
 	INC CurrentCharacter
 	LDA #SoundEffect1_CherryGet
 	STA SoundEffectQueue1
 
-loc_BANKF_E30B:
+CharacterSelect_SetCurrentCharacter:
 	LDA CurrentCharacter
 	AND #$03
 	STA CurrentCharacter
 
-loc_BANKF_E311:
+CharacterSelect_DrawArrow:
 	LDY #$00
 	LDA #$21
 	STA PPUBuffer_301
@@ -760,27 +761,25 @@ loc_BANKF_E311:
 
 	LDX #$12
 	LDY #$00
-
-loc_BANKF_E37D:
+CharacterSelect_DarkSpritesPaletteLoop:
 	LDA PlayerSelectSpritePalettesDark, Y
 	STA PPUBuffer_301, Y
 	INY
 	DEX
-	BPL loc_BANKF_E37D
+	BPL CharacterSelect_DarkSpritesPaletteLoop
 
 	LDA #$06
 	STA byte_RAM_A
 	LDX CurrentCharacter
 	LDA PlayerSelectPaletteOffsets, X
 	TAX
-
-loc_BANKF_E391:
+CharacterSelect_SelectedSpritePaletteLoop:
 	LDA PlayerSelectSpritePalettes, X
 	STA PPUBuffer_301, Y
 	INY
 	INX
 	DEC byte_RAM_A
-	BPL loc_BANKF_E391
+	BPL CharacterSelect_SelectedSpritePaletteLoop
 
 	LDA #$00
 	STA PPUBuffer_301, Y
@@ -790,13 +789,12 @@ CharacterSelectMenuLoop:
 
 	LDA Player1JoypadPress
 	AND #ControllerInput_A
-	BNE loc_BANKF_E3AE
+	BNE ConfirmCharacterSelection
 
-	JMP loc_BANKF_E2E8
+	JMP CharacterSelect_CheckChangeCharacter
 
-; ---------------------------------------------------------------------------
 
-loc_BANKF_E3AE:
+ConfirmCharacterSelection:
 	LDA #SoundEffect1_CherryGet
 	STA SoundEffectQueue1
 	LDX CurrentWorld
@@ -807,41 +805,38 @@ loc_BANKF_E3AE:
 	STA byte_RAM_10
 	JSR WaitForNMI
 
-	LDX #$F
+	LDX #$0F
 	LDA CurrentCharacter
 	TAY
 	LDA PlayerSelectSpriteIndexes, Y
 	TAY
-
-loc_BANKF_E3CC:
+ConfirmCharacterSelection_ArmUpLoop:
 	LDA PlayerSelectMarioSprites2, Y
 	STA SpriteDMAArea + $10, Y
 	INY
 	DEX
-	BPL loc_BANKF_E3CC
+	BPL ConfirmCharacterSelection_ArmUpLoop
 
-loc_BANKF_E3D6:
+ConfirmCharacterSelection_ArmUpPauseLoop:
 	JSR WaitForNMI
 
 	DEC byte_RAM_10
-	BPL loc_BANKF_E3D6
+	BPL ConfirmCharacterSelection_ArmUpPauseLoop
 
 	LDY #$3F
-
-loc_BANKF_E3DF:
+ConfirmCharacterSelection_ArmDownLoop:
 	LDA PlayerSelectMarioSprites1, Y
 	STA SpriteDMAArea + $10, Y
 	DEY
-	BPL loc_BANKF_E3DF
+	BPL ConfirmCharacterSelection_ArmDownLoop
 
 	LDA #$40
 	STA byte_RAM_10
-
-loc_BANKF_E3EC:
+ConfirmCharacterSelection_ArmDownPauseLoop:
 	JSR WaitForNMI
 
 	DEC byte_RAM_10
-	BPL loc_BANKF_E3EC
+	BPL ConfirmCharacterSelection_ArmDownPauseLoop
 
 	LDA #Music2_StopMusic
 	STA MusicQueue2
@@ -1201,7 +1196,8 @@ InitializeJar:
 	STA MusicQueue1
 	LDA #$01
 	STA CurrentMusicIndex
-	JMP loc_BANKF_E5E1
+
+	JMP SubArea_SetBoundaries
 
 
 InitializeSubspace:
@@ -1212,7 +1208,7 @@ InitializeSubspace:
 	LDA #$04
 	STA CurrentMusicIndex
 
-loc_BANKF_E5E1:
+SubArea_SetBoundaries:
 	LDA #PRGBank_0_1
 	JSR ChangeMappedPRGBank
 
