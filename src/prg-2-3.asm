@@ -797,77 +797,77 @@ InitializeEnemy:
 	JSR JumpToTableAfterJump
 
 EnemyInitializationTable:
-	.dw EnemyInit_Basic ; Heart
-	.dw EnemyInit_Basic ; ShyguyRed
-	.dw EnemyInit_Basic ; Tweeter
-	.dw EnemyInit_Basic ; ShyguyPink
-	.dw EnemyInit_Basic ; Porcupo
-	.dw EnemyInit_Basic ; SnifitRed
-	.dw EnemyInit_Stationary ; SnifitGray
-	.dw EnemyInit_Basic ; SnifitPink
-	.dw EnemyInit_Basic ; Ostro
-	.dw EnemyInit_Bobomb ; BobOmb
-	.dw EnemyInit_Basic ; AlbatossCarryingBobOmb
-	.dw EnemyInit_AlbatossStartRight ; AlbatossStartRight
-	.dw EnemyInit_AlbatossStartLeft ; AlbatossStartLeft
-	.dw EnemyInit_Basic ; NinjiRunning
-	.dw EnemyInit_Stationary ; NinjiJumping
-	.dw EnemyInit_BeezoDiving ; BeezoDiving
-	.dw EnemyInit_Basic ; BeezoStraight
-	.dw EnemyInit_Basic ; WartBubble
-	.dw EnemyInit_Basic ; Pidgit
-	.dw EnemyInit_Trouter ; Trouter
-	.dw EnemyInit_Basic ; Hoopstar
-	.dw EnemyInit_JarGenerators ; JarGeneratorShyguy
-	.dw EnemyInit_JarGenerators ; JarGeneratorBobOmb
-	.dw EnemyInit_Phanto ; Phanto
-	.dw EnemyInit_Cobrats ; CobratJar
-	.dw EnemyInit_Cobrats ; CobratSand
-	.dw EnemyInit_Pokey ; Pokey
-	.dw EnemyInit_Basic ; Bullet
-	.dw EnemyInit_Birdo ; Birdo
-	.dw EnemyInit_Mouser ; Mouser
-	.dw EnemyInit_Basic ; Egg
-	.dw EnemyInit_Tryclyde ; Tryclyde
-	.dw EnemyInit_Basic ; Fireball
-	.dw EnemyInit_Clawgrip ; Clawgrip
-	.dw EnemyInit_Basic ; ClawgripRock
-	.dw EnemyInit_Stationary ; PanserStationaryFiresAngled
-	.dw EnemyInit_Basic ; PanserWalking
-	.dw EnemyInit_Stationary ; PanserStationaryFiresUp
-	.dw EnemyInit_Basic ; Autobomb
-	.dw EnemyInit_Basic ; AutobombFire
-	.dw EnemyInit_WhaleSpout ; WhaleSpout
-	.dw EnemyInit_Basic ; Flurry
-	.dw EnemyInit_Fryguy ; Fryguy
-	.dw EnemyInit_Fryguy ; FryguySplit
-	.dw EnemyInit_Wart ; Wart
-	.dw EnemyInit_HawkmouthBoss ; HawkmouthBoss
-	.dw EnemyInit_Sparks ; Spark1
-	.dw EnemyInit_Sparks ; Spark2
-	.dw EnemyInit_Sparks ; Spark3
-	.dw EnemyInit_Sparks ; Spark4
-	.dw EnemyInit_Basic ; VegetableSmall
-	.dw EnemyInit_Basic ; VegetableLarge
-	.dw EnemyInit_Basic ; VegetableWart
-	.dw EnemyInit_Basic ; Shell
-	.dw EnemyInit_Basic ; Coin
-	.dw EnemyInit_Basic ; Bomb
-	.dw EnemyInit_Basic ; Rocket
-	.dw EnemyInit_Basic ; MushroomBlock
-	.dw EnemyInit_Basic ; POWBlock
-	.dw EnemyInit_FallingLogs ; FallingLogs
-	.dw EnemyInit_Basic ; SubspaceDoor
-	.dw EnemyInit_Key ; Key
-	.dw EnemyInit_Basic ; SubspacePotion
-	.dw EnemyInit_Stationary ; Mushroom
-	.dw EnemyInit_Stationary ; Mushroom1up
-	.dw EnemyInit_Basic ; FlyingCarpet
-	.dw EnemyInit_Hawkmouth ; HawkmouthRight
-	.dw EnemyInit_Hawkmouth ; HawkmouthLeft
-	.dw EnemyInit_CrystalBallStarmanStopwatch ; CrystalBall
-	.dw EnemyInit_CrystalBallStarmanStopwatch ; Starman
-	.dw EnemyInit_CrystalBallStarmanStopwatch ; Stopwatch
+	.dw EnemyInit_Basic ; $00 Enemy_Heart
+	.dw EnemyInit_Basic ; $01 Enemy_ShyguyRed
+	.dw EnemyInit_Basic ; $02 Enemy_Tweeter
+	.dw EnemyInit_Basic ; $03 Enemy_ShyguyPink
+	.dw EnemyInit_Basic ; $04 Enemy_Porcupo
+	.dw EnemyInit_Basic ; $05 Enemy_SnifitRed
+	.dw EnemyInit_Stationary ; $06 Enemy_SnifitGray
+	.dw EnemyInit_Basic ; $07 Enemy_SnifitPink
+	.dw EnemyInit_Basic ; $08 Enemy_Ostro
+	.dw EnemyInit_Bobomb ; $09 Enemy_BobOmb
+	.dw EnemyInit_Basic ; $0A Enemy_AlbatossCarryingBobOmb
+	.dw EnemyInit_AlbatossStartRight ; $0B Enemy_AlbatossStartRight
+	.dw EnemyInit_AlbatossStartLeft ; $0C Enemy_AlbatossStartLeft
+	.dw EnemyInit_Basic ; $0D Enemy_NinjiRunning
+	.dw EnemyInit_Stationary ; $0E Enemy_NinjiJumping
+	.dw EnemyInit_BeezoDiving ; $0F Enemy_BeezoDiving
+	.dw EnemyInit_Basic ; $10 Enemy_BeezoStraight
+	.dw EnemyInit_Basic ; $11 Enemy_WartBubble
+	.dw EnemyInit_Basic ; $12 Enemy_Pidgit
+	.dw EnemyInit_Trouter ; $13 Enemy_Trouter
+	.dw EnemyInit_Basic ; $14 Enemy_Hoopstar
+	.dw EnemyInit_JarGenerators ; $15 Enemy_JarGeneratorShyguy
+	.dw EnemyInit_JarGenerators ; $16 Enemy_JarGeneratorBobOmb
+	.dw EnemyInit_Phanto ; $17 Enemy_Phanto
+	.dw EnemyInit_Cobrats ; $18 Enemy_CobratJar
+	.dw EnemyInit_Cobrats ; $19 Enemy_CobratSand
+	.dw EnemyInit_Pokey ; $1A Enemy_Pokey
+	.dw EnemyInit_Basic ; $1B Enemy_Bullet
+	.dw EnemyInit_Birdo ; $1C Enemy_Birdo
+	.dw EnemyInit_Mouser ; $1D Enemy_Mouser
+	.dw EnemyInit_Basic ; $1E Enemy_Egg
+	.dw EnemyInit_Tryclyde ; $1F Enemy_Tryclyde
+	.dw EnemyInit_Basic ; $20 Enemy_Fireball
+	.dw EnemyInit_Clawgrip ; $21 Enemy_Clawgrip
+	.dw EnemyInit_Basic ; $22 Enemy_ClawgripRock
+	.dw EnemyInit_Stationary ; $23 Enemy_PanserStationaryFiresAngled
+	.dw EnemyInit_Basic ; $24 Enemy_PanserWalking
+	.dw EnemyInit_Stationary ; $25 Enemy_PanserStationaryFiresUp
+	.dw EnemyInit_Basic ; $26 Enemy_Autobomb
+	.dw EnemyInit_Basic ; $27 Enemy_AutobombFire
+	.dw EnemyInit_WhaleSpout ; $28 Enemy_WhaleSpout
+	.dw EnemyInit_Basic ; $29 Enemy_Flurry
+	.dw EnemyInit_Fryguy ; $2A Enemy_Fryguy
+	.dw EnemyInit_Fryguy ; $2B Enemy_FryguySplit
+	.dw EnemyInit_Wart ; $2C Enemy_Wart
+	.dw EnemyInit_HawkmouthBoss ; $2D Enemy_HawkmouthBoss
+	.dw EnemyInit_Sparks ; $2E Enemy_Spark1
+	.dw EnemyInit_Sparks ; $2F Enemy_Spark2
+	.dw EnemyInit_Sparks ; $30 Enemy_Spark3
+	.dw EnemyInit_Sparks ; $31 Enemy_Spark4
+	.dw EnemyInit_Basic ; $32 Enemy_VegetableSmall
+	.dw EnemyInit_Basic ; $33 Enemy_VegetableLarge
+	.dw EnemyInit_Basic ; $34 Enemy_VegetableWart
+	.dw EnemyInit_Basic ; $35 Enemy_Shell
+	.dw EnemyInit_Basic ; $36 Enemy_Coin
+	.dw EnemyInit_Basic ; $37 Enemy_Bomb
+	.dw EnemyInit_Basic ; $38 Enemy_Rocket
+	.dw EnemyInit_Basic ; $39 Enemy_MushroomBlock
+	.dw EnemyInit_Basic ; $3A Enemy_POWBlock
+	.dw EnemyInit_FallingLogs ; $3B Enemy_FallingLogs
+	.dw EnemyInit_Basic ; $3C Enemy_SubspaceDoor
+	.dw EnemyInit_Key ; $3D Enemy_Key
+	.dw EnemyInit_Basic ; $3E Enemy_SubspacePotion
+	.dw EnemyInit_Stationary ; $3F Enemy_Mushroom
+	.dw EnemyInit_Stationary ; $40 Enemy_Mushroom1up
+	.dw EnemyInit_Basic ; $41 Enemy_FlyingCarpet
+	.dw EnemyInit_Hawkmouth ; $42 Enemy_HawkmouthRight
+	.dw EnemyInit_Hawkmouth ; $43 Enemy_HawkmouthLeft
+	.dw EnemyInit_CrystalBallStarmanStopwatch ; $44 Enemy_CrystalBall
+	.dw EnemyInit_CrystalBallStarmanStopwatch ; $45 Enemy_Starman
+	.dw EnemyInit_CrystalBallStarmanStopwatch ; $46 Enemy_Stopwatch
 EnemyInitializationTable_End:
 
 
@@ -6543,7 +6543,7 @@ unusedSpace $A030, $FF
 
 
 EnemyTilemap2:
-; Pidgit
+	; Pidgit
 	.db $2D, $2F ; $00
 	.db $2D, $2F ; $02
 	; Flying carpet

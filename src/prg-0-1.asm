@@ -2196,6 +2196,7 @@ ClimbableTiles:
 	.db BackgroundTile_LadderStandable
 	.db BackgroundTile_LadderStandableShadow
 	.db BackgroundTile_ChainStandable
+ClimbableTiles_End:
 
 
 ;
@@ -3917,6 +3918,7 @@ DoorTiles:
 	.db BackgroundTile_DarkDoor
 	.db BackgroundTile_LightDoor
 	.db BackgroundTile_LightDoorEndLevel
+DoorTiles_End:
 
 
 ;
