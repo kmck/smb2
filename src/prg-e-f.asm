@@ -1226,41 +1226,41 @@ SubArea_Loop:
 
 	LDA InSubspaceOrJar
 	CMP #$02
-	BEQ loc_BANKF_E606
+	BEQ SubArea_TurnOnPPU
 
 	LDA #PRGBank_6_7
 	JSR ChangeMappedPRGBank
 
 	JSR LoadCurrentPalette
 
-loc_BANKF_E606:
+SubArea_TurnOnPPU:
 	JSR WaitForNMI_TurnOnPPU
 
-; subspace
-loc_BANKF_E609:
+Subspace_MainLoop:
 	JSR WaitForNMI
 
 	JSR HideAllSprites
 
-	JSR sub_BANKF_F0F9
+	JSR RunFrame_Subspace
 
 	LDY GameMode
-	BEQ loc_BANKF_E61A
+	BEQ Subspace_CheckStillInSubspace
 
 	JMP ResetAreaAndProcessGameMode
 
 ; ---------------------------------------------------------------------------
 
-loc_BANKF_E61A:
+Subspace_CheckStillInSubspace:
 	LDA InSubspaceOrJar
-	BNE loc_BANKF_E609
+	BNE Subspace_MainLoop
 
+	; Subspace visit only "counts" if coins were collected
 	LDA SubspaceCoins
-	BEQ loc_BANKF_E627
+	BEQ Subspace_ExitToMainArea
 
 	INC SubspaceVisits
 
-loc_BANKF_E627:
+Subspace_ExitToMainArea:
 	LDA CurrentLevelAreaCopy
 	STA CurrentLevelArea
 	LDA #PRGBank_6_7
@@ -1272,15 +1272,18 @@ loc_BANKF_E627:
 
 	JSR HideAllSprites
 
+	; Restore the music index
 	LDY CompareMusicIndex
 	STY CurrentMusicIndex
+
+	; If leaving subspace while still invincible, don't reset the music
 	LDA StarInvincibilityTimer
-	BNE loc_BANKF_E64C
+	BNE Subspace_Exit_AfterMusicRestore
 
 	LDA LevelMusicIndexes, Y
 	STA MusicQueue1
 
-loc_BANKF_E64C:
+Subspace_Exit_AfterMusicRestore:
 	LDA #PRGBank_0_1
 	JSR ChangeMappedPRGBank
 
@@ -1378,21 +1381,22 @@ DoGameOverStuff:
 
 	LDA #ScreenUpdateBuffer_Text_Game_Over
 	STA ScreenUpdateIndex
+
+	; Delay before showing "CONTINUE" text
 	LDA #$C0
 	STA byte_RAM_6
-
-loc_BANKF_E6E6:
+GameOver_DelayLoop:
 	JSR WaitForNMI
 
 	DEC byte_RAM_6
-	BNE loc_BANKF_E6E6
+	BNE GameOver_DelayLoop
 
 	LDY #(BonusChanceUpdateBuffer_BONUS_CHANCE_Unused - PPUBuffer_Text_Continue - 1)
-loc_BANKF_E6EF:
+GameOver_DrawContinueText:
 	LDA PPUBuffer_Text_Continue, Y
 	STA PPUBuffer_ContinueRetryText, Y
 	DEY
-	BPL loc_BANKF_E6EF
+	BPL GameOver_DrawContinueText
 
 	; Hide the bullet for RETRY
 	LDA #$FB
@@ -1406,33 +1410,36 @@ loc_BANKF_E6EF:
 	STA byte_RAM_8
 	LDA #ScreenUpdateBuffer_RAM_ContinueRetryText
 	DEC Continues
-	BPL loc_BANKF_E717
+	BPL GameOver_SetScreenUpdateIndex
 
+	; No continues left, default to RETRY
 	LDA #$01
 	STA byte_RAM_8
 	LDA #ScreenUpdateBuffer_Text_Retry
 
-loc_BANKF_E717:
+GameOver_SetScreenUpdateIndex:
 	STA ScreenUpdateIndex
 
-loc_BANKF_E719:
+GameOver_InputLoop:
 	JSR WaitForNMI
 
 	LDA Player1JoypadPress
 	AND #ControllerInput_Select
-	BEQ loc_BANKF_E747
+	BEQ GameOver_CheckStartButton
 
 	LDA byte_RAM_8
 	EOR #$01
 	STA byte_RAM_8
+
 	LDY Continues
 	CPY #$FF
-	BNE loc_BANKF_E733
+	BNE GameOver_UpdateBulletSprites
 
+	; No continues left, force back to RETRY
 	LDA #$01
 	STA byte_RAM_8
 
-loc_BANKF_E733:
+GameOver_UpdateBulletSprites:
 	ASL A
 	ASL A
 	TAY
@@ -1444,10 +1451,10 @@ loc_BANKF_E733:
 	LDA #ScreenUpdateBuffer_RAM_ContinueRetryBullets
 	STA ScreenUpdateIndex
 
-loc_BANKF_E747:
+GameOver_CheckStartButton:
 	LDA Player1JoypadPress
 	AND #ControllerInput_Start
-	BEQ loc_BANKF_E719
+	BEQ GameOver_InputLoop
 
 	LDA byte_RAM_8
 	BNE GameOver_Retry
@@ -1455,7 +1462,6 @@ loc_BANKF_E747:
 	STA SlotMachineCoins
 	JMP ContinueGame
 
-; ---------------------------------------------------------------------------
 
 GameOver_Retry:
 	JMP StartGame
@@ -1497,7 +1503,7 @@ DoWorldWarp:
 	STA ScreenUpdateIndex
 	LDA #Music2_SlotWarpFanfare
 	STA MusicQueue2
-	JSR Delay160Frames
+	JSR SlotMachine_Delay160Frames
 
 	JSR InitializeSomeLevelStuff
 
@@ -1567,25 +1573,25 @@ ENDIF
 	STA StackArea
 	JSR DisableNMI
 
-	JSR sub_BANKF_EA33
+	JSR SetupBonusChancePalette
 
 	LDA #Music2_SlotWarpFanfare
 	STA MusicQueue2
 
 	LDA SlotMachineCoins
-	BNE loc_BANKF_E7F2
+	BNE SlotMachine_InitializeReels
 
 	JMP NoCoinsForSlotMachine
 
 
-loc_BANKF_E7F2:
+SlotMachine_InitializeReels:
 	LDA #$03
 	STA SlotMachineReelTimer1
 	STA SlotMachineReelTimer2
 	STA SlotMachineReelTimer3
 	JSR WaitForNMI_TurnOnPPU
 
-loc_BANKF_E7FD:
+SlotMachine_CheckCoinsLoop:
 	LDA SlotMachineCoins
 	BNE StartSlotMachine
 
@@ -1649,7 +1655,7 @@ StartSlotMachine:
 	DEC SlotMachineCoins
 	JSR WaitForNMI
 
-	JSR sub_BANKF_EA68
+	JSR SetupBonusChanceScreen
 
 	; Set all reels to active
 	LDA #$01
@@ -1726,11 +1732,13 @@ AddSlotMachineExtraLives:
 	TYA ; Y contains extra lives to add
 	CLC
 	ADC ExtraLives ; Add won extra lives to current lives
-	BCC loc_BANKF_E8D3 ; Check if adding extra lives has wrapped the counter
 
-	LDA #$FF ; If so, set extra lives to 255 (#$FF)
+	; We don't want to overflow ExtraLives! If that happens, stop at 255 (#$FF)
+	BCC AddSlotMachineExtraLives_SetExtraLives
 
-loc_BANKF_E8D3:
+	LDA #$FF
+
+AddSlotMachineExtraLives_SetExtraLives:
 	STA ExtraLives
 	TYA ; Did we actually win any lives?
 	BEQ SlotMachineLoseFanfare ; No, play lose sound effect
@@ -1743,9 +1751,9 @@ loc_BANKF_E8D3:
 	STA byte_RAM_6
 	JSR WaitForNMI
 
-	JSR sub_BANKF_EA68
+	JSR SetupBonusChanceScreen
 
-loc_BANKF_E8ED:
+SlotMachine_WinDisplayLoop:
 	JSR WaitForNMI
 
 	JSR SlotMachineTextFlashIndex
@@ -1753,25 +1761,25 @@ loc_BANKF_E8ED:
 	LDA BonusChanceUpdateBuffer_PLAYER_1UP, Y
 	STA ScreenUpdateIndex
 	DEC byte_RAM_6
-	BNE loc_BANKF_E8ED
+	BNE SlotMachine_WinDisplayLoop
 
-	BEQ loc_BANKF_E90C
+	BEQ SlotMachine_NextRound
 
 SlotMachineLoseFanfare:
 	LDA #Music2_DeathJingle
 	STA MusicQueue2
 	JSR WaitForNMI
 
-	JSR sub_BANKF_EA68
+	JSR SetupBonusChanceScreen
 
-	JSR Delay160Frames
+	JSR SlotMachine_Delay160Frames
 
-loc_BANKF_E90C:
+SlotMachine_NextRound:
 	LDA #ScreenUpdateBuffer_RAM_EraseBonusMessageTextUnused
 	STA ScreenUpdateIndex
 	JSR WaitForNMI
 
-	JMP loc_BANKF_E7FD
+	JMP SlotMachine_CheckCoinsLoop
 
 
 ;
@@ -1795,7 +1803,7 @@ SlotMachineTextFlashIndex:
 
 
 NoCoinsForSlotMachine:
-	JSR Delay80Frames
+	JSR SlotMachine_Delay80Frames
 
 IFDEF EXPAND_MUSIC
 	; Need $08 to loop correctly, but want to preserve addresses
@@ -1807,7 +1815,7 @@ ELSE
 ENDIF
 
 	STA byte_RAM_6
-loc_BANKF_E92A:
+SlotMachine_NoCoins_FlashLoop:
 	LDA byte_RAM_6
 	AND #$01
 	TAY
@@ -1816,30 +1824,30 @@ loc_BANKF_E92A:
 
 	LDA #$0A
 	STA byte_RAM_7
-loc_BANKF_E938:
+SlotMachine_NoCoins_DelayLoop:
 	JSR WaitForNMI_TurnOnPPU
 	DEC byte_RAM_7
-	BNE loc_BANKF_E938
+	BNE SlotMachine_NoCoins_DelayLoop
 
 	DEC byte_RAM_6
-	BPL loc_BANKF_E92A
+	BPL SlotMachine_NoCoins_FlashLoop
 
 	JMP GoToNextLevel
 
 
-Delay80Frames:
+SlotMachine_Delay80Frames:
 	LDA #$50
-	BNE DelayFrames
+	BNE SlotMachine_DelayFrames
 
-Delay160Frames:
+SlotMachine_Delay160Frames:
 	LDA #$A0
 
-DelayFrames:
+SlotMachine_DelayFrames:
 	STA byte_RAM_7
-DelayFrames_Loop:
+SlotMachine_DelayFrames_Loop:
 	JSR WaitForNMI_TurnOnPPU
 	DEC byte_RAM_7
-	BNE DelayFrames_Loop
+	BNE SlotMachine_DelayFrames_Loop
 
 	RTS
 
@@ -1990,9 +1998,7 @@ EnableNMI:
 	RTS
 
 
-; =============== S U B R O U T I N E =======================================
-
-sub_BANKF_EA33:
+SetupBonusChancePalette:
 	JSR SetScrollXYTo0
 
 	LDA PPUSTATUS
@@ -2001,12 +2007,12 @@ sub_BANKF_EA33:
 	STA PPUADDR
 	STY PPUADDR
 
-loc_BANKF_EA43:
+SetupBonusChancePalette_Loop:
 	LDA unk_RAM_59C, Y
 	STA PPUDATA
 	INY
 	CPY #$10
-	BCC loc_BANKF_EA43
+	BCC SetupBonusChancePalette_Loop
 
 	LDY #$00
 	LDA PPUSTATUS
@@ -2022,11 +2028,8 @@ SetBonusChancePalette:
 	CPY #$10
 	BCC SetBonusChancePalette
 
-; End of function sub_BANKF_EA33
 
-; =============== S U B R O U T I N E =======================================
-
-sub_BANKF_EA68:
+SetupBonusChanceScreen:
 	LDY ExtraLives
 	DEY
 	TYA
@@ -2046,8 +2049,6 @@ sub_BANKF_EA68:
 	JSR EnableNMI
 
 	JMP WaitForNMI
-
-; End of function sub_BANKF_EA68
 
 
 ;
@@ -2482,7 +2483,6 @@ NMI_Exit:
 	PLP
 	RTI
 
-; End of function NMI
 
 ;
 ; Sets the PPU address to `$3f00`, then immediatley to `$0000`
@@ -3085,36 +3085,33 @@ LevelMusicIndexes:
 	.db Music1_Subspace ; 4
 
 
-; =============== S U B R O U T I N E =======================================
-
-sub_BANKF_F0F9:
+RunFrame_Subspace:
 	JSR NextSpriteFlickerSlot
 
 	LDA PlayerInRocket
-	BNE loc_BANKF_F11B
+	BNE RunFrame_Subspace_AfterRender
 
 	; boss clear fanfare locks player movement
 	LDA MusicPlaying2
 	CMP #Music2_BossClearFanfare
-	BEQ loc_BANKF_F115
+	BEQ RunFrame_Subspace_AfterPlayerState
 
 	LDA PlayerLock
-	BNE loc_BANKF_F115
+	BNE RunFrame_Subspace_AfterPlayerState
 
 	LDA #PRGBank_0_1
 	JSR ChangeMappedPRGBank
 
 	JSR HandlePlayerState
 
-loc_BANKF_F115:
+RunFrame_Subspace_AfterPlayerState:
 	JSR SetPlayerScreenPosition
 
 	JSR RenderPlayer
 
-loc_BANKF_F11B:
+RunFrame_Subspace_AfterRender:
 	JMP RunFrame_Common
 
-; End of function sub_BANKF_F0F9
 
 ;
 ; Does a lot of important stuff in horizontal levels
@@ -3632,16 +3629,18 @@ IFDEF CONTROLLER_2_DEBUG
 RenderPlayer_AfterChangeCharacterPoof:
 ENDIF
 
+	; Cycle the palette for changing size
 	LDY_abs PlayerState
 	CPY #PlayerState_ChangingSize
-	BEQ loc_BANKF_F337
+	BEQ RenderPlayer_SetPaletteAttributes
 
+	; Cycle the palette for star invincibility
 	LDY StarInvincibilityTimer
-	BNE loc_BANKF_F337
+	BNE RenderPlayer_SetPaletteAttributes
 
-	LDA DamageInvulnTime ; Determine if the player is invincible from damage,
-; and if so, if they should be visible
-	BEQ loc_BANKF_F345
+	; Make the player sprite blink if they are invincible from taking damage
+	LDA DamageInvulnTime
+	BEQ RenderPlayer_CheckBehindBackground
 
 	LSR A
 	LSR A
@@ -3650,34 +3649,36 @@ ENDIF
 	TAY
 	LDA DamageInvulnTime
 	AND DamageInvulnBlinkFrames, Y
-	BNE loc_BANKF_F345
+	BNE RenderPlayer_CheckBehindBackground
 
+	; Bail out, which will make the player invisible
 	RTS
 
-; ---------------------------------------------------------------------------
 
-loc_BANKF_F337:
+RenderPlayer_SetPaletteAttributes:
 	LDA byte_RAM_10
 	CPY #$18
-	BCS loc_BANKF_F33F
+	BCS RenderPlayer_SetPaletteAttributes_Apply
 
+	; Flash a little more slowly when the player is changing size or if the star
+	; invincibility timer has almost run out
 	LSR A
 	LSR A
 
-loc_BANKF_F33F:
+RenderPlayer_SetPaletteAttributes_Apply:
 	AND #ObjAttrib_Palette
 	ORA PlayerAttributes
 	STA PlayerAttributes
 
-loc_BANKF_F345:
+RenderPlayer_CheckBehindBackground:
 	LDA QuicksandDepth
-	BEQ loc_BANKF_F350
+	BEQ RenderPlayer_SetSpritePositions
 
 	LDA #ObjAttrib_BehindBackground
 	ORA PlayerAttributes
 	STA PlayerAttributes
 
-loc_BANKF_F350:
+RenderPlayer_SetSpritePositions:
 	LDA PlayerScreenX
 	STA SpriteDMAArea + $23
 	STA SpriteDMAArea + $2B
@@ -3685,76 +3686,90 @@ loc_BANKF_F350:
 	ADC #$08
 	STA SpriteDMAArea + $27
 	STA SpriteDMAArea + $2F
+
+	; Visible y-position of the sprite starts with the player screen y-position
+	; and is adjusted based on other factors
 	LDA PlayerScreenYLo
 	STA byte_RAM_0
 	LDA PlayerScreenYHi
 	STA byte_RAM_1
+
+	; The ducking sprite position is not adjusted between small/large size
 	LDY PlayerAnimationFrame
-	CPY #$04
-	BEQ loc_BANKF_F382
+	CPY #SpriteAnimation_Ducking
+	BEQ RenderPlayer_CheckCharacter
 
+	; Check the player size
 	LDA PlayerCurrentSize
-	BEQ loc_BANKF_F382
+	BEQ RenderPlayer_CheckCharacter
 
+	; Adjust for small characters (that aren't ducking)
 	LDA byte_RAM_0
 	CLC
 	ADC #$08
 	STA byte_RAM_0
-	BCC loc_BANKF_F382
+	BCC RenderPlayer_CheckCharacter
 
 	INC byte_RAM_1
 
-loc_BANKF_F382:
+RenderPlayer_CheckCharacter:
+	; Princess doesn't bob while walking
 	LDA CurrentCharacter
 	CMP #Character_Princess
-	BEQ loc_BANKF_F394
+	BEQ RenderPlayer_TopHalf
 
-	CPY #$00
-	BNE loc_BANKF_F394
+RenderPlayer_WalkingAdjustYPosition:
+	; Y is PlayerAnimationFrame from before
+	CPY #SpriteAnimation_Walking
+	BNE RenderPlayer_TopHalf
 
+	; Move up by one pixel while walking
 	LDA byte_RAM_0
-	BNE loc_BANKF_F392
+	BNE RenderPlayer_WalkingAdjustYPosition_Lo
 
 	DEC byte_RAM_1
 
-loc_BANKF_F392:
+RenderPlayer_WalkingAdjustYPosition_Lo:
 	DEC byte_RAM_0
 
-loc_BANKF_F394:
+RenderPlayer_TopHalf:
 	JSR FindSpriteSlot
 
 	LDA byte_RAM_1
-	BNE loc_BANKF_F3A6
+	; If the top of the character is out of bounds, skip
+	BNE RenderPlayer_BottomHalf
 
 	LDA byte_RAM_0
-	STA SpriteDMAArea, Y
+	STA SpriteDMAArea, Y ; eye
 	STA SpriteDMAArea + $20
 	STA SpriteDMAArea + $24
 
-loc_BANKF_F3A6:
+RenderPlayer_BottomHalf:
 	LDA byte_RAM_0
 	CLC
 	ADC #$10
 	STA byte_RAM_0
 	LDA byte_RAM_1
 	ADC #$00
-	BNE loc_BANKF_F3BB
+	; If the bottom of the character is out of bounds, do not render it
+	BNE RenderPlayer_CheckCrouchJump
 
 	LDA byte_RAM_0
 	STA SpriteDMAArea + $28
 	STA SpriteDMAArea + $2C
 
-loc_BANKF_F3BB:
+RenderPlayer_CheckCrouchJump:
 	LDA CrouchJumpTimer
-	CMP #$3C
-	BCC loc_BANKF_F3CA
+	CMP #CrouchJumpTimerMax
+	BCC RenderPlayer_SetSpriteAttributes
 
+	; Rapidly flash when crouch timer is maxed out
 	LDA byte_RAM_10
 	AND #ObjAttrib_Palette1
 	ORA PlayerAttributes
 	STA PlayerAttributes
 
-loc_BANKF_F3CA:
+RenderPlayer_SetSpriteAttributes:
 	LDA PlayerDirection
 	LSR A
 	ROR A
@@ -3762,108 +3777,115 @@ loc_BANKF_F3CA:
 	ORA PlayerAttributes
 	AND #%11111100
 	ORA #ObjAttrib_Palette1
-	STA SpriteDMAArea + 2, Y
+	STA SpriteDMAArea + 2, Y ; eye
+
 	LDX PlayerAnimationFrame
-	CPX #$07
-	BEQ loc_BANKF_F3E2
+	CPX #SpriteAnimation_Dead
+	BEQ RenderPlayer_SetAttributes_MirroredSprite
 
-	CPX #$04
-	BNE loc_BANKF_F3EE
+	CPX #SpriteAnimation_Ducking
+	BNE RenderPlayer_SetAttributes_RegularSprite
 
-loc_BANKF_F3E2:
+RenderPlayer_SetAttributes_MirroredSprite:
 	LDA PlayerAttributes
 	STA SpriteDMAArea + $22
 	STA SpriteDMAArea + $2A
 	ORA #$40
-	BNE loc_BANKF_F3F8
+	BNE RenderPlayer_SetAttributes_SecondHalf
 
-loc_BANKF_F3EE:
-	AND #$FC
+RenderPlayer_SetAttributes_RegularSprite:
+	AND #%11111100
 	ORA PlayerAttributes
 	STA SpriteDMAArea + $22
 	STA SpriteDMAArea + $2A
 
-loc_BANKF_F3F8:
+RenderPlayer_SetAttributes_SecondHalf:
 	STA SpriteDMAArea + $26
 	STA SpriteDMAArea + $2E
-	LDA CharacterFrameEyeTiles, X
-	BNE loc_BANKF_F408
 
+	LDA CharacterFrameEyeTiles, X
+	BNE RenderPlayer_SetEyeTile
+
+	; When the table lookup is $00, use the character eye tile lookup
 	LDX CurrentCharacter
 	LDA CharacterEyeTiles, X
 
-loc_BANKF_F408:
-	STA SpriteDMAArea + 1, Y
+RenderPlayer_SetEyeTile:
+	STA SpriteDMAArea + 1, Y ; eye
 
+	; Standing, walking, and ducking animations have "holding item" variants
 	LDA PlayerAnimationFrame
-	CMP #$06
-	BCS loc_BANKF_F413
+	CMP #SpriteAnimation_Jumping
+	BCS RenderPlayer_PrepareCharacterTiles
 
 	ORA HoldingItem
 
-loc_BANKF_F413:
+RenderPlayer_PrepareCharacterTiles:
 	ASL A
 	ASL A
 	TAX
 	LDA PlayerDirection
-	BNE loc_BANKF_F44A
+	BNE RenderPlayer_SetTiles_FacingRight
 
+RenderPlayer_SetTiles_FacingLeft:
 	LDA SpriteDMAArea + $23
-	STA SpriteDMAArea + 3, Y
+	STA SpriteDMAArea + 3, Y ; eye
 	LDA CharacterTiles_Walk1, X
 	STA SpriteDMAArea + $21
 	LDA CharacterTiles_Walk1 + 1, X
 	STA SpriteDMAArea + $25
+
+	; Checks to see if we should use the special Princess bottom tiles
 	LDA PlayerCurrentSize
-	BNE loc_BANKF_F43F
+	BNE RenderPlayer_SetTiles_FacingLeft_Bottom
 
 	LDA CurrentCharacter
 	CMP #Character_Princess
-	BNE loc_BANKF_F43F
+	BNE RenderPlayer_SetTiles_FacingLeft_Bottom
 
 	LDA PlayerAnimationFrame
 	CMP #SpriteAnimation_Jumping
-	BNE loc_BANKF_F43F
+	BNE RenderPlayer_SetTiles_FacingLeft_Bottom
 
-	LDX #$2A
+	LDX #(CharacterTiles_PrincessJumpBody - CharacterTiles_Walk1 - 2) ; #$2A
 
-loc_BANKF_F43F:
+RenderPlayer_SetTiles_FacingLeft_Bottom:
 	LDA CharacterTiles_Walk1 + 2, X
 	STA SpriteDMAArea + $29
 	LDA CharacterTiles_Walk1 + 3, X
-	BNE loc_BANKF_F478
+	BNE RenderPlayer_SetTiles_BottomRight
 
-loc_BANKF_F44A:
+RenderPlayer_SetTiles_FacingRight:
 	LDA SpriteDMAArea + $27
-	STA SpriteDMAArea + 3, Y
+	STA SpriteDMAArea + 3, Y ; eye
 	LDA CharacterTiles_Walk1 + 1, X
 	STA SpriteDMAArea + $21
 	LDA CharacterTiles_Walk1, X
 	STA SpriteDMAArea + $25
+
+	; The next
 	LDA PlayerCurrentSize
-	BNE loc_BANKF_F46F
+	BNE RenderPlayer_SetTiles_FacingRight_Bottom
 
 	LDA CurrentCharacter
 	CMP #Character_Princess
-	BNE loc_BANKF_F46F
+	BNE RenderPlayer_SetTiles_FacingRight_Bottom
 
 	LDA PlayerAnimationFrame
 	CMP #SpriteAnimation_Jumping
-	BNE loc_BANKF_F46F
+	BNE RenderPlayer_SetTiles_FacingRight_Bottom
 
-	LDX #$2A
+	LDX #(CharacterTiles_PrincessJumpBody - CharacterTiles_Walk1 - 2) ; #$2A
 
-loc_BANKF_F46F:
+RenderPlayer_SetTiles_FacingRight_Bottom:
 	LDA CharacterTiles_Walk1 + 3, X
 	STA SpriteDMAArea + $29
 	LDA CharacterTiles_Walk1 + 2, X
 
-loc_BANKF_F478:
+RenderPlayer_SetTiles_BottomRight:
 	STA SpriteDMAArea + $2D
 	RTS
 
-
-; =============== S U B R O U T I N E =======================================
 
 SetAreaStartPage:
 	LDA IsHorizontalLevel
@@ -3942,7 +3964,7 @@ DetermineVerticalScroll_Exit:
 GetVerticalAreaStartPage:
 	STA byte_RAM_F
 	TYA
-	BMI locret_BANKF_F4D9
+	BMI GetVerticalAreaStartPage_Exit
 
 	ASL A
 	ASL A
@@ -3950,20 +3972,18 @@ GetVerticalAreaStartPage:
 	ASL A
 	CLC
 	ADC byte_RAM_F
-	BCS loc_BANKF_F4D5
+	BCS GetVerticalAreaStartPage_AdjustPage
 
 	CMP #$F0
-	BCC locret_BANKF_F4D9
+	BCC GetVerticalAreaStartPage_Exit
 
-loc_BANKF_F4D5:
+GetVerticalAreaStartPage_AdjustPage:
 	CLC
 	ADC #$10
 	INY
 
-locret_BANKF_F4D9:
+GetVerticalAreaStartPage_Exit:
 	RTS
-
-; End of function GetVerticalAreaStartPage
 
 
 SpriteFlickerDMAOffset:
@@ -5126,9 +5146,6 @@ DoAreaReset_EnemyLoopEnd:
 	LDX byte_RAM_12
 	RTS
 
-; End of function DoAreaReset
-
-; =============== S U B R O U T I N E =======================================
 
 AreaResetEnemyDestroy:
 	; load raw enemy data offset so we can allow the level object to respawn
@@ -5146,9 +5163,6 @@ AreaResetEnemyDestroy_AfterAllowRespawn:
 	STA EnemyState, X
 	RTS
 
-; End of function AreaResetEnemyDestroy
-
-; =============== S U B R O U T I N E =======================================
 
 KillPlayer:
 	LDA #PlayerState_Dying ; Mark player as dead
@@ -5166,7 +5180,7 @@ ENDIF
 	LDA #SpriteAnimation_Dead ; Set player animation to dead?
 	STA PlayerAnimationFrame
 	LDA HoldingItem
-	BEQ loc_BANKF_F749
+	BEQ PlayerDeath_SetMusic
 
 	; Probably something to throw away
 	; a held item on death
@@ -5180,14 +5194,14 @@ ENDIF
 	STX byte_RAM_D
 	LDX EnemyState, Y
 	CPX #EnemyState_Sinking
-	BEQ loc_BANKF_F747
+	BEQ PlayerDeath_Exit
 
 	STA ObjectYVelocity, Y
 
-loc_BANKF_F747:
+PlayerDeath_Exit:
 	LDX byte_RAM_D
 
-loc_BANKF_F749:
+PlayerDeath_SetMusic:
 IFNDEF RESPAWN_INSTEAD_OF_DEATH
 	; Set music to death jingle
 	LDA #Music2_DeathJingle

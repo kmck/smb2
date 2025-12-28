@@ -1755,6 +1755,9 @@ GroundSlipperiness:
 	.dsb 1 ; $0626
 DoAreaTransition:
 	.dsb 1 ; $0627
+; $00: Regular area
+; $01: Jar
+; $02: Subspace
 InSubspaceOrJar:
 	.dsb 1 ; $0628
 CurrentLevelRelative:
@@ -2018,6 +2021,9 @@ Player1JoypadExpansionPress:
 	.dsb 1 ; $06f4
 Player2JoypadExpansionPress:
 	.dsb 1 ; $06f5
+; Current player sprite size
+;   $00 = Large
+;   $01 = Small
 PlayerCurrentSize:
 	.dsb 1 ; $06f6
 BackgroundCHR1:

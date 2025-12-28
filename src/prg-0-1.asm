@@ -2016,7 +2016,7 @@ loc_BANK0_8A72:
 ; ---------------------------------------------------------------------------
 
 LoseALife:
-	LDA #$02
+	LDA #SpriteAnimation_Standing
 	STA PlayerAnimationFrame
 	LDY #$01 ; Set game mode to title card
 	DEC ExtraLives
@@ -2095,14 +2095,14 @@ PlayerLiftTimer:
 	.db $01
 
 PlayerLiftFrames:
-	.db $01
-	.db $02
-	.db $04
-	.db $04
-	.db $04
-	.db $04
-	.db $08
-	.db $08
+	.db SpriteAnimation_WalkingCarrying
+	.db SpriteAnimation_Standing
+	.db SpriteAnimation_Ducking
+	.db SpriteAnimation_Ducking
+	.db SpriteAnimation_Ducking
+	.db SpriteAnimation_Ducking
+	.db SpriteAnimation_Pulling
+	.db SpriteAnimation_Pulling
 
 PlayerClimbHorizontalSpeed:
 	.db $00
@@ -2411,7 +2411,7 @@ HandlePlayerState_ChangingSize_Next:
 
 loc_BANK0_8C0D:
 	LDY PlayerAnimationFrame
-	CPY #$0A
+	CPY #SpriteAnimation_Climbing
 	BNE loc_BANK0_8C15
 
 	LDA #PlayerState_Climbing
@@ -2481,7 +2481,7 @@ ENDIF
 	BNE ResetPartialCrouchJumpTimer
 
 	LDA CrouchJumpTimer ; check if crouch jump is charged
-	CMP #$3C
+	CMP #CrouchJumpTimerMax
 	BCS loc_BANK0_8C92
 
 	INC CrouchJumpTimer ; increment crouch jump charge
@@ -2489,7 +2489,7 @@ ENDIF
 
 ResetPartialCrouchJumpTimer: ; reset crouch jump timer if it isn't full
 	LDA CrouchJumpTimer
-	CMP #$3C ; max crouch jump timer
+	CMP #CrouchJumpTimerMax ; max crouch jump timer
 	BCS loc_BANK0_8C6F
 
 	LDA #$00 ; reset crouch jump timer to zero
@@ -2571,7 +2571,7 @@ PlayerStartJump_CheckXSpeed:
 
 	; Check crouch jump timer
 	LDY CrouchJumpTimer
-	CPY #$3C
+	CPY #CrouchJumpTimerMax
 	BCC PlayerStartJump_SetYVelocity
 
 	; Clear Player1JoypadHeld for a crouch jump
@@ -5991,8 +5991,8 @@ FreeSubconsScene:
 	STA FreeSubconsTimer
 	LDA #$01
 	STA PlayerDirection
-	LSR A
-	STA PlayerState ; A=$00
+	LSR A ; A = $00
+	STA PlayerState
 	STA FreeSubconsCorkCounter
 	STA CrouchJumpTimer
 	STA byte_RAM_E6

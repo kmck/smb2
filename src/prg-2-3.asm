@@ -11215,7 +11215,7 @@ loc_BANK3_B922:
 	; Force the player into a ducking position
 	LDA #$01
 	STA PlayerDucking
-	LDA #$04
+	LDA #SpriteAnimation_Ducking
 	STA PlayerAnimationFrame
 	LDA #$10
 	STA PlayerStateTimer
@@ -11882,7 +11882,7 @@ SetPlayerStateLifting:
 	STA PlayerState
 	LDA #$06
 	STA PlayerStateTimer
-	LDA #$08
+	LDA #SpriteAnimation_Pulling
 	STA PlayerAnimationFrame
 	INC HoldingItem
 	RTS

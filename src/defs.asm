@@ -43,6 +43,10 @@ TransitionType_Rocket = $05
 
 ; ---------------------------------------------------------------------------
 
+CrouchJumpTimerMax = $3C
+
+; ---------------------------------------------------------------------------
+
 ; enum Characters
 Character_Mario = $00
 Character_Princess = $01
@@ -258,7 +262,8 @@ SpriteAnimation_WalkingCarrying = $01
 SpriteAnimation_Standing = $02
 SpriteAnimation_StandingCarrying = $03
 SpriteAnimation_Ducking = $04
-SpriteAnimation_5 = $05
+SpriteAnimation_DuckingCarrying = $05
+SpriteAnimation_5 = $05 ; Ducking while carrying...?
 SpriteAnimation_Jumping = $06
 SpriteAnimation_Dead = $07
 SpriteAnimation_Pulling = $08
