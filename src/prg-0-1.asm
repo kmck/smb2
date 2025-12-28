@@ -5171,7 +5171,7 @@ TitleStoryTextPointersHi:
 	.db >TitleStoryText_Line06
 	.db >TitleStoryText_Line07
 	.db >TitleStoryText_Line08
-	.db >TitleStoryText_Line08 ; For some reason line 8 is referenced twice here, but not used
+	.db >TitleStoryText_Line08 ; Dummy reference, this index used for clearing screen
 	.db >TitleStoryText_Line09
 	.db >TitleStoryText_Line10
 	.db >TitleStoryText_Line11
@@ -5190,7 +5190,7 @@ TitleStoryTextPointersLo:
 	.db <TitleStoryText_Line06
 	.db <TitleStoryText_Line07
 	.db <TitleStoryText_Line08
-	.db <TitleStoryText_Line08
+	.db <TitleStoryText_Line08 ; Dunny reference, index used for clearing screen
 	.db <TitleStoryText_Line09
 	.db <TitleStoryText_Line10
 	.db <TitleStoryText_Line11
@@ -5280,40 +5280,44 @@ TitleAttributeData2:
 	.db $23, $EA, $44, $FF
 	.db $23, $E9, $01, $CC
 	.db $23, $EE, $01, $33
+TitleAttributeData_End:
 
 
 ; =============== S U B R O U T I N E =======================================
 
 TitleScreen:
-	LDY #$07 ; Does initialization of RAM.
-	STY byte_RAM_1 ; This clears $200 to $7FF.
+	; Initialize RAM, clearing $200 to $7FF
+	LDY #$07
+	STY byte_RAM_1
 	LDY #$00
 	STY byte_RAM_0
 	TYA
 
-InitMemoryLoop:
-	STA (byte_RAM_0), Y ; I'm not sure if a different method of initializing memory
-; would work better in this case.
+InitMemory_0200_to_07FF_Loop:
+	; I'm not sure if a different method of initializing memory
+	; would work better in this case.
+	STA (byte_RAM_0), Y
 	DEY
-	BNE InitMemoryLoop
+	BNE InitMemory_0200_to_07FF_Loop:
 
 	DEC byte_RAM_1
 	LDX byte_RAM_1
+	; Stop initialization after we hit $200.
 	CPX #$02
-	BCS InitMemoryLoop ; Stop initialization after we hit $200.
+	BCS InitMemory_0200_to_07FF_Loop
 
-loc_BANK0_9A53:
+TitleScreenSequence_Loop:
 	LDA #$00
 	TAY
 
-InitMemoryLoop2:
+InitMemory_0000_to_00FF_Loop:
 	; Clear $0000-$00FF.
 	; Notably, this leaves the stack area $0100-$01FF uninitialized.
 	; This is not super important, but you might want to do it yourself to
 	; track stack corruption or whatever.
 	STA byte_RAM_0, Y
 	INY
-	BNE InitMemoryLoop2
+	BNE InitMemory_0000_to_00FF_Loop
 
 	JSR LoadTitleScreenCHRBanks
 
@@ -5368,11 +5372,12 @@ InitTitleBackgroundPalettesLoop:
 	STA TitleScreenPPULength
 
 	; Loop point, wait for NMI then check whether we need to clear the screen
+TitleScreen_NMILoop:
 loc_BANK0_9AB4:
 	JSR WaitForNMI_TitleScreen
 
 	LDA TitleScreenStoryNeedsClear
-	BNE loc_BANK0_9AF3
+	BNE TitleScreen_ClearStory
 
 	; Loop point, just increment the frame timer
 loc_BANK0_9ABB:
@@ -5381,7 +5386,7 @@ loc_BANK0_9ABB:
 	AND #$0F
 	BEQ loc_BANK0_9AC6
 
-	JMP loc_BANK0_9B4D
+	JMP TitleScreen_CheckStart
 
 	; Decrement the title screen phase counter
 loc_BANK0_9AC6:
@@ -5389,10 +5394,10 @@ loc_BANK0_9AC6:
 	LDA byte_RAM_2
 	CMP #$06
 IFNDEF SM_USA
-	BNE loc_BANK0_9B4D
+	BNE TitleScreen_CheckStart
 ELSE
 	BEQ loc_BANK0_9ACE
-	JMP loc_BANK0_9B4D
+	JMP TitleScreen_CheckStart
 ENDIF
 
 loc_BANK0_9ACE:
@@ -5413,9 +5418,9 @@ loc_BANK0_9ACE:
 	STA PPUBuffer_301 + 3
 	LDA #$00
 	STA PPUBuffer_301 + 4
-	BEQ loc_BANK0_9B4D
+	BEQ TitleScreen_CheckStart
 
-loc_BANK0_9AF3:
+TitleScreen_ClearStory:
 IFNDEF SM_USA
 	LDA TitleScreenPPUAddrHi
 	STA PPUBuffer_301
@@ -5432,7 +5437,7 @@ ELSE
 	STA PPUBuffer_301
 	; Need to clear a wider row of tiles with "Super Mario" on a single line
 	CMP #$21
-	BNE loc_BANK0_9B02
+	BNE TitleScreen_ClearStory_UpdatePPUAddr
 	LDA PPUBuffer_301 + 2
 	CLC
 	ADC #$02
@@ -5440,11 +5445,12 @@ ELSE
 	DEC PPUBuffer_301 + 1
 ENDIF
 
-loc_BANK0_9B02:
+TitleScreen_ClearStory_UpdatePPUAddr:
 	LDA #$FB
 	STA PPUBuffer_301 + 3
 	LDA #$00
 	STA PPUBuffer_301 + 4
+
 	LDA TitleScreenPPUAddrLo
 	CLC
 	ADC #$20
@@ -5453,55 +5459,49 @@ loc_BANK0_9B02:
 	ADC #$00
 	STA TitleScreenPPUAddrHi
 	CMP #$23
-
-loc_BANK0_9B1B:
-	BCC loc_BANK0_9B4D
+	BCC TitleScreen_CheckStart
 
 	LDA #$20
 	STA byte_RAM_10
-	LDX #$17
-	LDY #$00
 
-loc_BANK0_9B25:
+	; Attribute data updates done in two batches, presumably because of timing
+	LDX #(TitleAttributeData2 - TitleAttributeData1 - 1)
+	LDY #$00
+TitleScreen_ClearStory_AttributeData1_Loop:
 	LDA TitleAttributeData1, Y
 	STA PPUBuffer_301 + 4, Y
 	INY
 	DEX
-	BPL loc_BANK0_9B25
+	BPL TitleScreen_ClearStory_AttributeData1_Loop
 
 	LDA #$00
 	STA PPUBuffer_301 + 4, Y
 	JSR WaitForNMI_TitleScreen
 
-	LDX #$1B
+	LDX #(TitleAttributeData_End - TitleAttributeData2 - 1)
 	LDY #$00
-
-loc_BANK0_9B3B:
+TitleScreen_ClearStory_AttributeData2_Loop:
 	LDA TitleAttributeData2, Y
 	STA PPUBuffer_301, Y
 	INY
 	DEX
-	BPL loc_BANK0_9B3B
+	BPL TitleScreen_ClearStory_AttributeData2_Loop
 
 	LDA #$00
 	STA PPUBuffer_301, Y
+
 	JMP loc_BANK0_9B59
 
-; ---------------------------------------------------------------------------
-
-loc_BANK0_9B4D:
+TitleScreen_CheckStart:
 	LDA Player1JoypadPress
 	AND #ControllerInput_Start
-	BEQ loc_BANK0_9B56
+	BEQ TitleScreen_Next
 
-	JMP loc_BANK0_9C1F
+	JMP TitleScreen_Exit
 
-; ---------------------------------------------------------------------------
-
+TitleScreen_Next:
 loc_BANK0_9B56:
 	JMP loc_BANK0_9AB4
-
-; ---------------------------------------------------------------------------
 
 loc_BANK0_9B59:
 	JSR WaitForNMI_TitleScreen
@@ -5509,22 +5509,25 @@ loc_BANK0_9B59:
 	LDA TitleScreenPPUAddrLo + 4
 	BEQ loc_BANK0_9B63
 
-	JMP loc_BANK0_9C19
+	JMP TitleScreen_CheckStartHeld
 
 ; ---------------------------------------------------------------------------
 
 loc_BANK0_9B63:
 	LDA TitleScreenStoryTextIndex
+
+	; Screen clear
 	CMP #$09
 	BEQ loc_BANK0_9B93
 
 	LDA TitleScreenStoryTextIndex
 	BNE loc_BANK0_9BA3
 
+	; First line: STORY
 	DEC byte_RAM_10
 	BMI TitleScreen_WriteSTORYText
 
-	JMP loc_BANK0_9C19
+	JMP TitleScreen_CheckStartHeld
 
 ; ---------------------------------------------------------------------------
 
@@ -5548,40 +5551,42 @@ TitleScreen_WriteSTORYTextLoop:
 
 loc_BANK0_9B93:
 	INC TitleScreenStoryTextIndex
+
+	; Start of first line
 	LDA #$21
 	STA TitleScreenPPUAddrHi
 	LDA #$06
 	STA TitleScreenPPUAddrLo
+
 	LDA #$40
 	STA TitleScreenStoryTextLineTimer
-	BNE loc_BANK0_9C19
+	BNE TitleScreen_CheckStartHeld
 
 loc_BANK0_9BA3:
 	DEC TitleScreenStoryTextLineTimer
-	BPL loc_BANK0_9C19
+	BPL TitleScreen_CheckStartHeld
 
 loc_BANK0_9BA7:
 	LDA #$40
 	STA TitleScreenStoryTextLineTimer
+
 	LDA TitleScreenPPUAddrHi
 	STA PPUBuffer_301
-
-loc_BANK0_9BB0:
 	LDA TitleScreenPPUAddrLo
-
-loc_BANK0_9BB2:
 	STA PPUBuffer_301 + 1
-	LDA #$14
+	LDA #$14 ; line width
 	STA PPUBuffer_301 + 2
+
 	LDX TitleScreenStoryTextIndex
 	DEX
+
 	LDA TitleStoryTextPointersHi, X
 	STA byte_RAM_4
 	LDA TitleStoryTextPointersLo, X
 	STA byte_RAM_3
+
 	LDY #$00
 	LDX #$13
-
 loc_BANK0_9BCB:
 	LDA (byte_RAM_3), Y
 	STA PPUBuffer_301 + 3, Y
@@ -5592,6 +5597,8 @@ loc_BANK0_9BCB:
 	LDA #$00
 	STA PPUBuffer_301 + 3, Y
 	INC TitleScreenStoryTextIndex
+
+	; Move to the next line
 	LDA TitleScreenPPUAddrLo
 	CLC
 	ADC #$40
@@ -5601,29 +5608,33 @@ loc_BANK0_9BCB:
 	STA TitleScreenPPUAddrHi
 	LDA TitleScreenStoryTextIndex
 	CMP #$09
-	BCC loc_BANK0_9C19
+	BCC TitleScreen_CheckStartHeld
 
 	BNE loc_BANK0_9C0B
 
+	; Timer
 	LDA #$09
 	STA byte_RAM_2
 	LDA #$03
 	STA byte_RAM_10
+
 	LDA #$20
 	STA TitleScreenPPUAddrHi
 	LDA #$C7
 	STA TitleScreenPPUAddrLo
 	LDA #$52
 	STA TitleScreenPPULength
+
 	LDA #$00
 	STA TitleScreenStoryNeedsClear
+
 	JMP loc_BANK0_9ABB
 
 ; ---------------------------------------------------------------------------
 
 loc_BANK0_9C0B:
 	CMP #$12
-	BCC loc_BANK0_9C19
+	BCC TitleScreen_CheckStartHeld
 
 	INC TitleScreenStoryDone
 	LDA #$25
@@ -5631,12 +5642,12 @@ loc_BANK0_9C0B:
 	LDA #$03
 	STA byte_RAM_10
 
-loc_BANK0_9C19:
+TitleScreen_CheckStartHeld:
 	LDA Player1JoypadHeld
 	AND #ControllerInput_Start
 	BEQ loc_BANK0_9C35
 
-loc_BANK0_9C1F:
+TitleScreen_Exit:
 	LDA #Music2_StopMusic
 	STA MusicQueue2
 	JSR WaitForNMI_TitleScreen
@@ -5645,6 +5656,7 @@ loc_BANK0_9C1F:
 	TAY
 
 loc_BANK0_9C2A:
+	; Clear $0000-$00EF
 	STA byte_RAM_0, Y
 	INY
 	CPY #$F0
@@ -5668,20 +5680,18 @@ loc_BANK0_9C35:
 	CMP #$06
 	BNE loc_BANK0_9C4B
 
-	BEQ loc_BANK0_9C4E
+	BEQ TitleScreenSequence_Next
 
 loc_BANK0_9C4B:
 	JMP loc_BANK0_9B59
 
-; ---------------------------------------------------------------------------
 
-loc_BANK0_9C4E:
+; Restart the title screen
+TitleScreenSequence_Next:
 	LDA #PPUCtrl_Base2000 | PPUCtrl_WriteHorizontal | PPUCtrl_Sprite0000 | PPUCtrl_Background1000 | PPUCtrl_SpriteSize8x8 | PPUCtrl_NMIDisabled
 	STA PPUCtrlMirror
-
-loc_BANK0_9C52:
 	STA PPUCTRL
-	JMP loc_BANK0_9A53
+	JMP TitleScreenSequence_Loop
 
 ; End of function TitleScreen
 
