@@ -559,11 +559,11 @@ CastRoll_ScrollSprites_AfterSpriteCounter:
 	.dw CastRoll_CrawlDelay
 	.dw CastRoll_CrawlStart
 	.dw CastRoll_CrawlContinue
-	.dw CastRoll_QueueWart
+	.dw CastRoll_WartSetup
+	.dw CastRoll_WartScroll
 	.dw CastRoll_WartLaugh
-	.dw loc_BANKC_89B6
-	.dw loc_BANKC_8A04
-	.dw loc_BANKC_8A37
+	.dw CastRoll_DoPaletteFadeOut
+	.dw CastRoll_HideSprites
 	.dw CastRoll_TheEndDelay
 	.dw CastRoll_TheEndAnimation
 
@@ -764,6 +764,9 @@ CastRoll_CrawlDelay_Exit:
 	RTS
 
 
+;
+; Starts the cast roll crawl
+;
 CastRoll_CrawlStart:
 	LDA CastRollThrottle
 	AND #$01
@@ -791,6 +794,9 @@ CastRoll_CrawlStart:
 	STA CastRollSpriteActive4
 	STA CastRollSpriteActive1
 
+;
+; Runs the cast roll crawl without the initial setup
+;
 CastRoll_CrawlContinue:
 CastRollSprite1:
 	LDA CastRollSpriteActive1
@@ -846,10 +852,10 @@ CastRollSprite2_Loop:
 
 CastRollSprite3:
 	LDA CastRollSpriteActive3
-	BNE loc_BANKC_8693
+	BNE CastRoll_CrawlContinue_UpdateSprite4
 
 	LDA CastRollSpriteCounter3
-	BNE loc_BANKC_8693
+	BNE CastRoll_CrawlContinue_UpdateSprite4
 
 	JSR LoadCastRollSpritePointer
 
@@ -877,111 +883,109 @@ CastRollSprite3_Loop:
 CastRollSprite3_SetLastRowOffset:
 	STY CastRollSprite3C
 
-loc_BANKC_8693:
+CastRoll_CrawlContinue_UpdateSprite4:
 	LDA CastRollSpriteActive4
-	BEQ loc_BANKC_869A
+	BEQ CastRoll_CrawlContinue_UpdateSprite1
 
-	JMP loc_BANKC_873A
+	JMP CastRoll_CrawlContinue_UpdateSprite2
 
-; ---------------------------------------------------------------------------
 
-loc_BANKC_869A:
+CastRoll_CrawlContinue_UpdateSprite1:
 	LDA CastRollThrottle
 	AND #$01
-	BNE loc_BANKC_86A3
+	BNE CastRoll_CrawlContinue_Sprite1Row1
 
-	JMP loc_BANKC_873A
+	JMP CastRoll_CrawlContinue_UpdateSprite2
 
-; ---------------------------------------------------------------------------
 
-loc_BANKC_86A3:
+CastRoll_CrawlContinue_Sprite1Row1:
 	LDA SpriteDMAArea + $40
 	CMP #$F8
-	BEQ loc_BANKC_86C3
+	BEQ CastRoll_CrawlContinue_Sprite1Row2
 
 	LDA CastRollSprite1A
 	SEC
 	SBC #$01
 	CMP #$10
-	BNE loc_BANKC_86B5
+	BNE CastRoll_CrawlContinue_Sprite1Row1_Update
 
 	LDA #$F8
 
-loc_BANKC_86B5:
+CastRoll_CrawlContinue_Sprite1Row1_Update:
 	STA CastRollSprite1A
 	STA SpriteDMAArea + $40
 	STA SpriteDMAArea + $44
 	STA SpriteDMAArea + $48
 	STA SpriteDMAArea + $4C
 
-loc_BANKC_86C3:
+CastRoll_CrawlContinue_Sprite1Row2:
 	LDA SpriteDMAArea + $50
 	CMP #$F8
-	BEQ loc_BANKC_86F2
+	BEQ CastRoll_CrawlContinue_Sprite1Row3
 
 	DEC CastRollSprite1B
 	CMP #$F9
-	BNE loc_BANKC_86D6
+	BNE CastRoll_CrawlContinue_Sprite1Row2_Update
 
 	LDA CastRollSprite1B
 	CMP #$D0
-	BNE loc_BANKC_86F2
+	BNE CastRoll_CrawlContinue_Sprite1Row3
 
-loc_BANKC_86D6:
+CastRoll_CrawlContinue_Sprite1Row2_Update:
 	LDA CastRollSprite1B
 	CMP #$10
-	BNE loc_BANKC_86E6
+	BNE CastRoll_CrawlContinue_Sprite1Row2_Hide
 
 	LDA CastRollSpriteIndex
 	CMP #$FF
-	BNE loc_BANKC_86E4
+	BNE CastRoll_CrawlContinue_Sprite1Row2_CheckEnd
 
 	INC CastRollSequenceIndex
 
-loc_BANKC_86E4:
+CastRoll_CrawlContinue_Sprite1Row2_CheckEnd:
 	LDA #$F8
 
-loc_BANKC_86E6:
+CastRoll_CrawlContinue_Sprite1Row2_Hide:
 	STA SpriteDMAArea + $50
 	STA SpriteDMAArea + $54
 	STA SpriteDMAArea + $58
 	STA SpriteDMAArea + $5C
 
-loc_BANKC_86F2:
+CastRoll_CrawlContinue_Sprite1Row3:
 	LDA SpriteDMAArea + $60
 	CMP #$F8
-	BEQ loc_BANKC_873A
+	BEQ CastRoll_CrawlContinue_UpdateSprite2
 
 	DEC CastRollSprite1C
 	CMP #$F9
-	BNE loc_BANKC_870C
+	BNE CastRoll_CrawlContinue_Sprite1Row3_Update
 
 	LDA CastRollSprite1C
 	CMP #$D0
-	BNE loc_BANKC_873A
+	BNE CastRoll_CrawlContinue_UpdateSprite2
 
 	LDY CastRollSpriteIndex
 	LDA CastRollSpriteOffset, Y
 	STA CastRollSpriteCounter2
 
-loc_BANKC_870C:
+CastRoll_CrawlContinue_Sprite1Row3_Update:
 	LDA CastRollSprite1C
 	CMP #$10
-	BNE loc_BANKC_8722
+	BNE CastRoll_CrawlContinue_Sprite1Row3_Hide
 
 	LDA #$00
 	STA CastRollSpriteActive1
 	LDA CastRollSpriteIndex
 	CMP #$FF
-	BNE loc_BANKC_8720
+	BNE CastRoll_CrawlContinue_Sprite1Row3_Deactivate
 
 	LDA #$FF
 	STA CastRollSpriteActive1
 
-loc_BANKC_8720:
+CastRoll_CrawlContinue_Sprite1Row3_Deactivate:
 	LDA #$F8
 
-loc_BANKC_8722:
+CastRoll_CrawlContinue_Sprite1Row3_Hide:
 	STA SpriteDMAArea + $60
 	STA SpriteDMAArea + $64
 	STA SpriteDMAArea + $68
@@ -991,101 +995,95 @@ loc_BANKC_8722:
 	STA SpriteDMAArea + $78
 	STA SpriteDMAArea + $7C
 
-loc_BANKC_873A:
+CastRoll_CrawlContinue_UpdateSprite2:
 	LDA CastRollThrottle
 	AND #$01
-	BNE loc_BANKC_8743
+	BNE CastRoll_CrawlContinue_Sprite2Row1
 
-	JMP loc_BANKC_87D2
+	JMP CastRoll_CrawlContinue_UpdateSprite3
 
-; ---------------------------------------------------------------------------
 
-loc_BANKC_8743:
+CastRoll_CrawlContinue_Sprite2Row1:
 	LDA SpriteDMAArea + $80
 	CMP #$F8
-	BEQ loc_BANKC_8763
+	BEQ CastRoll_CrawlContinue_Sprite2Row2
 
 	LDA CastRollSprite2A
-
-loc_BANKC_874C:
 	SEC
 	SBC #$01
 	CMP #$10
-	BNE loc_BANKC_8755
+	BNE CastRoll_CrawlContinue_Sprite2Row1_Update
 
 	LDA #$F8
 
-loc_BANKC_8755:
+CastRoll_CrawlContinue_Sprite2Row1_Update:
 	STA CastRollSprite2A
 	STA SpriteDMAArea + $80
 	STA SpriteDMAArea + $84
 	STA SpriteDMAArea + $88
 	STA SpriteDMAArea + $8C
 
-loc_BANKC_8763:
+CastRoll_CrawlContinue_Sprite2Row2:
 	LDA SpriteDMAArea + $90
 	CMP #$F8
-	BEQ loc_BANKC_878A
+	BEQ CastRoll_CrawlContinue_Sprite2Row3
 
 	DEC CastRollSprite2B
 	CMP #$F9
-	BNE loc_BANKC_8776
+	BNE CastRoll_CrawlContinue_Sprite2Row2_Update
 
 	LDA CastRollSprite2B
 	CMP #$D0
-	BNE loc_BANKC_878A
+	BNE CastRoll_CrawlContinue_Sprite2Row3
 
-loc_BANKC_8776:
+CastRoll_CrawlContinue_Sprite2Row2_Update:
 	LDA CastRollSprite2B
 	CMP #$10
-	BNE loc_BANKC_877E
+	BNE CastRoll_CrawlContinue_Sprite2Row2_Hide
 
 	LDA #$F8
 
-loc_BANKC_877E:
+CastRoll_CrawlContinue_Sprite2Row2_Hide:
 	STA SpriteDMAArea + $90
 	STA SpriteDMAArea + $94
-
-loc_BANKC_8784:
 	STA SpriteDMAArea + $98
 	STA SpriteDMAArea + $9C
 
-loc_BANKC_878A:
+CastRoll_CrawlContinue_Sprite2Row3:
 	LDA SpriteDMAArea + $A0
 	CMP #$F8
-	BEQ loc_BANKC_87D2
+	BEQ CastRoll_CrawlContinue_UpdateSprite3
 
 	DEC CastRollSprite2C
 	CMP #$F9
-	BNE loc_BANKC_87A4
+	BNE CastRoll_CrawlContinue_Sprite2Row3_Update
 
 	LDA CastRollSprite2C
 	CMP #$D0
-	BNE loc_BANKC_87D2
+	BNE CastRoll_CrawlContinue_UpdateSprite3
 
 	LDY CastRollSpriteIndex
 	LDA CastRollSpriteOffset, Y
 	STA CastRollSpriteCounter3
 
-loc_BANKC_87A4:
+CastRoll_CrawlContinue_Sprite2Row3_Update:
 	LDA CastRollSprite2C
 	CMP #$10
-	BNE loc_BANKC_87BA
+	BNE CastRoll_CrawlContinue_Sprite2Row3_Hide
 
-loc_BANKC_87AA:
 	LDA #$00
 	STA CastRollSpriteActive2
 	LDA CastRollSpriteIndex
 	CMP #$FF
-	BNE loc_BANKC_87B8
+	BNE CastRoll_CrawlContinue_Sprite2Row3_Deactivate
 
 	LDA #$FF
 	STA CastRollSpriteActive2
 
-loc_BANKC_87B8:
+CastRoll_CrawlContinue_Sprite2Row3_Deactivate:
 	LDA #$F8
 
-loc_BANKC_87BA:
+CastRoll_CrawlContinue_Sprite2Row3_Hide:
 	STA SpriteDMAArea + $A0
 	STA SpriteDMAArea + $A4
 	STA SpriteDMAArea + $A8
@@ -1095,109 +1093,108 @@ loc_BANKC_87BA:
 	STA SpriteDMAArea + $B8
 	STA SpriteDMAArea + $BC
 
-loc_BANKC_87D2:
+CastRoll_CrawlContinue_UpdateSprite3:
 	LDA CastRollThrottle
 	AND #$01
-	BNE loc_BANKC_87DB
+	BNE CastRoll_CrawlContinue_Sprite3Row1
 
-	JMP locret_BANKC_8897
+	JMP CastRoll_CrawlContinue_Exit
 
-; ---------------------------------------------------------------------------
 
-loc_BANKC_87DB:
+CastRoll_CrawlContinue_Sprite3Row1:
 	LDA SpriteDMAArea + $C0
 	CMP #$F8
-	BEQ loc_BANKC_87FB
+	BEQ CastRoll_CrawlContinue_Sprite3Row2
 
 	LDA CastRollSprite3A
 	SEC
 	SBC #$01
 	CMP #$10
-	BNE loc_BANKC_87ED
+	BNE CastRoll_CrawlContinue_Sprite3Row1_Update
 
 	LDA #$F8
 
-loc_BANKC_87ED:
+CastRoll_CrawlContinue_Sprite3Row1_Update:
 	STA CastRollSprite3A
 	STA SpriteDMAArea + $C0
 	STA SpriteDMAArea + $C4
 	STA SpriteDMAArea + $C8
 	STA SpriteDMAArea + $CC
 
-loc_BANKC_87FB:
+CastRoll_CrawlContinue_Sprite3Row2:
 	LDA SpriteDMAArea + $D0
 	CMP #$F8
-	BEQ loc_BANKC_8822
+	BEQ CastRoll_CrawlContinue_Sprite3Row3
 
 	DEC CastRollSprite3B
 	CMP #$F9
-	BNE loc_BANKC_880E
+	BNE CastRoll_CrawlContinue_Sprite3Row2_Update
 
 	LDA CastRollSprite3B
 	CMP #$D0
-	BNE loc_BANKC_8822
+	BNE CastRoll_CrawlContinue_Sprite3Row3
 
-loc_BANKC_880E:
+CastRoll_CrawlContinue_Sprite3Row2_Update:
 	LDA CastRollSprite3B
 	CMP #$10
-	BNE loc_BANKC_8816
+	BNE CastRoll_CrawlContinue_Sprite3Row2_Hide
 
 	LDA #$F8
 
-loc_BANKC_8816:
+CastRoll_CrawlContinue_Sprite3Row2_Hide:
 	STA SpriteDMAArea + $D0
 	STA SpriteDMAArea + $D4
 	STA SpriteDMAArea + $D8
 	STA SpriteDMAArea + $DC
 
-loc_BANKC_8822:
+CastRoll_CrawlContinue_Sprite3Row3:
 	LDA SpriteDMAArea + $E0
 	CMP #$F8
-	BEQ locret_BANKC_8897
+	BEQ CastRoll_CrawlContinue_Exit
 
 	DEC CastRollSprite3C
 	CMP #$F9
-	BNE loc_BANKC_883C
+	BNE CastRoll_CrawlContinue_Sprite3Row3_Update
 
 	LDA CastRollSprite3C
 	CMP #$D0
-	BNE locret_BANKC_8897
+	BNE CastRoll_CrawlContinue_Exit
 
 	LDY CastRollSpriteIndex
 	LDA CastRollSpriteOffset, Y
 	STA CastRollSpriteCounter1
 
-loc_BANKC_883C:
+CastRoll_CrawlContinue_Sprite3Row3_Update:
 	; Is this Tryclyde?
 	LDA CastRollSpriteIndex
 	CMP #(CastRoll_SpritePointersLo - CastRoll_SpritePointersHi)
-	BNE loc_BANKC_884C
+	BNE CastRoll_CrawlContinue_Sprite3Row3_CheckEnd
 	; And is the last row at the right spot?
 	LDA CastRollSprite3C
 	CMP #$B8
-	BNE loc_BANKC_884C
+	BNE CastRoll_CrawlContinue_Sprite3Row3_CheckEnd
 	; Add "TRICLYDE" to the crawl
 	LDA #$01
 	STA CastRollLastSprite
 
-loc_BANKC_884C:
+CastRoll_CrawlContinue_Sprite3Row3_CheckEnd:
 	LDA CastRollSprite3C
 	CMP #$10
-	BNE loc_BANKC_8862
+	BNE CastRoll_CrawlContinue_Sprite3Row3_Hide
 
 	LDA #$00
 	STA CastRollSpriteActive3
 	LDA CastRollSpriteIndex
 	CMP #$FF
-	BNE loc_BANKC_8860
+	BNE CastRoll_CrawlContinue_Sprite3Row3_Deactivate
 
 	LDA #$FF
 	STA CastRollSpriteActive3
 
-loc_BANKC_8860:
+CastRoll_CrawlContinue_Sprite3Row3_Deactivate:
 	LDA #$F8
 
-loc_BANKC_8862:
+CastRoll_CrawlContinue_Sprite3Row3_Hide:
 	STA SpriteDMAArea + $E0
 	STA SpriteDMAArea + $E4
 	STA SpriteDMAArea + $E8
@@ -1207,7 +1204,7 @@ loc_BANKC_8862:
 	STA SpriteDMAArea + $F8
 	STA SpriteDMAArea + $FC
 	LDA CastRollLastSprite
-	BEQ locret_BANKC_8897
+	BEQ CastRoll_CrawlContinue_Exit
 
 	; Other sprites include their own text label, but since Tryclyde is taller
 	; than the rest, his label is drawn separately
@@ -1226,12 +1223,14 @@ CastRoll_TriclydeTextLoop:
 	LDA #$FF
 	STA CastRollSpriteIndex
 
-locret_BANKC_8897:
+CastRoll_CrawlContinue_Exit:
 	RTS
 
-; ---------------------------------------------------------------------------
 
-CastRoll_QueueWart:
+;
+; Loads Wart's CHR data and sets up the initial sprite positions
+;
+CastRoll_WartSetup:
 	LDY #$48
 	STY SpriteCHR1
 	INY
@@ -1242,25 +1241,25 @@ CastRoll_QueueWart:
 	STY SpriteCHR4
 
 	LDY #$5B
-loc_BANKC_88AB:
+CastRoll_WartSetup_CopyWartSprite_Loop:
 	LDA CastRoll_Wart, Y
 	STA SpriteDMAArea + $40, Y
 	DEY
-	BPL loc_BANKC_88AB
+	BPL CastRoll_WartSetup_CopyWartSprite_Loop
 
 	INC CastRollSequenceIndex
 
 	LDY #$00
 	LDX #$0F
 	LDA #$C0
-loc_BANKC_88BC:
+CastRoll_WartSetup_SetSpriteY_Loop:
 	STA SpriteDMAArea + 1, Y
 	INY
 	INY
 	INY
 	INY
 	DEX
-	BPL loc_BANKC_88BC
+	BPL CastRoll_WartSetup_SetSpriteY_Loop
 
 	LDA #$D0
 	STA CastRollSprite1A
@@ -1274,32 +1273,33 @@ loc_BANKC_88BC:
 	RTS
 
 
-CastRoll_WartLaugh:
+;
+; Scrolls Wart's sprites up the screen
+;
+CastRoll_WartScroll:
 	LDA CastRollThrottle
 	AND #$01
-	BNE loc_BANKC_88E0
+	BNE CastRoll_WartScroll_UpdateSprites
 
-	JMP loc_BANKC_898D
+	JMP CastRoll_WartScroll_Exit
 
-; ---------------------------------------------------------------------------
 
-loc_BANKC_88E0:
+CastRoll_WartScroll_UpdateSprites:
 	LDA SpriteDMAArea + $40
 	CMP #$F8
-	BEQ loc_BANKC_8906
+	BEQ CastRoll_WartScroll_CheckRow2
 
 	LDA CastRollSprite1A
 	SEC
 	SBC #$01
 	CMP #$50
-	BNE loc_BANKC_88F5
+	BNE CastRoll_WartScroll_UpdateRow1
 
 	INC CastRollSequenceIndex
-	JMP loc_BANKC_898D
+	JMP CastRoll_WartScroll_Exit
 
-; ---------------------------------------------------------------------------
 
-loc_BANKC_88F5:
+CastRoll_WartScroll_UpdateRow1:
 	STA CastRollSprite1A
 	STA SpriteDMAArea + $40
 	STA SpriteDMAArea + $44
@@ -1307,81 +1307,81 @@ loc_BANKC_88F5:
 	STA SpriteDMAArea + $4C
 	STA SpriteDMAArea + $50
 
-loc_BANKC_8906:
+CastRoll_WartScroll_CheckRow2:
 	LDA SpriteDMAArea + $54
 	CMP #$F8
-	BEQ loc_BANKC_8930
+	BEQ CastRoll_WartScroll_CheckRow3
 
 	DEC CastRollSprite1B
 	CMP #$F9
-	BNE loc_BANKC_8919
+	BNE CastRoll_WartScroll_UpdateRow2
 
 	LDA CastRollSprite1B
 	CMP #$D0
-	BNE loc_BANKC_8930
+	BNE CastRoll_WartScroll_CheckRow3
 
-loc_BANKC_8919:
+CastRoll_WartScroll_UpdateRow2:
 	LDA CastRollSprite1B
 	CMP #$10
-	BNE loc_BANKC_8921
+	BNE CastRoll_WartScroll_HideRow2
 
 	LDA #$F8
 
-loc_BANKC_8921:
+CastRoll_WartScroll_HideRow2:
 	STA SpriteDMAArea + $54
 	STA SpriteDMAArea + $58
 	STA SpriteDMAArea + $5C
 	STA SpriteDMAArea + $60
 	STA SpriteDMAArea + $64
 
-loc_BANKC_8930:
+CastRoll_WartScroll_CheckRow3:
 	LDA SpriteDMAArea + $68
 	CMP #$F8
-	BEQ loc_BANKC_895A
+	BEQ CastRoll_WartScroll_CheckRow4
 
 	DEC CastRollSprite1C
 	CMP #$F9
-	BNE loc_BANKC_8943
+	BNE CastRoll_WartScroll_UpdateRow3
 
 	LDA CastRollSprite1C
 	CMP #$D0
-	BNE loc_BANKC_895A
+	BNE CastRoll_WartScroll_CheckRow4
 
-loc_BANKC_8943:
+CastRoll_WartScroll_UpdateRow3:
 	LDA CastRollSprite1C
 	CMP #$10
-	BNE loc_BANKC_894B
+	BNE CastRoll_WartScroll_HideRow3
 
 	LDA #$F8
 
-loc_BANKC_894B:
+CastRoll_WartScroll_HideRow3:
 	STA SpriteDMAArea + $68
 	STA SpriteDMAArea + $6C
 	STA SpriteDMAArea + $70
 	STA SpriteDMAArea + $74
 	STA SpriteDMAArea + $78
 
-loc_BANKC_895A:
+CastRoll_WartScroll_CheckRow4:
 	LDA SpriteDMAArea + $7C
 	CMP #$F8
-	BEQ loc_BANKC_898D
+	BEQ CastRoll_WartScroll_Exit
 
 	DEC CastRollSprite2A
 	CMP #$F9
-	BNE loc_BANKC_896D
+	BNE CastRoll_WartScroll_UpdateRow4
 
 	LDA CastRollSprite2A
 	CMP #$D0
-	BNE loc_BANKC_898D
+	BNE CastRoll_WartScroll_Exit
 
-loc_BANKC_896D:
+CastRoll_WartScroll_UpdateRow4:
 	LDA CastRollSprite2A
 	CMP #$10
-	BNE loc_BANKC_8975
+	BNE CastRoll_WartScroll_HideRow4
 
 	LDA #$F8
 
-loc_BANKC_8975:
+CastRoll_WartScroll_HideRow4:
 	STA SpriteDMAArea + $7C
 	STA SpriteDMAArea + $80
 	STA SpriteDMAArea + $84
@@ -1391,7 +1391,7 @@ loc_BANKC_8975:
 	STA SpriteDMAArea + $94
 	STA SpriteDMAArea + $98
 
-loc_BANKC_898D:
+CastRoll_WartScroll_Exit:
 	LDA #$00
 	STA CastRoll_TempA
 	STA CastRoll_Temp9
@@ -1434,30 +1434,30 @@ WartLaugh_Frame2:
 	.db $9C
 
 
-loc_BANKC_89B6:
+CastRoll_WartLaugh:
 	DEC CastRoll_Temp9
-	BPL locret_BANKC_8A00
+	BPL CastRoll_WartLaugh_Exit
 
 	LDA #$08
 	STA CastRoll_Temp9
 	DEC CastRoll_TempA1
-	BPL loc_BANKC_89CD
+	BPL CastRoll_WartLaugh_CheckFrame
 
 	INC CastRollSequenceIndex
 	LDA #$00
 	STA CastRollTimer
 	STA CastRollFadePaletteIndex
-	JMP locret_BANKC_8A00
+	JMP CastRoll_WartLaugh_Exit
 
 
-loc_BANKC_89CD:
+CastRoll_WartLaugh_CheckFrame:
 	LDA CastRoll_TempA
 	AND #$01
-	BNE loc_BANKC_89EB
+	BNE CastRoll_WartLaugh_Frame2
 
 	LDY #$00
 	LDX #$00
-loc_BANKC_89D7:
+CastRoll_WartLaugh_Frame1_Loop:
 	INC CastRoll_TempA
 	LDA WartLaugh_Frame1, X
 	STA SpriteDMAArea + $41, Y
@@ -1467,18 +1467,17 @@ loc_BANKC_89D7:
 	INY
 	INX
 	CPX #$0F
-	BNE loc_BANKC_89D7
+	BNE CastRoll_WartLaugh_Frame1_Loop
 
-	JMP locret_BANKC_8A00
+	JMP CastRoll_WartLaugh_Exit
 
-; ---------------------------------------------------------------------------
 
-loc_BANKC_89EB:
+CastRoll_WartLaugh_Frame2:
 	INC CastRoll_TempA
 	LDX #$00
 	LDY #$00
 
-loc_BANKC_89F1:
+CastRoll_WartLaugh_Frame2_Loop:
 	LDA WartLaugh_Frame2, X
 	STA SpriteDMAArea + $41, Y
 	INY
@@ -1487,9 +1486,9 @@ loc_BANKC_89F1:
 	INY
 	INX
 	CPX #$F
-	BNE loc_BANKC_89F1
+	BNE CastRoll_WartLaugh_Frame2_Loop
 
-locret_BANKC_8A00:
+CastRoll_WartLaugh_Exit:
 	RTS
 
 
@@ -1499,9 +1498,12 @@ CastRoll_PaletteFadeOut:
 	.db $12
 
 
-loc_BANKC_8A04:
+;
+; Fades the palette to make Wart disappear
+;
+CastRoll_DoPaletteFadeOut:
 	DEC CastRollTimer
-	BPL locret_BANKC_8A36
+	BPL CastRoll_DoPaletteFadeOut_Exit
 
 	LDA #$10
 	STA CastRollTimer
@@ -1519,44 +1521,49 @@ loc_BANKC_8A04:
 	INC CastRollFadePaletteIndex
 	LDA CastRollFadePaletteIndex
 	CMP #$03
-	BNE locret_BANKC_8A36
+	BNE CastRoll_DoPaletteFadeOut_Exit
 
 	INC CastRollSequenceIndex
 	LDA #$16
 	STA CastRollTimer
 
-locret_BANKC_8A36:
+CastRoll_DoPaletteFadeOut_Exit:
 	RTS
 
-; ---------------------------------------------------------------------------
 
-loc_BANKC_8A37:
+;
+; Hides the cast roll sprites to prepare for the "The End" animation
+;
+CastRoll_HideSprites:
 	DEC CastRollTimer
-	BPL locret_BANKC_8A51
+	BPL CastRoll_HideSprites_Exit
 
 	LDX #$16
 	LDY #$00
 	LDA #$F8
 
-loc_BANKC_8A41:
+CastRoll_HideSprites_Loop:
 	STA SpriteDMAArea + $40, Y
 	INY
 	INY
 	INY
 	INY
 	DEX
-	BPL loc_BANKC_8A41
+	BPL CastRoll_HideSprites_Loop
 
 	LDA #$30
 	STA CastRollTimer
 
-loc_BANKC_8A4F:
+CastRoll_HideSprites_NextSequence:
 	INC CastRollSequenceIndex
 
-locret_BANKC_8A51:
+CastRoll_HideSprites_Exit:
 	RTS
 
 
+;
+; Pauses before starting the "The End" animation
+;
 CastRoll_TheEndDelay:
 	DEC CastRollTimer
 	BPL CastRoll_TheEndDelay_Exit
@@ -1586,6 +1593,9 @@ CastRoll_TheEndDelay_Exit:
 	RTS
 
 
+;
+; Plays the "The End" animation
+;
 CastRoll_TheEndAnimation:
 CastRoll_TheEndAnimation_The:
 	LDA TheEndScriptCounter
@@ -1740,10 +1750,10 @@ CastRoll_SpritePointersLo:
 
 
 CastRoll_Mario:
-	.db $D0, $3E, $00, $30
-	.db $D0, $00, $00, $38 ; 4
-	.db $D0, $02, $00, $40 ; 8
-	.db $D0, $3E, $00, $48 ; $C
+	.db $D0, $3E, $00, $30 ; $00
+	.db $D0, $00, $00, $38 ; $04
+	.db $D0, $02, $00, $40 ; $08
+	.db $D0, $3E, $00, $48 ; $0C
 	.db $F9, $3E, $00, $30 ; $10
 	.db $F9, $04, $00, $38 ; $14
 	.db $F9, $06, $00, $40 ; $18
@@ -1757,10 +1767,10 @@ CastRoll_Mario:
 	.db $F9, $3E, $00, $54 ; $38
 	.db $F9, $3E, $00, $5C ; $3C
 CastRoll_Luigi:
-	.db $D0, $3E, $00, $30
-	.db $D0, $08, $00, $38 ; 4
-	.db $D0, $0A, $00, $40 ; 8
-	.db $D0, $3E, $00, $48 ; $C
+	.db $D0, $3E, $00, $30 ; $00
+	.db $D0, $08, $00, $38 ; $04
+	.db $D0, $0A, $00, $40 ; $08
+	.db $D0, $3E, $00, $48 ; $0C
 	.db $F9, $3E, $00, $30 ; $10
 	.db $F9, $0C, $00, $38 ; $14
 	.db $F9, $0E, $00, $40 ; $18
@@ -1774,10 +1784,10 @@ CastRoll_Luigi:
 	.db $F9, $3E, $00, $54 ; $38
 	.db $F9, $3E, $00, $5C ; $3C
 CastRoll_Princess:
-	.db $D0, $3E, $00, $30
-	.db $D0, $10, $00, $38 ; 4
-	.db $D0, $12, $00, $40 ; 8
-	.db $D0, $3E, $00, $48 ; $C
+	.db $D0, $3E, $00, $30 ; $00
+	.db $D0, $10, $00, $38 ; $04
+	.db $D0, $12, $00, $40 ; $08
+	.db $D0, $3E, $00, $48 ; $0C
 	.db $F9, $3E, $00, $30 ; $10
 	.db $F9, $14, $00, $38 ; $14
 	.db $F9, $16, $00, $40 ; $18
@@ -1808,10 +1818,10 @@ CastRoll_Toad:
 	.db $F9, $3E, $00, $50 ; $38
 	.db $F9, $3E, $00, $58 ; $3C
 CastRoll_Shyguy:
-	.db $D0, $3E, $00, $30
-	.db $D0, $3E, $00, $38 ; 4
-	.db $D0, $3E, $00, $40 ; 8
-	.db $D0, $3E, $00, $48 ; $C
+	.db $D0, $3E, $00, $30 ; $00
+	.db $D0, $3E, $00, $38 ; $04
+	.db $D0, $3E, $00, $40 ; $08
+	.db $D0, $3E, $00, $48 ; $0C
 	.db $F9, $3E, $00, $30 ; $10
 	.db $F9, $20, $00, $38 ; $14
 	.db $F9, $22, $00, $40 ; $18
@@ -1825,10 +1835,10 @@ CastRoll_Shyguy:
 	.db $F9, $CC, $00, $50 ; $38
 	.db $F9, $3E, $00, $58 ; $3C
 CastRoll_Snifit:
-	.db $D0, $3E, $00, $30
-	.db $D0, $3E, $00, $38 ; 4
-	.db $D0, $3E, $00, $40 ; 8
-	.db $D0, $3E, $00, $48 ; $C
+	.db $D0, $3E, $00, $30 ; $00
+	.db $D0, $3E, $00, $38 ; $04
+	.db $D0, $3E, $00, $40 ; $08
+	.db $D0, $3E, $00, $48 ; $0C
 	.db $F9, $3E, $00, $30 ; $10
 	.db $F9, $24, $00, $38 ; $14
 	.db $F9, $26, $00, $40 ; $18
@@ -1842,10 +1852,10 @@ CastRoll_Snifit:
 	.db $F9, $F6, $00, $50 ; $38
 	.db $F9, $3E, $00, $58 ; $3C
 CastRoll_Ninji:
-	.db $D0, $3E, $00, $30
-	.db $D0, $3E, $00, $38 ; 4
-	.db $D0, $3E, $00, $40 ; 8
-	.db $D0, $3E, $00, $48 ; $C
+	.db $D0, $3E, $00, $30 ; $00
+	.db $D0, $3E, $00, $38 ; $04
+	.db $D0, $3E, $00, $40 ; $08
+	.db $D0, $3E, $00, $48 ; $0C
 	.db $F9, $3E, $00, $30 ; $10
 	.db $F9, $28, $00, $38 ; $14
 	.db $F9, $2A, $00, $40 ; $18
@@ -1859,10 +1869,10 @@ CastRoll_Ninji:
 	.db $F9, $3E, $00, $54 ; $38
 	.db $F9, $3E, $00, $5C ; $3C
 CastRoll_Beezo:
-	.db $D0, $3E, $00, $30
-	.db $D0, $3E, $00, $38 ; 4
-	.db $D0, $3E, $00, $40 ; 8
-	.db $D0, $3E, $00, $48 ; $C
+	.db $D0, $3E, $00, $30 ; $00
+	.db $D0, $3E, $00, $38 ; $04
+	.db $D0, $3E, $00, $40 ; $08
+	.db $D0, $3E, $00, $48 ; $0C
 	.db $F9, $3E, $00, $30 ; $10
 	.db $F9, $2C, $00, $38 ; $14
 	.db $F9, $2E, $00, $40 ; $18
