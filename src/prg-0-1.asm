@@ -3530,22 +3530,27 @@ PickUpToEnemyTypeTable:
 	.db Enemy_MushroomBlock ; $0E ; this one seems to be overridden for digging in sand
 
 
-; find a slot for the item being lifted
-loc_BANK0_9074:
+;
+; Tries to find a slot to create an object for the item being lifted
+;
+; Output
+;   X = slot used
+;   N = enabled if no empty slot was found
+;
+CreateLiftedObject:
 	LDX #$06
 
-loc_BANK0_9076:
+CreateLiftedObject_FindSlot:
 	LDA EnemyState, X
-	BEQ loc_BANK0_9080
+	BEQ CreateLiftedObject_FoundSlot
 
 	INX
 	CPX #$09
-	BCC loc_BANK0_9076
+	BCC CreateLiftedObject_FindSlot
 
 	RTS
 
-; create the sprite for the item being picked up
-loc_BANK0_9080:
+CreateLiftedObject_FoundSlot:
 	LDA byte_RAM_0
 	STA EnemyVariable, X
 	LDA byte_RAM_3
@@ -3564,63 +3569,66 @@ loc_BANK0_9080:
 
 	LDA #EnemyState_Alive
 	LDY byte_RAM_9
-	CPY #$0E
-	BNE loc_BANK0_90AE
+	CPY #$0E ; the magic sand number
+	BNE CreateLiftedObject_SetEnemyState
 
+	; It's sand!!!
 	LDA #$20
 	STA ObjectTimer1, X
 	LDA #EnemyState_Sand
 
-loc_BANK0_90AE:
+CreateLiftedObject_SetEnemyState:
 	STA EnemyState, X
 	LDA PickUpToEnemyTypeTable, Y ; What sprite is spawned for you when lifting a bg object
 	STA ObjectType, X
 
-BombFuse:
+CreateLiftedObject_BombFuse:
 	LDY #$FF ; regular bomb fuse
 	CMP #Enemy_Bomb
-	BEQ loc_BANK0_90C1
+	BEQ CreateLiftedObject_SetObjectTimer1
 
 	CMP #Enemy_BobOmb
-	BNE loc_BANK0_90C5
+	BNE CreateLiftedObject_NonBomb
 
-BobOmbFuse:
+CreateLiftedObject_BobOmbFuse:
 	LDY #$50 ; BobOmb fuse
 
-loc_BANK0_90C1:
+CreateLiftedObject_SetObjectTimer1:
 	STY ObjectTimer1, X
-	BNE loc_BANK0_90EA
+	BNE CreateLiftedObject_Init ; unconditional branch
 
-loc_BANK0_90C5:
+CreateLiftedObject_NonBomb:
 	CMP #Enemy_Mushroom1up
-	BNE loc_BANK0_90D5
+	BNE CreateLiftedObject_NonMushroom1up
 
 	LDA Mushroom1upPulled
-	BEQ loc_BANK0_90EA
+	BEQ CreateLiftedObject_Init
 
+	; If we've already pulled the 1-Up, spawn a vegetable instead
 	LDA #Enemy_VegetableSmall
 	STA ObjectType, X
 
-	JMP loc_BANK0_90EA
+	JMP CreateLiftedObject_Init
 
-loc_BANK0_90D5:
+CreateLiftedObject_NonMushroom1up:
 	CMP #Enemy_VegetableLarge
-	BNE loc_BANK0_90EA
+	BNE CreateLiftedObject_Init
 
 	LDY BigVeggiesPulled
 	INY
 	CPY #$05
-	BCC loc_BANK0_90E7
+	BCC CreateLiftedObject_SetBigVeggiesPulled
 
+	; The fifth large veggie is a stopwatch
 	LDA #Enemy_Stopwatch
 	STA ObjectType, X
 	LDY #$00
 
-loc_BANK0_90E7:
+CreateLiftedObject_SetBigVeggiesPulled:
 	STY BigVeggiesPulled
 
-loc_BANK0_90EA:
-	JSR loc_BANK1_B9EB
+CreateLiftedObject_Init:
+	JSR EnemyInit_BasicReset_Bank1
 
 	LDA #CollisionFlags_Down
 	STA EnemyCollision, X
@@ -3728,7 +3736,7 @@ TileBehavior_CheckPickUp:
 	CMP #BackgroundTile_DiggableSand
 	BNE TileBehavior_CheckPickUp_ItemTile
 
-	; It's sand! Set the enemy pickup index
+	; It's sand! Set the magic sand number and create an object
 	LDA #$0E
 	BNE TileBehavior_CheckPickUp_SetPickUpIndex
 
@@ -3744,7 +3752,7 @@ TileBehavior_CheckPickUp_ItemTile:
 
 TileBehavior_CheckPickUp_SetPickUpIndex:
 	STA byte_RAM_9
-	JMP loc_BANK0_9074
+	JMP CreateLiftedObject
 
 
 TileBehavior_CheckPickUp_DoNotLift:
@@ -3828,7 +3836,7 @@ loc_BANK0_91E3:
 	CLC
 	ADC #$04
 	STA byte_RAM_9
-	JMP loc_BANK0_9074
+	JMP CreateLiftedObject
 
 
 ;
@@ -7542,7 +7550,7 @@ CreateStarman:
 	LDA ScreenYHi
 	ADC #$00
 	STA ObjectYHi, X
-	JSR loc_BANK1_BA17
+	JSR EnemyInit_BasicAttributes_Bank1
 
 	LDX byte_RAM_12
 
@@ -7550,15 +7558,17 @@ CreateStarman_Exit:
 	RTS
 
 
-; =============== S U B R O U T I N E =======================================
-
+;
+; NOTE: This is more-or-less a copy of the "EnemyInit_Basic" routine in Bank 2, but
+; it is used here for spawning the door animation and Starman objects.
+;
 EnemyInit_Basic_Bank1:
 	LDA #$00
 	STA ObjectTimer1, X
 	LDA #$00
 	STA EnemyVariable, X
 
-loc_BANK1_B9EB:
+EnemyInit_BasicReset_Bank1:
 	LDA #$00
 	STA EnemyArray_B1, X
 	STA ObjectProjectileTimer, X
@@ -7575,10 +7585,12 @@ loc_BANK1_B9EB:
 	STA EnemyArray_480, X
 	STA EnemyHP, X
 	STA ObjectYVelocity, X
+	; The Bank 2 equivalent doesn't set ObjectXVelocity, since the basic enemies
+	; start moving toward the player by default.
 	STA ObjectXVelocity, X
 
 ; look up object attributes
-loc_BANK1_BA17:
+EnemyInit_BasicAttributes_Bank1:
 	LDY ObjectType, X
 	LDA ObjectAttributeTable, Y
 	AND #ObjAttrib_Palette | ObjAttrib_Horizontal | ObjAttrib_FrontFacing | ObjAttrib_Mirrored | ObjAttrib_BehindBackground | ObjAttrib_16x32
@@ -7590,8 +7602,6 @@ loc_BANK1_BA17:
 	LDA EnemyArray_492_Data, Y
 	STA EnemyArray_492, X
 	RTS
-
-; End of function EnemyInit_Basic_Bank1
 
 
 ;
@@ -7887,6 +7897,7 @@ CreateEnemy_Bank1_FoundSlot:
 	LDA #EnemyState_Alive
 	STA EnemyState, Y
 	LSR A
+	; A = $00
 	STA EnemyArray_SpawnsDoor, Y
 	LDA #Enemy_ShyguyRed
 	STA ObjectType, Y

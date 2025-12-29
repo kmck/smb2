@@ -880,7 +880,7 @@ EnemyInitializationTable_End:
 SetEnemyAttributes:
 	LDY ObjectType, X
 	LDA ObjectAttributeTable, Y
-	AND #$7F
+	AND #ObjAttrib_Palette | ObjAttrib_Horizontal | ObjAttrib_FrontFacing | ObjAttrib_Mirrored | ObjAttrib_BehindBackground | ObjAttrib_16x32
 	STA ObjectAttributes, X
 	LDA EnemyArray_46E_Data, Y
 	STA EnemyArray_46E, X
@@ -906,6 +906,8 @@ EnemyInit_Basic:
 EnemyInit_BasicWithoutTimer:
 	LDA #$00
 	STA EnemyVariable, X
+
+EnemyInit_BasicReset:
 	LDA #$00 ; You do realize you already LDA #$00, right???
 	STA EnemyArray_B1, X
 	STA ObjectProjectileTimer, X
