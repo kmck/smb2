@@ -47,7 +47,7 @@ ScreenUpdateBufferPointers:
 	.dw PPUBuffer_WarpToWorld
 	.dw PPUBuffer_ContinueRetryBullets
 	.dw PPUBuffer_EndOfLevelDoor
-	.dw PPUBuffer_TitleCardLeftover
+	.dw PPUBuffer_TitleCardCharacterSelectMask
 	.dw PPUBuffer_PauseExtraLife
 	.dw PPUBuffer_BonusChanceLayout
 
@@ -183,9 +183,10 @@ PPUBuffer_PauseExtraLife:
 	.db $27, $EA, $05
 	.db $AA, $AA, $AA, $AA, $AA
 
-; This draws two columns of black tiles along the right side of the nametable to the left of the
-; title card, which was the character/level select in Doki Doki Panic. In SMB2, it remains unused.
-PPUBuffer_TitleCardLeftover:
+; This draws black tiles over the diamons on the right side of the character
+; select screen, which would otherwise cause a single pixel column of junk to
+; be visible on the title card screen.
+PPUBuffer_TitleCardCharacterSelectMask:
 	.db $20, $1E, $9E
 	.db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
 	.db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
@@ -556,12 +557,20 @@ DisplayLevelTitleCardAndMore:
 
 	JSR DisableNMI
 
-	; Set the scrolling mirror over to the right side...
-	; This Isn't quiiite correct, and causes a bunch of
-	; crud to show on the very left pixel -- residue
-	; from the character select screen
+	; Set the scrolling mirror over to the right side.
+	;
+	; In Doki Doki Panic, there is a horizontal scrolling transition from the
+	; character select screen to the level title, since they are presented as
+	; opposite pages in a storybook.
+	;
+	; This implementation is actually off by a pixel, since you can only scroll
+	; over 255 pixels before needing to update the base nametable address.
+	;
+	; If the title card drawing routine didn't also erase part of the character
+	; select screen below, you would see a column of junk pixels on the left!
 	LDA #$FF
 	STA PPUScrollXMirror
+
 	JSR ChangeTitleCardCHR
 
 	LDA #PRGBank_A_B
@@ -584,7 +593,8 @@ DisplayLevelTitleCardAndMore_TitleCardPaletteLoop:
 	STA ScreenUpdateIndex
 	JSR WaitForNMI
 
-	LDA #ScreenUpdateBuffer_TitleCardLeftover
+	; Erase the right column of metatiles from the character select screen
+	LDA #ScreenUpdateBuffer_TitleCardCharacterSelectMask
 	STA ScreenUpdateIndex
 	JSR WaitForNMI
 
@@ -614,6 +624,7 @@ PreStartLevel:
 	LDA #PRGBank_A_B
 	JSR ChangeMappedPRGBank
 
+	; We probably didn't need to do this a second time...
 	JSR CopyCharacterStatsAndStuff
 
 	JSR EnableNMI
@@ -1332,7 +1343,7 @@ ShowCardAfterTransition:
 	STA TitleCard_ExtraLife_DrawAddress
 	LDA #$48
 	STA TitleCard_ExtraLife_DrawAddress + 1
-	LDA #ScreenUpdateBuffer_TitleCardLeftover
+	LDA #ScreenUpdateBuffer_TitleCardCharacterSelectMask
 	STA CardScreenUpdateIndex
 	JSR PauseScreen_Card
 
@@ -2672,11 +2683,11 @@ UpdatePPUFromBufferWithOptions:
 	PHA
 	; Enable NMI + Vertical increment + whatever else was already set...
 	LDA PPUCtrlMirror
-	ORA #PPUCtrl_Base2000 | PPUCtrl_WriteVertical | PPUCtrl_Sprite0000 | PPUCtrl_Background0000 | PPUCtrl_SpriteSize8x8 | PPUCtrl_NMIEnabled
+	ORA #PPUCtrl_WriteVertical | PPUCtrl_NMIEnabled
 	; ...but only if $80 was set in the length byte. Otherwise, turn vertical incrementing back off.
 	BCS UpdatePPUFBWO_EnableVerticalIncrement
 
-	AND #PPUCtrl_Base2C00 | PPUCtrl_WriteHorizontal | PPUCtrl_Sprite1000 | PPUCtrl_Background1000 | PPUCtrl_SpriteSize8x16 | PPUCtrl_NMIEnabled | $40
+	AND #($FF ^ PPUCtrl_WriteVertical)
 
 UpdatePPUFBWO_EnableVerticalIncrement:
 	STA PPUCTRL

@@ -13,10 +13,12 @@
 
 ;
 ; This title card is used for every world from 1 to 6.
-; The only difference is the loaded CHR banks.
+; The only difference is the loaded CHR banks, and the special logic for worlds
+; 2 and 6 to redraw the last two rows offset up by 16 pixels, effectively
+; overwriting the grass with sand.
 ;
 World1thru6TitleCard:
-	.db $FB, $FB, $B0, $B2, $FB, $FB, $FB, $FB, $FB, $FB, $FB, $FB, $FB, $FB, $FB, $FB
+	.db $FB, $FB, $B0, $B2, $FB, $FB, $FB, $FB, $FB, $FB, $FB, $FB, $FB, $FB, $FB, $FB ; $00
 	.db $FB, $FB, $B1, $B3, $FB, $FB, $FB, $FB, $FB, $FB, $C0, $C1, $FB, $FB, $FB, $FB ; $10
 	.db $FB, $FB, $B4, $B5, $FB, $FB, $FB, $FB, $B6, $B8, $BA, $B8, $BA, $BC, $FB, $FB ; $20
 	.db $FB, $FB, $B4, $B5, $FB, $FB, $FB, $FB, $B7, $B9, $BB, $B9, $BB, $BD, $FB, $FB ; $30
@@ -31,7 +33,7 @@ World1thru6TitleCard:
 ; This one is the special one used for World 7
 ;
 World7TitleCard:
-	.db $FB, $FB, $B0, $B2, $FB, $FB, $FB, $FB, $FB, $FB, $FB, $FB, $FB, $FB, $FB, $FB
+	.db $FB, $FB, $B0, $B2, $FB, $FB, $FB, $FB, $FB, $FB, $FB, $FB, $FB, $FB, $FB, $FB ; $00
 	.db $FB, $FB, $B1, $B3, $FB, $FB, $FB, $FB, $FB, $FB, $C0, $C1, $FB, $FB, $FB, $FB ; $10
 	.db $FB, $FB, $B1, $B3, $FB, $FB, $FB, $FB, $B6, $B8, $BA, $B8, $BA, $BC, $FB, $FB ; $20
 	.db $FB, $FB, $B1, $B3, $FB, $FB, $FB, $FB, $B7, $B9, $BB, $B9, $BB, $BD, $FB, $FB ; $30
@@ -146,38 +148,36 @@ CopyBonusChanceLayoutToRAM_Loop2:
 
 	RTS
 
-; =============== S U B R O U T I N E =======================================
 
 DrawTitleCardWorldImage:
 	LDA CurrentWorld
 	CMP #6
-	BEQ loc_BANKA_8392 ; Special case for World 7's title card
+	BEQ DrawTitleCardWorld7 ; Special case for World 7's title card
 
+DrawTitleCardWorld1thru6:
 	LDA #$25
 	STA byte_RAM_0
 	LDA #$C8
 	STA byte_RAM_1
 	LDY #$00
 
-loc_BANKA_8338:
+DrawTitleCardWorld1thru6_Loop:
 	LDX #$0F
 	LDA PPUSTATUS
 	LDA byte_RAM_0
 	STA PPUADDR
-
-loc_BANKA_8342:
 	LDA byte_RAM_1
 	STA PPUADDR
 
-loc_BANKA_8347:
+DrawTitleCardWorld1thru6_CopyTileRow:
 	LDA World1thru6TitleCard, Y
 	STA PPUDATA
 	INY
 	DEX
-	BPL loc_BANKA_8347
+	BPL DrawTitleCardWorld1thru6_CopyTileRow
 
 	CPY #$A0
-	BCS loc_BANKA_8364
+	BCS DrawTitleCardWorld1thru6_AfterTileRows
 
 	LDA byte_RAM_1
 	ADC #$20
@@ -185,50 +185,57 @@ loc_BANKA_8347:
 	LDA byte_RAM_0
 	ADC #$00
 	STA byte_RAM_0
-	JMP loc_BANKA_8338
+	JMP DrawTitleCardWorld1thru6_Loop
 
-; ---------------------------------------------------------------------------
 
-loc_BANKA_8364:
+DrawTitleCardWorld1thru6_AfterTileRows:
+	; Check if we're in a desert world
 	LDA CurrentWorld
 	CMP #1
-	BEQ loc_BANKA_8371
+	BEQ DrawTitleCard_Desert
 
 	CMP #5
-	BEQ loc_BANKA_8371
+	BEQ DrawTitleCard_Desert
 
-	BNE loc_BANKA_8389
+	BNE DrawTitleCard_Cleanup
 
-loc_BANKA_8371:
+	; If we're on a desert world, the grass tiles are overwritten with duplicates
+	; of the sand tiles below.
+DrawTitleCard_Desert:
 	AND #$80
-	BNE loc_BANKA_8389
+	BNE DrawTitleCard_Cleanup
 
+	; Point to the row of grass tiles
 	LDA #$26
 	STA byte_RAM_0
 	LDA #$88
 	STA byte_RAM_1
+
+	; Set the desert title card flag so we don't infinitely loop
 	LDA CurrentWorld
 	ORA #$80
 	STA CurrentWorld
-	LDY #$80
-	BNE loc_BANKA_8338
 
-loc_BANKA_8389:
+	; Reset the pointer to the bottom two rows
+	LDY #$80
+	BNE DrawTitleCardWorld1thru6_Loop
+
+DrawTitleCard_Cleanup:
+	; Clear the desert title card flag
 	LDA CurrentWorld
-	AND #$F
+	AND #$0F
 	STA CurrentWorld
 	RTS
 
-; ---------------------------------------------------------------------------
 
-loc_BANKA_8392:
+DrawTitleCardWorld7:
 	LDA #$25
 	STA byte_RAM_0
 	LDA #$C8
 	STA byte_RAM_1
 	LDY #$00
 
-loc_BANKA_839C:
+DrawTitleCardWorld7_Loop:
 	LDX #$0F
 	LDA PPUSTATUS
 	LDA byte_RAM_0
@@ -236,15 +243,15 @@ loc_BANKA_839C:
 	LDA byte_RAM_1
 	STA PPUADDR
 
-loc_BANKA_83AB:
+DrawTitleCardWorld7_CopyTileRow:
 	LDA World7TitleCard, Y
 	STA PPUDATA
 	INY
 	DEX
-	BPL loc_BANKA_83AB
+	BPL DrawTitleCardWorld7_CopyTileRow
 
 	CPY #$A0
-	BCS locret_BANKA_83C8
+	BCS DrawTitleCardWorld7_Exit
 
 	LDA byte_RAM_1
 	ADC #$20
@@ -252,14 +259,11 @@ loc_BANKA_83AB:
 	LDA byte_RAM_0
 	ADC #$00
 	STA byte_RAM_0
-	JMP loc_BANKA_839C
+	JMP DrawTitleCardWorld7_Loop
 
-; ---------------------------------------------------------------------------
-
-locret_BANKA_83C8:
+DrawTitleCardWorld7_Exit:
 	RTS
 
-; End of function DrawTitleCardWorldImage
 
 StatOffsets:
 	.db (MarioStats - CharacterStats)
@@ -425,113 +429,113 @@ MysteryData14439:
 ;
 CopyCharacterStatsAndStuff:
 IFDEF CONTROLLER_2_DEBUG
-	JSR CopyCharacterStats
+	JSR CopyAllCharacterStats
 ENDIF
 
 	LDX CurrentCharacter
 	LDY StatOffsets, X
 	LDX #$00
-loc_BANKA_8458:
+CopyCharacterStats_Loop:
 	LDA CharacterStats, Y
 	STA CharacterStatsRAM, X
 	INY
 	INX
 	CPX #$17
-	BCC loc_BANKA_8458
+	BCC CopyCharacterStats_Loop
 
 	LDA CurrentCharacter
 	ASL A
 	ASL A
 	TAY
 	LDX #$00
-loc_BANKA_846B:
+CopyCharacterPalette_Loop:
 	LDA CharacterPalette, Y
 	STA RestorePlayerPalette0, X
 	INY
 	INX
 	CPX #$04
-	BCC loc_BANKA_846B
+	BCC CopyCharacterPalette_Loop
 
 	LDY #$4C
-loc_BANKA_8479:
+CopyPlayerSelectPalettes_Loop:
 	LDA PlayerSelectPalettes, Y
 	STA PPUBuffer_TitleCardPalette, Y
 	DEY
 	CPY #$FF
-	BNE loc_BANKA_8479
+	BNE CopyPlayerSelectPalettes_Loop
 
 	LDY #$B6
-loc_BANKA_8486:
+CopyBonusChanceReelOrder_Loop:
 	LDA BonusChanceReel1Order, Y
 	STA SlotMachineReelOrder1RAM, Y
 	DEY
 	CPY #$FF
-	BNE loc_BANKA_8486
+	BNE CopyBonusChanceReelOrder_Loop
 
 	LDY #$63
-loc_BANKA_8493:
+CopyTitleCardText_Loop:
 	LDA TitleCardText, Y
 	STA PPUBuffer_TitleCardText, Y
 	DEY
 	CPY #$FF
-	BNE loc_BANKA_8493
+	BNE CopyTitleCardText_Loop
 
 	; This data is copied, but doesn't appear to be used. Its original purpose is not obvious.
 	LDY #$17
-loc_BANKA_84A0:
+CopyMysteryData_Loop:
 	LDA MysteryData14439, Y
 	STA MysteryData14439_RAM, Y
 	DEY
-	BPL loc_BANKA_84A0
+	BPL CopyMysteryData_Loop
 
 	; Copy object collision hitbox table
 	;
 	; The fact that it's in RAM is taken advantage of to programmatically change
 	; the hitbox for Hawkmouth after picking up the crystal.
 	LDY #$4F
-loc_BANKA_84AB:
+CopyObjectCollisionHitbox_Loop:
 	LDA ObjectCollisionHitboxLeft, Y
 	STA ObjectCollisionHitboxLeft_RAM, Y
 	DEY
-	BPL loc_BANKA_84AB
+	BPL CopyObjectCollisionHitbox_Loop
 
 	; Copy flying carpet acceleration table
 	LDY #$03
-loc_BANKA_84B6:
+CopyFlyingCarpetAcceleration_Loop:
 	LDA FlyingCarpetAcceleration, Y
 	STA FlyingCarpetAcceleration_RAM, Y
 	DEY
-	BPL loc_BANKA_84B6
+	BPL CopyFlyingCarpetAcceleration_Loop
 
 	; Copy object collision type table
 	;
 	; The fact that it's in RAM is used to toggle the Boss Hawkmouth between an
 	; object and an enemy.
 	LDY #$49
-loc_BANKA_84C1:
+CopyEnemyPlayerCollisionTable_Loop:
 	LDA EnemyPlayerCollisionTable, Y
 	STA EnemyPlayerCollisionTable_RAM, Y
 	DEY
-	BPL loc_BANKA_84C1
+	BPL CopyEnemyPlayerCollisionTable_Loop
 
 	; Copy end of level door PPU data to RAM
 	;
 	; The fact that it's in RAM is actually taken advantage of when defeating Clawgrip, since the
 	; door needs to be drawn in a slightly different spot.
 	LDY #$20
-loc_BANKA_84CC:
+CopyEndOfLevelDoor_Loop:
 	LDA EndOfLevelDoor, Y
 	STA PPUBuffer_EndOfLevelDoor, Y
 	DEY
-	BPL loc_BANKA_84CC
+	BPL CopyEndOfLevelDoor_Loop
 
 	; Copy Wart's OAM address table
 	LDY #$06
-loc_BANKA_84D7:
+CopyWartOAMOffsets_Loop:
 	LDA WartOAMOffsets, Y
 	STA WartOAMOffsets_RAM, Y
 	DEY
-	BPL loc_BANKA_84D7
+	BPL CopyWartOAMOffsets_Loop
 
 	RTS
 
@@ -716,13 +720,13 @@ IFDEF CONTROLLER_2_DEBUG
 ;
 ; Copies all character stats to RAM for hot-swapping the current character
 ;
-CopyCharacterStats:
+CopyAllCharacterStats:
 	LDX #(MysteryData14439 - StatOffsets - 1)
-CopyCharacterStats_Loop:
+CopyAllCharacterStats_Loop:
 	LDA StatOffsets, X
 	STA StatOffsetsRAM, X
 	DEX
-	BPL CopyCharacterStats_Loop
+	BPL CopyAllCharacterStats_Loop
 
 	RTS
 ENDIF

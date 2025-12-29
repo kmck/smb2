@@ -187,7 +187,7 @@ ScreenUpdateBuffer_RAM_EraseBonusMessageTextUnused = $11
 ScreenUpdateBuffer_WarpToWorld = $12
 ScreenUpdateBuffer_RAM_ContinueRetryBullets = $13
 ScreenUpdateBuffer_RAM_EndOfLevelDoor = $14
-ScreenUpdateBuffer_TitleCardLeftover = $15
+ScreenUpdateBuffer_TitleCardCharacterSelectMask = $15
 ScreenUpdateBuffer_PauseExtraLife = $16
 ScreenUpdateBuffer_RAM_BonusChanceLayout = $17
 
@@ -316,7 +316,6 @@ Stack100_Gameplay = %11000000 ; normal gameplay
 ; ---------------------------------------------------------------------------
 
 ; enum PPUControl (bitfield) (width 1 byte)
-PPUCtrl_BaseAddress = $03
 PPUCtrl_Base2000 = $00
 PPUCtrl_Base2400 = $01
 PPUCtrl_Base2800 = $02
