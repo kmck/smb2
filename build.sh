@@ -6,11 +6,20 @@ SM_USA="c63bacd07cf0d2336e8a4f9b9c556d0758629f102211d989d92495e117a8b3a0"
 
 
 compareHash() {
-	echo $1 $2 | sha256sum --check > /dev/null 2>&1
+	expected_hash="$1"
+	file="$2"
+	actual_hash=$(sha256sum "$file" 2>/dev/null | cut -d' ' -f1)
+	[ "$expected_hash" = "$actual_hash" ]
 }
 
 build() {
-	tools/asm6f smb2.asm -n -c -L bin/smb2.nes "$@" > bin/assembler.log
+	# Try to use asm6f from PATH first (local/macOS)
+	if command -v asm6f > /dev/null 2>&1 ; then
+		asm6f smb2.asm -n -c -L bin/smb2.nes "$@" > bin/assembler.log
+	# Fall back to tools/asm6f (Linux-only)
+	else
+		tools/asm6f smb2.asm -n -c -L bin/smb2.nes "$@" > bin/assembler.log
+	fi
 }
 
 

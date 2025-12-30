@@ -7533,6 +7533,7 @@ RenderSprite_Pidgit:
 
 	STY_abs byte_RAM_F4
 
+	; Attributes for the carpet
 	LDA #ObjAttrib_Palette1 | ObjAttrib_Horizontal | ObjAttrib_16x32
 	STA ObjectAttributes, X
 	LDA ObjectXLo, X
@@ -7540,10 +7541,12 @@ RenderSprite_Pidgit:
 	SEC
 	SBC #$08
 	STA ObjectXLo, X
+
 	LDA ObjectXHi, X
 	PHA
 	SBC #$00
 	STA ObjectXHi, X
+
 	JSR ScreenSpriteClipping_Horizontal
 
 	PLA
@@ -7554,11 +7557,14 @@ RenderSprite_Pidgit:
 	CLC
 	ADC #$0C
 	STA SpriteTempScreenY
+
 	LDA SpriteTempScreenX
 	SBC #$07
 	STA SpriteTempScreenX
+
 	JSR RenderSprite_FlyingCarpet
 
+	; Attributes for actual Pidgit
 	LDA #ObjAttrib_Palette1 | ObjAttrib_Horizontal | ObjAttrib_FrontFacing
 	STA ObjectAttributes, X
 
