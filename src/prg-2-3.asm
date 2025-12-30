@@ -44,7 +44,6 @@ AreaMainRoutine_NoTransition:
 
 	JMP AreaMainRoutine_Gameplay
 
-; ---------------------------------------------------------------------------
 
 AreaInitialization:
 	INC AreaInitialized
@@ -627,23 +626,29 @@ CheckObjectHorizontalSpawnBoundaries_InitializePage_CreateObject:
 
 
 CheckObjectVerticalSpawnBoundaries:
+	; First, we need to determine which boundary to check.
+	; By default, check each one on alternatiing frames.
 	LDA byte_RAM_10
 	AND #$01
 	TAY
 	INY
-	LDA NeedsScroll
-	BEQ loc_BANK2_82FC
 
+	; But if we're already scrolling...
+	LDA NeedsScroll
+	BEQ CheckObjectVerticalSpawnBoundaries_CalculateBoundary
+
+	; ...just use that direction instead
 	AND #$03
 	EOR #$03
 	TAY
 
-loc_BANK2_82FC:
+CheckObjectVerticalSpawnBoundaries_CalculateBoundary:
 	LDA ScreenYLo
 	CLC
 	ADC SpawnBoundaryOffsets - 1, Y
 	AND #$F0
 	STA byte_RAM_5
+
 	LDA ScreenYHi
 	ADC SpawnBoundaryOffsets + 1, Y
 	STA byte_RAM_6
@@ -1152,16 +1157,19 @@ HandleEnemyState_BlockFizzle:
 	LSR A
 	AND #$01
 	STA EnemyMovementDirection, X
+
 	LDA #ObjAttrib_Palette1 ; also SpriteFlags46E_Damage
 	STA ObjectAttributes, X
 	STA EnemyArray_46E, X
+
+	; Choose tile baed on object timer
 	LDA #$3C
 	CPY #$0C
-	BCC loc_BANK2_85AC
+	BCC HandleEnemyState_BlockFizzle_DrawSprite
 
 	LDA #$3E
 
-loc_BANK2_85AC:
+HandleEnemyState_BlockFizzle_DrawSprite:
 	JMP RenderSprite_DrawObject
 
 
@@ -1176,20 +1184,22 @@ HandleEnemyState_Sinking:
 	JSR EnemyBehavior_CheckDamagedInterrupt
 
 	LDA ObjectBeingCarriedTimer, X
-	BEQ loc_BANK2_85C1
+	BEQ HandleEnemyState_Sinking_NotCarried
 
 	LDA #EnemyState_Alive
 	STA EnemyState, X
 	RTS
 
 
-loc_BANK2_85C1:
+HandleEnemyState_Sinking_NotCarried:
 	LDA ObjectTimer1, X
 	BEQ HandleEnemyState_Exit
 
 	LDA ObjectType, X
 	CMP #Enemy_VegetableSmall
-	BCS loc_BANK2_85E1
+	BCS HandleEnemyState_Sinking_Item
+
+	; If it's not an item, it will shake and struggle in panic while sinking
 
 	JSR IncrementAnimationTimerBy2
 
@@ -1205,7 +1215,7 @@ loc_BANK2_85C1:
 	ADC #$01
 	STA EnemyMovementDirection, X
 
-loc_BANK2_85E1:
+HandleEnemyState_Sinking_Item:
 	JSR sub_BANK2_9486
 
 	JMP CheckObjectCollision
@@ -1252,7 +1262,7 @@ HandleEnemyState_BombExploding:
 	BMI HandleEnemyState_DrawExplosion
 
 	TAY
-	JSR ExplodeNearbyBlocks
+	JSR ExplodeNearbyBlock
 
 HandleEnemyState_DrawExplosion:
 	LDA #$60
@@ -1287,9 +1297,8 @@ HandleEnemyState_DrawExplosion_Loop:
 	LDX byte_RAM_12
 	JMP CheckObjectCollision
 
-; ---------------------------------------------------------------------------
 
-ExplodeNearbyBlocks_Exit:
+ExplodeNearbyBlock_Exit:
 	RTS
 
 
@@ -1342,22 +1351,27 @@ ExplosionTileLayoutHi:
 	.db >(SubAreaTileLayout - $100)
 
 ;
-; Blow up blocks near this object
+; Blow up a single block near this object
+;
+; This is called multiple times sequence with different index offets to destroy
+; multiple blocks within the blast zone
 ;
 ; Input
 ;   X = enemy slot
 ;   Y = index
 ;
-ExplodeNearbyBlocks:
+ExplodeNearbyBlock:
 	LDA ObjectXLo, X
 	CLC
 	ADC ExplosionOffsetXLo, Y
 	STA byte_RAM_C
+
 	LDA ObjectXHi, X
 	ADC ExplosionOffsetXHi, Y
 	STA byte_RAM_D
+
 	CMP #$0B
-	BCS ExplodeNearbyBlocks_Exit
+	BCS ExplodeNearbyBlock_Exit
 
 	LDA ObjectYLo, X
 	ADC ExplosionOffsetYLo, Y
@@ -1368,10 +1382,10 @@ ExplodeNearbyBlocks:
 	ADC ExplosionOffsetYHi, Y
 	STA byte_RAM_F
 	CMP #$0A
-	BCS ExplodeNearbyBlocks_Exit
+	BCS ExplodeNearbyBlock_Exit
 
 	LDY IsHorizontalLevel
-	BNE loc_BANK2_86BD
+	BNE ExplodeNearbyBlock_ConvertHorizontalPosition
 
 	; Vertical level
 
@@ -1388,11 +1402,11 @@ ExplodeNearbyBlocks:
 
 	; Determine vertical page
 	LDY #$FF
-ExplodeNearbyBlocks_VerticalPageLoop:
+ExplodeNearbyBlock_VerticalPageLoop:
 	SEC
 	SBC #$0F
 	INY
-	BCS ExplodeNearbyBlocks_VerticalPageLoop
+	BCS ExplodeNearbyBlock_VerticalPageLoop
 
 	STY byte_RAM_D
 
@@ -1404,7 +1418,7 @@ ExplodeNearbyBlocks_VerticalPageLoop:
 	ASL A
 	STA byte_RAM_E
 
-loc_BANK2_86BD:
+ExplodeNearbyBlock_ConvertHorizontalPosition:
 	; Convert horizontal pixel position to tile position
 	LDA byte_RAM_C
 	LSR A
@@ -1421,20 +1435,20 @@ loc_BANK2_86BD:
 	LDY #$00
 	LDA ScreenBoundaryLeftHi
 	CMP #$0A
-	BNE loc_BANK2_86D5
+	BNE ExplodeNearbyBlock_SetupTileLayoutAddress
 
 	; We're in a subarea, treat it as page 0
 	STY byte_RAM_D
 	INY
 
-loc_BANK2_86D5:
+ExplodeNearbyBlock_SetupTileLayoutAddress:
 	LDA #$10
 	STA byte_RAM_7
 	LDA ExplosionTileLayoutHi, Y
 	STA byte_RAM_8
 	LDY byte_RAM_D
 
-loc_BANK2_86E0:
+ExplodeNearbyBlock_CalculateTileLayoutPage:
 	LDA byte_RAM_7
 	CLC
 	ADC #$F0
@@ -1443,23 +1457,23 @@ loc_BANK2_86E0:
 	ADC #$00
 	STA byte_RAM_8
 	DEY
-	BPL loc_BANK2_86E0
+	BPL ExplodeNearbyBlock_CalculateTileLayoutPage
 
 	LDY byte_RAM_5
 	LDA (byte_RAM_7), Y
 	CMP #BackgroundTile_BombableBrick
-	BEQ ExplodeNearbyBlocks_DestroyBlock
+	BEQ ExplodeNearbyBlock_DestroyBlock
 
 	CMP #BackgroundTile_DiggableSand
-	BEQ ExplodeNearbyBlocks_DestroyBlock
+	BEQ ExplodeNearbyBlock_DestroyBlock
 
 	CMP #BackgroundTile_JarSmall
-	BEQ ExplodeNearbyBlocks_DestroyBlock
+	BEQ ExplodeNearbyBlock_DestroyBlock
 
 	RTS
 
 
-ExplodeNearbyBlocks_DestroyBlock:
+ExplodeNearbyBlock_DestroyBlock:
 	LDA #BackgroundTile_Sky
 	STA (byte_RAM_7), Y
 
@@ -1469,11 +1483,11 @@ ExplodeNearbyBlocks_DestroyBlock:
 	ASL A
 	ASL A
 	LDY IsHorizontalLevel
-	BNE ExplodeNearbyBlocks_DestroyBlock_UpdatePPU
+	BNE ExplodeNearbyBlock_DestroyBlock_UpdatePPU
 
 	ASL A
 
-ExplodeNearbyBlocks_DestroyBlock_UpdatePPU:
+ExplodeNearbyBlock_DestroyBlock_UpdatePPU:
 	PHA
 	LDA byte_RAM_E
 	STA byte_RAM_2
@@ -1525,26 +1539,26 @@ ExplodeNearbyBlocks_DestroyBlock_UpdatePPU:
 
 	; Look for a slot to create a block fizzle sprite
 	LDX #$08
-ExplodeNearbyBlocks_FindSprite_Loop:
+ExplodeNearbyBlock_FindSprite_Loop:
 	LDA EnemyState, X
-	BEQ ExplodeNearbyBlocks_CreateSprite
+	BEQ ExplodeNearbyBlock_CreateSprite
 
 	DEX
-	BPL ExplodeNearbyBlocks_FindSprite_Loop
+	BPL ExplodeNearbyBlock_FindSprite_Loop
 
-	BMI ExplodeNearbyBlocks_CreateSprite_Exit
+	BMI ExplodeNearbyBlock_CreateSprite_Exit
 
-ExplodeNearbyBlocks_CreateSprite:
+ExplodeNearbyBlock_CreateSprite:
 	LDA byte_RAM_C
 	AND #$F0
 	STA ObjectXLo, X
 	LDA byte_RAM_D
 	LDY IsHorizontalLevel
-	BNE ExplodeNearbyBlocks_CreateSprite_Position
+	BNE ExplodeNearbyBlock_CreateSprite_Position
 
 	TYA
 
-ExplodeNearbyBlocks_CreateSprite_Position:
+ExplodeNearbyBlock_CreateSprite_Position:
 	STA ObjectXHi, X
 	LDA byte_RAM_B
 	STA ObjectYLo, X
@@ -1554,7 +1568,7 @@ ExplodeNearbyBlocks_CreateSprite_Position:
 
 	JSR SetBlockFizzle
 
-ExplodeNearbyBlocks_CreateSprite_Exit:
+ExplodeNearbyBlock_CreateSprite_Exit:
 	; Restore next object index
 	LDX byte_RAM_12
 
@@ -1575,14 +1589,14 @@ HandleEnemyState_PuffOfSmoke:
 	LDA ObjectAttributes, X
 	ORA #ObjAttrib_Mirrored
 	STA ObjectAttributes, X
+
+	; Animate until the timer expires
 	LDA ObjectTimer1, X
-	BNE loc_BANK2_87AC
+	BNE HandleEnemyState_PuffOfSmoke_Animate
 
 	JMP HandleEnemyState_PuffOfSmoke_CheckDestroy
 
-; ---------------------------------------------------------------------------
-
-loc_BANK2_87AC:
+HandleEnemyState_PuffOfSmoke_Animate:
 	LSR A
 	LSR A
 	LSR A
@@ -1598,16 +1612,17 @@ loc_BANK2_87AC:
 	BNE HandleEnemyState_PuffOfSmoke_Exit
 
 	LDY #$22
+
 	LDA ObjectType, X
 	CMP #Enemy_Clawgrip
-	BNE loc_BANK2_87CA
+	BNE HandleEnemyState_PuffOfSmoke_SetDoorYPosition
 
 	; Clawgrip special hack:
 	; Move the "Draw the door" PPU command
 	; up 8 tile rows ($100) to be on the platform
 	DEY
 
-loc_BANK2_87CA:
+HandleEnemyState_PuffOfSmoke_SetDoorYPosition:
 	STY PPUBuffer_EndOfLevelDoor
 	STY PPUBuffer_EndOfLevelDoor + $07
 	INY
@@ -1615,7 +1630,7 @@ loc_BANK2_87CA:
 	STY PPUBuffer_EndOfLevelDoor + $17
 
 	LDY #$03
-loc_BANK2_87D9:
+HandleEnemyState_PuffOfSmoke_UpdateDoorPPUBuffer:
 	; Boss door PPU updates
 	LDA EndOfLevelDoorPage, X
 	AND #%00000001
@@ -1623,17 +1638,17 @@ loc_BANK2_87D9:
 	ASL A
 	EOR #%00000100
 	LDX IsHorizontalLevel
-	BNE loc_BANK2_87E7
+	BNE HandleEnemyState_PuffOfSmoke_UpdateDoorPPUBuffer_Horizontal
 
 	ASL A
 
-loc_BANK2_87E7:
+HandleEnemyState_PuffOfSmoke_UpdateDoorPPUBuffer_Horizontal:
 	LDX EndOfLevelDoorRowOffsets, Y
 	ORA PPUBuffer_EndOfLevelDoor, X
 	STA PPUBuffer_EndOfLevelDoor, X
 	LDX byte_RAM_12
 	DEY
-	BPL loc_BANK2_87D9
+	BPL HandleEnemyState_PuffOfSmoke_UpdateDoorPPUBuffer
 
 	LDA #$14
 	STA ScreenUpdateIndex
@@ -1643,7 +1658,7 @@ loc_BANK2_87E7:
 	LDA #$10
 	STA byte_RAM_0
 
-loc_BANK2_8804:
+HandleEnemyState_PuffOfSmoke_CalculateDoorTileAddress:
 	LDA byte_RAM_0
 	CLC
 	ADC #$F0
@@ -1652,7 +1667,7 @@ loc_BANK2_8804:
 	ADC #$00
 	STA byte_RAM_1
 	DEY
-	BPL loc_BANK2_8804
+	BPL HandleEnemyState_PuffOfSmoke_CalculateDoorTileAddress
 
 	LDA ObjectType, X
 	CMP #Enemy_Clawgrip
@@ -1710,7 +1725,7 @@ HandleEnemyState_Sand:
 	LDA #$12
 	STA ObjectAttributes, X
 	LDA ObjectTimer1, X
-	BEQ loc_BANK2_8888
+	BEQ HandleEnemyState_Sand_TimerExpired
 
 	LDA #$F8
 	STA ObjectYVelocity, X
@@ -1719,7 +1734,7 @@ HandleEnemyState_Sand:
 	LDA #$B2
 	LDY ObjectTimer1, X
 	CPY #$10
-	BCS loc_BANK2_8885
+	BCS HandleEnemyState_Sand_DrawSprite
 
 	LDA #SpriteFlags46E_MirrorAnimation
 	STA EnemyArray_46E, X
@@ -1732,19 +1747,18 @@ HandleEnemyState_Sand:
 
 	LDA #$B4
 
-loc_BANK2_8885:
+HandleEnemyState_Sand_DrawSprite:
 	JMP RenderSprite_DrawObject
 
-; ---------------------------------------------------------------------------
 
-loc_BANK2_8888:
+HandleEnemyState_Sand_TimerExpired:
 	CPX ObjectBeingCarriedIndex
-	BNE loc_BANK2_8891
+	BNE HandleEnemyState_Sand_Destroy
 
 	LDA #$00
 	STA HoldingItem
 
-loc_BANK2_8891:
+HandleEnemyState_Sand_Destroy:
 	JMP EnemyDestroy
 
 
@@ -1991,136 +2005,154 @@ EnemyDestroy_Exit:
 	RTS
 
 
-; ---------------------------------------------------------------------------
-
+;
+; Standard enemy behavior routine
+;
 HandleEnemyState_Alive:
 	LDA #$01
 	STA ObjectNonSticky, X
+
 	LDY ObjectProjectileTimer, X
 	DEY
 	CPY #$1F
-	BCS loc_BANK2_89C9
+	BCS HandleEnemyState_Alive_AfterProjectileTimer
 
 	INC ObjectProjectileTimer, X
 
-loc_BANK2_89C9:
+HandleEnemyState_Alive_AfterProjectileTimer:
 	JSR HandleEnemyScreenBounds
 
+	; Time-out while player is changing size
 	LDA PlayerState
 	CMP #PlayerState_ChangingSize
-	BEQ loc_BANK2_89E2
+	BEQ HandleEnemyState_Alive_Pause
 
+	; While in a screen interval scroll, render the enemy without behavior
 	LDA NeedsScroll
 	AND #%00000100
-	BNE loc_BANK2_8A07
+	BNE HandleEnemyState_Alive_RenderOnly
 
+	; Time-out while the stopwatch is active
 	LDA StopwatchTimer
-	BNE loc_BANK2_89E2
+	BNE HandleEnemyState_Alive_Pause
 
+	; Otherwise run full behavior is the object is not stunned
 	LDA ObjectStunTimer, X
-	BEQ loc_BANK2_8A0A
+	BEQ HandleEnemyState_Alive_RunBehavior
 
-loc_BANK2_89E2:
+HandleEnemyState_Alive_Pause:
+	; Some objects don't actually honor the pause
 	LDA ObjectType, X
 
 IFDEF REV_A
+	; This fix prevents mini-Fryguy enemies from falling offscreen if they happen
+	; to get hit while the character is taking damage. This bug would softlock
+	; the game because it wouldn't count them as being defeated.
 	CMP #Enemy_FryguySplit
-	BEQ loc_BANK2_8A0A
+	BEQ HandleEnemyState_Alive_RunBehavior
 ENDIF
 
+	; Hearts ignore the pause
 	CMP #Enemy_Heart
-	BEQ loc_BANK2_8A0A
+	BEQ HandleEnemyState_Alive_RunBehavior
 
+	; Flying carpet does not ignore the pause
 	CMP #Enemy_FlyingCarpet
-	BEQ loc_BANK2_89F0
+	BEQ HandleEnemyState_Alive_EnemyObject
 
+	; Projectile objects ignore the pause
 	CMP #Enemy_VegetableSmall
-	BCS loc_BANK2_8A0A
+	BCS HandleEnemyState_Alive_RunBehavior
 
-loc_BANK2_89F0:
+HandleEnemyState_Alive_EnemyObject:
+	; This subroutine will exit HandleEnemyState_Alive entirely if it needs to
+	; set the enemy state to "dead"
 	JSR EnemyBehavior_CheckDamagedInterrupt
 
+	; If that didn't kill the enemy, handle projectile behavior
 	LDA ObjectProjectileTimer, X
-	BEQ loc_BANK2_89FB
+	BEQ HandleEnemyState_Alive_CheckCarried
 
 	JSR ApplyObjectMovement
 
-loc_BANK2_89FB:
+HandleEnemyState_Alive_CheckCarried:
 	LDA ObjectBeingCarriedTimer, X
-	BEQ loc_BANK2_8A04
+	BEQ HandleEnemyState_Alive_CheckCollision
 
 	DEC ObjectAnimationTimer, X
 
-loc_BANK2_8A01:
 	JMP CarryObject
 
-; ---------------------------------------------------------------------------
-
-loc_BANK2_8A04:
+HandleEnemyState_Alive_CheckCollision:
 	JSR CheckObjectCollision
 
-loc_BANK2_8A07:
+HandleEnemyState_Alive_RenderOnly:
 	JMP RenderSprite
 
-; ---------------------------------------------------------------------------
 
-loc_BANK2_8A0A:
+HandleEnemyState_Alive_RunBehavior:
 	LDY #$01
 	LDA ObjectXVelocity, X
-	BEQ loc_BANK2_8A15
+	BEQ HandleEnemyState_Alive_SetMovementDirection
 
-	BPL loc_BANK2_8A13
+	BPL HandleEnemyState_Alive_SetMovementDirection_Right
 
 	INY
 
-loc_BANK2_8A13:
+HandleEnemyState_Alive_SetMovementDirection_Right:
 	STY EnemyMovementDirection, X
 
-loc_BANK2_8A15:
+HandleEnemyState_Alive_SetMovementDirection:
 	LDY ObjectType, X
 	LDA ObjectAttributeTable, Y
 	AND #ObjAttrib_Palette0 | ObjAttrib_BehindBackground
-	BNE loc_BANK2_8A41
+	BNE HandleEnemyState_Alive_UpdateAttributes
 
+	; Unset the behind background flag
 	LDA ObjectAttributes, X
-	AND #ObjAttrib_Palette | ObjAttrib_Horizontal | ObjAttrib_FrontFacing | ObjAttrib_Mirrored | ObjAttrib_16x32 | ObjAttrib_UpsideDown
+	AND #($FF ^ ObjAttrib_BehindBackground)
 	STA ObjectAttributes, X
+
+	; If the object is being carried, we might put it behind the background
 	LDA ObjectBeingCarriedTimer, X
 	CMP #$02
-	BCC loc_BANK2_8A41
+	BCC HandleEnemyState_Alive_UpdateAttributes
 
+	; If it's a Bob-omb on the ground, put it behind the background
+	; (if the carry timer is 2 or higher)
 	LDA ObjectType, X
 	CMP #Enemy_BobOmb
-	BNE loc_BANK2_8A36
+	BNE HandleEnemyState_Alive_CheckUpsideDownFlag
 
 	LDA EnemyCollision, X
 	AND #CollisionFlags_Down
-	BNE loc_BANK2_8A3B
+	BNE HandleEnemyState_Alive_SetBehindBackground
 
-loc_BANK2_8A36:
+HandleEnemyState_Alive_CheckUpsideDownFlag:
+	; If the object is upside-down, put it behind the background
 	LDA ObjectAttributeTable, Y
-	BPL loc_BANK2_8A41
+	BPL HandleEnemyState_Alive_UpdateAttributes
 
-loc_BANK2_8A3B:
+HandleEnemyState_Alive_SetBehindBackground:
 	LDA ObjectAttributes, X
 	ORA #ObjAttrib_BehindBackground
 	STA ObjectAttributes, X
 
-loc_BANK2_8A41:
+HandleEnemyState_Alive_UpdateAttributes:
 	JSR RunEnemyBehavior
 
 	LDA ObjectYHi, X
-	BMI loc_BANK2_8A50
+	BMI HandleEnemyState_Alive_CheckCollisionAfterBehavior
 
 	LDA SpriteTempScreenY
 	CMP #$E8
-	BCC loc_BANK2_8A50
+	BCC HandleEnemyState_Alive_CheckCollisionAfterBehavior
 
 	RTS
 
 ; ---------------------------------------------------------------------------
 
-loc_BANK2_8A50:
+HandleEnemyState_Alive_CheckCollisionAfterBehavior:
 	JMP CheckObjectCollision
 
 ; ---------------------------------------------------------------------------
@@ -3489,6 +3521,7 @@ EnemyBehavior_CheckBombTimer:
 	LDY ObjectBeingCarriedTimer, X
 	BEQ EnemyBehavior_Bomb_Explode
 
+	; A = $00
 	STA HoldingItem
 	STA ObjectBeingCarriedTimer, X
 
@@ -4192,7 +4225,6 @@ EnemyBehavior_BobOmb_CheckFuse:
 EnemyBehavior_BobOmb_Explode:
 	JMP EnemyBehavior_Bomb_Explode
 
-
 EnemyBehavior_BobOmb_Flash:
 	CMP #$30 ; When to start flashing
 	BCS EnemyBehavior_BasicWalker
@@ -4205,7 +4237,6 @@ EnemyBehavior_BobOmb_Flash:
 	LDA ObjectAttributes, X
 	AND #%11111011
 	STA ObjectAttributes, X
-
 
 EnemyBehavior_BasicWalker:
 	JSR ObjectTileCollision
@@ -11101,6 +11132,7 @@ CheckCollisionWithPlayer_StandingOnHead:
 	STA EnemyCollision, X
 	STX ObjectBeingCarriedIndex
 	STA ObjectShakeTimer, X
+
 	LDA #$07
 	STA ObjectBeingCarriedTimer, X
 	JSR SetPlayerStateLifting
@@ -11263,6 +11295,7 @@ loc_BANK3_B96E:
 
 	LDY byte_RAM_12
 	STY ObjectBeingCarriedIndex
+
 	LDA #$01
 	STA ObjectBeingCarriedTimer, Y
 	INC HoldingItem

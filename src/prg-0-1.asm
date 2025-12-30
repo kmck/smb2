@@ -1918,17 +1918,20 @@ IFDEF CONTROLLER_2_DEBUG
 	JSR CheckPlayer2Joypad
 ENDIF
 
-	LDA PlayerState ; Handles player states?
+	LDA PlayerState
 	CMP #PlayerState_Lifting
-	BCS loc_BANK0_8A26 ; If the player is changing size, just handle that
+	BCS HandlePlayerState_Route
 
-	LDA #$00 ; Check if the player needs to change size
+	; State is normal or climbing.
+	; Before we handle the state, first determine if the player is changing size
+	LDA #$00
 	LDY #$10
 	CPY PlayerHealth
 	ROL A
 	EOR PlayerCurrentSize
-	BEQ loc_BANK0_8A26
+	BEQ HandlePlayerState_Route
 
+	; Handle the grow or shrinking animation
 	LDY PlayerCurrentSize
 	LDA GrowShrinkSFXIndexes, Y
 	STA SoundEffectQueue2
@@ -1937,11 +1940,12 @@ ENDIF
 	LDA #PlayerState_ChangingSize
 	STA PlayerState
 
-loc_BANK0_8A26:
+HandlePlayerState_Route:
 	LDA #ObjAttrib_Palette0
 	STA PlayerAttributes
+
 	LDA PlayerState
-	JSR JumpToTableAfterJump ; Player state handling?
+	JSR JumpToTableAfterJump
 
 	.dw HandlePlayerState_Normal ; Normal
 	.dw HandlePlayerState_Climbing ; Climbing
@@ -2031,7 +2035,6 @@ SetGameModeAfterDeath:
 locret_BANK0_8A86:
 	RTS
 
-; ---------------------------------------------------------------------------
 
 HandlePlayerState_Lifting:
 	LDA PlayerStateTimer
@@ -2040,20 +2043,21 @@ HandlePlayerState_Lifting:
 	LDX ObjectBeingCarriedIndex
 	LDY ObjectBeingCarriedTimer, X
 	CPY #$02
-	BCC loc_BANK0_8ABB
+	BCC HandlePlayerState_Lifting_ObjectIsAloft
 
 	CPY #$07
-	BNE loc_BANK0_8A9D
+	BNE HandlePlayerState_DecrementCarryTimer
 
 	LDA #DPCM_ItemPull
 	STA DPCMQueue
 
-loc_BANK0_8A9D:
+HandlePlayerState_DecrementCarryTimer:
 	DEC ObjectBeingCarriedTimer, X
 	LDA PlayerLiftFrames, Y
 	STA PlayerAnimationFrame
+
 	LDA EnemyState, X
-	CMP #$06
+	CMP #EnemyState_Sand
 	BEQ loc_BANK0_8AB0
 
 	LDA ObjectType, X
@@ -2071,13 +2075,12 @@ loc_BANK0_8AB8:
 	STA PlayerStateTimer
 	RTS
 
-; ---------------------------------------------------------------------------
 
-loc_BANK0_8ABB:
+	; When the object is fully lifted, reset the player back to a normal state
+HandlePlayerState_Lifting_ObjectIsAloft:
+  ; A = $01 from PlayerStateTimer
 	STA PlayerState
 	INC PlayerInAir
-
-loc_BANK0_8ABF:
 	INC PlayerDucking
 IFDEF PLAYER_HITBOX
 	LDA PlayerDucking

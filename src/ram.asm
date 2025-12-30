@@ -362,10 +362,11 @@ ObjectAnimationTimer:
 	.dsb 1 ; $00a6
 	.dsb 1 ; $00a7
 
-; Set to 7 when lifting, then stays at 1
-; Note that this doesn't seem to actually
-; make you carry an item, it just THINKS
-; it's being carried.
+; Set to 7 when lifting, then decrements to 1 and stays there as long as the
+; object is held.
+;
+; Note that this doesn't actually make you carry an item, but rather that the
+; item THINKS it's being carried.
 ObjectBeingCarriedTimer:
 	.dsb 1 ; $00a8
 	.dsb 1 ; $00a9
